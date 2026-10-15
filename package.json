@@ -1,0 +1,39 @@
+{
+  "name": "lionheart-sgo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lionheart SGO: Tennessee §25F scholarship granting organization platform (families, schools, donors, board).",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "engine:bundle": "esbuild src/domain/index.ts --bundle --format=iife --global-name=LionheartEngine --target=es2019 --outfile=prototype/engine.js",
+    "limits:load": "tsx scripts/load-hud-limits.ts",
+    "db:types": "supabase gen types typescript --local > src/lib/database.types.ts",
+    "trigger:dev": "trigger dev"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.65.0",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.57.0",
+    "@trigger.dev/sdk": "^4.0.0",
+    "next": "15.5.28",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "stripe": "^18.5.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "esbuild": "^0.25.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.7"
+  }
+}

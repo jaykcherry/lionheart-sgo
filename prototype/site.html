@@ -1,0 +1,1225 @@
+<title>Lionheart — Scholarships for Christian education</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: full-width colour bands, each with a 1200px inner column; flows are a narrow column beside a sticky summary.
+   Classical design system, carried over from the original Lionheart page. Single light theme by design (the brand is ivory and gilt). */
+:root {
+  color-scheme: light;
+  --color-bg: #f3f2f2;
+  --color-surface: #eae9e9;
+  --color-paper: #fbfaf8;
+  --color-text: #201f1d;
+  --color-accent: #b68235;
+  --color-divider: color-mix(in srgb, #201f1d 16%, transparent);
+  --color-neutral-100: #f8f4f4; --color-neutral-200: #eae7e7; --color-neutral-300: #d7d3d3;
+  --color-neutral-500: #9b9797; --color-neutral-700: #605d5d; --color-neutral-800: #444141; --color-neutral-900: #2d2b2b;
+  --color-accent-100: #fff3e4; --color-accent-200: #ffe3bf; --color-accent-300: #facb8d; --color-accent-400: #e1ad66;
+  --color-accent-500: #c28d41; --color-accent-600: #a06f24; --color-accent-700: #7d5411; --color-accent-800: #5a3b0a;
+  --color-ink: color-mix(in oklch, #2d2b2b 82%, black);
+  --ok: #3f6b4b; --ok-bg: #e6efe7; --warn: #8a5c0e; --warn-bg: #fbefd9; --bad: #93392b; --bad-bg: #f6e3df;
+  --font-heading: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --font-body: "Lora", Georgia, "Times New Roman", serif;
+  --radius-md: 4px; --radius-lg: 7px;
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2d2b2b 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2d2b2b 16%, transparent);
+  --gutter: clamp(20px, 5vw, 72px);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+body { margin: 0; background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); font-size: 15px; line-height: 1.55; text-wrap: pretty; }
+h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 400; line-height: 1.12; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--color-accent-700); text-underline-offset: 3px; }
+a:hover { color: var(--color-accent-600); }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+.tnum { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' 1; }
+
+/* bands */
+.band { padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)); }
+.band-gilt { background: var(--color-accent-100); border-bottom: 1px solid var(--color-accent-300); }
+.band-gilt-top { border-top: 1px solid var(--color-accent-300); }
+.band-surface { background: var(--color-surface); border-bottom: 1px solid var(--color-divider); }
+.band-ink { background: var(--color-ink); color: var(--color-bg); }
+.wrap { max-width: 1200px; margin: 0 auto; }
+.sec { padding-block: 84px; }
+.sec-sm { padding-block: 56px; }
+
+/* prototype notice */
+.proto { background: var(--color-ink); color: color-mix(in srgb, var(--color-bg) 82%, transparent); font-size: 12px; letter-spacing: 0.02em; }
+.proto .wrap { padding-block: 7px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; text-align: center; }
+.proto strong { color: var(--color-accent-300); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; font-size: 11px; }
+
+/* nav */
+.nav { display: flex; align-items: center; gap: 22px; padding-block: 14px; flex-wrap: wrap; row-gap: 10px; border-bottom: 1px solid var(--color-accent-200); }
+.brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--color-text); margin-right: auto; }
+.brand:hover { color: var(--color-text); }
+.brand-mark { width: 30px; height: 44px; flex: none; border: 1.5px solid var(--color-text); border-radius: 999px; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-size: 15px; font-weight: 500; letter-spacing: -0.02em; line-height: 1; }
+.brand-mark span { color: var(--color-accent-700); }
+.brand-words { display: flex; flex-direction: column; gap: 5px; }
+.brand-name { font-family: var(--font-heading); font-size: 19px; font-weight: 500; letter-spacing: 0.32em; line-height: 1; }
+.brand-sub { font-size: 8px; font-weight: 600; letter-spacing: 0.2em; line-height: 1; color: color-mix(in srgb, var(--color-text) 70%, transparent); }
+.nav-links { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; }
+.nav-links a:not(.btn) { color: inherit; text-decoration: none; font-size: 14px; padding-block: 4px; border-bottom: 1px solid transparent; }
+.nav-links a:not(.btn):hover { color: var(--color-accent-700); }
+.nav-links a[aria-current="page"] { color: var(--color-accent-700); border-bottom-color: var(--color-accent-500); }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-decoration: none; white-space: nowrap; flex: none;
+  font-family: var(--font-heading); font-weight: 600; font-size: 15px; line-height: 1.2; color: var(--color-text);
+  background: transparent; border: 1px solid transparent; padding: 10px 17px; border-radius: var(--radius-md); min-height: 40px; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { color: var(--color-accent-700); border-color: var(--color-accent); }
+.btn-primary:hover { background: color-mix(in srgb, var(--color-accent) 12%, transparent); color: var(--color-accent-700); }
+.btn-solid { background: var(--color-accent-700); border-color: var(--color-accent-700); color: var(--color-paper); }
+.btn-solid:hover { background: var(--color-accent-800); color: var(--color-paper); }
+.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); color: var(--color-text); }
+.btn-ghost { color: var(--color-accent-700); padding-inline: 6px; }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.btn-sm { min-height: 32px; padding: 6px 12px; font-size: 14px; }
+.btn-applepay { background: #000; color: #fff; border-color: #000; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; font-weight: 500; font-size: 17px; width: 100%; min-height: 46px; }
+.btn-applepay:hover { background: #1b1b1b; color: #fff; }
+.btn-paypal { background: #ffc439; color: #111; border-color: #f2b51f; font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 700; font-style: italic; font-size: 18px; width: 100%; min-height: 46px; }
+.btn-paypal:hover { background: #f5b91f; color: #111; }
+.btn-paypal b { color: #003087; } .btn-paypal i { color: #009cde; font-style: italic; }
+.btn-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+
+/* type */
+.eyebrow { display: block; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent-700); }
+.display { font-size: clamp(44px, 5.6vw, 78px); line-height: 1.06; margin-left: -0.04em; }
+.display-sm { font-size: clamp(40px, 4.6vw, 64px); line-height: 1.06; margin-left: -0.04em; }
+.h2 { font-size: clamp(32px, 3.4vw, 44px); line-height: 1.15; }
+.h3 { font-size: 26px; font-weight: 500; line-height: 1.2; }
+.h4 { font-size: 21px; font-weight: 500; line-height: 1.25; }
+.lead { font-size: 17px; line-height: 28px; max-width: 54ch; color: color-mix(in srgb, var(--color-text) 82%, transparent); }
+.body { font-size: 15.5px; line-height: 27px; color: color-mix(in srgb, var(--color-text) 82%, transparent); }
+.small { font-size: 13px; line-height: 21px; }
+.muted { color: color-mix(in srgb, var(--color-text) 66%, transparent); }
+.stack-s > * + * { margin-top: 10px; } .stack-m > * + * { margin-top: 18px; } .stack-l > * + * { margin-top: 32px; }
+
+/* grids */
+.split { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 48px clamp(32px, 6vw, 96px); align-items: start; }
+.split > * { min-width: 0; }
+.cols-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 40px 56px; }
+.cols-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 24px; }
+.cols-3 > *, .cols-2 > * { min-width: 0; }
+
+/* cards & panels */
+.card { display: flex; flex-direction: column; gap: 14px; padding: 30px; border-radius: var(--radius-md); border: 1px solid var(--color-divider); }
+.card-kicker { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent-700); }
+.panel { background: var(--color-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: 30px; }
+.paper { background: var(--color-paper); border: 1px solid var(--color-divider); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+
+/* numbered rows (real sequences only) */
+.step-col { border-top: 1px solid var(--color-text); padding-top: 22px; }
+.numeral { font-family: var(--font-heading); font-size: 22px; color: var(--color-accent-700); }
+.rows > div { display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding: 20px 0; border-bottom: 1px solid var(--color-divider); }
+.rows > div > * { min-width: 0; }
+.rows-title { font-family: var(--font-heading); font-size: 22px; font-weight: 500; margin: 0 0 6px; line-height: 1.2; }
+.check { width: 26px; height: 26px; border-radius: 999px; border: 1px solid var(--color-accent-500); color: var(--color-accent-700); display: grid; place-items: center; font-size: 14px; margin-top: 2px; }
+
+/* status pills */
+.pill { display: inline-flex; align-self: flex-start; align-items: center; gap: 6px; font-size: 12px; letter-spacing: 0.02em; padding: 3px 10px; border-radius: 999px; white-space: nowrap; font-family: var(--font-body); }
+.pill::before { content: ""; width: 6px; height: 6px; border-radius: 999px; background: currentColor; }
+.pill-ok { background: var(--ok-bg); color: var(--ok); }
+.pill-warn { background: var(--warn-bg); color: var(--warn); }
+.pill-bad { background: var(--bad-bg); color: var(--bad); }
+.pill-neutral { background: var(--color-neutral-200); color: var(--color-neutral-800); }
+.pill-gilt { background: var(--color-accent-100); color: var(--color-accent-800); border: 1px solid var(--color-accent-300); }
+
+/* forms */
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field > label, .label { font-size: 13px; color: color-mix(in srgb, var(--color-text) 74%, transparent); }
+.hint { font-size: 12.5px; line-height: 19px; color: color-mix(in srgb, var(--color-text) 60%, transparent); }
+.input { width: 100%; min-height: 42px; padding: 8px 11px; font: inherit; font-size: 15px; color: var(--color-text); caret-color: var(--color-accent);
+  background: var(--color-paper); border: 1px solid var(--color-divider); border-radius: var(--radius-md); }
+.input:hover { border-color: color-mix(in srgb, var(--color-text) 40%, transparent); }
+.input:focus-visible { border-color: var(--color-accent); outline: 2px solid color-mix(in srgb, var(--color-accent) 35%, transparent); outline-offset: 0; }
+.input[aria-invalid="true"] { border-color: var(--bad); }
+select.input { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--color-neutral-700) 50%), linear-gradient(135deg, var(--color-neutral-700) 50%, transparent 50%); background-position: calc(100% - 17px) 18px, calc(100% - 12px) 18px; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 32px; }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 16px 18px; }
+.span-all { grid-column: 1 / -1; }
+.seg { display: inline-flex; align-self: flex-start; max-width: 100%; flex-wrap: wrap; border: 1px solid var(--color-divider); border-radius: var(--radius-md); overflow: hidden; background: var(--color-paper); }
+.seg label { position: relative; display: inline-flex; align-items: center; padding: 9px 14px; font-size: 14px; cursor: pointer; }
+.seg label + label { border-left: 1px solid var(--color-divider); }
+.seg input { position: absolute; opacity: 0; width: 0; height: 0; }
+.seg label:has(input:checked) { color: var(--color-accent-700); box-shadow: inset 0 0 0 1px var(--color-accent); background: var(--color-accent-100); }
+.seg label:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: -3px; }
+.tick { display: grid; grid-template-columns: 20px 1fr; gap: 12px; align-items: start; font-size: 14.5px; line-height: 23px; cursor: pointer; }
+.tick input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--color-accent-700); }
+.choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 10px; }
+.choice { position: relative; display: flex; flex-direction: column; gap: 3px; padding: 14px 16px; border: 1px solid var(--color-divider); border-radius: var(--radius-md); cursor: pointer; background: var(--color-paper); }
+.choice input { position: absolute; opacity: 0; width: 0; height: 0; }
+.choice:hover { border-color: color-mix(in srgb, var(--color-text) 40%, transparent); }
+.choice:has(input:checked) { border-color: var(--color-accent); box-shadow: inset 0 0 0 1px var(--color-accent); background: var(--color-accent-100); }
+.choice:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.choice-main { font-family: var(--font-heading); font-size: 22px; line-height: 1.1; }
+.choice-sub { font-size: 12px; color: color-mix(in srgb, var(--color-text) 64%, transparent); }
+.errbox { border: 1px solid color-mix(in srgb, var(--bad) 45%, transparent); background: var(--bad-bg); color: var(--bad); padding: 12px 14px; border-radius: var(--radius-md); font-size: 14px; }
+.note { border-left: 2px solid var(--color-accent-500); padding: 4px 0 4px 16px; font-size: 14px; line-height: 23px; color: color-mix(in srgb, var(--color-text) 82%, transparent); }
+.note-warn { border-left-color: var(--warn); }
+
+/* flow layout */
+.flow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 360px); gap: 40px clamp(28px, 4vw, 64px); align-items: start; }
+@media (max-width: 900px) { .flow { grid-template-columns: minmax(0, 1fr); } }
+.flow-aside { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px); }
+@media (max-width: 900px) { .flow-aside { position: static; } }
+.stepper { display: flex; gap: 0; list-style: none; padding: 0; margin: 0 0 32px; border-bottom: 1px solid var(--color-divider); overflow-x: auto; }
+.stepper li { flex: 1 1 0; min-width: 96px; padding: 0 10px 12px 0; font-size: 13px; color: color-mix(in srgb, var(--color-text) 55%, transparent); border-bottom: 2px solid transparent; margin-bottom: -1px; display: flex; gap: 8px; align-items: baseline; }
+.stepper li .n { font-family: var(--font-heading); font-size: 18px; }
+.stepper li[data-state="current"] { color: var(--color-text); border-bottom-color: var(--color-accent-700); }
+.stepper li[data-state="done"] { color: var(--color-accent-700); }
+.flow-body { display: flex; flex-direction: column; gap: 26px; }
+.flow-actions { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 22px; border-top: 1px solid var(--color-divider); }
+.sumrow { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--color-divider); font-size: 14.5px; }
+.sumrow .v { font-family: var(--font-heading); font-size: 24px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sumrow.total { border-bottom: 0; padding-top: 16px; }
+.sumrow.total .v { font-size: 44px; line-height: 1; color: var(--color-accent-700); }
+.sumrow.rule { border-bottom-color: var(--color-text); }
+
+/* tables */
+.tablewrap { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.table th { text-align: left; font-size: 11px; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 60%, transparent); padding: 10px 12px 10px 0; border-bottom: 1px solid var(--color-text); }
+.table td { padding: 14px 12px 14px 0; border-bottom: 1px solid var(--color-divider); vertical-align: top; }
+.table td.num, .table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* school list */
+.schools { border-top: 1px solid var(--color-text); }
+.school { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 18px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--color-divider); }
+.school-name { font-family: var(--font-heading); font-size: 22px; font-weight: 500; line-height: 1.2; }
+.school-meta { font-size: 13px; color: color-mix(in srgb, var(--color-text) 62%, transparent); display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 2px; }
+.school-act { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+@media (max-width: 520px) { .school { grid-template-columns: minmax(0, 1fr); } .school-act { justify-content: flex-start; } }
+
+/* code entry */
+.code-input { font-family: var(--font-heading); font-size: 34px; letter-spacing: 0.5em; text-align: center; max-width: 280px; padding-left: 0.5em; }
+
+/* acknowledgment specimen */
+.letter { padding: 30px 32px; font-size: 13.5px; line-height: 22px; position: relative; }
+.letter-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--color-text); padding-bottom: 14px; margin-bottom: 16px; }
+.letter dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; margin: 0; }
+.letter dt { color: color-mix(in srgb, var(--color-text) 60%, transparent); }
+.letter dd { margin: 0; font-variant-numeric: tabular-nums; }
+.specimen { position: absolute; top: 16px; right: -6px; transform: rotate(4deg); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bad); border: 1px solid currentColor; padding: 3px 8px; background: var(--color-paper); }
+
+/* timeline */
+.timeline { list-style: none; padding: 0; margin: 0; }
+.timeline li { display: grid; grid-template-columns: 112px 1fr; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--color-divider); }
+.timeline li > * { min-width: 0; }
+.timeline .when { font-family: var(--font-heading); font-size: 19px; color: var(--color-accent-700); line-height: 1.25; }
+@media (max-width: 480px) { .timeline li { grid-template-columns: 1fr; gap: 4px; } }
+
+/* faq */
+details { border-bottom: 1px solid var(--color-divider); }
+details summary { list-style: none; cursor: pointer; padding: 18px 0; display: flex; justify-content: space-between; gap: 16px; font-family: var(--font-heading); font-size: 21px; font-weight: 500; line-height: 1.25; }
+details summary::-webkit-details-marker { display: none; }
+details summary::after { content: "+"; color: var(--color-accent-700); font-size: 24px; line-height: 1; flex: none; }
+details[open] summary::after { content: "−"; }
+details > div { padding: 0 0 20px; max-width: 70ch; }
+
+/* plate placeholder */
+.plate { aspect-ratio: 4 / 3; width: 100%; max-width: 100%; border: 6px solid var(--color-surface); outline: 1px solid var(--color-divider);
+  background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--color-bg) 8%, transparent) 0 1px, transparent 1px 14px), color-mix(in srgb, var(--color-ink) 70%, var(--color-accent-800));
+  display: grid; place-items: center; color: color-mix(in srgb, var(--color-bg) 60%, transparent); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; padding: 20px; }
+
+.copyrow { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--color-divider); }
+.copyrow > div { min-width: 0; }
+.copyrow .v { font-variant-numeric: tabular-nums; user-select: all; overflow-wrap: anywhere; }
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--color-ink); color: var(--color-bg); padding: 10px 16px; border-radius: var(--radius-md); font-size: 14px; box-shadow: var(--shadow-md); z-index: 50; }
+.footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding-block: 40px 56px; font-size: 13px; line-height: 22px; color: color-mix(in srgb, var(--color-bg) 78%, transparent); }
+.footer a { color: var(--color-accent-300); }
+
+/* portals */
+.portal-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; padding-block: 36px 18px; }
+.tabs { display: flex; gap: 4px; overflow-x: auto; margin-bottom: -1px; }
+.tab { font: inherit; font-size: 14px; background: transparent; border: 0; border-bottom: 2px solid transparent; padding: 10px 14px; cursor: pointer; color: color-mix(in srgb, var(--color-text) 70%, transparent); white-space: nowrap; display: inline-flex; gap: 8px; align-items: center; }
+.tab:hover { color: var(--color-text); }
+.tab[aria-selected="true"] { color: var(--color-accent-700); border-bottom-color: var(--color-accent-700); }
+.tab-badge { font-size: 11px; min-width: 18px; padding: 1px 6px; border-radius: 999px; background: var(--color-accent-700); color: var(--color-paper); }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 0; border-top: 1px solid var(--color-text); }
+.kpi { padding: 16px 18px 16px 0; border-bottom: 1px solid var(--color-divider); min-width: 0; }
+.kpi-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 62%, transparent); }
+.kpi-value { font-family: var(--font-heading); font-size: 32px; line-height: 1.1; margin-top: 6px; }
+.kpi-sub { font-size: 12.5px; color: color-mix(in srgb, var(--color-text) 62%, transparent); margin-top: 4px; }
+.findings { display: flex; flex-direction: column; }
+.finding { display: grid; grid-template-columns: 78px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--color-divider); align-items: start; }
+.finding > * { min-width: 0; }
+.log { list-style: none; padding: 0; margin: 0; }
+.log li { display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--color-divider); font-size: 14px; }
+.checklist { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--color-text); }
+.checklist li { display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--color-divider); }
+.checklist .ck { width: 24px; height: 24px; border-radius: 999px; border: 1px solid var(--color-divider); display: grid; place-items: center; font-size: 13px; }
+.checklist li[data-done="true"] .ck { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); }
+.track { list-style: none; padding: 0; margin: 0; display: flex; gap: 4px; }
+.track li { flex: 1 1 0; min-width: 0; font-size: 11px; line-height: 1.3; color: color-mix(in srgb, var(--color-text) 55%, transparent); display: flex; flex-direction: column; gap: 6px; }
+.track li span { height: 4px; border-radius: 2px; background: var(--color-neutral-300); }
+.track li[data-state="done"] span { background: var(--color-accent-600); }
+.track li[data-state="done"] { color: var(--color-text); }
+.track li[data-state="current"] span { background: repeating-linear-gradient(90deg, var(--color-accent-400) 0 6px, var(--color-accent-200) 6px 10px); }
+.track li[data-state="current"] { color: var(--color-accent-700); font-weight: 600; }
+.bar { height: 8px; border-radius: 999px; background: var(--color-neutral-200); overflow: hidden; }
+.bar span { display: block; height: 100%; background: var(--color-accent-600); }
+.todo { border: 1px solid var(--color-accent-300); background: var(--color-accent-100); border-radius: var(--radius-md); padding: 16px 18px; }
+.demo-acct { text-align: left; display: flex; flex-direction: column; gap: 6px; width: 100%; padding: 18px 20px; font: inherit; color: inherit; background: var(--color-paper); border: 1px solid var(--color-divider); border-radius: var(--radius-md); cursor: pointer; }
+.demo-acct:hover { border-color: var(--color-accent); box-shadow: var(--shadow-sm); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+
+<div class="proto band"><div class="wrap"><strong>Prototype</strong><span>Sample data. No payments are processed and nothing you enter leaves this page.</span></div></div>
+
+<header class="band band-gilt" style="border-bottom:0">
+  <div class="wrap">
+    <nav class="nav" aria-label="Main">
+      <a href="#home" class="brand" aria-label="Lionheart SGO, home">
+        <span class="brand-mark">L<span>H</span></span>
+        <span class="brand-words"><span class="brand-name">LIONHEART</span><span class="brand-sub">SCHOLARSHIP GRANTING ORGANIZATION</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="#donors" data-nav="donors">Donors</a>
+        <a href="#families" data-nav="families">Families</a>
+        <a href="#schools" data-nav="schools">Schools</a>
+        <a href="#about" data-nav="about">About</a>
+        <a href="#signin" data-nav="signin">Sign in</a>
+        <a href="#give" class="btn btn-primary" data-nav="give">Make a gift</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer class="band band-ink">
+  <div class="wrap footer">
+    <span><span style="font-family:var(--font-heading);font-size:18px;color:var(--color-bg)">Lionheart</span> · A Tennessee scholarship granting organization</span>
+    <span>A 501(c)(3) nonprofit [status pending] · EIN [XX-XXXXXXX] · [hello@lionheartsgo.org]</span>
+    <span>Tax information is general guidance. Consult your tax advisor.</span>
+  </div>
+</footer>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+(function () {
+'use strict';
+
+/* ───────────────────────── Data ───────────────────────── */
+
+// SAMPLE LIST — replace with Lionheart's accredited-school list. Fields: id, name, city, grades, domain (official email domain used for verification).
+const SCHOOLS = [
+  { id: 'cpa',  name: 'Christ Presbyterian Academy',        city: 'Nashville',     grades: 'PK–12', domain: 'cpalions.org' },
+  { id: 'da',   name: 'Davidson Academy',                   city: 'Nashville',     grades: 'PK–12', domain: 'davidsonacademy.com' },
+  { id: 'dca',  name: 'Donelson Christian Academy',         city: 'Nashville',     grades: 'PK–12', domain: 'dcalions.org' },
+  { id: 'ehcs', name: 'Ezell-Harding Christian School',     city: 'Antioch',       grades: 'PK–12', domain: 'ezellharding.com' },
+  { id: 'gcs',  name: 'Goodpasture Christian School',       city: 'Madison',       grades: 'PK–12', domain: 'goodpasture.org' },
+  { id: 'la',   name: 'Lipscomb Academy',                   city: 'Nashville',     grades: 'PK–12', domain: 'lipscombacademy.org' },
+  { id: 'ncs',  name: 'Nashville Christian School',         city: 'Nashville',     grades: 'PK–12', domain: 'nashvillechristian.org' },
+  { id: 'fcs',  name: 'Friendship Christian School',        city: 'Lebanon',       grades: 'PK–12', domain: 'friendshipchristian.org' },
+  { id: 'ba',   name: 'Brentwood Academy',                  city: 'Brentwood',     grades: '6–12',  domain: 'brentwoodacademy.com' },
+  { id: 'mtcs', name: 'Middle Tennessee Christian School',  city: 'Murfreesboro',  grades: 'PK–12', domain: 'mtcs.org' },
+  { id: 'bcs',  name: 'Briarcrest Christian School',        city: 'Eads',          grades: 'PK–12', domain: 'briarcrest.com' },
+  { id: 'ecs',  name: 'Evangelical Christian School',       city: 'Cordova',       grades: 'PK–12', domain: 'ecseagles.com' }
+].map(s => Object.assign({ status: 'listed' }, s));
+
+// 300% of area median income. Reference uses Tennessee's statewide median family income ($92,300, FY2025, via THDA),
+// adjusted for household size the HUD Section 8 way. The applicant's own county figure decides; many Middle Tennessee counties are higher.
+const TN_MFI = 92300;
+const SIZE_FACTOR = { 1: 0.7, 2: 0.8, 3: 0.9, 4: 1, 5: 1.08, 6: 1.16, 7: 1.24, 8: 1.32 };
+const incomeLimit = n => Math.round(TN_MFI * 3 * (SIZE_FACTOR[Math.min(Math.max(n, 1), 8)] + (n > 8 ? (n - 8) * 0.08 : 0)) / 100) * 100;
+
+const CAP = 1700;
+const CREDIT_START = new Date('2027-01-01T00:00:00');
+const creditOpen = () => new Date() >= CREDIT_START;
+const SGO = { legal: 'Lionheart Scholarship Granting Organization, Inc. [legal name]', ein: '[XX-XXXXXXX]', addr: '[Street address], Nashville, TN [ZIP]', email: '[gifts@lionheartsgo.org]' };
+
+/* ───────────────────────── State ───────────────────────── */
+
+const S = {
+  elig: { tn: 'yes', k12: 'yes', size: '4', income: '' },
+  app: { step: 0, err: '', ref: '',
+    parent: { first: '', last: '', email: '', phone: '', rel: 'Parent' },
+    kids: [{ first: '', last: '', dob: '', grade: '', school: '' }],
+    home: { street: '', city: '', zip: '', county: '', size: '', income: '', doc: '' },
+    attest: { true: false, verify: false, nodirect: false } },
+  q: '',
+  claim: { id: null, step: 'confirm', name: '', title: 'Head of school', email: '', auth: false, code: '', err: '' },
+  req: { name: '', city: '', email: '', sent: false },
+  give: { step: 0, err: '', ref: '', filing: 'joint', from: 'both', amount: '3400', custom: '', when: creditOpen() ? 'now' : 'jan1', fees: false,
+    name1: '', name2: '', email: '', street: '', city: '', state: 'TN', zip: '', designate: false,
+    method: 'card', card: '', exp: '', cvc: '', cardzip: '', paid: false, pref: '',
+    daf: { sponsor: '', amount: '', name: '', email: '', sent: false } }
+};
+
+try { const d = JSON.parse(localStorage.getItem('lh-app-draft') || 'null'); if (d && d.parent) { S.app.parent = d.parent; S.app.kids = d.kids || S.app.kids; S.app.home = Object.assign(S.app.home, d.home || {}, { doc: '' }); } } catch (e) {}
+function saveDraft() { try { localStorage.setItem('lh-app-draft', JSON.stringify({ parent: S.app.parent, kids: S.app.kids, home: Object.assign({}, S.app.home, { doc: '' }) })); } catch (e) {} }
+function clearDraft() { try { localStorage.removeItem('lh-app-draft'); } catch (e) {} }
+
+/* ───────────────────────── Helpers ───────────────────────── */
+
+const $ = (s, r) => (r || document).querySelector(s);
+const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const usd = n => '$' + Math.round(n).toLocaleString('en-US');
+const usd2 = n => '$' + n.toLocaleString('en-US', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
+const num = v => { const n = parseFloat(String(v).replace(/[^0-9.]/g, '')); return isFinite(n) ? n : 0; };
+const get = (path) => path.split('.').reduce((o, k) => o == null ? o : o[k], S);
+function set(path, val) { const ks = path.split('.'); const last = ks.pop(); const o = ks.reduce((o, k) => o[k], S); o[last] = val; }
+const refNo = p => p + '-' + String(Math.floor(10000 + Math.random() * 89999));
+const schoolById = id => SCHOOLS.find(s => s.id === id);
+
+function inp(path, label, opts) {
+  opts = opts || {};
+  const id = 'f-' + path.replace(/\./g, '-');
+  const v = get(path);
+  const bad = opts.bad ? ' aria-invalid="true"' : '';
+  const attrs = `id="${id}" data-bind="${path}"${opts.live ? ' data-live="' + opts.live + '"' : ''}${bad}${opts.required ? ' required' : ''}${opts.ac ? ' autocomplete="' + opts.ac + '"' : ''}${opts.mode ? ' inputmode="' + opts.mode + '"' : ''}${opts.ph ? ' placeholder="' + esc(opts.ph) + '"' : ''}`;
+  let control;
+  if (opts.options) {
+    control = `<select class="input" ${attrs}>${opts.options.map(o => { const [val, lab] = Array.isArray(o) ? o : [o, o]; return `<option value="${esc(val)}"${String(v) === String(val) ? ' selected' : ''}>${esc(lab)}</option>`; }).join('')}</select>`;
+  } else {
+    control = `<input class="input" type="${opts.type || 'text'}" value="${esc(v)}" ${attrs}>`;
+  }
+  return `<div class="field${opts.span ? ' span-all' : ''}"><label for="${id}">${esc(label)}</label>${control}${opts.hint ? `<span class="hint">${opts.hint}</span>` : ''}</div>`;
+}
+function seg(path, name, opts, label) {
+  const v = get(path);
+  return `<div class="seg" role="radiogroup" aria-label="${esc(label)}">${opts.map(([val, lab]) => `<label><input type="radio" name="${name}" value="${esc(val)}" data-bind="${path}" data-rerender${String(v) === String(val) ? ' checked' : ''}>${esc(lab)}</label>`).join('')}</div>`;
+}
+function tick(path, html, opts) {
+  const id = 'f-' + path.replace(/\./g, '-');
+  return `<label class="tick" for="${id}"><input type="checkbox" id="${id}" data-bind="${path}"${opts && opts.rerender ? ' data-rerender' : ''}${get(path) ? ' checked' : ''}><span>${html}</span></label>`;
+}
+function stepper(labels, cur) {
+  return `<ol class="stepper">${labels.map((l, i) => `<li data-state="${i < cur ? 'done' : i === cur ? 'current' : 'todo'}"${i === cur ? ' aria-current="step"' : ''}><span class="n">${i < cur ? '✓' : i + 1}</span>${esc(l)}</li>`).join('')}</ol>`;
+}
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(() => { t.hidden = true; }, 2600); }
+
+/* ───────────────────────── Pages ───────────────────────── */
+
+function home() {
+  return `
+  <div class="band band-gilt">
+    <section class="wrap split" style="align-items:center;padding-block:96px 84px">
+      <div>
+        <h1 class="display"><span style="display:block">Your federal taxes,</span><span style="display:block">a child’s Christian education.</span></h1>
+        <p class="lead" style="margin-top:32px">Under the new federal scholarship tax credit, every dollar you give to Lionheart, up to $1,700 a person, comes back off your federal tax bill. It becomes a tuition scholarship for a family.</p>
+        <div class="btn-row" style="margin-top:32px"><a class="btn btn-primary" href="#give">Make a gift</a><a class="btn btn-ghost" href="#families">Apply for a scholarship</a></div>
+      </div>
+      <div class="panel" style="max-width:460px;width:100%">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px">
+          <span class="card-kicker">What your gift costs you</span>
+          ${seg('give.filing', 'home-filing', [['joint', 'Married, joint'], ['single', 'Single']], 'Filing status')}
+        </div>
+        ${(() => { const a = S.give.filing === 'joint' ? 3400 : 1700; return `
+        <div class="sumrow"><span>Your gift to Lionheart</span><span class="v">${usd(a)}</span></div>
+        <div class="sumrow rule"><span>Federal tax credit</span><span class="v">−${usd(a)}</span></div>
+        <div class="sumrow total"><span style="font-weight:600">Your net cost</span><span class="v">$0</span></div>
+        <p class="small muted" style="margin-top:18px">${S.give.filing === 'joint' ? 'Each spouse gives $1,700 and claims a $1,700 credit on your joint return.' : 'One taxpayer gives $1,700 and claims a $1,700 credit.'} Credit applies to gifts made on or after January 1, 2027.</p>`; })()}
+      </div>
+    </section>
+  </div>
+  <div class="band band-surface">
+    <section class="wrap" aria-label="Lionheart at a glance" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px 32px;padding-block:64px">
+      ${[['$1,700', 'Credit per taxpayer'], ['$3,400', 'Per married couple'], ['$0', 'Cost to partner schools']].map(([n, l]) => `<div><p class="tnum" style="font-family:var(--font-heading);font-size:clamp(36px,3.6vw,52px);line-height:1">${n}</p><p class="small muted" style="letter-spacing:0.08em;text-transform:uppercase;margin-top:14px">${l}</p></div>`).join('')}
+    </section>
+  </div>
+  <div class="band">
+    <section class="wrap sec">
+      <span class="eyebrow">How it works</span>
+      <h2 class="h2" style="margin:16px 0 48px;max-width:20ch">How a gift becomes a scholarship</h2>
+      <div class="cols-3">
+        ${[['I.', 'You give', 'Give up to $1,700, or $3,400 as a married couple filing jointly. We send a receipt now and your IRS acknowledgment by January 31.'],
+           ['II.', 'You claim the credit', 'At tax time you file Form 8525 with your return, and the full gift comes off what you owe the IRS, dollar for dollar. It is a credit, not a deduction.'],
+           ['III.', 'A family receives a scholarship', 'We award scholarships to eligible Tennessee students for tuition and other qualified costs at the school their family chooses.']]
+          .map(([n, t, b]) => `<div class="step-col"><span class="numeral">${n}</span><h3 class="h3" style="margin:10px 0 12px">${t}</h3><p class="body">${b}</p></div>`).join('')}
+      </div>
+    </section>
+  </div>
+  <div class="band band-gilt band-gilt-top">
+    <section class="wrap sec">
+      <span class="eyebrow">Three ways in</span>
+      <h2 class="h2" style="margin:16px 0 48px">Where do you fit?</h2>
+      <div class="cols-2" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))">
+        ${[['For donors', 'Redirect your taxes', 'Send money you would owe in federal tax to a child’s education instead. It costs you nothing net, and it takes about five minutes.', '#donors', 'See how giving works'],
+           ['For families', 'Apply for a scholarship', 'Tennessee families with children in K–12 may apply. Check eligibility in a minute, then apply in about ten.', '#families', 'Check eligibility'],
+           ['For schools', 'Become a partner', 'Your school is already on our list. Confirm, verify your school email, and you’re a partner. It costs nothing and is non-exclusive.', '#schools', 'Find your school']]
+          .map(([k, t, b, h, c]) => `<div class="card"><span class="card-kicker">${k}</span><h3 style="font-size:30px">${t}</h3><p class="body" style="flex:1">${b}</p><div><a class="btn btn-secondary" href="${h}">${c}</a></div></div>`).join('')}
+      </div>
+    </section>
+  </div>
+  <div class="band band-ink">
+    <section class="wrap split" style="align-items:center;padding-block:104px">
+      <figure style="margin:0"><div class="plate">Photo: students at a partner school</div></figure>
+      <figure style="margin:0">
+        <span style="display:block;width:48px;height:1px;background:var(--color-accent);margin:0 0 32px"></span>
+        <blockquote style="font-family:var(--font-heading);font-size:clamp(30px,3.2vw,44px);line-height:1.2;margin:0;text-indent:-0.34em">“The righteous are bold as a lion.”</blockquote>
+        <figcaption class="small" style="letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent-400);margin-top:20px">Proverbs 28:1</figcaption>
+        <p style="font-size:16px;line-height:28px;margin-top:32px;max-width:46ch;color:color-mix(in srgb,var(--color-bg) 78%,transparent)">Lionheart was founded so that more families can choose a Christian education. We take the name from Proverbs: courage in what we fund, care with how we fund it.</p>
+      </figure>
+    </section>
+  </div>
+  <div class="band">
+    <section id="about-sec" class="wrap split sec">
+      <div><span class="eyebrow">Stewardship</span><h2 class="h2" style="margin-top:16px">What we promise every donor</h2></div>
+      <div class="rows">
+        ${[['1', 'Scholarships first', 'At least 90% of what we receive goes to scholarships, as federal law requires.'],
+           ['2', 'No favors', 'Donors cannot direct a gift to a particular student. Awards go by need and eligibility.'],
+           ['3', 'Open books', 'We publish an annual report of gifts, scholarships and costs, and complete an annual audit.'],
+           ['4', 'Prompt receipts', 'Every gift gets an email receipt, and your IRS acknowledgment arrives by January 31.']]
+          .map(([n, t, b]) => `<div><span class="numeral" style="font-size:20px">${n}</span><div><p class="rows-title">${t}</p><p class="body">${b}</p></div></div>`).join('')}
+      </div>
+    </section>
+  </div>
+  ${notifyBand()}`;
+}
+
+function notifyBand() {
+  return `<div class="band band-gilt band-gilt-top" style="border-bottom:0">
+    <section class="wrap split" style="padding-block:72px;align-items:end">
+      <div><h2 style="font-size:32px;line-height:1.2">Be ready for January 1</h2>
+      <p class="body" style="margin-top:16px;max-width:52ch">The credit applies to gifts made from January 1, 2027. Leave your email and we’ll tell you the day giving opens. No more than one letter a month.</p></div>
+      <form data-form="notify" style="display:flex;gap:12px;max-width:480px;width:100%;flex-wrap:wrap">
+        <label class="sr" for="notify-email">Email address</label>
+        <input class="input" id="notify-email" type="email" required placeholder="you@example.com" style="flex:1 1 220px">
+        <button type="submit" class="btn btn-primary">${S.notified ? 'Thank you' : 'Notify me'}</button>
+      </form>
+    </section></div>`;
+}
+
+/* ── Families ── */
+
+function eligResult() {
+  const e = S.elig;
+  const lim = incomeLimit(parseInt(e.size, 10) || 4);
+  if (e.tn === 'no') return { cls: 'pill-bad', head: 'Not eligible through Lionheart', body: 'Federal law sends a Tennessee SGO’s scholarships to students who live in Tennessee. Many other states take part in the program; look for an SGO where your child lives.' };
+  if (e.k12 === 'no') return { cls: 'pill-bad', head: 'Not eligible yet', body: 'Scholarships are for students who could enroll in a public elementary or secondary school (K–12). Check back the year before your child starts kindergarten.' };
+  if (!e.income) return { cls: 'pill-neutral', head: 'One more answer', body: `Enter last year’s household income. For a household of ${esc(e.size)}, our statewide reference limit is ${usd(lim)}.` };
+  const inc = num(e.income);
+  if (inc <= lim) return { cls: 'pill-ok', head: 'You likely qualify', body: `Your income is under the ${usd(lim)} reference limit for a household of ${esc(e.size)}. We confirm the exact figure for your county when you apply.`, cta: true };
+  return { cls: 'pill-warn', head: 'You may still qualify', body: `You’re above our statewide reference of ${usd(lim)}, but the real limit is 300% of your own county’s median income, which is higher in much of Middle Tennessee. Apply and we’ll check it for you.`, cta: true };
+}
+
+function families() {
+  const r = eligResult();
+  const sizes = [1, 2, 3, 4, 5, 6, 7, 8];
+  return `
+  <div class="band band-gilt">
+    <section class="wrap split" style="padding-block:88px 76px;align-items:start">
+      <div>
+        <span class="eyebrow">For families</span>
+        <h1 class="display-sm" style="margin-top:18px">A scholarship for your child’s Christian education.</h1>
+        <p class="lead" style="margin-top:28px">Most Tennessee families qualify. Check in a minute below, then apply in about ten. You’ll need last year’s tax return and a proof of address.</p>
+        <div class="btn-row" style="margin-top:30px"><a class="btn btn-solid" href="#apply">Start your application</a><a class="btn btn-ghost" href="#criteria" data-scroll="criteria">See the criteria</a></div>
+      </div>
+      <div class="panel" id="elig" aria-labelledby="elig-h">
+        <span class="card-kicker" id="elig-h">Quick eligibility check</span>
+        <div class="stack-m" style="margin-top:18px">
+          <div class="field"><span class="label">Does your child live in Tennessee?</span>${seg('elig.tn', 'e-tn', [['yes', 'Yes'], ['no', 'No']], 'Lives in Tennessee')}</div>
+          <div class="field"><span class="label">Will your child be in grades K–12 in 2027–28?</span>${seg('elig.k12', 'e-k12', [['yes', 'Yes'], ['no', 'No']], 'Grades K to 12')}</div>
+          <div class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr))">
+            ${inp('elig.size', 'People in your household', { options: sizes.map(n => [String(n), n === 8 ? '8 or more' : String(n)]), live: 'elig' })}
+            ${inp('elig.income', '2026 household income', { mode: 'numeric', ph: '$', live: 'elig', ac: 'off' })}
+          </div>
+        </div>
+        <div id="elig-out" aria-live="polite" style="margin-top:22px;padding-top:18px;border-top:1px solid var(--color-divider)">${eligOut(r)}</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="band">
+    <section class="wrap sec split" id="criteria">
+      <div><span class="eyebrow">The criteria</span><h2 class="h2" style="margin-top:16px">Who can apply</h2>
+        <p class="body" style="margin-top:18px;max-width:40ch">These come from the federal law that created the tax credit (26 U.S.C. § 25F) and Treasury’s 2026 regulations.</p></div>
+      <div class="rows">
+        ${[['Your child lives in Tennessee', 'Residence decides, not school location. Military families and families on Tribal lands have special rules; ask us.'],
+           ['Your child could enroll in a public school', 'Any child old enough for a Tennessee public school, kindergarten through 12th grade, counts. Your child does not need to have attended one.'],
+           ['Your household income is within the limit', 'Last calendar year’s income must be no more than 300% of your area’s median income, adjusted for household size. See the reference table below.'],
+           ['Your child attends, or will attend, a school you choose', 'Scholarships are paid to the school. If your school isn’t a partner yet, tell us and we’ll invite them.'],
+           ['Renewals and siblings come first', 'Each year, students who held a Lionheart scholarship the year before are funded first, then their brothers and sisters. That priority starts with the 2028–29 school year.']]
+          .map(([t, b]) => `<div><span class="check" aria-hidden="true">✓</span><div><p class="rows-title">${t}</p><p class="body">${b}</p></div></div>`).join('')}
+      </div>
+    </section>
+  </div>
+
+  <div class="band band-surface" style="border-top:1px solid var(--color-divider)">
+    <section class="wrap sec split">
+      <div>
+        <span class="eyebrow">Income limit</span>
+        <h2 class="h2" style="margin-top:16px">300% of area median income</h2>
+        <p class="body" style="margin-top:18px;max-width:46ch">The table uses Tennessee’s statewide median family income. Your county’s HUD figure is what decides, and in Davidson, Williamson, Rutherford and many other counties it is higher than this. If you’re a little over, apply anyway.</p>
+      </div>
+      <div class="tablewrap">
+        <table class="table">
+          <thead><tr><th>Household size</th><th class="num">2026 income up to</th></tr></thead>
+          <tbody>${sizes.map(n => `<tr${String(n) === S.elig.size ? ' style="background:var(--color-accent-100)"' : ''}><td>${n === 8 ? '8 people' : n === 1 ? '1 person' : n + ' people'}</td><td class="num">${usd(incomeLimit(n))}</td></tr>`).join('')}</tbody>
+        </table>
+        <p class="hint" style="margin-top:12px">Reference only: 3 × $92,300 Tennessee median family income (FY2025), scaled by household size. Add about 8% of the four-person figure for each person over eight.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="band">
+    <section class="wrap sec">
+      <div class="cols-3">
+        <div class="stack-m">
+          <span class="eyebrow">What it covers</span>
+          <h3 class="h3">Tuition first, and more</h3>
+          <p class="body">Scholarships pay tuition and fees. Federal law also allows books, uniforms, transportation, tutoring, special-needs services and school technology; Treasury is finalizing the list this fall.</p>
+        </div>
+        <div class="stack-m">
+          <span class="eyebrow">What you’ll need</span>
+          <h3 class="h3">Two documents</h3>
+          <p class="body">Your 2026 federal tax return (Form 1040), or W-2s if you didn’t file, and one proof of your Tennessee address, like a utility bill or driver’s license. You can upload now or later.</p>
+        </div>
+        <div class="stack-m">
+          <span class="eyebrow">What’s fair</span>
+          <h3 class="h3">No one can buy a place</h3>
+          <p class="body">Donors can’t direct gifts to a particular child, and the people who run Lionheart and their families can’t receive awards. Every eligible application is weighed the same way.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="band band-surface" style="border-top:1px solid var(--color-divider)">
+    <section class="wrap sec split">
+      <div><span class="eyebrow">After you apply</span><h2 class="h2" style="margin-top:16px">What happens next</h2>
+        <div class="btn-row" style="margin-top:28px"><a class="btn btn-solid" href="#apply">Start your application</a></div></div>
+      <ol class="timeline">
+        ${[['Day one', 'You get an email confirming we have your application, with a reference number.'],
+           ['About two weeks', 'We verify income and residence. If anything is missing, we email you a short list.'],
+           ['Award notice', 'You receive your scholarship amount in writing, and so does your school.'],
+           ['Each term', 'We pay the school directly. You pay only what the scholarship doesn’t cover.'],
+           ['Next spring', 'Renew with one short form. Returning students are funded first.']]
+          .map(([w, b]) => `<li><span class="when">${w}</span><p class="body">${b}</p></li>`).join('')}
+      </ol>
+    </section>
+  </div>`;
+}
+function eligOut(r) {
+  return `<span class="pill ${r.cls}">${r.head}</span><p class="small" style="margin-top:10px">${r.body}</p>${r.cta ? `<div style="margin-top:14px"><a class="btn btn-primary btn-sm" href="#apply">Apply now</a></div>` : ''}`;
+}
+
+/* ── Application ── */
+
+const APP_STEPS = ['You', 'Your children', 'Household', 'Review'];
+const GRADES = [['', 'Choose'], ['K', 'Kindergarten']].concat(Array.from({ length: 12 }, (_, i) => [String(i + 1), 'Grade ' + (i + 1)]));
+function schoolOptions() {
+  return [['', 'Choose a school']].concat(SCHOOLS.map(s => [s.id, s.name + ' · ' + s.city + (s.status === 'partner' ? ' (partner)' : '')]), [['other', 'Another school (we’ll invite them)'], ['undecided', 'Not decided yet']]);
+}
+function appValidate(step) {
+  const a = S.app, miss = [];
+  if (step === 0) { if (!a.parent.first) miss.push('your first name'); if (!a.parent.last) miss.push('your last name'); if (!/^\S+@\S+\.\S+$/.test(a.parent.email)) miss.push('a valid email'); }
+  if (step === 1) a.kids.forEach((k, i) => { const w = a.kids.length > 1 ? ` for child ${i + 1}` : ''; if (!k.first) miss.push('first name' + w); if (!k.grade) miss.push('2027–28 grade' + w); if (!k.school) miss.push('school' + w); });
+  if (step === 2) { if (!a.home.street || !a.home.city || !a.home.zip) miss.push('your Tennessee address'); if (!a.home.county) miss.push('your county'); if (!a.home.size) miss.push('household size'); if (!a.home.income) miss.push('2026 household income'); }
+  if (step === 3) { if (!a.attest.true || !a.attest.verify || !a.attest.nodirect) miss.push('all three confirmations'); }
+  return miss;
+}
+function apply() {
+  const a = S.app;
+  if (a.ref) return appDone();
+  let body = '';
+  if (a.step === 0) body = `
+    <div><h2 class="h3">About you</h2><p class="body" style="margin-top:6px">The parent or guardian we should contact.</p></div>
+    <div class="form-grid">
+      ${inp('app.parent.first', 'First name', { ac: 'given-name' })}${inp('app.parent.last', 'Last name', { ac: 'family-name' })}
+      ${inp('app.parent.email', 'Email', { type: 'email', ac: 'email', hint: 'We send your confirmation and award notice here.' })}${inp('app.parent.phone', 'Mobile phone (optional)', { type: 'tel', ac: 'tel' })}
+      ${inp('app.parent.rel', 'Relationship to the children', { options: ['Parent', 'Legal guardian', 'Grandparent with custody', 'Other caregiver'] })}
+    </div>`;
+  if (a.step === 1) body = `
+    <div><h2 class="h3">Your children</h2><p class="body" style="margin-top:6px">Add each child who needs a scholarship for 2027–28.</p></div>
+    ${a.kids.map((k, i) => `
+      <fieldset class="paper" style="padding:22px;margin:0">
+        <legend class="label" style="padding:0 6px">Child ${i + 1}</legend>
+        <div class="form-grid">
+          ${inp(`app.kids.${i}.first`, 'First name')}${inp(`app.kids.${i}.last`, 'Last name')}
+          ${inp(`app.kids.${i}.dob`, 'Date of birth', { type: 'date' })}${inp(`app.kids.${i}.grade`, 'Grade in 2027–28', { options: GRADES })}
+          ${inp(`app.kids.${i}.school`, 'School for 2027–28', { options: schoolOptions(), span: true, hint: 'Partner schools are listed first once they join. Choose “Another school” and we’ll invite yours.' })}
+        </div>
+        ${a.kids.length > 1 ? `<div style="margin-top:12px"><button type="button" class="btn btn-ghost btn-sm" data-action="kid-remove" data-i="${i}">Remove child ${i + 1}</button></div>` : ''}
+      </fieldset>`).join('')}
+    <div><button type="button" class="btn btn-secondary" data-action="kid-add">+ Add another child</button></div>`;
+  if (a.step === 2) body = `
+    <div><h2 class="h3">Your household</h2><p class="body" style="margin-top:6px">This is how we check residence and the income limit.</p></div>
+    <div class="form-grid">
+      ${inp('app.home.street', 'Home address', { ac: 'street-address', span: true })}
+      ${inp('app.home.city', 'City', { ac: 'address-level2' })}${inp('app.home.zip', 'ZIP', { ac: 'postal-code', mode: 'numeric' })}
+      ${inp('app.home.county', 'County', { ph: 'e.g. Davidson', hint: 'Your county sets your income limit.' })}
+      ${inp('app.home.size', 'People in your household', { options: [['', 'Choose']].concat([1,2,3,4,5,6,7,8,9,10].map(n => [String(n), String(n)])), hint: 'Everyone on your 2026 tax return, plus anyone else you support who lives with you.' })}
+      ${inp('app.home.income', '2026 household income', { mode: 'numeric', ph: '$', hint: 'Line 11 of Form 1040 (adjusted gross income). If you didn’t file, add up your W-2s.' })}
+      <div class="field span-all"><label for="f-doc">Upload your 2026 Form 1040 or W-2s (optional now)</label>
+        <input class="input" id="f-doc" type="file" accept=".pdf,image/*" data-action-change="doc" style="padding:8px">
+        <span class="hint">${a.home.doc ? 'Attached: ' + esc(a.home.doc) : 'PDF or photo. You can also email it to us after you submit.'}</span></div>
+    </div>`;
+  if (a.step === 3) {
+    const lim = incomeLimit(parseInt(a.home.size, 10) || 4);
+    body = `
+    <div><h2 class="h3">Review and submit</h2><p class="body" style="margin-top:6px">Check your answers. You can go back to change anything.</p></div>
+    <div class="paper" style="padding:22px 24px">
+      <div class="sumrow" style="padding-top:0"><span class="muted">Parent or guardian</span><span style="text-align:right">${esc(a.parent.first)} ${esc(a.parent.last)}<br><span class="small muted">${esc(a.parent.email)}</span></span></div>
+      ${a.kids.map((k, i) => { const s = schoolById(k.school); return `<div class="sumrow"><span class="muted">Child ${i + 1}</span><span style="text-align:right">${esc(k.first)} ${esc(k.last)} · ${k.grade === 'K' ? 'Kindergarten' : 'Grade ' + esc(k.grade)}<br><span class="small muted">${s ? esc(s.name) : k.school === 'other' ? 'Another school' : 'Not decided'}</span></span></div>`; }).join('')}
+      <div class="sumrow"><span class="muted">Address</span><span style="text-align:right">${esc(a.home.street)}, ${esc(a.home.city)} ${esc(a.home.zip)}<br><span class="small muted">${esc(a.home.county)} County</span></span></div>
+      <div class="sumrow" style="border-bottom:0"><span class="muted">Household</span><span style="text-align:right">${esc(a.home.size)} people · ${usd(num(a.home.income))}<br><span class="small muted">${num(a.home.income) <= lim ? 'Under the statewide reference limit' : 'Above the statewide reference; we’ll check your county’s limit'}</span></span></div>
+    </div>
+    <div class="stack-s">
+      ${tick('app.attest.true', 'The information above is true and complete to the best of my knowledge.')}
+      ${tick('app.attest.verify', 'Lionheart may verify my income and residence, and I’ll provide documents if asked.')}
+      ${tick('app.attest.nodirect', 'I understand scholarships depend on available funds, and that no donor can direct a scholarship to my child.')}
+    </div>`;
+  }
+  return `
+  <div class="band"><section class="wrap" style="padding-block:56px 84px">
+    <div class="flow">
+      <div>
+        <a href="#families" class="small">← Families</a>
+        <h1 class="h2" style="margin:14px 0 28px">Scholarship application, 2027–28</h1>
+        ${stepper(APP_STEPS, a.step)}
+        <form class="flow-body" data-form="app" novalidate>
+          ${a.err ? `<div class="errbox" role="alert">Please add ${esc(a.err)}.</div>` : ''}
+          ${body}
+          <div class="flow-actions">
+            ${a.step > 0 ? `<button type="button" class="btn btn-secondary" data-action="app-back">Back</button>` : '<span></span>'}
+            <button type="submit" class="btn btn-solid">${a.step < 3 ? 'Continue' : 'Submit application'}</button>
+          </div>
+        </form>
+      </div>
+      <aside class="flow-aside">
+        <div class="panel stack-m" style="box-shadow:none;border:1px solid var(--color-divider)">
+          <span class="card-kicker">About 10 minutes</span>
+          <p class="small">Your answers are saved on this device as you go, so you can finish later.</p>
+          <div class="hr" style="height:1px;background:var(--color-divider)"></div>
+          <p class="small"><strong style="font-weight:600">Have ready</strong><br>2026 Form 1040 or W-2s<br>Proof of Tennessee address<br>Each child’s 2027–28 grade and school</p>
+          <div class="hr" style="height:1px;background:var(--color-divider)"></div>
+          <p class="small muted">Questions? Email [families@lionheartsgo.org]. We answer within one business day.</p>
+        </div>
+      </aside>
+    </div>
+  </section></div>`;
+}
+function appDone() {
+  const a = S.app;
+  return `<div class="band band-gilt"><section class="wrap" style="padding-block:96px;max-width:760px">
+    <span class="pill pill-ok">Application received</span>
+    <h1 class="display-sm" style="margin-top:20px">Thank you, ${esc(a.parent.first)}.</h1>
+    <p class="lead" style="margin-top:22px">We’ve sent a confirmation to ${esc(a.parent.email)}. Your reference number is <strong class="tnum" style="font-weight:600">${esc(a.ref)}</strong>.</p>
+    <ol class="timeline" style="margin-top:36px">
+      <li><span class="when">This week</span><p class="body">${a.home.doc ? 'We have your tax document.' : 'Email your 2026 Form 1040 or W-2s and a proof of address, quoting your reference number.'}</p></li>
+      <li><span class="when">About two weeks</span><p class="body">We verify income and residence and email you if anything is missing.</p></li>
+      <li><span class="when">Award notice</span><p class="body">You and your school receive the scholarship amount in writing.</p></li>
+    </ol>
+    <div class="btn-row" style="margin-top:32px"><a class="btn btn-primary" href="#families">Back to Families</a></div>
+  </section></div>`;
+}
+
+/* ── Schools ── */
+
+function schools() {
+  const c = S.claim;
+  if (c.id) return schoolClaim();
+  const q = S.q.trim().toLowerCase();
+  const list = SCHOOLS.filter(s => !q || (s.name + ' ' + s.city).toLowerCase().includes(q));
+  const partners = SCHOOLS.filter(s => s.status === 'partner').length;
+  return `
+  <div class="band band-gilt">
+    <section class="wrap split" style="padding-block:88px 76px">
+      <div>
+        <span class="eyebrow">For schools</span>
+        <h1 class="display-sm" style="margin-top:18px">Your school is already on our list.</h1>
+        <p class="lead" style="margin-top:28px">We’ve pre-loaded Tennessee’s accredited Christian schools. Find yours, say yes, and verify with your school email. It takes about two minutes and costs your school nothing.</p>
+      </div>
+      <div class="rows" style="border-top:1px solid var(--color-text)">
+        ${[['1', 'Find your school', 'Search the list below.'], ['2', 'Say yes', 'Review the partnership terms and confirm you can sign for the school.'], ['3', 'Verify', 'We email a six-digit code to your school address. Enter it and you’re a partner.']]
+          .map(([n, t, b]) => `<div><span class="numeral" style="font-size:20px">${n}</span><div><p class="rows-title">${t}</p><p class="body">${b}</p></div></div>`).join('')}
+      </div>
+    </section>
+  </div>
+  <div class="band">
+    <section class="wrap sec" id="list">
+      <div style="display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:22px">
+        <div><h2 class="h2">Find your school</h2><p class="small muted" style="margin-top:8px"><span class="tnum">${SCHOOLS.length}</span> accredited schools listed · <span class="tnum">${partners}</span> verified partner${partners === 1 ? '' : 's'}</p></div>
+        <div class="field" style="flex:0 1 360px"><label for="school-q">Search by name or city</label><input class="input" id="school-q" type="search" value="${esc(S.q)}" data-bind="q" data-live="schools" placeholder="e.g. Franklin" autocomplete="off"></div>
+      </div>
+      <div class="schools" id="school-list">${schoolRows(list)}</div>
+      <div class="split" style="margin-top:56px">
+        <div><h3 class="h3">Not on the list?</h3><p class="body" style="margin-top:10px;max-width:44ch">If your school is accredited and in Tennessee, tell us and we’ll add it within two business days.</p></div>
+        ${S.req.sent ? `<div class="note">Thanks. We’ll email ${esc(S.req.email)} when ${esc(S.req.name)} is on the list.</div>` : `
+        <form class="form-grid" data-form="req">
+          ${inp('req.name', 'School name')}${inp('req.city', 'City')}
+          ${inp('req.email', 'Your school email', { type: 'email' })}
+          <div class="field" style="justify-content:end"><button class="btn btn-primary" type="submit">Request to be added</button></div>
+        </form>`}
+      </div>
+    </section>
+  </div>
+  <div class="band band-surface" style="border-top:1px solid var(--color-divider)">
+    <section class="wrap sec split">
+      <div><span class="eyebrow">The partnership</span><h2 class="h2" style="margin-top:16px">What we do, and what we ask</h2></div>
+      <div class="cols-2" style="gap:36px">
+        <div class="stack-s"><h3 class="h4">We handle</h3>
+          ${['Donor gifts, receipts and IRS reporting', 'Family applications and income verification', 'Scholarship payments straight to your school each term', 'An annual report you can share with your board'].map(t => `<p class="body">· ${t}</p>`).join('')}</div>
+        <div class="stack-s"><h3 class="h4">We ask you to</h3>
+          ${['Confirm enrollment and tuition for scholarship students each term', 'Tell us within 30 days if a student withdraws', 'Keep admissions decisions separate from scholarships', 'Accept payment by ACH'].map(t => `<p class="body">· ${t}</p>`).join('')}</div>
+        <p class="small muted span-all" style="grid-column:1/-1">No fees, ever. The agreement is non-exclusive, so you can work with other SGOs too, and you can leave with 30 days’ notice.</p>
+      </div>
+    </section>
+  </div>`;
+}
+function schoolRows(list) {
+  if (!list.length) return `<p class="body" style="padding:24px 0">No school matches “${esc(S.q)}”. Try a shorter name, or request to be added below.</p>`;
+  return list.map(s => `
+    <div class="school">
+      <div><div class="school-name">${esc(s.name)}</div><div class="school-meta"><span>${esc(s.city)}, TN</span><span>${esc(s.grades)}</span><span>Accredited</span></div></div>
+      <div class="school-act">${s.status === 'partner'
+        ? `<span class="pill pill-ok">Verified partner</span>`
+        : `<span class="pill pill-neutral">Pre-registered</span><button type="button" class="btn btn-primary btn-sm" data-action="claim" data-id="${s.id}">This is my school</button>`}</div>
+    </div>`).join('');
+}
+function schoolClaim() {
+  const c = S.claim, s = schoolById(c.id);
+  const stepIdx = { confirm: 0, code: 1, done: 2 }[c.step];
+  let body = '';
+  if (c.step === 'confirm') body = `
+    <form class="flow-body" data-form="claim" novalidate>
+      <div><h2 class="h3">Partner with Lionheart?</h2><p class="body" style="margin-top:8px">Confirm who you are. We’ll send a code to your @${esc(s.domain)} email to verify you work at ${esc(s.name)}.</p></div>
+      ${c.err ? `<div class="errbox" role="alert">${c.err}</div>` : ''}
+      <div class="form-grid">
+        ${inp('claim.name', 'Your full name', { ac: 'name' })}
+        ${inp('claim.title', 'Your role', { options: ['Head of school', 'Business manager or CFO', 'Admissions director', 'Board chair', 'Other administrator'] })}
+        ${inp('claim.email', 'School email', { type: 'email', ac: 'email', ph: 'name@' + s.domain, span: true, bad: c.err && c.err.indexOf('email') > -1 })}
+      </div>
+      <div class="paper" style="padding:20px 22px">
+        <p class="label" style="margin-bottom:10px">Partnership terms, in short</p>
+        <p class="small">No cost to the school · Non-exclusive · Lionheart pays tuition directly by ACH · School confirms enrollment each term · Either side may end it with 30 days’ notice</p>
+      </div>
+      ${tick('claim.auth', `I’m authorized to enter agreements for ${esc(s.name)}, and we agree to the partnership terms.`)}
+      <div class="flow-actions"><button type="button" class="btn btn-secondary" data-action="claim-cancel">Back to list</button><button type="submit" class="btn btn-solid">Yes, partner with Lionheart</button></div>
+    </form>`;
+  if (c.step === 'code') body = `
+    <form class="flow-body" data-form="code" novalidate>
+      <div><h2 class="h3">Check your email</h2><p class="body" style="margin-top:8px">We sent a six-digit code to <strong style="font-weight:600">${esc(c.email)}</strong>. It expires in 15 minutes.</p></div>
+      ${c.err ? `<div class="errbox" role="alert">${c.err}</div>` : ''}
+      <div class="field"><label for="f-claim-code">Verification code</label><input class="input code-input" id="f-claim-code" data-bind="claim.code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" value="${esc(c.code)}" placeholder="······"></div>
+      <p class="hint">Prototype: any six digits verify.</p>
+      <div class="flow-actions"><button type="button" class="btn btn-ghost" data-action="claim-resend">Send a new code</button><button type="submit" class="btn btn-solid">Verify</button></div>
+    </form>`;
+  if (c.step === 'done') body = `
+    <div class="flow-body">
+      <div><span class="pill pill-ok">Verified partner</span><h2 class="h3" style="margin-top:14px">${esc(s.name)} is a Lionheart partner.</h2>
+      <p class="body" style="margin-top:8px">Thank you, ${esc(c.name.split(' ')[0])}. We’ve emailed the countersigned agreement to ${esc(c.email)}.</p></div>
+      <ol class="timeline">
+        <li><span class="when">Next</span><p class="body">Add your bank details for ACH tuition payments. We’ll send a secure link.</p></li>
+        <li><span class="when">This month</span><p class="body">Share our families page with parents. Your school now appears as a partner in the application.</p></li>
+        <li><span class="when">Each term</span><p class="body">Confirm enrollment and tuition for scholarship students in one short form.</p></li>
+      </ol>
+      <div class="copyrow"><div><p class="label">Link for your parents</p><p class="v small">lionheartsgo.org/families</p></div><button type="button" class="btn btn-secondary btn-sm" data-action="copy" data-text="https://lionheartsgo.org/families">Copy</button></div>
+      <div class="flow-actions"><span></span><button type="button" class="btn btn-primary" data-action="claim-cancel">Back to school list</button></div>
+    </div>`;
+  return `
+  <div class="band"><section class="wrap" style="padding-block:56px 84px">
+    <div class="flow">
+      <div>
+        <a href="#schools" class="small" data-action="claim-cancel">← All schools</a>
+        <h1 class="h2" style="margin:14px 0 28px">${esc(s.name)}</h1>
+        ${stepper(['Confirm', 'Verify', 'Done'], stepIdx)}
+        ${body}
+      </div>
+      <aside class="flow-aside">
+        <div class="paper" style="padding:24px">
+          <span class="card-kicker">On our list</span>
+          <p class="school-name" style="margin-top:10px">${esc(s.name)}</p>
+          <p class="small muted" style="margin-top:4px">${esc(s.city)}, Tennessee · ${esc(s.grades)}</p>
+          <div class="sumrow" style="margin-top:12px"><span class="small">Accreditation</span><span class="pill pill-ok">On file</span></div>
+          <div class="sumrow"><span class="small">Email domain</span><span class="small tnum">@${esc(s.domain)}</span></div>
+          <div class="sumrow" style="border-bottom:0"><span class="small">Status</span>${s.status === 'partner' ? '<span class="pill pill-ok">Partner</span>' : '<span class="pill pill-neutral">Pre-registered</span>'}</div>
+          <p class="hint" style="margin-top:12px">No school email? Email [schools@lionheartsgo.org] and we’ll verify by calling your main office.</p>
+        </div>
+      </aside>
+    </div>
+  </section></div>`;
+}
+
+/* ── Donors ── */
+
+function donors() {
+  return `
+  <div class="band band-gilt">
+    <section class="wrap split" style="padding-block:88px 76px;align-items:center">
+      <div>
+        <span class="eyebrow">For donors</span>
+        <h1 class="display-sm" style="margin-top:18px">Give $3,400. Get $3,400 back at tax time.</h1>
+        <p class="lead" style="margin-top:28px">For a married couple filing jointly, each of you gives $1,700 and the federal scholarship credit takes it all off your tax bill, dollar for dollar. Single filers give $1,700 and get $1,700 back. Here is exactly how it works, what to choose, and what we send you.</p>
+        <div class="btn-row" style="margin-top:30px"><a class="btn btn-solid" href="#give">Start your gift</a><a class="btn btn-ghost" href="#ways" data-scroll="ways">Ways to give</a></div>
+      </div>
+      <ol class="timeline" style="border-top:1px solid var(--color-text)">
+        <li><span class="when">Your gift</span><p class="body">Card, Apple Pay or PayPal, from your own funds, marked as a scholarship-credit gift.</p></li>
+        <li><span class="when">Same day</span><p class="body">An emailed receipt for your records.</p></li>
+        <li><span class="when">By Jan 31</span><p class="body">Your official IRS acknowledgment with your donor number.</p></li>
+        <li><span class="when">Tax time</span><p class="body">File Form 8525 with your Form 1040. The credit lowers your tax.</p></li>
+      </ol>
+    </section>
+  </div>
+
+  <div class="band">
+    <section class="wrap sec">
+      <span class="eyebrow">Before you give</span>
+      <h2 class="h2" style="margin:16px 0 40px;max-width:24ch">Five rules that decide your credit</h2>
+      <div class="cols-3">
+        ${[['$1,700 per person', 'Each taxpayer can claim up to $1,700 a year. Anything above that is a regular charitable gift, deductible if you itemize.'],
+           ['Married? Give twice', 'Spouses are counted separately. For $3,400 on a joint return, each of you gives $1,700 in your own name. Our form does this for you.'],
+           ['Gifts from January 1, 2027', 'Only gifts made on or after that date count. Schedule yours now and we’ll charge it on January 1.'],
+           ['Cash from you', 'Card, Apple Pay, PayPal or check from your own account. Stock, crypto, business and donor-advised fund gifts don’t earn the credit.'],
+           ['One benefit per dollar', 'The same dollars can’t be both a credit and a deduction. If you owe less than your credit, the rest carries forward up to five years.']]
+          .map(([t, b], i) => `<div class="step-col"><h3 class="h4" style="margin-bottom:10px">${t}</h3><p class="body">${b}</p></div>`).join('')}
+        <div class="step-col" style="border-top-color:var(--color-accent-500)"><h3 class="h4" style="margin-bottom:10px">Not sure?</h3><p class="body">Our giving form works this out as you go, and shows your credit before you pay.</p><div style="margin-top:14px"><a class="btn btn-primary btn-sm" href="#give">Open the giving form</a></div></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="band band-surface" style="border-top:1px solid var(--color-divider)">
+    <section class="wrap sec" id="ways">
+      <span class="eyebrow">Ways to give</span>
+      <h2 class="h2" style="margin:16px 0 36px">Choose how to pay</h2>
+      <div class="tablewrap">
+        <table class="table" style="min-width:620px">
+          <thead><tr><th style="width:22%">Method</th><th style="width:24%">Federal credit</th><th>Good to know</th></tr></thead>
+          <tbody>
+            <tr><td><strong style="font-weight:600">Credit or debit card</strong></td><td><span class="pill pill-ok">Eligible</span></td><td class="body">Visa, Mastercard, Amex, Discover. We cover the card fees, so your full gift reaches students.</td></tr>
+            <tr><td><strong style="font-weight:600">Apple Pay</strong></td><td><span class="pill pill-ok">Eligible</span></td><td class="body">Fastest on iPhone and Safari. Your card details never reach us.</td></tr>
+            <tr><td><strong style="font-weight:600">PayPal</strong></td><td><span class="pill pill-ok">Eligible</span></td><td class="body">Pay from your PayPal balance, bank or card. The gift must come from your own account, not a business account.</td></tr>
+            <tr><td><strong style="font-weight:600">Donor-advised fund</strong></td><td><span class="pill pill-warn">Gift welcome, no credit</span></td><td class="body">A DAF grant comes from your fund’s sponsor, and you already took the deduction when you funded it, so it can’t earn the credit. Use it for giving beyond your $1,700.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <div class="band">
+    <section class="wrap sec split">
+      <div class="stack-m">
+        <span class="eyebrow">Using a donor-advised fund</span>
+        <h2 class="h2">The best of both</h2>
+        <p class="body" style="max-width:48ch">Many of our donors do two things: give $1,700 each by card to claim the credit, then recommend a DAF grant for anything more. Here’s what your sponsor will need.</p>
+        <p class="small muted">Our reading of the 2026 Treasury regulations. Ask your tax advisor how it applies to you.</p>
+      </div>
+      <div class="paper" style="padding:8px 24px 18px">
+        ${[['Legal name', SGO.legal], ['EIN', SGO.ein], ['Mailing address', SGO.addr], ['Grant purpose', 'General scholarship fund']].map(([l, v]) => `
+          <div class="copyrow"><div><p class="label">${l}</p><p class="v small">${esc(v)}</p></div><button type="button" class="btn btn-secondary btn-sm" data-action="copy" data-text="${esc(v)}">Copy</button></div>`).join('')}
+        <p class="small muted" style="margin-top:14px">Works with Fidelity Charitable, Schwab Charitable, Vanguard Charitable, National Christian Foundation and others. <a href="#give" data-action="give-daf">Tell us a grant is coming</a>.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="band band-gilt band-gilt-top" style="border-bottom:1px solid var(--color-accent-300)">
+    <section class="wrap sec split" style="align-items:center">
+      <div class="stack-m">
+        <span class="eyebrow">Year-end documents</span>
+        <h2 class="h2">What we send you, and when</h2>
+        <ol class="timeline">
+          <li><span class="when">Same day</span><p class="body">Email receipt with the amount, date and payment method.</p></li>
+          <li><span class="when">By Jan 31</span><p class="body">Written acknowledgment for your tax year, with your unique IRS donor number, by email and mail. Married couples get one for each spouse.</p></li>
+          <li><span class="when">By Feb 28</span><p class="body">We report your gift to the IRS under the same donor number, so your return matches ours.</p></li>
+          <li><span class="when">April 15</span><p class="body">You or your preparer enter the donor number on Form 8525 and attach it to your Form 1040.</p></li>
+        </ol>
+      </div>
+      <figure class="paper letter" style="margin:0">
+        <span class="specimen">Specimen</span>
+        <div class="letter-head"><div><div class="brand-name" style="font-size:15px">LIONHEART</div><div class="brand-sub" style="margin-top:5px">SCHOLARSHIP GRANTING ORGANIZATION</div></div><div class="small muted" style="text-align:right">Tax year 2027<br>Issued January 2028</div></div>
+        <p style="font-family:var(--font-heading);font-size:20px;margin-bottom:12px">Written acknowledgment of qualified contribution</p>
+        <dl>
+          <dt>Donor</dt><dd>Margaret A. Ellis</dd>
+          <dt>Donor number</dt><dd>[IRS-format number]</dd>
+          <dt>Date received</dt><dd>January 1, 2027</dd>
+          <dt>Amount</dt><dd>$1,700.00 cash</dd>
+          <dt>Designation</dt><dd>Qualified contribution under IRC § 25F</dd>
+          <dt>Goods or services</dt><dd>None provided in exchange</dd>
+          <dt>SGO</dt><dd>Lionheart · EIN [XX-XXXXXXX]</dd>
+        </dl>
+        <figcaption class="hint" style="margin-top:16px">Example only. The IRS sets the final format of the donor number.</figcaption>
+      </figure>
+    </section>
+  </div>
+
+  <div class="band">
+    <section class="wrap sec split">
+      <div><span class="eyebrow">Questions</span><h2 class="h2" style="margin-top:16px">Donor FAQ</h2></div>
+      <div>
+        ${[['Can I choose which student receives my gift?', 'No. Federal law forbids earmarking a gift for a particular student, and we’d lose our status if we did. Gifts fund scholarships by need and eligibility.'],
+           ['Can I give through my business or S corporation?', 'Only individuals can claim this credit. A gift from a partnership or S corporation doesn’t pass the credit through to you, so give from your personal account.'],
+           ['I don’t live in Tennessee. Can I still give?', 'Yes. You can give to an SGO in any participating state and claim the credit on your federal return. Your gift funds Tennessee students.'],
+           ['What if my tax bill is smaller than $1,700?', 'The credit can’t create a refund, but the unused part carries forward for up to five years.'],
+           ['Is Tennessee participating?', 'Yes. Tennessee made its advance election in 2026, and the state’s list of approved SGOs is due to the IRS by February 15, 2027. Our listing is pending.'],
+           ['Can I give more than $1,700?', 'Yes. The amount above your credit is a regular charitable gift, deductible if you itemize. Your receipt shows both parts.']]
+          .map(([q, a]) => `<details><summary>${q}</summary><div><p class="body">${a}</p></div></details>`).join('')}
+      </div>
+    </section>
+  </div>
+  ${notifyBand()}`;
+}
+
+/* ── Giving flow ── */
+
+function giveCalc() {
+  const g = S.give;
+  const givers = g.filing === 'joint' && g.from === 'both' ? 2 : 1;
+  const base = g.amount === 'other' ? num(g.custom) : num(g.amount);
+  const fee = 0;
+  const total = base + fee;
+  const eligible = g.method !== 'daf' && (g.when === 'jan1' || creditOpen());
+  const per = total / givers;
+  const credit = eligible ? Math.min(per, CAP) * givers : 0;
+  return { givers, base, fee, total, per, credit, extra: Math.max(total - credit, 0), eligible };
+}
+function presets() {
+  const g = S.give;
+  return g.filing === 'joint' && g.from === 'both'
+    ? [['3400', '$3,400', 'Full credit for both'], ['2000', '$2,000', '$1,000 each'], ['1000', '$1,000', '$500 each'], ['other', 'Other', 'Any amount']]
+    : [['1700', '$1,700', 'Full credit'], ['1000', '$1,000', ''], ['500', '$500', ''], ['other', 'Other', 'Any amount']];
+}
+const GIVE_STEPS = ['Your gift', 'Your details', 'Payment'];
+function giveValidate(step) {
+  const g = S.give, c = giveCalc(), miss = [];
+  if (step === 0) { if (c.base < 10) miss.push('an amount of at least $10'); }
+  if (step === 1) {
+    if (!g.name1) miss.push('your legal name');
+    if (c.givers === 2 && !g.name2) miss.push('your spouse’s legal name');
+    if (!/^\S+@\S+\.\S+$/.test(g.email)) miss.push('a valid email');
+    if (!g.street || !g.city || !g.zip) miss.push('your mailing address');
+    if (c.eligible && !g.designate) miss.push('the scholarship-credit designation');
+  }
+  if (step === 2 && g.method === 'card') { if (g.card.replace(/\D/g, '').length < 12) miss.push('a card number'); if (!/^\d{2}\s*\/\s*\d{2}$/.test(g.exp)) miss.push('an expiry date (MM/YY)'); if (!/^\d{3,4}$/.test(g.cvc)) miss.push('the security code'); }
+  return miss;
+}
+function giveSummary() {
+  const g = S.give, c = giveCalc();
+  const whenTxt = g.method === 'daf' ? 'When your DAF sponsor sends the grant' : g.when === 'jan1' ? 'Charged January 1, 2027' : 'Charged today';
+  return `
+    <span class="card-kicker">Your gift</span>
+    <div style="margin-top:10px">
+      ${c.givers === 2 ? `<div class="sumrow"><span>Gift in each spouse’s name</span><span class="v">${usd2(c.per)}</span></div>` : ''}
+      <div class="sumrow"><span>Total gift${c.fee ? ' incl. card fees' : ''}</span><span class="v">${usd2(c.total)}</span></div>
+      <div class="sumrow rule"><span>Federal tax credit</span><span class="v">${c.credit ? '−' + usd2(c.credit) : '$0'}</span></div>
+      <div class="sumrow total"><span style="font-weight:600">Net cost after credit</span><span class="v">${usd2(Math.max(c.total - c.credit, 0))}</span></div>
+    </div>
+    <div class="stack-s" style="margin-top:16px">
+      ${c.extra > 0 && c.credit > 0 ? `<p class="small">${usd2(c.extra)} above the credit is a regular charitable gift, deductible if you itemize.</p>` : ''}
+      ${!c.eligible && g.method === 'daf' ? `<p class="note note-warn">DAF grants don’t earn the credit. Give your $1,700 by card to claim it.</p>` : ''}
+      ${!c.eligible && g.method !== 'daf' ? `<p class="note note-warn">Gifts made before January 1, 2027 don’t earn the credit. Choose “Schedule for January 1” to claim it.</p>` : ''}
+      <p class="small muted">${whenTxt}</p>
+    </div>`;
+}
+function give() {
+  const g = S.give, c = giveCalc();
+  if (g.ref) return giveDone();
+  let body = '';
+  if (g.step === 0) body = `
+    <div class="field"><span class="label">How do you file your federal taxes?</span>${seg('give.filing', 'g-filing', [['joint', 'Married filing jointly'], ['single', 'Single or other']], 'Filing status')}</div>
+    ${g.filing === 'joint' ? `<div class="field"><span class="label">Who is giving?</span>${seg('give.from', 'g-from', [['both', 'Both of us, $1,700 each'], ['me', 'Just me']], 'Who is giving')}
+      <span class="hint">Spouses are counted separately. To claim $3,400, the gift is split into two gifts, one in each name.</span></div>` : ''}
+    <div class="field"><span class="label">Amount</span>
+      <div class="choices" role="radiogroup" aria-label="Amount">${presets().map(([v, m, s]) => `<label class="choice"><input type="radio" name="g-amt" value="${v}" data-bind="give.amount" data-rerender${g.amount === v ? ' checked' : ''}><span class="choice-main tnum">${m}</span><span class="choice-sub">${s || '&nbsp;'}</span></label>`).join('')}</div>
+    </div>
+    ${g.amount === 'other' ? `<div style="max-width:260px">${inp('give.custom', 'Other amount (USD)', { mode: 'decimal', ph: '$', live: 'give' })}</div>` : ''}
+    ${creditOpen() ? '' : `<div class="field"><span class="label">When should we charge it?</span>
+      <div class="choices" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))" role="radiogroup" aria-label="When">
+        <label class="choice"><input type="radio" name="g-when" value="jan1" data-bind="give.when" data-rerender${g.when === 'jan1' ? ' checked' : ''}><span class="choice-main" style="font-size:19px">Schedule for January 1, 2027</span><span class="choice-sub">Earns the credit. Cancel any time before then.</span></label>
+        <label class="choice"><input type="radio" name="g-when" value="now" data-bind="give.when" data-rerender${g.when === 'now' ? ' checked' : ''}><span class="choice-main" style="font-size:19px">Give today</span><span class="choice-sub">A deductible gift, but no 2027 credit.</span></label>
+      </div></div>`}`;
+  if (g.step === 1) body = `
+    <div class="form-grid">
+      ${inp('give.name1', c.givers === 2 ? 'Your legal name, as on your tax return' : 'Legal name, as on your tax return', { ac: 'name', span: c.givers === 1 })}
+      ${c.givers === 2 ? inp('give.name2', 'Your spouse’s legal name') : ''}
+      ${inp('give.email', 'Email for receipts', { type: 'email', ac: 'email', span: true, hint: 'Your receipt and January acknowledgment go here.' })}
+      ${inp('give.street', 'Mailing address', { ac: 'street-address', span: true })}
+      ${inp('give.city', 'City', { ac: 'address-level2' })}
+      <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:12px">${inp('give.state', 'State', { ac: 'address-level1' })}${inp('give.zip', 'ZIP', { ac: 'postal-code', mode: 'numeric' })}</div>
+    </div>
+    ${c.eligible ? `<div class="paper" style="padding:18px 20px">${tick('give.designate', `I irrevocably designate ${c.givers === 2 ? 'each $' + Math.min(c.per, CAP).toLocaleString('en-US') + ' gift' : 'this gift, up to $1,700,'} as a qualified contribution under Section 25F of the Internal Revenue Code, to fund scholarships for eligible Tennessee students.`)}
+      <p class="hint" style="margin:10px 0 0 32px">Federal rules require this designation at the time of the gift. I understand I can’t direct it to a particular student.</p></div>` : ''}
+    <div class="field"><label for="f-give-pref">Preferred school (optional, non-binding)</label>
+      <select class="input" id="f-give-pref" data-bind="give.pref"><option value="">No preference: use where most needed</option>${SCHOOLS.filter((s) => s.status === 'partner').map((s) => `<option value="${s.id}"${g.pref === s.id ? ' selected' : ''}>${esc(s.name)}</option>`).join('')}</select>
+      <span class="hint">We honor a preference only when that school has at least 10 eligible applicants. Students are always chosen by our published formula, never by donors. Please don’t name a school to benefit a relative.</span></div>`;
+  if (g.step === 2) body = `
+    <div class="field"><span class="label">Payment method</span>
+      ${seg('give.method', 'g-method', [['card', 'Card'], ['applepay', 'Apple Pay'], ['paypal', 'PayPal'], ['daf', 'Donor-advised fund']], 'Payment method')}</div>
+    ${g.method === 'card' ? `
+      <div class="form-grid">
+        ${inp('give.card', 'Card number', { mode: 'numeric', ac: 'cc-number', span: true, ph: '1234 1234 1234 1234' })}
+        ${inp('give.exp', 'Expiry (MM/YY)', { ac: 'cc-exp', ph: 'MM/YY' })}${inp('give.cvc', 'Security code', { mode: 'numeric', ac: 'cc-csc' })}
+      </div>
+      <p class="small muted">We cover the card fees, so your full ${usd(c.base)} goes to scholarships.</p>` : ''}
+    ${g.method === 'applepay' ? `<div class="stack-m"><button type="button" class="btn btn-applepay" data-action="pay"> Pay</button><p class="small muted">You’ll confirm with Face ID or Touch ID. ${g.when === 'jan1' ? 'Apple Pay authorizes a scheduled payment for January 1, 2027.' : ''}</p></div>` : ''}
+    ${g.method === 'paypal' ? `<div class="stack-m"><button type="button" class="btn btn-paypal" data-action="pay"><b>Pay</b><i>Pal</i></button><p class="small muted">You’ll sign in to PayPal in a new window. ${g.when === 'jan1' ? 'PayPal holds a billing agreement and charges on January 1, 2027.' : ''}</p></div>` : ''}
+    ${g.method === 'daf' ? `
+      <div class="note note-warn">A grant from your donor-advised fund supports scholarships, but it doesn’t earn the federal credit. To claim the credit, give your $1,700 by card, Apple Pay or PayPal, and use your DAF for anything more.</div>
+      <div class="paper" style="padding:8px 22px 14px">
+        ${[['Legal name', SGO.legal], ['EIN', SGO.ein], ['Mailing address', SGO.addr]].map(([l, v]) => `<div class="copyrow"><div><p class="label">${l}</p><p class="v small">${esc(v)}</p></div><button type="button" class="btn btn-secondary btn-sm" data-action="copy" data-text="${esc(v)}">Copy</button></div>`).join('')}
+      </div>
+      <p class="body">Recommend the grant on your sponsor’s site, then tell us it’s coming so we can thank you and watch for it.</p>
+      <div class="form-grid">
+        ${inp('give.daf.sponsor', 'DAF sponsor', { options: ['', 'Fidelity Charitable', 'Schwab Charitable', 'Vanguard Charitable', 'National Christian Foundation', 'Community foundation', 'Other'] })}
+        ${inp('give.daf.amount', 'Grant amount', { mode: 'decimal', ph: '$' })}
+      </div>` : ''}`;
+  const submitLabel = g.step < 2 ? 'Continue' : g.method === 'daf' ? 'Tell us a grant is coming' : g.method === 'card' ? (g.when === 'jan1' ? 'Schedule ' : 'Give ') + usd2(c.total) : null;
+  return `
+  <div class="band"><section class="wrap" style="padding-block:56px 84px">
+    <div class="flow">
+      <div>
+        <a href="#donors" class="small">← Donors</a>
+        <h1 class="h2" style="margin:14px 0 28px">Make a gift</h1>
+        ${stepper(GIVE_STEPS, g.step)}
+        <form class="flow-body" data-form="give" novalidate>
+          ${g.err ? `<div class="errbox" role="alert">Please add ${esc(g.err)}.</div>` : ''}
+          ${body}
+          <div class="flow-actions">
+            ${g.step > 0 ? `<button type="button" class="btn btn-secondary" data-action="give-back">Back</button>` : '<span></span>'}
+            ${submitLabel ? `<button type="submit" class="btn btn-solid">${submitLabel}</button>` : ''}
+          </div>
+        </form>
+      </div>
+      <aside class="flow-aside"><div class="panel" id="give-summary">${giveSummary()}</div>
+        <p class="hint" style="margin-top:14px;padding-inline:4px">Payments are processed securely by our payment provider. Lionheart never stores your card number.</p></aside>
+    </div>
+  </section></div>`;
+}
+function giveDone() {
+  const g = S.give, c = giveCalc();
+  const daf = g.method === 'daf';
+  const first = (g.name1 || '').split(' ')[0];
+  return `<div class="band band-gilt"><section class="wrap" style="padding-block:96px;max-width:780px">
+    <span class="pill pill-ok">${daf ? 'Grant noted' : g.when === 'jan1' ? 'Gift scheduled' : 'Gift received'}</span>
+    <h1 class="display-sm" style="margin-top:20px">Thank you${first ? ', ' + esc(first) : ''}.</h1>
+    <p class="lead" style="margin-top:22px">${daf ? `We’ll watch for your ${g.daf.sponsor ? esc(g.daf.sponsor) + ' ' : ''}grant and email ${esc(g.email)} when it arrives.` : g.when === 'jan1' ? `We’ll charge ${usd2(c.total)} on January 1, 2027 and email your receipt to ${esc(g.email)}. You can cancel any time before then.` : `Your receipt for ${usd2(c.total)} is on its way to ${esc(g.email)}.`} Reference <strong class="tnum" style="font-weight:600">${esc(g.ref)}</strong>.</p>
+    ${!daf && c.credit ? `<div class="paper" style="padding:20px 24px;margin-top:32px">
+      <div class="sumrow" style="padding-top:0"><span>Credit-eligible ${c.givers === 2 ? '(each spouse ' + usd2(Math.min(c.per, CAP)) + ')' : ''}</span><span class="v">${usd2(c.credit)}</span></div>
+      <div class="sumrow" style="border-bottom:0"><span>Regular charitable gift</span><span class="v">${usd2(c.extra)}</span></div></div>` : ''}
+    <ol class="timeline" style="margin-top:32px">
+      <li><span class="when">By Jan 31</span><p class="body">${daf ? 'A thank-you letter for your records. Your DAF sponsor issues the tax receipt for the original contribution.' : `Your written acknowledgment${c.givers === 2 ? 's, one for each spouse,' : ''} with your IRS donor number.`}</p></li>
+      ${daf ? '' : `<li><span class="when">Tax time</span><p class="body">Enter the donor number on Form 8525 and attach it to your Form 1040.</p></li>`}
+    </ol>
+    <div class="btn-row" style="margin-top:32px"><a class="btn btn-primary" href="#donors">Back to Donors</a><button type="button" class="btn btn-ghost" data-action="give-again">Make another gift</button></div>
+  </section></div>`;
+}
+
+/* ───────────────────────── Router ───────────────────────── */
+
+const ROUTES = { home, families, apply, schools, donors, give, about: home };
+let PORTAL = null;
+try {
+  PORTAL = window.LH_PORTALS ? window.LH_PORTALS({ S, esc, inp, seg, tick, stepper, toast, rerender: () => rerender(), usd, usd2, num, SCHOOLS, schoolById }) : null;
+  if (PORTAL) Object.assign(ROUTES, PORTAL.routes);
+} catch (err) { console.error('portals failed to load', err); }
+let current = '';
+function routeName() { const h = (location.hash || '').replace('#', ''); return ROUTES[h] ? h : 'home'; }
+function render(keepScroll) {
+  const name = routeName();
+  const changed = name !== current;
+  const y = window.scrollY;
+  $('#app').innerHTML = ROUTES[name]();
+  document.querySelectorAll('[data-nav]').forEach(a => {
+    const on = a.dataset.nav === name || (name === 'apply' && a.dataset.nav === 'families') || (name === 'give' && a.dataset.nav === 'donors') || (PORTAL && PORTAL.navFor(name) === a.dataset.nav);
+    if (on && a.dataset.nav !== 'give') a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+  });
+  if (changed) {
+    current = name;
+    if (name === 'about') { const el = $('#about-sec'); if (el) el.scrollIntoView(); } else window.scrollTo(0, 0);
+  } else if (keepScroll) window.scrollTo(0, y);
+}
+function rerender() { render(true); }
+function focusFlowTop() { const f = document.querySelector('.stepper'); if (f) f.scrollIntoView({ block: 'start' }); }
+window.addEventListener('hashchange', () => render(false));
+
+/* ───────────────────────── Events ───────────────────────── */
+
+function onBind(e) {
+  const el = e.target.closest('[data-bind]');
+  if (!el) return;
+  const path = el.dataset.bind;
+  let v = el.type === 'checkbox' ? el.checked : el.value;
+  if (el.type === 'radio' && !el.checked) return;
+  set(path, v);
+  if (path.startsWith('app.')) saveDraft();
+  if (path === 'give.filing') { S.give.from = 'both'; S.give.amount = v === 'joint' ? '3400' : '1700'; }
+  if (path === 'give.from') S.give.amount = v === 'both' ? '3400' : '1700';
+  if (el.hasAttribute('data-rerender')) { if (e.type === 'change') rerender(); return; }
+  if (el.dataset.live && PORTAL && PORTAL.onLive) PORTAL.onLive(el.dataset.live);
+  if (el.dataset.live === 'elig') { const o = $('#elig-out'); if (o) o.innerHTML = eligOut(eligResult()); }
+  if (el.dataset.live === 'give' || path.startsWith('give.')) { const s = $('#give-summary'); if (s) s.innerHTML = giveSummary(); }
+  if (el.dataset.live === 'schools') { const l = $('#school-list'); if (l) l.innerHTML = schoolRows(SCHOOLS.filter(s => !S.q.trim() || (s.name + ' ' + s.city).toLowerCase().includes(S.q.trim().toLowerCase()))); }
+  if (path === 'elig.size' && routeName() === 'families') rerender();
+}
+document.addEventListener('input', onBind);
+document.addEventListener('change', e => {
+  if (e.target.dataset && e.target.dataset.actionChange === 'doc') { const f = e.target.files && e.target.files[0]; S.app.home.doc = f ? f.name : ''; rerender(); return; }
+  onBind(e);
+});
+
+document.addEventListener('click', e => {
+  const sc = e.target.closest('[data-scroll]');
+  if (sc) { e.preventDefault(); const t = document.getElementById(sc.dataset.scroll); if (t) t.scrollIntoView({ behavior: 'smooth' }); return; }
+  const b = e.target.closest('[data-action]');
+  if (!b) return;
+  const a = b.dataset.action;
+  if (PORTAL && PORTAL.onClick(a, b, e)) return;
+  if (a === 'kid-add') { S.app.kids.push({ first: '', last: S.app.parent.last || '', dob: '', grade: '', school: '' }); saveDraft(); rerender(); }
+  if (a === 'kid-remove') { S.app.kids.splice(+b.dataset.i, 1); saveDraft(); rerender(); }
+  if (a === 'app-back') { S.app.step--; S.app.err = ''; rerender(); focusFlowTop(); }
+  if (a === 'claim') { Object.assign(S.claim, { id: b.dataset.id, step: 'confirm', err: '', code: '', auth: false }); rerender(); window.scrollTo(0, 0); }
+  if (a === 'claim-cancel') { e.preventDefault(); S.claim.id = null; rerender(); const l = $('#list'); if (l) l.scrollIntoView(); }
+  if (a === 'claim-resend') { S.claim.code = ''; S.claim.err = ''; rerender(); toast('New code sent to ' + S.claim.email); }
+  if (a === 'give-back') { S.give.step--; S.give.err = ''; rerender(); focusFlowTop(); }
+  if (a === 'give-daf') { e.preventDefault(); S.give.method = 'daf'; S.give.step = 0; location.hash = 'give'; }
+  if (a === 'give-again') { Object.assign(S.give, { ref: '', step: 0, err: '', designate: false, card: '', exp: '', cvc: '' }); rerender(); window.scrollTo(0, 0); }
+  if (a === 'pay') { finishGive(); }
+  if (a === 'copy') {
+    const t = b.dataset.text;
+    const done = () => toast('Copied');
+    try { navigator.clipboard.writeText(t).then(done, () => selectText(b)); } catch (err) { selectText(b); }
+  }
+});
+function selectText(btn) { const v = btn.parentElement.querySelector('.v'); if (!v) return; const r = document.createRange(); r.selectNodeContents(v); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('Selected. Press Ctrl+C or ⌘C to copy.'); }
+
+function finishGive() { S.give.ref = refNo('LH-G27'); S.give.err = ''; rerender(); window.scrollTo(0, 0); }
+
+document.addEventListener('submit', e => {
+  const f = e.target.dataset.form;
+  if (!f) return;
+  e.preventDefault();
+  if (PORTAL && PORTAL.onSubmit(f, e)) return;
+  if (f === 'notify') { S.notified = true; rerender(); toast('We’ll email you when giving opens.'); }
+  if (f === 'app') {
+    const miss = appValidate(S.app.step);
+    if (miss.length) { S.app.err = miss.join(', '); rerender(); focusFlowTop(); return; }
+    S.app.err = '';
+    if (S.app.step < 3) { S.app.step++; rerender(); focusFlowTop(); }
+    else { S.app.ref = refNo('LH-A27'); clearDraft(); rerender(); window.scrollTo(0, 0); }
+  }
+  if (f === 'req') { const r = S.req; if (!r.name || !/^\S+@\S+\.\S+$/.test(r.email)) { toast('Add the school name and your email.'); return; } r.sent = true; rerender(); }
+  if (f === 'claim') {
+    const c = S.claim, s = schoolById(c.id);
+    if (!c.name) c.err = 'Add your full name.';
+    else if (!c.email.toLowerCase().endsWith('@' + s.domain)) c.err = `Use your @${esc(s.domain)} email so we can confirm you work at ${esc(s.name)}. No school email? Email [schools@lionheartsgo.org] and we’ll verify through your main office.`;
+    else if (!c.auth) c.err = 'Confirm you’re authorized to sign for the school.';
+    else { c.err = ''; c.step = 'code'; }
+    rerender(); focusFlowTop();
+  }
+  if (f === 'code') {
+    const c = S.claim;
+    if (!/^\d{6}$/.test(c.code.trim())) { c.err = 'Enter the six digits from the email.'; rerender(); return; }
+    c.err = ''; c.step = 'done'; schoolById(c.id).status = 'partner'; rerender(); focusFlowTop();
+  }
+  if (f === 'give') {
+    const miss = giveValidate(S.give.step);
+    if (miss.length) { S.give.err = miss.join(', '); rerender(); focusFlowTop(); return; }
+    S.give.err = '';
+    if (S.give.step < 2) { S.give.step++; rerender(); focusFlowTop(); return; }
+    if (S.give.method === 'daf') { S.give.daf.sent = true; }
+    finishGive();
+  }
+});
+
+render(false);
+})();
+</script>
