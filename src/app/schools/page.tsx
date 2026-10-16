@@ -9,10 +9,10 @@ export default async function Schools({ searchParams }: { searchParams: Promise<
   const list = (schools ?? []).filter((s) => !q || `${s.name} ${s.city}`.toLowerCase().includes(q.toLowerCase()));
   return (
     <>
-      <div className="band band-gilt"><section className="wrap split" style={{ paddingBlock: '80px 64px' }}>
-        <div><span className="eyebrow">For schools</span><h1 className="display-sm" style={{ marginTop: 18 }}>Your school is already on our list.</h1>
+      <div className="band band-field"><section className="wrap split" style={{ paddingBlock: '72px 80px' }}>
+        <div><h1 className="display-sm" style={{ marginTop: 0 }}>Your school is already on our list.</h1>
           <p className="lead" style={{ marginTop: 24 }}>Find your school, say yes, and verify with your school email. It costs your school nothing and is non-exclusive.</p></div>
-        <div className="rows" style={{ borderTop: '1px solid var(--color-text)' }}>
+        <div className="rows" style={{ borderTop: '2px solid rgba(255,255,255,.5)' }}>
           {[['1', 'Find your school', 'Search below.'], ['2', 'Verify', 'We email a six-digit code to your school address.'], ['3', 'Sign and get paid', 'Accept the partnership terms and add your bank account. We pay tuition by ACH.']].map(([n, t, b]) => (
             <div key={n}><span className="numeral" style={{ fontSize: 20 }}>{n}</span><div><p className="rows-title">{t}</p><p className="body">{b}</p></div></div>))}
         </div>

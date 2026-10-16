@@ -16,7 +16,7 @@ export default async function Onboarding() {
   ].filter(Boolean) as [string, string][];
   return (
     <div className="band"><section className="wrap" style={{ paddingBlock: '64px 84px' }}>
-      <span className="eyebrow">Welcome</span>
+      
       <h1 className="h2" style={{ margin: '14px 0 8px' }}>What brings you to Lionheart?</h1>
       <p className="body">Signed in as {s.email}. You can add more than one role to the same account.</p>
       {go.length > 0 && <div className="btn-row" style={{ marginTop: 20 }}>{go.map(([h, l]) => <Link key={h} className="btn btn-primary" href={h}>{l}</Link>)}</div>}

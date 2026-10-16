@@ -6,7 +6,7 @@ export default async function SignIn({ searchParams }: { searchParams: Promise<{
     <div className="band band-gilt">
       <section className="wrap split" style={{ paddingBlock: '72px 84px' }}>
         <div className="stack-m">
-          <span className="eyebrow">Sign in</span>
+          
           <h1 className="display-sm">One account for families, schools and donors.</h1>
           <p className="lead">No passwords. We email you a sign-in link. School staff and board members also confirm with a second factor.</p>
         </div>
