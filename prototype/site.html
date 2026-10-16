@@ -5,31 +5,36 @@
 
 <div class="proto band"><div class="wrap"><strong>Prototype</strong><span>Sample data. No payments are processed and nothing you enter leaves this page.</span></div></div>
 
+<div class="topbar band"><div class="wrap"><span>A Tennessee scholarship granting organization under the federal scholarship tax credit</span><span class="topbar-links"><a href="#signin" data-nav="signin">Sign in</a><a href="#about">About</a></span></div></div>
 <header class="site-head band">
   <div class="wrap">
     <nav class="nav" aria-label="Main">
-      <a href="#home" class="brand" aria-label="Lionheart, home">
-        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2.5 35.5 8v12c0 8.6-6.3 15-15.5 17.5C10.8 35 4.5 28.6 4.5 20V8Z" fill="#eaa93a"/><path d="M14.5 11.5h5v13h7.5v4.5H14.5Z" fill="#12302a"/></svg>
-        <span><span class="brand-name">Lionheart</span><span class="brand-sub">Scholarships for Tennessee Christian schools</span></span>
-      </a>
-      <a href="#give" class="btn btn-gold btn-sm nav-give-mobile">Give</a>
-      <div class="nav-links">
+      <div class="nav-left nav-links">
         <a href="#donors" data-nav="donors">Donors</a>
         <a href="#families" data-nav="families">Families</a>
         <a href="#schools" data-nav="schools">Schools</a>
         <a href="#about" data-nav="about">About</a>
-        <a href="#signin" data-nav="signin">Sign in</a>
-        <a href="#give" class="btn btn-gold" data-nav="give">Give $3,400</a>
+      </div>
+      <a href="#home" class="brand" aria-label="Lionheart, home">
+        <span class="brand-loc">Nashville · Tennessee</span>
+        <span class="brand-word"><i></i><span class="brand-name">LIONHEART</span><i></i></span>
+      </a>
+      <div class="nav-right">
+        <a href="#apply" data-nav="apply">Apply</a>
+        <a href="#give" class="btn btn-crimson btn-sm" data-nav="give">Make a gift</a>
       </div>
     </nav>
   </div>
+  <div class="wrap head-rule"></div>
+  <span class="scroll-meter" aria-hidden="true"></span>
 </header>
 
 <main id="app"></main>
 
-<footer class="band band-ink">
+<footer class="band site-foot">
+  <div class="wrap wave"></div>
   <div class="wrap footer">
-    <div><a href="#home" class="brand" style="margin-bottom:14px"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2.5 35.5 8v12c0 8.6-6.3 15-15.5 17.5C10.8 35 4.5 28.6 4.5 20V8Z" fill="#eaa93a"/><path d="M14.5 11.5h5v13h7.5v4.5H14.5Z" fill="#12302a"/></svg><span class="brand-name">Lionheart</span></a><p>A Tennessee scholarship granting organization under the federal education scholarship tax credit.</p></div>
+    <div><p class="foot-word">LIONHEART</p><p style="margin-top:12px">A Tennessee scholarship granting organization under the federal scholarship tax credit.</p></div>
     <div><strong>Contact</strong>[hello@lionheartsgo.org]<br>[Mailing address], Nashville, TN</div>
     <div><strong>Organization</strong>501(c)(3) public charity [status pending]<br>EIN [XX-XXXXXXX]</div>
     <div><strong>Please note</strong>Tax information here is general guidance, not tax advice. Talk with your tax preparer.</div>
@@ -133,97 +138,180 @@ function toast(msg) { const t = $('#toast'); t.textContent = msg; t.hidden = fal
 
 /* ───────────────────────── Pages ───────────────────────── */
 
+function certCard(joint) {
+  const amt = joint ? 3400 : 1700;
+  return `<div class="cert-in"><div class="cert-core" data-rosette="cert">
+      <div class="wave"></div>
+      <p class="cert-title">CERTIFICATE OF GIFT</p>
+      <p class="cert-head">A scholarship, at no cost to you</p>
+      <div class="cert-row"><span>Gift of ${joint ? 'a married couple' : 'one taxpayer'}</span><span class="v" data-to="${amt}">${usd(amt)}</span></div>
+      <div class="cert-row rule"><span>Federal tax credit</span><span class="v" data-to="${amt}" data-neg>−${usd(amt)}</span></div>
+      <div class="cert-net"><span>Net cost to you</span><span class="cert-zero">$0</span></div>
+      <p class="cert-note">${joint ? 'Each spouse gives $1,700. ' : ''}Gifts made on or after January 1, 2027, up to the federal tax you owe.</p>
+      <div class="cert-sign"><div><svg viewBox="0 0 150 40" aria-hidden="true"><path d="M4 30C12 26 16 8 22 8s-2 24 6 22 8-20 14-18-4 18 4 16 10-14 16-12-2 10 6 9 12-6 18-6 6 4 14 3 16-4 24-6 10-1 18-2"/></svg><div class="line">For the Board of Directors</div></div><div class="mark">LIONHEART</div></div>
+    </div></div>`;
+}
+
+const STAR = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 7.4 4.6 12 6 7.4 7.4 6 12 4.6 7.4 0 6 4.6 4.6Z"/></svg>';
+
 function home() {
   const joint = S.give.filing !== 'single';
+  const amt = joint ? 3400 : 1700;
+  const verse = 'The righteous are bold as a lion.'.split(' ').map((w, i) => `<span class="w" style="--d:${(0.15 + i * 0.12).toFixed(2)}s">${i === 0 ? '“' : ''}${w}${i === 6 ? '”' : ''}</span>`).join(' ');
+  const limits = [1, 2, 3, 4, 5, 6, 7, 8].map(incomeLimit);
+  const roman = ['I', 'II', 'III', 'IV'];
   return `
-  <div class="band band-field">
+  <div class="band band-field" data-rosette="hero">
     <section class="wrap hero">
       <div>
-        <h1 class="display">Your tax bill can pay a child’s tuition.</h1>
-        <p class="lead" style="margin-top:28px">Give up to $1,700 each, or $3,400 as a married couple. The new federal scholarship tax credit takes every dollar off your tax bill, and the money becomes a scholarship at a Tennessee Christian school.</p>
-        <div class="hero-cta"><a class="btn btn-gold" href="#give">Give $${joint ? '3,400' : '1,700'}</a><a class="btn btn-secondary" href="#families">Apply for a scholarship</a></div>
+        <p class="hero-verse" data-rv>“The righteous are bold as a lion.” Proverbs 28:1</p>
+        <h1 class="display lines" data-io><span class="ln"><span>Your federal taxes,</span></span><span class="ln"><span style="--d:.12s">a child’s Christian</span></span><span class="ln"><span style="--d:.24s">education.</span></span></h1>
+        <div class="ornament grow" data-io>${STAR}</div>
+        <p class="lead" data-rv style="--d:.55s">Under the new federal scholarship tax credit, every dollar you give to Lionheart, up to $1,700 a person, comes back off your federal tax bill. It becomes tuition at a Tennessee Christian school.</p>
+        <div class="hero-cta" data-rv style="--d:.7s"><a class="btn btn-gold" href="#give" id="hero-give">${joint ? 'Give $3,400 as a couple' : 'Give $1,700'} <span class="arr" aria-hidden="true">→</span></a><a class="btn btn-secondary" href="#families">Apply for a scholarship</a></div>
       </div>
-      <div id="redirect">${redirectCard()}</div>
+      <div class="cert-stage" data-rv="scale" style="--d:.25s">
+        <div class="cert-filing">${seg('give.filing', 'home-filing', [['joint', 'Married, filing jointly'], ['single', 'Single']], 'Filing status')}</div>
+        <div class="cert" id="cert" data-io="cert">${certCard(joint)}</div>
+      </div>
     </section>
+  </div>
+
+  <div class="band count-band">
+    <div class="wrap count" data-countdown="2027-01-01T00:00:00-06:00">
+      <p class="count-label" data-count-label>The credit opens <em>January 1, 2027</em>.</p>
+      <div class="count-digits" aria-hidden="true">
+        ${['Days', 'Hours', 'Min', 'Sec'].map((u, i) => `${i ? '<span class="count-sep">:</span>' : ''}<div class="count-unit"><span class="count-num" data-u="${u}">00</span><span class="count-cap">${u}</span></div>`).join('')}
+      </div>
+      <p class="sr" data-count-sr></p>
+      <a class="btn btn-gold btn-sm" href="#give">Schedule your gift <span class="arr" aria-hidden="true">→</span></a>
+    </div>
   </div>
 
   <div class="band">
     <section class="wrap sec">
-      <h2 class="h2" style="max-width:20ch">How a gift becomes a scholarship</h2>
-      <ol class="path" style="list-style:none;padding:0">
-        ${[['From Jan 1, 2027', 'You give', 'Each spouse gives $1,700 by card, Apple Pay or PayPal. We cover the card fees.'],
-           ['By Jan 31', 'You get your tax letter', 'It carries your IRS donor number for Form 8525. The credit comes off your tax bill.'],
-           ['April and July', 'Families are awarded', 'By need, with renewals and siblings first. No donor picks a student.'],
-           ['Aug 20 and Jan 20', 'Schools are paid', 'Tuition goes straight to the school once it confirms the student is enrolled.']]
-          .map(([d, t, b]) => `<li class="path-step"><p class="path-date">${d}</p><span class="path-dot" aria-hidden="true"></span><h3 class="path-title">${t}</h3><p class="body">${b}</p></li>`).join('')}
-      </ol>
+      <div class="center">
+        <span class="kicker" data-rv>Follow the money</span>
+        <h2 class="h2" data-rv style="margin-top:16px;--d:.08s">How a gift becomes a scholarship</h2>
+        <p class="lead" data-rv style="margin:18px auto 0;--d:.16s">One gift, followed through one school year.</p>
+      </div>
+      <div class="journey" data-journey data-full="${amt}" style="margin-top:48px">
+        <div class="journey-stage" data-rv="left">
+          <p class="journey-amt" data-j-amt>${usd(amt)}</p>
+          <p class="journey-where" data-j-where>Given to Lionheart from your own account</p>
+          <svg class="journey-map" viewBox="0 0 520 160" aria-hidden="true">
+            <path class="track" d="M40 80C100 80 130 40 190 40S290 112 340 112 430 64 480 64"/>
+            <path class="trail" d="M40 80C100 80 130 40 190 40S290 112 340 112 430 64 480 64"/>
+            ${[[40, 80, 'Your gift'], [190, 40, 'Lionheart'], [340, 112, 'A family'], [480, 64, 'The school']].map(([x, y, l], i) => `<g class="node" data-node="${i}"><circle class="o" cx="${x}" cy="${y}" r="21"/><circle class="i" cx="${x}" cy="${y}" r="16.5"/><text class="n" x="${x}" y="${y + 1}">${roman[i]}</text><text x="${x}" y="${y > 70 ? y - 32 : y + 42}">${l}</text></g>`).join('')}
+            <circle class="coin" r="8" cx="40" cy="80"/>
+          </svg>
+        </div>
+        <ol class="journey-steps">
+          ${[['From January 1, 2027', 'You give', 'Up to $1,700 each, by card, Apple Pay or PayPal. We cover the card fees, and your gift goes into a scholarship fund kept apart from everything else.', 'full', 'Given to Lionheart from your own account'],
+             ['By January 31', 'You claim the credit', 'Your acknowledgment carries an IRS donor number for Form 8525. The full gift comes off your federal tax, dollar for dollar.', 'zero', 'What it costs you, after the credit'],
+             ['Spring and summer', 'A family is awarded', 'We award by need, with renewing students and their siblings first. No donor ever picks a student; a published formula does.', 'full', 'Awarded to a Tennessee family'],
+             ['August and January', 'A school is paid', 'Once the school confirms enrollment, tuition goes straight to it by ACH, with two signatures on every payment.', 'full', 'Paid as tuition, straight to the school']]
+            .map(([when, t, b, a, where], i) => `<li class="journey-step" data-amt="${a}" data-where="${esc(where)}"><span class="numeral">${roman[i]}</span><span class="when">${when}</span><h3>${t}</h3><p class="body">${b}</p></li>`).join('')}
+        </ol>
+      </div>
     </section>
   </div>
 
   <div class="band band-surface" style="border-top:1px solid var(--line)">
     <section class="wrap sec">
-      <h2 class="h2" style="margin-bottom:28px">Start where you are</h2>
-      <div class="doors">
-        ${[['#donors', 'Donors', 'Give, and owe that much less', '<b>$0 net cost</b> for a married couple with at least $3,400 of federal tax. About five minutes.'],
-           ['#families', 'Families', 'Apply for a scholarship', '<b>Most Tennessee families qualify.</b> The limit is three times your area’s median income. Apply in about ten minutes.'],
-           ['#schools', 'School leaders', 'Your school is already listed', '<b>No cost, non-exclusive.</b> Verify with your school email in two minutes; we pay tuition by ACH.']]
-          .map(([h, who, t, f]) => `<a class="door" href="${h}"><div><p class="door-who">${who}</p><p class="door-title">${t}</p></div><p class="door-fact">${f}</p><span class="door-go" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3.5 9h11M10 4.5 14.5 9 10 13.5" fill="none" stroke="#17221d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>`).join('')}
+      <div class="center"><span class="kicker" data-rv>Take part</span><h2 class="h2" data-rv style="margin:16px 0 52px;--d:.08s">Three ways in</h2></div>
+      <div class="ways">
+        ${[['#donors', 'For donors', '$0', 'net cost for a couple who gives $3,400', 'Redirect federal tax you already owe. About five minutes, by card, Apple Pay or PayPal.', 'How giving works'],
+           ['#families', 'For families', 'K–12', 'most Tennessee families qualify', 'Household income up to three times your area’s median. Apply in about ten minutes.', 'Check eligibility'],
+           ['#schools', 'For schools', '2 min.', 'to claim your school', 'You’re already on our list. Verify with your school email; no cost, non-exclusive.', 'Find your school']]
+          .map(([h, who, n, t, b, go], i) => `<a class="way" href="${h}" data-rv style="--d:${(i * 0.12).toFixed(2)}s"><div class="wave"></div><div class="way-body"><span class="way-who">${who}</span><span class="way-n">${n}</span><span class="way-t">${t}</span><span class="way-b">${b}</span><span class="way-go">${go}</span></div></a>`).join('')}
       </div>
     </section>
   </div>
 
   <div class="band">
-    <section id="about-sec" class="wrap sec">
-      <h2 class="h2" style="margin-bottom:32px;max-width:22ch">What we promise every donor</h2>
-      <div class="proof">
-        ${[['90%', 'At least 90% to scholarships', 'Federal law requires it. We track it every day and publish it every year.'],
-           ['0', 'Students chosen by donors', 'Awards follow a published formula. Ties go to a lottery whose seed is read into the board minutes.'],
-           ['2', 'Approvals on every payment', 'One from staff and one from a board officer before money reaches a school.'],
-           ['Jan 31', 'Your tax letter, every year', 'With your IRS donor number, by email or mail. Couples get one each.']]
-          .map(([n, t, b]) => `<div><p class="proof-n">${n}</p><h3 class="proof-t">${t}</h3><p class="body" style="font-size:15.5px">${b}</p></div>`).join('')}
+    <section class="wrap sec qual">
+      <div>
+        <span class="kicker" data-rv>For families</span>
+        <h2 class="h2" data-rv style="margin-top:16px;--d:.08s">Most Tennessee families qualify.</h2>
+        <p class="lead" data-rv style="margin-top:20px;--d:.16s">The limit is three times your area’s median income, adjusted for the size of your household. Slide to see the statewide figure for yours.</p>
+        <div class="btn-row" data-rv style="margin-top:30px;--d:.24s"><a class="btn btn-primary" href="#families">Check eligibility <span class="arr" aria-hidden="true">→</span></a><a class="btn btn-ghost" href="#apply">Start an application</a></div>
+      </div>
+      <div class="panel qual-panel" data-rv="right" data-qualify="${limits.join(',')}">
+        <span class="card-kicker">Household income up to</span>
+        <div class="qual-out"><span class="qual-num" data-q-num>${usd(limits[3])}</span></div>
+        <p class="qual-size" data-q-size>for a household of 4</p>
+        <input type="range" class="range" min="1" max="8" value="4" step="1" aria-label="People in your household" data-q-range>
+        <div class="range-ticks" aria-hidden="true">${[1, 2, 3, 4, 5, 6, 7, '8+'].map(n => `<span>${n}</span>`).join('')}</div>
+        <div class="qual-people" data-q-people aria-hidden="true"></div>
+        <p class="hint" style="margin-top:16px">Reference: 3 × Tennessee’s $92,300 median family income, scaled by household size. Your county’s figure decides, and it’s higher in much of Middle Tennessee.</p>
       </div>
     </section>
   </div>
 
-  <div class="band band-ink">
-    <section class="wrap sec split" style="align-items:end">
-      <div><p class="verse">The righteous are bold as a lion.</p><p class="verse-ref">Proverbs 28:1</p></div>
-      <p class="lead" style="color:#c9d6cd">Lionheart exists so more Tennessee families can choose a Christian education. We take our name from Proverbs: courage in what we fund, and care in how we fund it.</p>
+  <div class="band band-surface" style="border-top:1px solid var(--line);padding-bottom:64px">
+    <section class="wrap sec split" style="align-items:end;padding-bottom:40px">
+      <div><span class="kicker" data-rv>For schools</span><h2 class="h2" data-rv style="margin-top:16px;--d:.08s">Your school is already on our list.</h2></div>
+      <div data-rv style="--d:.16s"><p class="lead">Confirm with your school email in two minutes. Partnering is free and non-exclusive, and we pay tuition by direct deposit.</p><div class="btn-row" style="margin-top:24px"><a class="btn btn-secondary" href="#schools">Find your school <span class="arr" aria-hidden="true">→</span></a></div></div>
+    </section>
+    <div class="marquee" data-marquee>
+      <div class="marquee-row">${SCHOOLS.map(s => `<span class="marquee-item">${esc(s.name)} <small>${esc(s.city)}</small></span>`).join('')}</div>
+      <div class="marquee-row rev">${SCHOOLS.slice().reverse().map(s => `<span class="marquee-item">${esc(s.name)}</span>`).join('')}</div>
+    </div>
+  </div>
+
+  <div class="band band-crimson" data-rosette="side">
+    <section class="scripture" data-io>
+      <p class="verse" style="max-width:none">${verse}</p>
+      <p class="verse-ref" data-rv style="--d:1s">Proverbs 28:1</p>
+      <p class="body" data-rv style="--d:1.15s">Lionheart was founded so more Tennessee families can choose a Christian education. We take our name from Proverbs: courage in what we fund, and care in how we fund it.</p>
+    </section>
+  </div>
+
+  <div class="band">
+    <section id="about-sec" class="wrap sec charter">
+      <div>
+        <span class="kicker" data-rv>About Lionheart</span>
+        <h2 class="h2" data-rv style="margin-top:16px;--d:.08s">Our charter with every donor</h2>
+        <p class="lead dropcap" data-rv style="margin-top:26px;--d:.16s">We hold your gift as a trust. The law sets the floor; these four articles are the standard we hold ourselves to, and the board signs them every year.</p>
+        <div class="gauge" data-io="gauge">
+          <div class="gauge-wrap"><svg viewBox="0 0 150 150" aria-hidden="true"><circle class="ring" cx="75" cy="75" r="71"/><circle class="bg" cx="75" cy="75" r="60"/><circle class="fg" cx="75" cy="75" r="60" data-pct="90"/><circle class="ring" cx="75" cy="75" r="49"/></svg><span class="gauge-n"><span><span data-count="90">90</span><sup>%</sup></span></span></div>
+          <p class="body"><b style="font-family:var(--serif);color:var(--navy)">At least 90 cents of every dollar</b> becomes tuition. Federal law requires it; we track it daily and publish it every year.</p>
+        </div>
+      </div>
+      <div class="articles" data-rv="right">
+        ${[['Scholarships first.', 'At least 90 cents of every dollar becomes tuition.'],
+           ['No favors.', 'Donors never choose a student. Awards follow a published formula, and ties go to a lottery recorded in the board minutes.'],
+           ['Two signatures.', 'Every payment to a school is approved by staff and by a board officer.'],
+           ['Open books.', 'An independent audit and a public report, every year.']]
+          .map(([t, b], i) => `<div class="article" data-rv style="--d:${(0.15 + i * 0.12).toFixed(2)}s"><span class="numeral">${roman[i]}.</span><p><b>${t}</b> ${b}</p></div>`).join('')}
+      </div>
     </section>
   </div>
   ${notifyBand()}`;
 }
 
-function redirectCard() {
-  const joint = S.give.filing !== 'single';
-  const amt = joint ? 3400 : 1700;
-  const on = !!S.redirect;
-  return `<div class="redirect">
-    <div class="redirect-top">
-      <p class="redirect-q">Where $${amt.toLocaleString('en-US')} of your federal tax goes</p>
-      ${seg('give.filing', 'home-filing', [['joint', 'Married'], ['single', 'Single']], 'Filing status')}
-    </div>
-    <button type="button" class="switch" role="switch" aria-checked="${on}" data-action="redirect"><span class="switch-track"></span>Give it through Lionheart</button>
-    <div style="margin-top:18px">
-      <div class="dest"><div class="dest-head"><div><p class="dest-name">U.S. Treasury</p><p class="dest-sub">Paid with your tax return</p></div><p class="dest-amt tnum${on ? ' zero' : ''}">$${on ? 0 : amt.toLocaleString('en-US')}</p></div><div class="dest-track"><div class="dest-fill" style="width:${on ? 0 : 100}%"></div></div></div>
-      <div class="dest"><div class="dest-head"><div><p class="dest-name">A Tennessee child’s tuition</p><p class="dest-sub">Paid to a Christian school through Lionheart</p></div><p class="dest-amt tnum${on ? '' : ' zero'}">$${on ? amt.toLocaleString('en-US') : 0}</p></div><div class="dest-track"><div class="dest-fill gold" style="width:${on ? 100 : 0}%"></div></div></div>
-    </div>
-    <div class="redirect-foot"><span style="font-weight:650">Your total cost, either way</span><span class="v">$${amt.toLocaleString('en-US')}</span></div>
-    <p class="redirect-note">Credit applies to gifts made on or after January 1, 2027, up to the federal tax you owe. Unused credit carries forward five years.</p>
-  </div>`;
-}
-
 function notifyBand() {
   return `<div class="band band-gilt">
-    <section class="wrap split" style="padding-block:64px;align-items:center">
-      <div><h2 class="h3" style="font-size:28px;font-variation-settings:'wdth' 118">Giving opens January 1, 2027</h2>
-      <p class="body" style="margin-top:10px;max-width:52ch">Leave your email and we’ll tell you the day the credit opens. One short letter a month at most.</p></div>
-      <form data-form="notify" style="display:flex;gap:12px;max-width:520px;width:100%;flex-wrap:wrap">
+    <section class="wrap notify">
+      <div data-rv><h2>Giving opens January 1, 2027</h2><p class="body" style="margin-top:8px">Leave your email and we’ll write the day the credit opens. One short letter a month at most.</p></div>
+      <form data-form="notify" data-rv style="display:flex;gap:10px;flex-wrap:wrap;flex:0 1 520px;--d:.1s">
         <label class="sr" for="notify-email">Email address</label>
         <input class="input" id="notify-email" type="email" required placeholder="you@example.com" style="flex:1 1 240px">
         <button type="submit" class="btn btn-primary">${S.notified ? 'You’re on the list' : 'Notify me'}</button>
       </form>
     </section></div>`;
+}
+
+function updateHomeFiling() {
+  const joint = S.give.filing !== 'single';
+  const amt = joint ? 3400 : 1700;
+  const c = document.getElementById('cert');
+  if (c) { c.innerHTML = certCard(joint); if (window.LHMotion) window.LHMotion.refresh(c, true); }
+  const b = document.getElementById('hero-give');
+  if (b) b.innerHTML = (joint ? 'Give $3,400 as a couple' : 'Give $1,700') + ' <span class="arr" aria-hidden="true">→</span>';
+  const j = document.querySelector('[data-journey]');
+  if (j) { j.dataset.full = amt; if (window.LHMotion) window.LHMotion.journeyRefresh(true); }
 }
 
 /* ── Families ── */
@@ -651,7 +739,7 @@ function donors() {
       </div>
       <figure class="paper letter" style="margin:0">
         <span class="specimen">Specimen</span>
-        <div class="letter-head"><div style="display:flex;gap:10px;align-items:center"><svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2.5 35.5 8v12c0 8.6-6.3 15-15.5 17.5C10.8 35 4.5 28.6 4.5 20V8Z" fill="#eaa93a"/><path d="M14.5 11.5h5v13h7.5v4.5H14.5Z" fill="#12302a"/></svg><div><div class="brand-name" style="font-size:16px">Lionheart</div><div class="brand-sub" style="opacity:1;color:var(--ink-3)">Scholarship granting organization</div></div></div><div class="small muted" style="text-align:right">Tax year 2027<br>Issued January 2028</div></div>
+        <div class="letter-head"><div style="display:flex;gap:10px;align-items:center"><span class="brand-seal" aria-hidden="true">L</span><div><div style="font-family:var(--display);font-size:17px;letter-spacing:.18em;color:var(--navy)">LIONHEART</div><div class="brand-sub" style="opacity:1;color:var(--ink-3)">Scholarship granting organization</div></div></div><div class="small muted" style="text-align:right">Tax year 2027<br>Issued January 2028</div></div>
         <p class="h4" style="margin-bottom:12px">Written acknowledgment of qualified contribution</p>
         <dl>
           <dt>Donor</dt><dd>Margaret A. Ellis</dd>
@@ -831,6 +919,7 @@ function giveDone() {
 /* ───────────────────────── Router ───────────────────────── */
 
 const ROUTES = { home, families, apply, schools, donors, give, about: home };
+const PUBLIC = ['home', 'about', 'families', 'schools', 'donors'];
 let PORTAL = null;
 try {
   PORTAL = window.LH_PORTALS ? window.LH_PORTALS({ S, esc, inp, seg, tick, stepper, toast, rerender: () => rerender(), usd, usd2, num, SCHOOLS, schoolById }) : null;
@@ -847,6 +936,7 @@ function render(keepScroll) {
     const on = a.dataset.nav === name || (name === 'apply' && a.dataset.nav === 'families') || (name === 'give' && a.dataset.nav === 'donors') || (PORTAL && PORTAL.navFor(name) === a.dataset.nav);
     if (on && a.dataset.nav !== 'give') a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
   });
+  if (window.LHMotion) window.LHMotion.mount($('#app'), { animate: changed, route: name });
   if (changed) {
     current = name;
     if (name === 'about') { const el = $('#about-sec'); if (el) el.scrollIntoView(); } else window.scrollTo(0, 0);
@@ -866,7 +956,7 @@ function onBind(e) {
   if (el.type === 'radio' && !el.checked) return;
   set(path, v);
   if (path.startsWith('app.')) saveDraft();
-  if (path === 'give.filing') { S.give.from = 'both'; S.give.amount = v === 'joint' ? '3400' : '1700'; if (routeName() === 'home' && e.type === 'change') { rerender(); return; } }
+  if (path === 'give.filing') { S.give.from = 'both'; S.give.amount = v === 'joint' ? '3400' : '1700'; if (routeName() === 'home') { if (e.type === 'change') updateHomeFiling(); return; } }
   if (path === 'give.from') S.give.amount = v === 'both' ? '3400' : '1700';
   if (el.hasAttribute('data-rerender')) { if (e.type === 'change') rerender(); return; }
   if (el.dataset.live && PORTAL && PORTAL.onLive) PORTAL.onLive(el.dataset.live);
@@ -888,7 +978,6 @@ document.addEventListener('click', e => {
   if (!b) return;
   const a = b.dataset.action;
   if (PORTAL && PORTAL.onClick(a, b, e)) return;
-  if (a === 'redirect') { S.redirect = !S.redirect; const r = document.getElementById('redirect'); if (r) r.innerHTML = redirectCard(); return; }
   if (a === 'kid-add') { S.app.kids.push({ first: '', last: S.app.parent.last || '', dob: '', grade: '', school: '' }); saveDraft(); rerender(); }
   if (a === 'kid-remove') { S.app.kids.splice(+b.dataset.i, 1); saveDraft(); rerender(); }
   if (a === 'app-back') { S.app.step--; S.app.err = ''; rerender(); focusFlowTop(); }
@@ -947,7 +1036,5 @@ document.addEventListener('submit', e => {
 });
 
 render(false);
-// One orchestrated moment: on the first visit to the home page, the money moves from the Treasury to tuition.
-if (routeName() === 'home' && !S.redirect) setTimeout(() => { S.redirect = true; const r = document.getElementById('redirect'); if (r) r.innerHTML = redirectCard(); }, 900);
 })();
 </script>
