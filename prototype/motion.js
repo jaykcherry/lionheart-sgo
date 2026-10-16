@@ -202,6 +202,13 @@
     J.nodes.forEach((n, i) => n.classList.toggle('on', i <= act));
     if (act !== J.active || force) {
       J.steps.forEach((s, i) => s.classList.toggle('on', i === act));
+      J.el.querySelectorAll('.jdoc').forEach((d, i) => {
+        d.classList.toggle('on', i === act); d.classList.toggle('past', i < act);
+        const k = act - i;
+        d.style.zIndex = i === act ? 10 : i < act ? 5 - k : 0;
+        d.style.transform = i < act ? `translate(${12 * k}px, ${-11 * k}px) scale(${(1 - 0.04 * k).toFixed(2)}) rotate(${(1.6 * k).toFixed(1)}deg)` : '';
+        d.style.opacity = i < act ? (0.6 / k).toFixed(2) : '';
+      });
       const s = J.steps[act]; const full = +J.el.dataset.full || 3400;
       const target = s.dataset.amt === 'zero' ? 0 : full;
       J.whereEl.textContent = s.dataset.where;
@@ -268,6 +275,76 @@
     });
   }
 
+
+  /* ── credit calculator ── */
+  function calc(root) {
+    root.querySelectorAll('[data-calc]').forEach(box => {
+      if (box.dataset.wired) return; box.dataset.wired = '1';
+      const q = sel => box.querySelector(sel), o = k => q('[data-o="' + k + '"]'), b = k => q('[data-b="' + k + '"]');
+      const per = q('[data-c="per"]'), tax = q('[data-c="tax"]');
+      let shown = null, stop = null;
+      const upd = anim => {
+        const joint = (q('[data-c="filing"]:checked') || {}).value !== 'single';
+        const g = joint ? 2 : 1, p = +per.value, t = +tax.value;
+        const total = p * g, elig = Math.min(p, 1700) * g, now = Math.min(elig, t), later = elig - now, extra = total - elig, net = total - now;
+        per.style.setProperty('--fill', ((p - 100) / 4900 * 100) + '%');
+        tax.style.setProperty('--fill', (t / 20000 * 100) + '%');
+        o('per').textContent = usd(p); o('tax').textContent = usd(t);
+        o('perlab').textContent = joint ? 'Gift from each of you' : 'Your gift';
+        o('total').textContent = usd(total); o('now').textContent = usd(now); o('later').textContent = usd(later); o('extra').textContent = usd(extra);
+        [['now', now], ['later', later], ['extra', extra]].forEach(([k, v]) => { o(k).parentElement.classList.toggle('zero', !v); b(k).style.width = (total ? v / total * 100 : 0) + '%'; });
+        const each = joint ? ' each' : '';
+        let m;
+        if (t === 0) m = 'With no federal tax owed, none of the credit applies this year. All ' + usd(elig) + ' carries forward for up to five years.';
+        else if (later > 0) m = 'Your tax covers ' + usd(now) + ' of the credit. The other ' + usd(later) + ' carries forward for up to five years.';
+        else if (extra > 0) m = 'The ' + usd(extra) + ' above $1,700' + each + ' is a regular charitable gift, deductible if you itemize.';
+        else if (p < 1700) { const room = Math.min((1700 - p) * g, t - now); m = room > 0 ? 'You could give ' + usd(room) + ' more and still get every dollar back.' : 'Every dollar comes back as a credit on your 2027 return.'; }
+        else m = 'Every dollar comes back as a credit on your 2027 return.';
+        if (later > 0 && extra > 0) m += ' The ' + usd(extra) + ' above $1,700' + each + ' is a regular charitable gift.';
+        o('msg').textContent = m;
+        if (stop) stop();
+        stop = tween(shown == null ? net : shown, net, anim ? 450 : 0, v => { shown = v; o('net').textContent = usd(v); });
+      };
+      box.addEventListener('input', e => { if (e.target.matches('[data-c]')) upd(true); });
+      box.addEventListener('change', e => { if (e.target.matches('[data-c]')) upd(true); });
+      upd(false);
+    });
+  }
+
+  /* ── eligibility meter ── */
+  function meter(root) {
+    const m = root.querySelector('[data-meter]'); if (!m) return;
+    const f = m.querySelector('.meter-fill'), l = m.querySelector('.meter-lim');
+    requestAnimationFrame(() => requestAnimationFrame(() => { f.style.width = m.dataset.inc + '%'; l.style.left = m.dataset.lim + '%'; }));
+  }
+
+  /* ── map ↔ list ── */
+  function mapLink(root) {
+    const map = root.querySelector('#school-map'); if (!map) return;
+    const list = root.querySelector('#school-list');
+    const hot = id => {
+      map.querySelectorAll('.dot.hot').forEach(d => d.classList.remove('hot'));
+      list.querySelectorAll('.school.hot').forEach(d => d.classList.remove('hot'));
+      if (!id) return;
+      const d = map.querySelector('.dot[data-sid="' + id + '"]'); if (d) { d.classList.add('hot'); d.parentNode.appendChild(d); }
+      const r = list.querySelector('.school[data-sid="' + id + '"]'); if (r) r.classList.add('hot');
+    };
+    list.addEventListener('mouseover', e => { const r = e.target.closest('.school[data-sid]'); hot(r && r.dataset.sid); });
+    list.addEventListener('focusin', e => { const r = e.target.closest('.school[data-sid]'); hot(r && r.dataset.sid); });
+    list.addEventListener('mouseleave', () => hot(null));
+    map.addEventListener('mouseover', e => { const d = e.target.closest('.dot'); hot(d && d.dataset.sid); });
+    map.addEventListener('click', e => { const d = e.target.closest('.dot'); if (!d) return; const r = list.querySelector('.school[data-sid="' + d.dataset.sid + '"]'); if (r) r.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' }); });
+  }
+
+  /* ── magnetic buttons ── */
+  function magnetic(root) {
+    if (!fine || reduced()) return;
+    root.querySelectorAll('.magnetic').forEach(el => {
+      el.addEventListener('pointermove', e => { const r = el.getBoundingClientRect(); el.style.transform = `translate(${((e.clientX - r.left - r.width / 2) * 0.18).toFixed(1)}px, ${((e.clientY - r.top - r.height / 2) * 0.28).toFixed(1)}px)`; });
+      el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+    });
+  }
+
   /* ── auto-reveal for pages without hand-placed hooks ── */
   function autoReveal(root) {
     root.querySelectorAll('section').forEach(sec => {
@@ -310,6 +387,10 @@
     marquee(root);
     qualify(root);
     journeyInit(root);
+    calc(root);
+    meter(root);
+    mapLink(root);
+    magnetic(root);
   }
 
   /* re-run one element's entrance (e.g. the certificate after the filing toggle) */
@@ -318,5 +399,5 @@
     if (el.dataset.io && HOOKS[el.dataset.io]) HOOKS[el.dataset.io](el, anim && !reduced());
   }
 
-  window.LHMotion = { mount, refresh, journeyRefresh: f => journeyRefresh(!!f) };
+  window.LHMotion = { mount, refresh, meter, journeyRefresh: f => journeyRefresh(!!f) };
 })();

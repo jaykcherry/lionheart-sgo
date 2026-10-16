@@ -154,6 +154,94 @@ function certCard(joint) {
 
 const STAR = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0 7.4 4.6 12 6 7.4 7.4 6 12 4.6 7.4 0 6 4.6 4.6Z"/></svg>';
 
+/* ── Round two components ── */
+
+// Gift-and-credit model. Rules: $1,700 cap per taxpayer (spouses counted separately), credit limited to tax owed,
+// unused credit carries forward up to five years, anything above the cap is an ordinary charitable gift.
+function creditCalc(id) {
+  const joint = S.give.filing !== 'single';
+  return `<div class="calc" data-calc>
+    <div class="calc-in">
+      <div class="field"><span class="label">How you file</span><div class="seg" role="radiogroup" aria-label="Filing status"><label><input type="radio" name="${id}-f" value="joint" data-c="filing"${joint ? ' checked' : ''}>Married, jointly</label><label><input type="radio" name="${id}-f" value="single" data-c="filing"${joint ? '' : ' checked'}>Single</label></div></div>
+      <div class="calc-slide"><div class="calc-lab"><label for="${id}-g" data-o="perlab">Gift from each of you</label><output data-o="per">$1,700</output></div><input id="${id}-g" type="range" class="range" min="100" max="5000" step="100" value="1700" data-c="per"></div>
+      <div class="calc-slide"><div class="calc-lab"><label for="${id}-t">Federal income tax you’ll owe for 2027</label><output data-o="tax">$8,000</output></div><input id="${id}-t" type="range" class="range" min="0" max="20000" step="250" value="8000" data-c="tax"><span class="hint">After other credits, such as the child tax credit. Line 22 of a 2026 Form 1040 is a good guide.</span></div>
+    </div>
+    <div class="calc-out" aria-live="polite">
+      <span class="card-kicker">Your net cost for 2027</span>
+      <p class="calc-big" data-o="net">$0</p>
+      <div class="calc-bar" aria-hidden="true"><span class="b-now" data-b="now"></span><span class="b-later" data-b="later"></span><span class="b-extra" data-b="extra"></span></div>
+      <dl class="calc-dl">
+        <div class="tot"><dt>Total gift</dt><dd data-o="total"></dd></div>
+        <div><dt><i class="sw now"></i>Credit on your 2027 return</dt><dd data-o="now"></dd></div>
+        <div><dt><i class="sw later"></i>Carried forward, up to 5 years</dt><dd data-o="later"></dd></div>
+        <div><dt><i class="sw extra"></i>Beyond the credit</dt><dd data-o="extra"></dd></div>
+      </dl>
+      <p class="calc-msg" data-o="msg"></p>
+    </div>
+  </div>
+  <p class="hint" style="margin-top:14px">An illustration, not tax advice. Assumes cash gifts from your own funds, made on or after January 1, 2027, and designated for the credit.</p>`;
+}
+
+// Tennessee, projected from approximate border coordinates (lon, lat).
+const TN_BORDER = [[-89.53, 36.5], [-88.05, 36.5], [-87.85, 36.63], [-86.5, 36.65], [-85.0, 36.62], [-83.68, 36.6], [-81.68, 36.59], [-81.92, 36.31], [-82.03, 36.12], [-82.6, 35.97], [-83.1, 35.77], [-83.5, 35.56], [-83.88, 35.52], [-84.02, 35.3], [-84.29, 35.22], [-84.32, 34.99], [-88.2, 34.995], [-90.31, 35.0], [-90.08, 35.12], [-90.1, 35.4], [-89.95, 35.7], [-89.65, 36.0], [-89.55, 36.25]];
+const CITY_LL = { Nashville: [-86.78, 36.16], Antioch: [-86.67, 36.06], Madison: [-86.71, 36.26], Lebanon: [-86.29, 36.21], Brentwood: [-86.78, 36.03], Murfreesboro: [-86.39, 35.85], Eads: [-89.64, 35.18], Cordova: [-89.78, 35.16], Franklin: [-86.87, 35.93], Memphis: [-90.05, 35.15], Knoxville: [-83.92, 35.96], Chattanooga: [-85.31, 35.05], Clarksville: [-87.36, 36.53], Jackson: [-88.81, 35.61] };
+const proj = ([lon, lat]) => [((lon + 90.45) * 81.1 + 10).toFixed(1), ((36.75 - lat) * 100 + 10).toFixed(1)];
+function tnMap(list) {
+  const shown = new Set((list || SCHOOLS).map(s => s.id));
+  const seen = {};
+  const dots = SCHOOLS.map(s => {
+    const ll = CITY_LL[s.city] || CITY_LL.Nashville; const k = seen[s.city] = (seen[s.city] || 0) + 1;
+    const [x, y] = proj(ll).map(Number); const a = k * 2.4, r = k > 1 ? 7 + k * 1.6 : 0;
+    return `<g class="dot${shown.has(s.id) ? '' : ' off'}${s.status === 'partner' ? ' partner' : ''}" data-sid="${s.id}" transform="translate(${(x + Math.cos(a) * r).toFixed(1)} ${(y + Math.sin(a) * r).toFixed(1)})"><circle class="pulse" r="6"/><circle class="core" r="5"/><title>${esc(s.name)}, ${esc(s.city)}</title></g>`;
+  }).join('');
+  const refs = ['Memphis', 'Nashville', 'Knoxville', 'Chattanooga'].map(c => { const [x, y] = proj(CITY_LL[c]); return c === 'Nashville' ? `<text class="city" x="${+x - 24}" y="${+y + 4}" style="text-anchor:end">${c}</text>` : `<text class="city" x="${x}" y="${+y + 24}">${c}</text>`; }).join('');
+  return `<svg class="tn-map" viewBox="0 0 740 200" role="img" aria-label="Map of Tennessee showing schools on our list">
+    <path class="tn" d="M${TN_BORDER.map(p => proj(p).join(' ')).join('L')}Z"/>
+    <path class="tn-in" d="M${TN_BORDER.map(p => proj(p).join(' ')).join('L')}Z"/>
+    ${refs}${dots}</svg>`;
+}
+
+// Journey documents: one per step.
+function journeyDocs(amt) {
+  return `<div class="jdocs" aria-hidden="true">
+    <div class="jdoc" data-doc="0"><div class="jdoc-h"><span>Gift receipt</span><span>Jan 1, 2027</span></div><p class="jdoc-t"><span data-money>${usd(amt)}</span> received</p><div class="jdoc-r"><span>Visa ···· 4242</span><span>§ 25F designated</span></div><span class="jdoc-stamp">Paid</span></div>
+    <div class="jdoc" data-doc="1"><div class="jdoc-h"><span>Written acknowledgment</span><span>Tax year 2027</span></div><p class="jdoc-t">IRS donor no. ••••‑4815</p><div class="jdoc-r"><span>For Form 8525</span><span>Each spouse</span></div><span class="jdoc-stamp">Filed</span></div>
+    <div class="jdoc" data-doc="2"><div class="jdoc-h"><span>Scholarship award</span><span>2027–28</span></div><p class="jdoc-t">Grade 3 · Davidson County</p><div class="jdoc-r"><span>By need, by formula</span><span>Renewable</span></div><span class="jdoc-stamp">Awarded</span></div>
+    <div class="jdoc" data-doc="3"><div class="jdoc-h"><span>ACH remittance</span><span>Aug 20, 2027</span></div><p class="jdoc-t">Tuition paid to school</p><div class="jdoc-r"><span>Staff ✓ · Board officer ✓</span><span>Enrollment confirmed</span></div><span class="jdoc-stamp">Sent</span></div>
+  </div>`;
+}
+
+// Eligibility meter for the families check.
+let eligPct = { inc: 0, lim: 0 };
+function eligMeter() {
+  const e = S.elig; if (!e.income || e.tn === 'no' || e.k12 === 'no') return '';
+  const lim = incomeLimit(parseInt(e.size, 10) || 4), inc = num(e.income);
+  const max = Math.max(lim * 1.3, inc * 1.08);
+  const ip = Math.min(100, inc / max * 100), lp = lim / max * 100;
+  const from = eligPct;
+  eligPct = { inc: ip, lim: lp };
+  return `<div class="meter" data-meter data-inc="${ip.toFixed(2)}" data-lim="${lp.toFixed(2)}" aria-hidden="true">
+    <div class="meter-track"><span class="meter-fill${inc <= lim ? '' : ' over'}" style="width:${from.inc.toFixed(2)}%"></span><span class="meter-lim" style="left:${(from.lim || lp).toFixed(2)}%"><b>Limit ${usd(lim)}</b></span></div>
+    <div class="meter-cap"><span>$0</span><span>Your income ${usd(inc)}</span></div></div>`;
+}
+
+// Personalized certificate after a gift.
+function giftCert() {
+  const g = S.give, c = giveCalc();
+  const names = [g.name1, c.givers === 2 ? g.name2 : ''].filter(Boolean).map(esc).join(' &amp; ');
+  return `<div class="cert-stage cert-done"><div class="cert" id="gift-cert" data-io="cert"><div class="cert-in"><div class="cert-core" data-rosette="cert">
+    <div class="wave"></div>
+    <p class="cert-title">CERTIFICATE OF GIFT</p>
+    <p class="cert-head" style="margin-bottom:6px">Presented with thanks to</p>
+    <p class="cert-names">${names || 'Our donor'}</p>
+    <div class="cert-row"><span>${g.when === 'jan1' ? 'Scheduled gift' : 'Gift received'}</span><span class="v" data-to="${c.total}">${usd(c.total)}</span></div>
+    <div class="cert-row rule"><span>Federal tax credit</span><span class="v" data-to="${c.credit}" data-neg>−${usd(c.credit)}</span></div>
+    <div class="cert-net"><span>Net cost to you</span><span class="cert-zero">${usd(Math.max(c.total - c.credit, 0))}</span></div>
+    <p class="cert-note">Reference ${esc(g.ref)}. Your IRS acknowledgment${c.givers === 2 ? 's arrive' : ' arrives'} by January 31.</p>
+    <div class="cert-sign"><div><svg viewBox="0 0 150 40" aria-hidden="true"><path d="M4 30C12 26 16 8 22 8s-2 24 6 22 8-20 14-18-4 18 4 16 10-14 16-12-2 10 6 9 12-6 18-6 6 4 14 3 16-4 24-6 10-1 18-2"/></svg><div class="line">For the Board of Directors</div></div><div class="mark">LIONHEART</div></div>
+  </div></div></div></div>`;
+}
+
 function home() {
   const joint = S.give.filing !== 'single';
   const amt = joint ? 3400 : 1700;
@@ -168,13 +256,14 @@ function home() {
         <h1 class="display lines" data-io><span class="ln"><span>Your federal taxes,</span></span><span class="ln"><span style="--d:.12s">a child’s Christian</span></span><span class="ln"><span style="--d:.24s">education.</span></span></h1>
         <div class="ornament grow" data-io>${STAR}</div>
         <p class="lead" data-rv style="--d:.55s">Under the new federal scholarship tax credit, every dollar you give to Lionheart, up to $1,700 a person, comes back off your federal tax bill. It becomes tuition at a Tennessee Christian school.</p>
-        <div class="hero-cta" data-rv style="--d:.7s"><a class="btn btn-gold" href="#give" id="hero-give">${joint ? 'Give $3,400 as a couple' : 'Give $1,700'} <span class="arr" aria-hidden="true">→</span></a><a class="btn btn-secondary" href="#families">Apply for a scholarship</a></div>
+        <div class="hero-cta" data-rv style="--d:.7s"><a class="btn btn-gold magnetic" href="#give" id="hero-give">${joint ? 'Give $3,400 as a couple' : 'Give $1,700'} <span class="arr" aria-hidden="true">→</span></a><a class="btn btn-secondary" href="#families">Apply for a scholarship</a></div>
       </div>
       <div class="cert-stage" data-rv="scale" style="--d:.25s">
         <div class="cert-filing">${seg('give.filing', 'home-filing', [['joint', 'Married, filing jointly'], ['single', 'Single']], 'Filing status')}</div>
         <div class="cert" id="cert" data-io="cert">${certCard(joint)}</div>
       </div>
     </section>
+    <a class="scroll-cue" href="#journey" data-scroll="journey"><span>Follow a gift</span><i aria-hidden="true"></i></a>
   </div>
 
   <div class="band count-band">
@@ -189,7 +278,7 @@ function home() {
   </div>
 
   <div class="band">
-    <section class="wrap sec">
+    <section class="wrap sec" id="journey">
       <div class="center">
         <span class="kicker" data-rv>Follow the money</span>
         <h2 class="h2" data-rv style="margin-top:16px;--d:.08s">How a gift becomes a scholarship</h2>
@@ -205,6 +294,7 @@ function home() {
             ${[[40, 80, 'Your gift'], [190, 40, 'Lionheart'], [340, 112, 'A family'], [480, 64, 'The school']].map(([x, y, l], i) => `<g class="node" data-node="${i}"><circle class="o" cx="${x}" cy="${y}" r="21"/><circle class="i" cx="${x}" cy="${y}" r="16.5"/><text class="n" x="${x}" y="${y + 1}">${roman[i]}</text><text x="${x}" y="${y > 70 ? y - 32 : y + 42}">${l}</text></g>`).join('')}
             <circle class="coin" r="8" cx="40" cy="80"/>
           </svg>
+          ${journeyDocs(amt)}
         </div>
         <ol class="journey-steps">
           ${[['From January 1, 2027', 'You give', 'Up to $1,700 each, by card, Apple Pay or PayPal. We cover the card fees, and your gift goes into a scholarship fund kept apart from everything else.', 'full', 'Given to Lionheart from your own account'],
@@ -217,7 +307,14 @@ function home() {
     </section>
   </div>
 
-  <div class="band band-surface" style="border-top:1px solid var(--line)">
+  <div class="band band-surface" style="border-top:1px solid var(--line)" id="model">
+    <section class="wrap sec">
+      <div class="calc-head"><div><span class="kicker" data-rv>Model your gift</span><h2 class="h2" data-rv style="margin-top:16px;--d:.08s">See what it costs you</h2></div><p class="lead" data-rv style="--d:.16s">Move the sliders. The credit can’t be larger than the federal tax you owe, and whatever it can’t use this year carries forward.</p></div>
+      <div data-rv="scale" style="margin-top:44px;--d:.1s">${creditCalc('hc')}</div>
+    </section>
+  </div>
+
+  <div class="band" style="border-top:1px solid var(--line)">
     <section class="wrap sec">
       <div class="center"><span class="kicker" data-rv>Take part</span><h2 class="h2" data-rv style="margin:16px 0 52px;--d:.08s">Three ways in</h2></div>
       <div class="ways">
@@ -229,7 +326,7 @@ function home() {
     </section>
   </div>
 
-  <div class="band">
+  <div class="band band-surface" style="border-top:1px solid var(--line)">
     <section class="wrap sec qual">
       <div>
         <span class="kicker" data-rv>For families</span>
@@ -249,7 +346,7 @@ function home() {
     </section>
   </div>
 
-  <div class="band band-surface" style="border-top:1px solid var(--line);padding-bottom:64px">
+  <div class="band" style="border-top:1px solid var(--line);padding-bottom:64px">
     <section class="wrap sec split" style="align-items:end;padding-bottom:40px">
       <div><span class="kicker" data-rv>For schools</span><h2 class="h2" data-rv style="margin-top:16px;--d:.08s">Your school is already on our list.</h2></div>
       <div data-rv style="--d:.16s"><p class="lead">Confirm with your school email in two minutes. Partnering is free and non-exclusive, and we pay tuition by direct deposit.</p><div class="btn-row" style="margin-top:24px"><a class="btn btn-secondary" href="#schools">Find your school <span class="arr" aria-hidden="true">→</span></a></div></div>
@@ -311,7 +408,7 @@ function updateHomeFiling() {
   const b = document.getElementById('hero-give');
   if (b) b.innerHTML = (joint ? 'Give $3,400 as a couple' : 'Give $1,700') + ' <span class="arr" aria-hidden="true">→</span>';
   const j = document.querySelector('[data-journey]');
-  if (j) { j.dataset.full = amt; if (window.LHMotion) window.LHMotion.journeyRefresh(true); }
+  if (j) { j.dataset.full = amt; j.querySelectorAll('[data-money]').forEach(m => { m.textContent = usd(amt); }); if (window.LHMotion) window.LHMotion.journeyRefresh(true); }
 }
 
 /* ── Families ── */
@@ -419,7 +516,7 @@ function families() {
   </div>`;
 }
 function eligOut(r) {
-  return `<span class="pill ${r.cls}">${r.head}</span><p class="small" style="margin-top:10px">${r.body}</p>${r.cta ? `<div style="margin-top:14px"><a class="btn btn-primary btn-sm" href="#apply">Apply now</a></div>` : ''}`;
+  return `<span class="pill ${r.cls}">${r.head}</span>${eligMeter()}<p class="small" style="margin-top:10px">${r.body}</p>${r.cta ? `<div style="margin-top:14px"><a class="btn btn-primary btn-sm" href="#apply">Apply now</a></div>` : ''}`;
 }
 
 /* ── Application ── */
@@ -560,7 +657,10 @@ function schools() {
         <div><h2 class="h2">Find your school</h2><p class="small muted" style="margin-top:8px"><span class="tnum">${SCHOOLS.length}</span> accredited schools listed · <span class="tnum">${partners}</span> verified partner${partners === 1 ? '' : 's'}</p></div>
         <div class="field" style="flex:0 1 360px"><label for="school-q">Search by name or city</label><input class="input" id="school-q" type="search" value="${esc(S.q)}" data-bind="q" data-live="schools" placeholder="e.g. Franklin" autocomplete="off"></div>
       </div>
-      <div class="schools" id="school-list">${schoolRows(list)}</div>
+      <div class="school-grid">
+        <div class="schools" id="school-list">${schoolRows(list)}</div>
+        <div class="map-wrap"><div class="map-card" id="school-map">${tnMap(list)}<div class="map-key"><span><i class="k-listed"></i>Pre-registered</span><span><i class="k-partner"></i>Verified partner</span></div></div></div>
+      </div>
       <div class="split" style="margin-top:56px">
         <div><h3 class="h3">Not on the list?</h3><p class="body" style="margin-top:10px;max-width:44ch">If your school is accredited and in Tennessee, tell us and we’ll add it within two business days.</p></div>
         ${S.req.sent ? `<div class="note">Thanks. We’ll email ${esc(S.req.email)} when ${esc(S.req.name)} is on the list.</div>` : `
@@ -588,7 +688,7 @@ function schools() {
 function schoolRows(list) {
   if (!list.length) return `<p class="body" style="padding:24px 0">No school matches “${esc(S.q)}”. Try a shorter name, or request to be added below.</p>`;
   return list.map(s => `
-    <div class="school">
+    <div class="school" data-sid="${s.id}">
       <div><div class="school-name">${esc(s.name)}</div><div class="school-meta"><span>${esc(s.city)}, TN</span><span>${esc(s.grades)}</span><span>Accredited</span></div></div>
       <div class="school-act">${s.status === 'partner'
         ? `<span class="pill pill-ok">Verified partner</span>`
@@ -695,6 +795,13 @@ function donors() {
   </div>
 
   <div class="band band-surface" style="border-top:1px solid var(--color-divider)">
+    <section class="wrap sec">
+      <div class="calc-head"><div><span class="kicker">Model your gift</span><h2 class="h2" style="margin-top:16px">See what it costs you</h2></div><p class="lead">Set how you file, what you’d give and roughly what you’ll owe. We show the credit, any carryforward, and your cost.</p></div>
+      <div style="margin-top:44px">${creditCalc('dc')}</div>
+    </section>
+  </div>
+
+  <div class="band" style="border-top:1px solid var(--color-divider)">
     <section class="wrap sec" id="ways">
       <h2 class="h2" style="margin:0 0 36px">Choose how to pay</h2>
       <div class="tablewrap">
@@ -901,7 +1008,7 @@ function giveDone() {
   const g = S.give, c = giveCalc();
   const daf = g.method === 'daf';
   const first = (g.name1 || '').split(' ')[0];
-  return `<div class="band band-gilt"><section class="wrap" style="padding-block:96px;max-width:780px">
+  return `<div class="band band-gilt"><section class="wrap ${daf ? '' : 'split'}" style="padding-block:88px 96px;align-items:center;${daf ? 'max-width:780px' : ''}"><div>
     <span class="pill pill-ok">${daf ? 'Grant noted' : g.when === 'jan1' ? 'Gift scheduled' : 'Gift received'}</span>
     <h1 class="display-sm" style="margin-top:20px">Thank you${first ? ', ' + esc(first) : ''}.</h1>
     <p class="lead" style="margin-top:22px">${daf ? `We’ll watch for your ${g.daf.sponsor ? esc(g.daf.sponsor) + ' ' : ''}grant and email ${esc(g.email)} when it arrives.` : g.when === 'jan1' ? `We’ll charge ${usd2(c.total)} on January 1, 2027 and email your receipt to ${esc(g.email)}. You can cancel any time before then.` : `Your receipt for ${usd2(c.total)} is on its way to ${esc(g.email)}.`} Reference <strong class="tnum" style="font-weight:600">${esc(g.ref)}</strong>.</p>
@@ -913,7 +1020,7 @@ function giveDone() {
       ${daf ? '' : `<li><span class="when">Tax time</span><p class="body">Enter the donor number on Form 8525 and attach it to your Form 1040.</p></li>`}
     </ol>
     <div class="btn-row" style="margin-top:32px"><a class="btn btn-primary" href="#donors">Back to Donors</a><button type="button" class="btn btn-ghost" data-action="give-again">Make another gift</button></div>
-  </section></div>`;
+  </div>${daf ? '' : giftCert()}</section></div>`;
 }
 
 /* ───────────────────────── Router ───────────────────────── */
@@ -960,9 +1067,9 @@ function onBind(e) {
   if (path === 'give.from') S.give.amount = v === 'both' ? '3400' : '1700';
   if (el.hasAttribute('data-rerender')) { if (e.type === 'change') rerender(); return; }
   if (el.dataset.live && PORTAL && PORTAL.onLive) PORTAL.onLive(el.dataset.live);
-  if (el.dataset.live === 'elig') { const o = $('#elig-out'); if (o) o.innerHTML = eligOut(eligResult()); }
+  if (el.dataset.live === 'elig') { const o = $('#elig-out'); if (o) { o.innerHTML = eligOut(eligResult()); if (window.LHMotion) window.LHMotion.meter(o); } }
   if (el.dataset.live === 'give' || path.startsWith('give.')) { const s = $('#give-summary'); if (s) s.innerHTML = giveSummary(); }
-  if (el.dataset.live === 'schools') { const l = $('#school-list'); if (l) l.innerHTML = schoolRows(SCHOOLS.filter(s => !S.q.trim() || (s.name + ' ' + s.city).toLowerCase().includes(S.q.trim().toLowerCase()))); }
+  if (el.dataset.live === 'schools') { const hit = SCHOOLS.filter(s => !S.q.trim() || (s.name + ' ' + s.city).toLowerCase().includes(S.q.trim().toLowerCase())); const l = $('#school-list'); if (l) l.innerHTML = schoolRows(hit); const ids = new Set(hit.map(s => s.id)); document.querySelectorAll('#school-map .dot').forEach(d => d.classList.toggle('off', !ids.has(d.dataset.sid))); }
   if (path === 'elig.size' && routeName() === 'families') rerender();
 }
 document.addEventListener('input', onBind);
@@ -996,7 +1103,7 @@ document.addEventListener('click', e => {
 });
 function selectText(btn) { const v = btn.parentElement.querySelector('.v'); if (!v) return; const r = document.createRange(); r.selectNodeContents(v); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('Selected. Press Ctrl+C or ⌘C to copy.'); }
 
-function finishGive() { S.give.ref = refNo('LH-G27'); S.give.err = ''; rerender(); window.scrollTo(0, 0); }
+function finishGive() { S.give.ref = refNo('LH-G27'); S.give.err = ''; rerender(); window.scrollTo(0, 0); const gc = document.getElementById('gift-cert'); if (gc && window.LHMotion) window.LHMotion.refresh(gc, true); }
 
 document.addEventListener('submit', e => {
   const f = e.target.dataset.form;
