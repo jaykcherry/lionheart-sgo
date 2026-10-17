@@ -57,7 +57,7 @@ export default async function SchoolPortal({ searchParams }: { searchParams: Pro
             <input type="hidden" name="account_token" value="pending-bank-link" /><input type="hidden" name="last4" value="0000" />
             <p className="hint span-all">You’ll connect the account through our bank partner’s secure window. We never see or store the full account number.</p>
             <div className="span-all"><button className="btn btn-secondary">Connect bank account</button></div></form></section>
-        <p className="small muted">Questions: schools@lionheartsgo.org · <Link href="/schools">School directory</Link></p>
+        <p className="small muted">Questions: schools@lionheartscholars.org · <Link href="/schools">School directory</Link></p>
       </section></div>
     </>
   );

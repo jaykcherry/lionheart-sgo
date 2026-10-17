@@ -42,7 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="wrap footer">
             <div><Link href="/" className="brand" style={{ marginBottom: 14 }}><Mark /><span className="brand-name">Lionheart</span></Link>
               <p>A Tennessee scholarship granting organization under the federal education scholarship tax credit.</p></div>
-            <div><strong>Contact</strong>hello@lionheartsgo.org<br />Nashville, Tennessee</div>
+            <div><strong>Contact</strong>hello@lionheartscholars.org<br />Nashville, Tennessee</div>
             <div><strong>Organization</strong>501(c)(3) public charity<br />EIN {process.env.SGO_EIN ?? '[XX-XXXXXXX]'}</div>
             <div><strong>Please note</strong>Tax information here is general guidance, not tax advice. Talk with your tax preparer.</div>
           </div>

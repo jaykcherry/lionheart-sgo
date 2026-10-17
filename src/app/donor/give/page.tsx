@@ -38,7 +38,7 @@ export default async function Give({ searchParams }: { searchParams: Promise<{ e
           <div className="form-actions"><span className="small muted">Card, Apple Pay and Google Pay on the next page. We cover card fees.</span><button className="btn btn-solid">{before2027 ? 'Save card and schedule' : 'Continue to payment'}</button></div>
         </form>
         <aside className="flow-aside"><div className="panel stack-s"><span className="card-kicker">Prefer PayPal or a DAF?</span>
-          <p className="small">PayPal: choose it on the next page where available, or email gifts@lionheartsgo.org.</p>
+          <p className="small">PayPal: choose it on the next page where available, or email gifts@lionheartscholars.org.</p>
           <p className="small">Donor-advised fund grants are welcome for giving beyond your credit, but they don’t earn the federal credit.</p></div></aside>
       </div>
     </section></div>

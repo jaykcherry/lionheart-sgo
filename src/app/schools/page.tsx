@@ -23,7 +23,7 @@ export default async function Schools({ searchParams }: { searchParams: Promise<
           <div className="school" key={s.slug}><div><div className="school-name">{s.name}</div><div className="school-meta"><span>{s.city}, TN</span><span>{s.grades}</span></div></div>
             <div className="school-act">{s.state === 'ACTIVE' ? <span className="pill pill-ok">Verified partner</span> : s.state === 'UNCLAIMED' || s.state === 'CLAIM_PENDING' ? <Link className="btn btn-primary btn-sm" href={`/school/claim/${s.slug}`}>This is my school</Link> : <span className="pill pill-gilt">Setting up</span>}</div></div>))}
         </div>
-        <p className="body" style={{ marginTop: 32 }}>Not listed? Email schools@lionheartsgo.org with your school’s name, city and accreditor and we’ll add it within two business days.</p>
+        <p className="body" style={{ marginTop: 32 }}>Not listed? Email schools@lionheartscholars.org with your school’s name, city and accreditor and we’ll add it within two business days.</p>
       </section></div>
     </>
   );

@@ -12,7 +12,7 @@ const schema = z.object({
   ANTHROPIC_API_KEY: z.string().min(10),
   ANTHROPIC_MODEL: z.string().default('claude-sonnet-5-5'),
   RESEND_API_KEY: z.string().min(5),
-  EMAIL_FROM: z.string().default('Lionheart <hello@lionheartsgo.org>'),
+  EMAIL_FROM: z.string().default('Lionheart <hello@lionheartscholars.org>'),
   SGO_EIN: z.string().default('[XX-XXXXXXX]'),
   SGO_LEGAL_NAME: z.string().default('Lionheart Scholarship Granting Organization, Inc.'),
   PAYOUT_PROVIDER: z.enum(['manual', 'increase', 'modern_treasury']).default('manual'),

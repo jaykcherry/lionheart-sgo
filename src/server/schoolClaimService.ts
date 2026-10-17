@@ -9,7 +9,7 @@ const sha = async (s: string) => [...new Uint8Array(await crypto.subtle.digest('
 export async function startClaim(sb: SupabaseClient, p: { schoolId: string; userId: string; title: string; email: string }) {
   const { data: school } = await sb.from('schools').select('id, name, email_domain, state').eq('id', p.schoolId).single();
   if (!school) throw new Error('School not found.');
-  if (!['UNCLAIMED', 'CLAIM_PENDING'].includes(school.state)) throw new Error('This school is already claimed. Ask your colleague to add you, or email schools@lionheartsgo.org.');
+  if (!['UNCLAIMED', 'CLAIM_PENDING'].includes(school.state)) throw new Error('This school is already claimed. Ask your colleague to add you, or email schools@lionheartscholars.org.');
   const email = p.email.trim().toLowerCase();
   if (FREE_MAIL.test(email) || !email.endsWith('@' + school.email_domain.toLowerCase())) {
     throw new Error(`Use your @${school.email_domain} address so we can confirm you work at ${school.name}.`);

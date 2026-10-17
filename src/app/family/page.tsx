@@ -48,7 +48,7 @@ export default async function FamilyPortal({ searchParams }: { searchParams: Pro
           <div className="tablewrap" style={{ marginTop: 12 }}><table className="table"><tbody>{(docs ?? []).filter((d) => !d.confirmed_by_parent_at).map((d) => { const e = d.extracted as { personName?: string; taxYear?: number; amounts?: Record<string, number | null> }; return (
             <tr key={d.id}><td>{d.kind}</td><td className="small">{e.personName} · {e.taxYear} · {Object.entries(e.amounts ?? {}).filter(([, v]) => v != null).map(([k, v]) => `${k}: $${Number(v).toLocaleString()}`).join(', ')}</td>
               <td><form action={confirmExtraction}><input type="hidden" name="document_id" value={d.id} /><button className="btn btn-secondary btn-sm">Looks right</button></form></td></tr>); })}</tbody></table></div>
-          <p className="hint">Something wrong? Upload a clearer copy or email families@lionheartsgo.org.</p></section>}
+          <p className="hint">Something wrong? Upload a clearer copy or email families@lionheartscholars.org.</p></section>}
       </section></div>
     </>
   );
