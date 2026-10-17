@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import {
   sizeMultiplier, resolveLimit, TN_LIMITS_SEED, determineEligibility, type EligibilityInput,
-  unmetNeed, awardAmount, allocateRound, splitTerms, rankCandidates, type Candidate,
+  unmetNeed, awardAmount, allocateRound, splitTerms, rankCandidates, type Candidate, DEFAULT_POLICY, type AwardPolicy,
+  coverageFor, capFor, needIndexOf, explainAward, normalizePolicy,
   routeGift, splitCouple, creditForYear, substantialContributors, screen,
   ninetyPercentTest, buildBatch, canRelease, refundDue, giftJournal, assertBalanced, reconcile,
   buildYearEnd, tieOut, applicationMachine, batchMachine, evaluate, blocked, dollars,
@@ -29,7 +30,7 @@ const baseApp = (over: Partial<EligibilityInput> = {}): EligibilityInput => ({
 });
 
 describe('eligibility', () => {
-  it('direct income: $120k for 4 in Davidson is ~103% AMGI → tier B, eligible', () => {
+  it('direct income: $120k for 4 in Davidson is ~103% AMGI → label B, eligible', () => {
     const d = determineEligibility(baseApp(), TN_LIMITS_SEED);
     expect(d.result).toBe('ELIGIBLE');
     expect(d.tier).toBe('B');
@@ -61,34 +62,75 @@ describe('eligibility', () => {
 });
 
 const cand = (id: string, over: Partial<Candidate> = {}): Candidate => ({
-  applicationId: id, studentId: 's-' + id, householdId: 'h-' + id, schoolId: 'cpa', tier: 'B', priority: 3,
+  applicationId: id, studentId: 's-' + id, householdId: 'h-' + id, schoolId: 'cpa', needIndex: 1.5, priority: 3,
   tuition: dollars(16_000), requiredFees: dollars(500), aid: { efs: dollars(7_530), schoolAid: 0, otherSgo: 0, other: 0 }, ...over,
 });
+const waterfall: AwardPolicy = { ...DEFAULT_POLICY, funding: { ...DEFAULT_POLICY.funding, mode: 'waterfall', allowPartial: false } };
 
 describe('awards', () => {
   it('unmet need stacks after EFS', () => {
     expect(unmetNeed(dollars(16_000), dollars(500), { efs: dollars(7_530), schoolAid: dollars(1_000), otherSgo: 0, other: 0 })).toBe(dollars(7_970));
   });
-  it('tier formula with caps and whole-dollar rounding', () => {
-    expect(awardAmount('A', dollars(9_000))).toBe(dollars(8_000));  // 90% = 8,100 → cap 8,000
-    expect(awardAmount('B', dollars(8_970))).toBe(dollars(5_000));  // 60% = 5,382 → cap 5,000
-    expect(awardAmount('C', dollars(7_000))).toBe(dollars(2_100));
-    expect(awardAmount('C', dollars(500))).toBe(0);                // below $250 minimum
+  it('coverage and cap slide continuously with the need index', () => {
+    expect(coverageFor(0)).toBe(0.95); expect(coverageFor(1)).toBe(0.85); expect(coverageFor(1.5)).toBe(0.7);
+    expect(coverageFor(3)).toBe(0.25); expect(coverageFor(3.4)).toBe(0.25);
+    expect(capFor(0.5)).toBe(dollars(8_500)); expect(capFor(2.5)).toBe(dollars(3_750));
+    expect(coverageFor(1.2)).toBeGreaterThan(coverageFor(1.3)); // lower income never gets a smaller share
+  });
+  it('award formula with caps, whole dollars and the minimum', () => {
+    expect(awardAmount(0.4, dollars(9_000))).toBe(dollars(8_190));   // 91% = 8,190 (cap 8,600)
+    expect(awardAmount(1, dollars(12_000))).toBe(dollars(8_000));    // 85% = 10,200 → cap 8,000
+    expect(awardAmount(1.5, dollars(8_970))).toBe(dollars(6_279));   // 70% = 6,279 (cap 6,500)
+    expect(awardAmount(2.9, dollars(1_500))).toBe(0);                // 28% = 420 → under $500 minimum
+    expect(explainAward(1, dollars(20_000), 0, { efs: 0, schoolAid: 0, otherSgo: 0, other: 0 }).limitedBy).toBe('cap');
+  });
+  it('categorical and foster families get the policy need index; others use % of AMGI', () => {
+    expect(needIndexOf({ method: 'categorical', pctAmgi: null })).toBe(0);
+    expect(needIndexOf({ method: 'direct_income', pctAmgi: 1.234 })).toBe(1.234);
+    expect(needIndexOf({ method: null, pctAmgi: null })).toBeNull();
   });
   it('splits terms with remainder on the last term', () => {
     expect(splitTerms(dollars(5_000) + 1).map((t) => t.amount)).toEqual([250_000, 250_001]);
   });
-  it('ranks renewals, then siblings, then tier, then lottery — deterministically', () => {
-    const r = rankCandidates([cand('x', { tier: 'A' }), cand('y', { priority: 1, tier: 'C' }), cand('z', { priority: 2 })], 'seed-1');
-    expect(r.map((c) => c.applicationId)).toEqual(['y', 'z', 'x']);
+  it('ranks renewals, then siblings, then lowest income, then lottery — deterministically', () => {
+    const r = rankCandidates([cand('x', { needIndex: 0.2 }), cand('y', { priority: 1, needIndex: 2.8 }), cand('z', { priority: 2 }), cand('w', { needIndex: 2.1 })], 'seed-1');
+    expect(r.map((c) => c.applicationId)).toEqual(['y', 'z', 'x', 'w']);
     expect(rankCandidates([cand('a'), cand('b'), cand('c')], 's').map((c) => c.applicationId))
       .toEqual(rankCandidates([cand('c'), cand('b'), cand('a')], 's').map((c) => c.applicationId));
   });
-  it('allocates cash-backed only and waitlists the rest in strict order', () => {
-    const res = allocateRound({ roundId: 'R1', seed: 'abc', cashAvailable: dollars(12_000), candidates: [cand('1', { priority: 1 }), cand('2'), cand('3')] });
-    expect(res.totals.awarded).toBe(dollars(10_000));
+  it('incomes inside one band are ordered by lottery, not by a few dollars of income', () => {
+    const seeds = ['s1', 's2', 's3', 's4', 's5', 's6'];
+    const firsts = new Set(seeds.map((sd) => rankCandidates([cand('p', { needIndex: 0.51 }), cand('q', { needIndex: 0.54 })], sd)[0]!.applicationId));
+    expect(firsts.size).toBe(2);
+  });
+  it('waterfall: cash-backed only, full awards in strict order, rest waitlisted', () => {
+    // unmet 8,970 at NI 1.5 → 70% = 6,279
+    const res = allocateRound({ roundId: 'R1', seed: 'abc', cashAvailable: dollars(14_000), policy: waterfall, candidates: [cand('1', { priority: 1 }), cand('2'), cand('3')] });
+    expect(res.totals.awarded).toBe(dollars(12_558));
     expect(res.totals.waitlisted).toBe(1);
-    expect(res.totals.cashRemaining).toBe(dollars(2_000));
+    expect(res.totals.cashRemaining).toBe(dollars(1_442));
+  });
+  it('floor-then-top-up reaches every eligible student before topping anyone up', () => {
+    const cands = Array.from({ length: 12 }, (_, i) => cand('f' + i, { needIndex: i * 0.2, schoolId: i % 2 ? 'a' : 'b' }));
+    const res = allocateRound({ roundId: 'R', seed: 's', cashAvailable: dollars(20_000), candidates: cands });
+    expect(res.totals.students).toBe(12);
+    expect(res.totals.meetsBreadthRule).toBe(true);
+    expect(res.lines.every((l) => l.amount >= dollars(1_000))).toBe(true);
+    // the remaining $8,000 tops up the lowest-income students first
+    expect(res.lines[0]!.needIndex).toBe(0); expect(res.lines[0]!.partial).toBe(false);
+    expect(res.lines.at(-1)!.amount).toBe(dollars(1_000));
+    expect(res.totals.awarded).toBe(dollars(20_000));
+  });
+  it('a boundary partial under the minimum goes back to the waitlist', () => {
+    const res = allocateRound({ roundId: 'R', seed: 's', cashAvailable: dollars(1_300), candidates: [cand('1', { needIndex: 0.1 }), cand('2', { needIndex: 0.2 })] });
+    expect(res.lines.map((l) => l.outcome)).toEqual(['AWARDED', 'WAITLISTED']);
+    expect(res.totals.cashRemaining).toBe(dollars(300));
+  });
+  it('household cap limits a family\'s total in rank order', () => {
+    const pol: AwardPolicy = { ...waterfall, householdCap: dollars(10_000) };
+    const res = allocateRound({ roundId: 'R', seed: 's', cashAvailable: dollars(50_000), policy: pol,
+      candidates: [cand('k1', { householdId: 'H', needIndex: 0.3 }), cand('k2', { householdId: 'H', needIndex: 0.3 })] });
+    expect(res.totals.awarded).toBe(dollars(10_000));
   });
   it('holds are never funded', () => {
     const res = allocateRound({ roundId: 'R', seed: 's', cashAvailable: dollars(50_000), candidates: [cand('1', { hold: 'DQ match' })] });
@@ -101,6 +143,16 @@ describe('awards', () => {
       candidates: [...many, cand('t1', { schoolId: 'tiny' })] });
     expect(res.honoredPreferences).toEqual(['big']);
     expect(res.mergedPreferences).toEqual(['tiny']);
+  });
+  it('unused preference money funds the general list in the same round', () => {
+    const many = Array.from({ length: 10 }, (_, i) => cand('m' + i, { schoolId: 'big', needIndex: 2.9, tuition: dollars(9_000) })); // unmet 1,970 → 25% = 493 → 0? (under min)
+    const res = allocateRound({ roundId: 'R', seed: 's', cashAvailable: dollars(10_000),
+      preferencePools: [{ schoolId: 'big', amount: dollars(10_000) }], candidates: [...many, cand('o', { schoolId: 'other', needIndex: 0.2 })] });
+    expect(res.lines.find((l) => l.applicationId === 'o')!.outcome).toBe('AWARDED');
+  });
+  it('normalizes partial stored params', () => {
+    const p = normalizePolicy({ minimumAward: dollars(300), funding: { floor: dollars(1_500) } as never }, 'X');
+    expect(p.version).toBe('X'); expect(p.funding.mode).toBe('floor_then_topup'); expect(p.funding.floor).toBe(dollars(1_500));
   });
 });
 

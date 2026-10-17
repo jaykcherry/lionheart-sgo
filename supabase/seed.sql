@@ -1,7 +1,10 @@
 -- Seed: award policy, limits table, 2027–28 cycle, and the pre-loaded school directory (SAMPLE — replace with Lionheart's accredited list).
-insert into award_policies (version, params, adopted_at, adopted_minutes_ref) values ('2027-28-v1', '{
-  "tiers": {"A": {"pctOfUnmet": 0.9, "capPerStudent": 800000}, "B": {"pctOfUnmet": 0.6, "capPerStudent": 500000}, "C": {"pctOfUnmet": 0.3, "capPerStudent": 250000}},
-  "minimumAward": 25000, "terms": [{"id": "fall", "share": 0.5}, {"id": "spring", "share": 0.5}], "strictOrder": true,
+insert into award_policies (version, params, adopted_at, adopted_minutes_ref) values ('2027-28-v2', '{
+  "schedule": [{"needIndex": 0, "pctOfUnmet": 0.95, "cap": 900000}, {"needIndex": 1, "pctOfUnmet": 0.85, "cap": 800000},
+               {"needIndex": 2, "pctOfUnmet": 0.55, "cap": 500000}, {"needIndex": 3, "pctOfUnmet": 0.25, "cap": 250000}],
+  "categoricalNeedIndex": 0, "rankBandWidth": 0.05,
+  "funding": {"mode": "floor_then_topup", "floor": 100000, "allowPartial": true}, "householdCap": null,
+  "minimumAward": 50000, "terms": [{"id": "fall", "share": 0.5}, {"id": "spring", "share": 0.5}], "strictOrder": true,
   "schoolPreference": {"enabled": true, "minEligibleApplicants": 10}}', null, null);
 
 insert into limits_tables (version, data, source) values ('HUD-FY2026-seed', '{
@@ -11,7 +14,7 @@ insert into limits_tables (version, data, source) values ('HUD-FY2026-seed', '{
   "countyToArea": {"cannon": "METRO34980M34980", "cheatham": "METRO34980M34980", "davidson": "METRO34980M34980", "dickson": "METRO34980M34980", "hickman": "METRO34980M34980", "macon": "METRO34980M34980", "robertson": "METRO34980M34980", "rutherford": "METRO34980M34980", "smith": "METRO34980M34980", "sumner": "METRO34980M34980", "trousdale": "METRO34980M34980", "williamson": "METRO34980M34980", "wilson": "METRO34980M34980"},
   "fallbackAreaCode": "TN_STATEWIDE"}', 'HUD FY2026 Income Limits; run scripts/load-hud-limits.ts for all 95 counties');
 
-insert into cycles (school_year, opens_on, policy_version, limits_version) values ('2027-28', '2027-02-16', '2027-28-v1', 'HUD-FY2026-seed');
+insert into cycles (school_year, opens_on, policy_version, limits_version) values ('2027-28', '2027-02-16', '2027-28-v2', 'HUD-FY2026-seed');
 
 insert into schools (slug, name, city, grades, email_domain) values
  ('cpa','Christ Presbyterian Academy','Nashville','PK–12','cpalions.org'),

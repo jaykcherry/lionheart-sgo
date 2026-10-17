@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { allocateRound, screen, type AwardPolicy, type Candidate, type AllocationResult, DEFAULT_POLICY } from '@/domain';
+import { allocateRound, screen, needIndexOf, normalizePolicy, type AwardPolicy, type Candidate, type AllocationResult } from '@/domain';
 import { audit } from '@/lib/audit';
 
 const PAY_ON: Record<string, (year: number) => string> = { fall: (y) => `${y}-08-20`, spring: (y) => `${y + 1}-01-20` };
@@ -18,11 +18,11 @@ export async function uncommittedCash(sb: SupabaseClient): Promise<number> {
 export async function runRound(sb: SupabaseClient, opts: { cycleId: string; name: string; seed: string; runBy: string }): Promise<{ roundId: string; result: AllocationResult }> {
   const { data: cycle } = await sb.from('cycles').select('school_year, policy_version, award_policies(params)').eq('id', opts.cycleId).single();
   if (!cycle) throw new Error('cycle not found');
-  const policy = { ...DEFAULT_POLICY, ...((cycle as unknown as { award_policies: { params: Partial<AwardPolicy> } }).award_policies.params), version: cycle.policy_version } as AwardPolicy;
+  const policy = normalizePolicy((cycle as unknown as { award_policies: { params: Partial<AwardPolicy> & Record<string, unknown> } }).award_policies.params, cycle.policy_version);
   const year = Number(String(cycle.school_year).slice(0, 4));
 
   const { data: apps } = await sb.from('applications')
-    .select('id, household_id, school_id, grade, priority, state, hold_reason, student_member_id, household:households(street, city, household_members(full_name, dob)), det:eligibility_determinations(tier, created_at), aid:other_aid(*)')
+    .select('id, household_id, school_id, grade, priority, state, hold_reason, student_member_id, household:households(street, city, household_members(full_name, dob)), det:eligibility_determinations(result, method, pct_amgi, created_at), aid:other_aid(*)')
     .eq('cycle_id', opts.cycleId).in('state', ['QUEUED', 'WAITLISTED']);
   const { data: tuition } = await sb.from('tuition_schedules').select('school_id, grade, tuition_cents, required_fees_cents').eq('school_year', cycle.school_year);
   const { data: dq } = await sb.from('dq_persons').select('id, full_name, dob, address, role, year').in('year', [year, year - 1]);
@@ -31,17 +31,18 @@ export async function runRound(sb: SupabaseClient, opts: { cycleId: string; name
   const candidates: Candidate[] = [];
   for (const raw of apps ?? []) {
     const a = raw as unknown as { id: string; household_id: string; school_id: string; grade: string; priority: 1 | 2 | 3; hold_reason: string | null; student_member_id: string;
-      household: { street: string; city: string; household_members: { full_name: string; dob: string | null }[] }; det: { tier: 'A' | 'B' | 'C'; created_at: string }[];
+      household: { street: string; city: string; household_members: { full_name: string; dob: string | null }[] }; det: { result: string; method: string | null; pct_amgi: number | null; created_at: string }[];
       aid: { efs_cents: number; school_aid_cents: number; other_sgo_cents: number; other_cents: number } | null };
     const det = [...a.det].sort((x, y) => y.created_at.localeCompare(x.created_at))[0];
     const t = (tuition ?? []).find((r) => r.school_id === a.school_id && r.grade === a.grade);
-    if (!det?.tier || !t) continue;
+    const needIndex = det && det.result === 'ELIGIBLE' ? needIndexOf({ method: det.method, pctAmgi: det.pct_amgi == null ? null : Number(det.pct_amgi) }, policy) : null;
+    if (needIndex == null || !t) continue;
     const matches = screen(a.household.household_members.map((m, i) => ({ personId: `${a.id}:${i}`, fullName: m.full_name, dob: m.dob ?? undefined, address: `${a.household.street}` })),
       (dq ?? []).map((d) => ({ personId: d.id, fullName: d.full_name, dob: d.dob ?? undefined, address: d.address ?? undefined, role: d.role, year: d.year })),
       (dqRel ?? []).map((r) => ({ ofPersonId: r.dq_person_id, fullName: r.full_name, dob: r.dob ?? undefined, address: r.address ?? undefined, relation: r.relation })), year)
       .filter((m) => m.strength !== 'possible');
     candidates.push({
-      applicationId: a.id, studentId: a.student_member_id, householdId: a.household_id, schoolId: a.school_id, tier: det.tier, priority: a.priority,
+      applicationId: a.id, studentId: a.student_member_id, householdId: a.household_id, schoolId: a.school_id, needIndex, priority: a.priority,
       tuition: t.tuition_cents, requiredFees: t.required_fees_cents,
       aid: { efs: a.aid?.efs_cents ?? 0, schoolAid: a.aid?.school_aid_cents ?? 0, otherSgo: a.aid?.other_sgo_cents ?? 0, other: a.aid?.other_cents ?? 0 },
       hold: a.hold_reason ?? (matches.length ? `Possible disqualified person: ${matches[0]!.against}` : undefined),
@@ -76,7 +77,7 @@ export async function approveRound(sb: SupabaseClient, roundId: string, boardUse
 
   for (const l of result.lines) {
     if (l.outcome === 'AWARDED') {
-      const { data: aw, error } = await sb.from('awards').insert({ application_id: l.applicationId, round_id: roundId, tier: l.tier, unmet_cents: l.unmet, amount_cents: l.amount, offer_expires_on: expires }).select('id').single();
+      const { data: aw, error } = await sb.from('awards').insert({ application_id: l.applicationId, round_id: roundId, tier: l.tier, need_index: l.needIndex, unmet_cents: l.unmet, full_amount_cents: l.fullAmount, amount_cents: l.amount, offer_expires_on: expires }).select('id').single();
       if (error || !aw) throw new Error(error?.message);
       await sb.from('award_terms').insert(l.terms.map((t) => ({ award_id: aw.id, term: t.term, amount_cents: t.amount, pay_on: (PAY_ON[t.term] ?? PAY_ON.fall!)(year) })));
       await sb.rpc('svc_transition_application', { p_app: l.applicationId, p_to: 'AWARDED', p_actor_kind: 'job', p_actor_id: `round:${roundId}` });

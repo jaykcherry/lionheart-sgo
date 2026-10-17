@@ -15,13 +15,13 @@ export default async function FamilyPortal({ searchParams }: { searchParams: Pro
   const householdId = s?.roles.find((r) => r.role === 'family')?.household_id;
   if (!s || !householdId) redirect('/onboarding');
   const sb = await supabaseUser();
-  const { data: apps } = await sb.from('applications').select('id, ref, grade, state, student:household_members!applications_student_member_id_fkey(full_name), school:schools(name), awards(amount_cents, unmet_cents, tier, offer_expires_on, award_terms(term, amount_cents, pay_on)), eligibility_determinations(result, tier, pct_amgi, reasons, created_at)').eq('household_id', householdId);
+  const { data: apps } = await sb.from('applications').select('id, ref, grade, state, student:household_members!applications_student_member_id_fkey(full_name), school:schools(name), awards(amount_cents, full_amount_cents, unmet_cents, tier, offer_expires_on, award_terms(term, amount_cents, pay_on)), eligibility_determinations(result, tier, pct_amgi, reasons, created_at)').eq('household_id', householdId);
   const { data: docs } = await sb.from('documents').select('id, kind, extracted, confirmed_by_parent_at').eq('household_id', householdId).not('extracted', 'is', null);
   const { data: resid } = await sb.from('residency_attestations').select('term').eq('household_id', householdId);
   const needsResidency = (apps ?? []).some((a) => ['ACCEPTED', 'SCHOOL_CONFIRMED', 'ACTIVE'].includes(a.state)) && !(resid ?? []).some((r) => r.term === 'fall');
 
   type App = { id: string; ref: string; grade: string; state: string; student: { full_name: string }; school: { name: string } | null;
-    awards: { amount_cents: number; unmet_cents: number; tier: string; offer_expires_on: string; award_terms: { term: string; amount_cents: number; pay_on: string }[] }[] };
+    awards: { amount_cents: number; full_amount_cents: number | null; unmet_cents: number; tier: string; offer_expires_on: string; award_terms: { term: string; amount_cents: number; pay_on: string }[] }[] };
   return (
     <>
       <div className="band band-surface"><div className="wrap portal-head"><div><span className="eyebrow">Family</span><h1 className="h2" style={{ marginTop: 6 }}>Your applications</h1></div>
@@ -37,7 +37,8 @@ export default async function FamilyPortal({ searchParams }: { searchParams: Pro
             <ol className="track">{['Submitted', 'Eligible', 'Awarded', 'Accepted', 'School confirmed', 'Paid'].map((l, i) => <li key={l} data-state={i < at ? 'done' : i === at ? 'current' : 'todo'}><span />{l}</li>)}</ol>
             {w && <div className="paper" style={{ padding: '14px 18px' }}>
               <div className="sumrow" style={{ paddingTop: 0 }}><span>Unmet tuition after other aid</span><span className="tnum">{fmtUSD(w.unmet_cents)}</span></div>
-              <div className="sumrow total"><span style={{ fontWeight: 600 }}>Lionheart award (Tier {w.tier})</span><span className="v" style={{ fontSize: 34 }}>{fmtUSD(w.amount_cents)}</span></div>
+              <div className="sumrow total"><span style={{ fontWeight: 600 }}>Lionheart award</span><span className="v" style={{ fontSize: 34 }}>{fmtUSD(w.amount_cents)}</span></div>
+              {w.full_amount_cents != null && w.full_amount_cents > w.amount_cents && <p className="small">Your full award is {fmtUSD(w.full_amount_cents)}. We’ll add the remaining {fmtUSD(w.full_amount_cents - w.amount_cents)} in order as gifts arrive.</p>}
               <p className="small muted">{w.award_terms.map((t) => `${t.term === 'fall' ? 'Fall' : 'Spring'} ${t.pay_on}: ${fmtUSD(t.amount_cents)}`).join(' · ')} · paid to the school</p></div>}
             {a.state === 'AWARDED' && <form action={acceptAward} className="btn-row"><input type="hidden" name="application_id" value={a.id} />
               <button className="btn btn-solid" name="accept" value="yes">Accept award</button><button className="btn btn-ghost" name="accept" value="no">Decline</button>

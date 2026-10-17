@@ -7,7 +7,7 @@ Bold items are hard regulatory deadlines.
 | Oct 31, 2026 | Incorporate / confirm EIN; file Form 1023 if not filed (exempt status must be effective by Jan 1, 2027 to use Tennessee's pending-exemption listing rule) | Founder + counsel |
 | Oct 31 | Submit Tennessee DOE SGO interest form; email SGO.Questions@tn.gov asking (1) whether Tennessee will list SGOs with pending exemption, (2) EFS stacking | Founder |
 | Oct 31 | Open operating and segregated bank accounts; Tennessee charitable solicitation registration | Treasurer |
-| Nov 15 | Board adopts `docs/POLICIES.md` (as revised by counsel), conflict-of-interest policy, award policy 2027-28-v1 | Board |
+| Nov 15 | Board adopts `docs/POLICIES.md` (as revised by counsel), conflict-of-interest policy, award policy 2027-28-v2 | Board |
 | Nov 2026 | **Register in the IRS SGO portal** as soon as it opens (before Jan 1) | Ops lead |
 | Nov 2026 | Connect accounts in `docs/SETUP.md`; load school list and HUD limits; recruit audit committee | Ops lead |
 | **Dec 1, 2026** | **Public comments due** on proposed regs. Suggested asks: add TennCare/Medicaid and individually determined free/reduced lunch to categorical eligibility; confirm DAF treatment; confirm status of gifts made Jan 1–Feb 15, 2027; confirm whether segregated funds may pay admin costs; confirm non-binding school preferences are permitted | Founder + counsel |

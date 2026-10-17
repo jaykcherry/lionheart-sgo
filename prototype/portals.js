@@ -114,7 +114,7 @@ window.LH_PORTALS = function (LH) {
     const m = {}; giftsBefore(date).filter((g) => g.pref).forEach((g) => { m[g.pref] = (m[g.pref] || 0) + g.amount; });
     return Object.entries(m).map(([schoolId, amount]) => ({ schoolId, amount }));
   };
-  const toCand = (a) => ({ applicationId: a.id, studentId: 'st-' + a.id, householdId: a.householdId, schoolId: a.school, tier: a.det.tier, priority: a.priority, tuition: a.tuition, requiredFees: a.fees, aid: a.aid, hold: a.hold || undefined });
+  const toCand = (a) => ({ applicationId: a.id, studentId: 'st-' + a.id, householdId: a.householdId, schoolId: a.school, needIndex: E.needIndexOf(a.det), priority: a.priority, tuition: a.tuition, requiredFees: a.fees, aid: a.aid, hold: a.hold || undefined });
 
   // Round 1 (April 15, 2027): run once at load and treat as board-approved
   const R1_DATE = '2027-04-15';
@@ -124,7 +124,7 @@ window.LH_PORTALS = function (LH) {
   function applyRound(res, roundNo) {
     res.lines.forEach((l) => {
       const a = APPS.find((x) => x.id === l.applicationId);
-      if (l.outcome === 'AWARDED') { AWARD[a.id] = { amount: l.amount, terms: l.terms, round: roundNo, fundedFrom: l.fundedFrom, unmet: l.unmet }; a.state = 'AWARDED'; }
+      if (l.outcome === 'AWARDED') { AWARD[a.id] = { amount: l.amount, terms: l.terms, round: roundNo, fundedFrom: l.fundedFrom, unmet: l.unmet, needIndex: l.needIndex, fullAmount: l.fullAmount, partial: l.partial, shortfall: l.shortfall }; a.state = 'AWARDED'; }
       else if (l.outcome === 'WAITLISTED') a.state = 'WAITLISTED';
       else if (l.outcome === 'HELD') a.state = 'HELD';
       else if (l.outcome === 'NO_AWARD') a.state = 'CLOSED';
@@ -253,8 +253,8 @@ window.LH_PORTALS = function (LH) {
               ${w ? `<div class="paper" style="padding:16px 18px">
                 <div class="sumrow" style="padding-top:0"><span>Tuition + required fees</span><span class="tnum">${money(k.tuition + k.fees)}</span></div>
                 <div class="sumrow"><span>Other aid (EFS, school)</span><span class="tnum">−${money(k.aid.efs + k.aid.schoolAid)}</span></div>
-                <div class="sumrow"><span>Unmet need × ${Math.round(E.DEFAULT_POLICY.tiers[k.det.tier].pctOfUnmet * 100)}% (Tier ${k.det.tier})</span><span class="tnum">${money(w.unmet)}</span></div>
-                <div class="sumrow total" style="padding-top:12px"><span style="font-weight:600">Lionheart award</span><span class="v" style="font-size:36px">${money(w.amount)}</span></div>
+                <div class="sumrow"><span>Unmet need × ${Math.round(E.coverageFor(w.needIndex) * 100)}% (income ${k.det.method === 'categorical' ? 'qualifies through benefits' : Math.round(w.needIndex * 100) + '% of area median'})</span><span class="tnum">${money(w.unmet)}</span></div>
+                <div class="sumrow total" style="padding-top:12px"><span style="font-weight:600">Lionheart award</span><span class="v" style="font-size:36px">${money(w.amount)}</span></div>${w.partial ? `<p class="small">Full award ${money(w.fullAmount)}; the remaining ${money(w.shortfall)} is added in order as gifts arrive.</p>` : ''}
                 <p class="small muted">${w.terms.map((t) => `${t.term === 'fall' ? 'Fall · Aug 20' : 'Spring · Jan 20'}: ${money(t.amount)}`).join(' · ')} · paid to the school</p>
               </div>` : `<p class="body">${k.state === 'QUEUED' ? 'Eligible. Lily is a sibling of a current recipient, so she’s near the front of the Round 2 queue (August).' : 'Waiting for the next award round.'}</p>`}
               ${k.state === 'AWARDED' ? `<div class="btn-row"><button class="btn btn-solid" type="button" data-action="fam-accept" data-id="${k.id}">Accept award</button><button class="btn btn-ghost" type="button" data-action="fam-decline" data-id="${k.id}">Decline</button></div>` : ''}
@@ -385,10 +385,10 @@ window.LH_PORTALS = function (LH) {
           const r1 = P.round1;
           const r2cands = APPS.filter((a) => (a.round === 2 && a.det.result === 'ELIGIBLE') || (a.round === 1 && a.state === 'WAITLISTED')).map(toCand);
           const r2 = P.round2;
-          const linesTable = (res) => `<div class="tablewrap"><table class="table" style="min-width:860px"><thead><tr><th class="num">#</th><th>Applicant</th><th>School</th><th>Priority</th><th>Tier</th><th class="num">Lottery</th><th class="num">Unmet need</th><th class="num">Award</th><th>Funded from</th><th>Outcome</th></tr></thead><tbody>
-            ${res.lines.map((l) => { const a = APPS.find((x) => x.id === l.applicationId); return `<tr><td class="num">${l.rank}</td><td>${esc(a.child)} ${esc(a.family.charAt(0))}. <span class="small muted tnum">${l.applicationId}</span></td><td>${esc(schoolName(l.schoolId).replace(/ (Christian )?(School|Academy)$/, ''))}</td><td>${['', 'Renewal', 'Sibling', 'New'][l.priority]}</td><td>${l.tier}</td><td class="num small muted">${String(l.lottery).slice(0, 6)}</td><td class="num">${money(l.unmet)}</td><td class="num">${l.amount ? money(l.amount) : '—'}</td><td class="small">${l.fundedFrom.map((f) => f.pool === 'general' ? 'General' : 'Pref: ' + esc(schoolName(f.pool).split(' ')[0])).join(' + ') || '—'}</td><td>${statePill(l.outcome === 'AWARDED' ? 'AWARDED' : l.outcome)}${l.note && l.outcome !== 'AWARDED' ? `<br><span class="hint">${esc(l.note)}</span>` : ''}</td></tr>`; }).join('')}
+          const linesTable = (res) => `<div class="tablewrap"><table class="table" style="min-width:860px"><thead><tr><th class="num">#</th><th>Applicant</th><th>School</th><th>Priority</th><th class="num">% of median</th><th class="num">Lottery</th><th class="num">Unmet need</th><th class="num">Award</th><th>Funded from</th><th>Outcome</th></tr></thead><tbody>
+            ${res.lines.map((l) => { const a = APPS.find((x) => x.id === l.applicationId); return `<tr><td class="num">${l.rank}</td><td>${esc(a.child)} ${esc(a.family.charAt(0))}. <span class="small muted tnum">${l.applicationId}</span></td><td>${esc(schoolName(l.schoolId).replace(/ (Christian )?(School|Academy)$/, ''))}</td><td>${['', 'Renewal', 'Sibling', 'New'][l.priority]}</td><td class="num">${Math.round(l.needIndex * 100)}%</td><td class="num small muted">${String(l.lottery).slice(0, 6)}</td><td class="num">${money(l.unmet)}</td><td class="num">${l.amount ? money(l.amount) : '—'}${l.partial ? `<br><span class="hint">of ${money(l.fullAmount)}</span>` : ''}</td><td class="small">${l.fundedFrom.map((f) => f.pool === 'general' ? 'General' : 'Pref: ' + esc(schoolName(f.pool).split(' ')[0])).join(' + ') || '—'}</td><td>${statePill(l.outcome === 'AWARDED' ? 'AWARDED' : l.outcome)}${l.note && l.outcome !== 'AWARDED' ? `<br><span class="hint">${esc(l.note)}</span>` : ''}</td></tr>`; }).join('')}
             </tbody></table></div>`;
-          const sumLine = (res) => `<div class="kpis" style="margin:16px 0 20px">${kpi('Awarded', money(res.totals.awarded), `${res.totals.students} students · ${res.totals.schools} schools`)}${kpi('Waitlisted', res.totals.waitlisted, 'Offered as gifts arrive')}${kpi('Held for review', res.totals.held, 'DQ or fraud flags')}${kpi('Cash left', money(res.totals.cashRemaining), 'Rolls to next round')}</div>
+          const sumLine = (res) => `<div class="kpis" style="margin:16px 0 20px">${kpi('Awarded', money(res.totals.awarded), `${res.totals.students} students · ${res.totals.schools} schools`)}${kpi('Waitlisted', res.totals.waitlisted, res.totals.partial ? `${res.totals.partial} partial · ${money(res.totals.shortfall)} to fund all` : 'Offered as gifts arrive')}${kpi('Held for review', res.totals.held, 'DQ or fraud flags')}${kpi('Cash left', money(res.totals.cashRemaining), 'Rolls to next round')}</div>
             ${res.honoredPreferences.length || res.mergedPreferences.length ? `<p class="small muted">School preferences honored: ${res.honoredPreferences.map((s) => esc(schoolName(s))).join(', ') || 'none'}. Returned to general pool (fewer than ${E.DEFAULT_POLICY.schoolPreference.minEligibleApplicants} eligible applicants): ${res.mergedPreferences.map((s) => esc(schoolName(s))).join(', ') || 'none'}.</p>` : ''}`;
           return `<div class="stack-l">
             <section class="panel" style="box-shadow:none;border:1px solid var(--color-divider)">
@@ -434,11 +434,9 @@ window.LH_PORTALS = function (LH) {
         if (tab === 'deadlines') return `<div class="tablewrap"><table class="table"><thead><tr><th>Due</th><th>What</th><th>Owner</th><th>Status</th></tr></thead><tbody>${snap.deadlines.map((d) => `<tr><td class="tnum">${d.due}</td><td>${esc(d.label)}</td><td class="small">${esc(d.owner)}</td><td>${d.done ? pill('Done', 'pill-ok') : d.due < DEMO_DATE ? pill('Overdue', 'pill-bad') : pill('Upcoming', 'pill-neutral')}</td></tr>`).join('')}</tbody></table></div>`;
         const pol = E.DEFAULT_POLICY;
         return `<div class="split"><div class="stack-m"><h2 class="h3">Award policy ${esc(pol.version)}</h2><p class="body">Adopted by the board on March 10, 2027. The award engine can only use board-approved parameters; any change creates a new version.</p></div>
-          <div class="stack-m"><div class="tablewrap"><table class="table"><thead><tr><th>Tier</th><th>Who</th><th class="num">Share of unmet need</th><th class="num">Cap</th></tr></thead><tbody>
-          <tr><td>A</td><td>SNAP/TANF/WIC/Section 8/SSI, foster, or income ≤100% of area median</td><td class="num">${pol.tiers.A.pctOfUnmet * 100}%</td><td class="num">${money(pol.tiers.A.capPerStudent)}</td></tr>
-          <tr><td>B</td><td>100–200% of area median</td><td class="num">${pol.tiers.B.pctOfUnmet * 100}%</td><td class="num">${money(pol.tiers.B.capPerStudent)}</td></tr>
-          <tr><td>C</td><td>200–300% of area median</td><td class="num">${pol.tiers.C.pctOfUnmet * 100}%</td><td class="num">${money(pol.tiers.C.capPerStudent)}</td></tr></tbody></table></div>
-          <p class="small">Order: renewals, then siblings of recipients, then Tier A → B → C, ties by published-seed lottery. Unmet need = tuition + required fees − EFS − school aid − other SGO awards. Awards only from cash on hand. Minimum award ${money(pol.minimumAward)}. Paid in ${pol.terms.length} terms.</p></div></div>`;
+          <div class="stack-m"><div class="tablewrap"><table class="table"><thead><tr><th>Household income</th><th class="num">Share of unmet need</th><th class="num">Cap per student</th></tr></thead><tbody>
+          ${pol.schedule.map((p) => `<tr><td>${p.needIndex === 0 ? 'Lowest (SNAP/TANF/WIC/Section 8/SSI, foster)' : Math.round(p.needIndex * 100) + '% of area median'}</td><td class="num">${Math.round(p.pctOfUnmet * 100)}%</td><td class="num">${money(p.cap)}</td></tr>`).join('')}</tbody></table></div>
+          <p class="small">Share and cap slide smoothly between these points. Order: renewals, then siblings of recipients, then lowest income first (in bands of ${Math.round(pol.rankBandWidth * 100)}% of median), ties by published-seed lottery. ${pol.funding.mode === 'floor_then_topup' ? `Every ranked student gets up to ${money(pol.funding.floor)} before anyone is topped up; top-ups then go lowest income first.` : 'Full awards in strict rank order.'} Unmet need = tuition + required fees − EFS − school aid − other SGO awards. Awards only from cash on hand. Minimum award ${money(pol.minimumAward)}. Paid in ${pol.terms.length} terms.</p></div></div>`;
       });
   }
 

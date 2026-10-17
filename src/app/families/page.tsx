@@ -11,6 +11,7 @@ export default function Families() {
         <div className="rows" style={{ borderTop: '2px solid rgba(255,255,255,.5)' }}>
           {[['Your child lives in Tennessee', 'Residence decides, not school location.'], ['Your child could enroll in a public school', 'Kindergarten through 12th grade.'],
             ['Household income within the limit', 'Last year’s income at or below 300% of your area’s median income, adjusted for household size.'],
+            ['Lowest incomes are served first', 'Every eligible family is in line; the lowest incomes go first and receive the largest share of tuition.'],
             ['Renewals and siblings come first', 'From 2028–29, prior recipients and their siblings are funded first.']].map(([t, b]) => (
             <div key={t}><span className="check" aria-hidden>✓</span><div><p className="rows-title">{t}</p><p className="body">{b}</p></div></div>))}
         </div></section></div>

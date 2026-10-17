@@ -1,0 +1,647 @@
+<title>Lionheart Award Calculator</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: an internal award worksheet. A narrow masthead, then three ledgers stacked:
+   one student (inputs | worksheet), the round simulator (controls | results), and the policy. */
+:root {
+  --paper: #f5f1e8;      /* page */
+  --sheet: #fcfaf5;      /* worksheet surfaces */
+  --ink: #1c2a4a;        /* navy text */
+  --ink-2: #4a5470;      /* secondary text */
+  --rule: #d9d1bf;       /* hairlines */
+  --crimson: #8e2a2e;    /* accent: actions, the award figure */
+  --gold: #a8854a;       /* labels, chart cap line */
+  --wash: #ebe4d3;       /* chart shortfall, chips */
+  --ok: #2f6b45; --warn: #9a6512; --bad: #9b2c2c;
+  --display: "Libre Caslon Text", "Iowan Old Style", Georgia, serif;
+  --body: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0f1524; --sheet: #161e31; --ink: #ece6d8; --ink-2: #a9b0c2; --rule: #2c3651;
+  --crimson: #e08a84; --gold: #d4b57e; --wash: #24304a; --ok: #79c193; --warn: #e2b062; --bad: #ec8b8b; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #0f1524; --sheet: #161e31; --ink: #ece6d8; --ink-2: #a9b0c2; --rule: #2c3651;
+  --crimson: #e08a84; --gold: #d4b57e; --wash: #24304a; --ok: #79c193; --warn: #e2b062; --bad: #ec8b8b; color-scheme: dark }
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+section.ledger, .sheet, fieldset, .stack, .lines { grid-template-columns: minmax(0, 1fr); }
+.stack { display: grid; gap: var(--s5); min-width: 0; }
+.stack.tight { gap: var(--s4); }
+body { background: var(--paper); color: var(--ink); font: 15px/1.55 var(--body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 0 var(--s7); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(28px, 4vw, 40px); }
+h2 { font-size: clamp(22px, 2.6vw, 28px); }
+h3 { font-size: 18px; }
+p { margin: 0; }
+.label { font: 600 11px/1.3 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
+.muted { color: var(--ink-2); }
+.small { font-size: 13px; }
+.num, .tnum { font-variant-numeric: tabular-nums; }
+
+/* masthead */
+.mast { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--s4); padding-block: var(--s6) var(--s5); border-bottom: 3px double var(--ink); }
+.mast .lede { max-width: 62ch; margin-top: var(--s2); color: var(--ink-2); }
+.chips { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.chip { font: 600 12px/1 var(--body); padding: 7px 10px; border: 1px solid var(--rule); border-radius: 999px; background: var(--sheet); white-space: nowrap; }
+.chip.internal { border-color: var(--crimson); color: var(--crimson); }
+nav.jump { display: flex; gap: var(--s5); flex-wrap: wrap; padding-block: var(--s3); border-bottom: 1px solid var(--rule); }
+nav.jump a { color: var(--ink); text-decoration: none; font-weight: 600; font-size: 14px; }
+nav.jump a:hover, nav.jump a:focus-visible { color: var(--crimson); }
+
+section.ledger { padding-block: var(--s7) 0; display: grid; gap: var(--s5); }
+.ledger-head { display: grid; gap: var(--s2); max-width: 70ch; }
+.cols { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: var(--s6); align-items: start; }
+@media (max-width: 860px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+
+/* form */
+fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: var(--s4); min-width: 0; }
+legend { padding: 0; margin-bottom: var(--s2); }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field label, .field .lab { font-weight: 600; font-size: 13px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); }
+input[type=number], input[type=text], select, textarea { font: 15px/1.3 var(--body); color: var(--ink); background: var(--sheet); border: 1px solid var(--rule); border-radius: 4px; padding: 9px 10px; width: 100%; min-width: 0; }
+textarea { font: 12px/1.45 ui-monospace, "SFMono-Regular", Menlo, monospace; min-height: 150px; resize: vertical; }
+input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--crimson); outline-offset: 2px; }
+.money { position: relative; }
+.money input { padding-left: 22px; }
+.money::before { content: "$"; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--ink-2); font-size: 15px; pointer-events: none; }
+.seg { display: flex; flex-wrap: wrap; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; background: var(--sheet); }
+.seg label { flex: 1 1 auto; text-align: center; padding: 8px 10px; font-size: 13px; font-weight: 600; cursor: pointer; border-right: 1px solid var(--rule); }
+.seg label:last-child { border-right: 0; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg input:checked + span { color: var(--crimson); }
+.seg label:has(input:checked) { background: var(--wash); }
+.seg label:has(input:focus-visible) { outline: 2px solid var(--crimson); outline-offset: -2px; }
+.tick { display: flex; gap: var(--s2); align-items: start; font-size: 14px; }
+.tick input { margin-top: 4px; accent-color: var(--crimson); }
+input[type=range] { width: 100%; accent-color: var(--crimson); }
+.hint { font-size: 12px; color: var(--ink-2); }
+button { font: 600 14px/1 var(--body); padding: 10px 14px; border-radius: 4px; border: 1px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer; }
+button.solid { background: var(--crimson); border-color: var(--crimson); color: var(--paper); }
+button:hover { border-color: var(--crimson); }
+.btns { display: flex; flex-wrap: wrap; gap: var(--s2); }
+
+/* worksheet */
+.sheet { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: var(--s5); display: grid; gap: var(--s5); min-width: 0; }
+.verdict { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s4); align-items: end; }
+.big { font: 400 clamp(40px, 6vw, 60px)/1 var(--display); color: var(--crimson); font-variant-numeric: tabular-nums; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font: 600 12px/1 var(--body); padding: 6px 9px; border-radius: 999px; border: 1px solid currentColor; }
+.pill.ok { color: var(--ok); } .pill.warn { color: var(--warn); } .pill.bad { color: var(--bad); } .pill.neutral { color: var(--ink-2); }
+.lines { display: grid; }
+.line { display: flex; justify-content: space-between; gap: var(--s4); padding: 9px 0; border-bottom: 1px solid var(--rule); font-variant-numeric: tabular-nums; }
+.line span:first-child { min-width: 0; }
+.line.sub { color: var(--ink-2); }
+.line.total { border-bottom: 0; border-top: 2px solid var(--ink); font-weight: 700; }
+.line.result { font-weight: 700; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s4); }
+.fact { display: grid; gap: 4px; align-content: start; }
+.fact b { font: 400 22px/1.1 var(--display); font-variant-numeric: tabular-nums; }
+.note { font-size: 13px; color: var(--ink-2); border-left: 2px solid var(--gold); padding-left: var(--s3); }
+.chart { width: 100%; height: auto; display: block; }
+.chart text { fill: var(--ink-2); font: 11px var(--body); }
+.chart .axis { stroke: var(--rule); }
+.legend { display: flex; flex-wrap: wrap; gap: var(--s4); font-size: 12px; color: var(--ink-2); }
+.legend i { display: inline-block; width: 14px; height: 3px; vertical-align: middle; margin-right: 6px; border-radius: 2px; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); }
+table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 8px 9px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th { font: 600 11px/1.2 var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--gold); background: var(--sheet); position: sticky; top: 0; }
+td.r, th.r { text-align: right; }
+tr.cut td { border-top: 2px solid var(--crimson); }
+.status { font-weight: 600; }
+.status.full { color: var(--ok); } .status.partial { color: var(--warn); } .status.wait { color: var(--bad); } .status.none { color: var(--ink-2); }
+.kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.kpi { background: var(--sheet); padding: var(--s4); display: grid; gap: 4px; align-content: start; }
+.kpi b { font: 400 26px/1.1 var(--display); font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.compare td:first-child { font-weight: 600; }
+.warnbox { border: 1px solid var(--warn); color: var(--warn); border-radius: 6px; padding: var(--s3) var(--s4); font-size: 13px; }
+.sched td input { width: 92px; padding: 6px 8px; }
+details summary { cursor: pointer; font-weight: 600; }
+footer { margin-top: var(--s7); padding-top: var(--s4); border-top: 1px solid var(--rule); font-size: 12px; color: var(--ink-2); display: grid; gap: var(--s2); max-width: 90ch; }
+@media (prefers-reduced-motion: no-preference) { .big, .kpi b { transition: color .2s; } }
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <div>
+      <p class="label">Lionheart · Internal · Not for families or donors</p>
+      <h1>Award Calculator</h1>
+      <p class="lede">Check one student’s award, then see how a round plays out at a given budget. Every number here comes from the same award engine the platform runs, under the policy shown at the bottom of the page.</p>
+    </div>
+    <div class="chips"><span class="chip internal">Staff &amp; board</span><span class="chip" id="polchip">Policy 2027-28-v2</span></div>
+  </header>
+  <nav class="jump" aria-label="Sections"><a href="#student">One student</a><a href="#round">Round simulator</a><a href="#policy">Policy</a></nav>
+
+  <!-- ── One student ───────────────────────────────────────── -->
+  <section class="ledger" id="student">
+    <div class="ledger-head"><p class="label">Ledger 1</p><h2>One student</h2><p class="muted">Enter what the family and school reported. The worksheet shows the full award the formula calls for; in a short round the student may receive the floor first and the rest as gifts arrive.</p></div>
+    <div class="cols">
+      <form id="sf" autocomplete="off">
+        <fieldset>
+          <legend class="label">Household</legend>
+          <div class="field"><label for="area">Area median income</label>
+            <select id="area"><option value="11610000">Nashville metro, HUD FY2026 — $116,100</option><option value="9230000">Tennessee statewide reference — $92,300</option><option value="custom">Another county (enter below)</option></select></div>
+          <div class="field" id="customWrap" hidden><label for="customMedian">That county’s median (4-person)</label><div class="money"><input id="customMedian" type="number" min="10000" step="100" value="80000"></div></div>
+          <div class="row2">
+            <div class="field"><label for="size">People in household</label><input id="size" type="number" min="1" max="15" value="4"></div>
+            <div class="field"><label for="prio">Applicant group</label><select id="prio"><option value="3">New</option><option value="2">Sibling</option><option value="1">Renewal</option></select></div>
+          </div>
+          <div class="field"><span class="lab" id="basisLab">How they qualify</span>
+            <div class="seg" role="radiogroup" aria-labelledby="basisLab">
+              <label><input type="radio" name="basis" value="income" checked><span>Income</span></label>
+              <label><input type="radio" name="basis" value="categorical"><span>Benefits</span></label>
+              <label><input type="radio" name="basis" value="foster"><span>Foster</span></label>
+            </div><p class="hint" id="basisHint">Last calendar year’s cash income for everyone in the household.</p></div>
+          <div class="field" id="incomeWrap"><label for="income">Household income</label><div class="money"><input id="income" type="number" min="0" step="500" value="62000"></div></div>
+        </fieldset>
+        <fieldset style="margin-top:var(--s5)">
+          <legend class="label">Cost and other aid</legend>
+          <div class="row2">
+            <div class="field"><label for="tuition">Tuition</label><div class="money"><input id="tuition" type="number" min="0" step="100" value="11000"></div></div>
+            <div class="field"><label for="fees">Required fees</label><div class="money"><input id="fees" type="number" min="0" step="50" value="500"></div></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="efs">EFS scholarship</label><div class="money"><input id="efs" type="number" min="0" step="10" value="7530"></div></div>
+            <div class="field"><label for="schoolAid">School aid</label><div class="money"><input id="schoolAid" type="number" min="0" step="50" value="0"></div></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="otherSgo">Other SGO</label><div class="money"><input id="otherSgo" type="number" min="0" step="50" value="0"></div></div>
+            <div class="field"><label for="other">Other aid</label><div class="money"><input id="other" type="number" min="0" step="50" value="0"></div></div>
+          </div>
+          <p class="hint">Tennessee EFS is $7,530 for 2026–27. Enter 0 if the student doesn’t have it.</p>
+          <div class="btns"><button type="button" data-preset="a">Example: benefits, no EFS</button><button type="button" data-preset="b">Example: $150k, family of 5</button></div>
+        </fieldset>
+      </form>
+
+      <div class="sheet" aria-live="polite">
+        <div class="verdict">
+          <div><p class="label">Full award, 2027–28</p><div class="big" id="sAward">$0</div><p class="small muted" id="sTerms"></p></div>
+          <div style="display:grid;gap:8px;justify-items:end"><span id="sElig" class="pill ok">Eligible</span><span id="sLimit" class="pill neutral">Limited by share</span></div>
+        </div>
+        <div class="facts">
+          <div class="fact"><span class="label">Income vs. area median</span><b id="sNi">—</b><span class="small muted" id="sNiSub"></span></div>
+          <div class="fact"><span class="label">Share of unmet need</span><b id="sCov">—</b><span class="small muted" id="sCapSub"></span></div>
+          <div class="fact"><span class="label">Place in line</span><b id="sBand">—</b><span class="small muted" id="sBandSub"></span></div>
+        </div>
+        <div class="lines" id="sLines"></div>
+        <p class="note" id="sNote"></p>
+        <div>
+          <p class="label" style="margin-bottom:8px">Where this student sits on the scale</p>
+          <svg class="chart" id="sChart" viewBox="0 0 640 230" role="img" aria-label="Share of unmet need and cap by income"></svg>
+          <div class="legend"><span><i style="background:var(--crimson)"></i>Share of unmet need</span><span><i style="background:var(--gold)"></i>Cap per student</span><span><i style="background:var(--ink)"></i>This student</span></div>
+        </div>
+        <details><summary>Same student at other incomes</summary><div class="tablewrap" style="margin-top:12px"><table id="sLadder"></table></div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Round simulator ──────────────────────────────────── -->
+  <section class="ledger" id="round">
+    <div class="ledger-head"><p class="label">Ledger 2</p><h2>Round simulator</h2><p class="muted">Pick a budget and an applicant pool. The engine ranks everyone (renewals, siblings, then lowest income first with a lottery inside each band) and funds them under the policy below. Use a sample pool to explore, or paste real applicants to check a round before the board votes.</p></div>
+    <div class="cols">
+      <form id="rf" autocomplete="off">
+        <fieldset>
+          <legend class="label">Budget</legend>
+          <div class="field"><label for="budget">Cash available this round</label><div class="money"><input id="budget" type="number" min="0" step="5000" value="300000"></div>
+            <input id="budgetR" type="range" min="0" max="2000000" step="5000" value="300000" aria-label="Cash available this round"></div>
+          <div class="field"><label for="seed">Published lottery seed</label><input id="seed" type="text" value="LH-2027-R1-0415"></div>
+        </fieldset>
+        <fieldset style="margin-top:var(--s5)">
+          <legend class="label">Applicants</legend>
+          <div class="seg" role="radiogroup" aria-label="Applicant source">
+            <label><input type="radio" name="src" value="sample" checked><span>Sample pool</span></label>
+            <label><input type="radio" name="src" value="paste"><span>Paste applicants</span></label>
+          </div>
+          <div id="sampleWrap" class="stack tight">
+            <div class="field"><label for="count">Applicants: <span id="countV" class="tnum">150</span></label><input id="count" type="range" min="10" max="800" step="10" value="150"></div>
+            <div class="field"><label for="mix">Income mix</label><select id="mix"><option value="low">Mostly lower income</option><option value="even" selected>Spread across the range</option><option value="mid">Mostly middle income</option></select></div>
+            <div class="field"><label for="catPct">On SNAP, TANF, WIC, Section 8 or SSI: <span id="catV" class="tnum">15%</span></label><input id="catPct" type="range" min="0" max="60" step="5" value="15"></div>
+            <div class="field"><label for="efsPct">Also have EFS: <span id="efsV" class="tnum">40%</span></label><input id="efsPct" type="range" min="0" max="100" step="5" value="40"></div>
+            <div class="field"><label for="renPct">Renewals and siblings: <span id="renV" class="tnum">0%</span></label><input id="renPct" type="range" min="0" max="60" step="5" value="0"><p class="hint">Statutory priority begins with 2028–29, so the first year is all new applicants.</p></div>
+          </div>
+          <div id="pasteWrap" class="stack tight" hidden>
+            <div class="field"><label for="csv">One applicant per line</label><textarea id="csv" spellcheck="false"></textarea>
+              <p class="hint">Columns: id, school, household_size, income (or <b>benefits</b> / <b>foster</b>), tuition, fees, efs, school_aid, other_aid, group (new, sibling, renewal), household. A header row is optional. Income is compared with the area median chosen in Ledger 1.</p></div>
+            <div class="btns"><button type="button" id="loadEx">Load example rows</button></div>
+            <p class="hint" id="csvErr"></p>
+          </div>
+        </fieldset>
+      </form>
+
+      <div class="stack">
+        <div class="kpis" id="kpis"></div>
+        <div id="breadth"></div>
+        <div class="sheet">
+          <div><p class="label" style="margin-bottom:8px">Each applicant’s award, by income</p>
+          <svg class="chart" id="rChart" viewBox="0 0 640 260" role="img" aria-label="Funded and unfunded award by applicant income"></svg>
+          <div class="legend"><span><i style="background:var(--crimson)"></i>Funded this round</span><span><i style="background:var(--wash);outline:1px solid var(--rule)"></i>Rest of full award, waiting for gifts</span></div></div>
+          <div><p class="label" style="margin-bottom:8px">Same pool and budget, both funding methods</p>
+          <div class="tablewrap"><table class="compare" id="cmp"></table></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:8px"><p class="label">Ranked list</p><div class="btns"><button type="button" id="copyCsv">Copy as CSV</button><button type="button" id="showAll">Show all</button></div></div>
+          <div class="tablewrap" style="max-height:560px"><table id="ranked"></table></div>
+          <p class="hint" id="copyMsg" style="margin-top:6px"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Policy ───────────────────────────────────────────── -->
+  <section class="ledger" id="policy">
+    <div class="ledger-head"><p class="label">Ledger 3</p><h2>Policy</h2><p class="muted">These are the board-adopted parameters. Change them here to test a proposal; both ledgers above update at once. A change takes effect on the platform only when the board adopts a new policy version.</p></div>
+    <div class="cols">
+      <form id="pf" autocomplete="off">
+        <fieldset>
+          <legend class="label">Order and funding</legend>
+          <div class="field"><label for="mode">Funding method</label><select id="mode"><option value="floor_then_topup">Breadth first: floor for everyone, then top up</option><option value="waterfall">Depth first: full awards in rank order</option></select></div>
+          <div class="row2">
+            <div class="field"><label for="floor">Floor award</label><div class="money"><input id="floor" type="number" min="0" step="50"></div></div>
+            <div class="field"><label for="minimum">Minimum award</label><div class="money"><input id="minimum" type="number" min="0" step="50"></div></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="band">Ranking band (% of median)</label><input id="band" type="number" min="0" max="50" step="1"></div>
+            <div class="field"><label for="catNi">Benefits/foster placed at (% of median)</label><input id="catNi" type="number" min="0" max="300" step="5"></div>
+          </div>
+          <div class="field"><label for="hhCap">Household cap per round (blank for none)</label><div class="money"><input id="hhCap" type="number" min="0" step="500" placeholder="None"></div></div>
+          <label class="tick"><input type="checkbox" id="partial"><span>Allow partial awards at the cash cut-off</span></label>
+          <label class="tick"><input type="checkbox" id="strict"><span>Strict order (never skip a higher-ranked student)</span></label>
+        </fieldset>
+      </form>
+      <div class="stack tight">
+        <div><p class="label" style="margin-bottom:8px">Award scale</p>
+          <div class="tablewrap"><table class="sched" id="sched"></table></div>
+          <p class="hint" style="margin-top:6px">Share and cap slide in a straight line between rows and stay flat past the last row. Shares and caps must not rise with income.</p></div>
+        <div id="polWarn"></div>
+        <div class="btns"><button type="button" id="reset">Reset to adopted policy</button><button type="button" class="solid" id="copyPol">Copy policy JSON</button></div>
+        <p class="hint" id="polMsg"></p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Internal working tool. Amounts are estimates until income is verified and the board approves a round. Area medians: HUD FY2026 Nashville metro; THDA 2025 statewide reference. Treasury has not yet published §25F income tables; the platform records which limits version each determination used.</p>
+    <p>Statute: renewing students, then their siblings, must be served first (26 U.S.C. §25F). Within each group, Lionheart ranks lowest income first. This page is not legal advice.</p>
+  </footer>
+</div>
+
+<script>/*ENGINE*/</script>
+<script>
+(function () {
+  'use strict';
+  const E = window.LionheartEngine;
+  const $ = (id) => document.getElementById(id);
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+  const ADOPTED = clone(E.DEFAULT_POLICY);
+  let policy = clone(ADOPTED);
+  const usd = (c) => (c < 0 ? '−' : '') + '$' + Math.round(Math.abs(c) / 100).toLocaleString('en-US');
+  const pct = (x, d = 0) => (x * 100).toFixed(d) + '%';
+  const cents = (v) => Math.max(0, Math.round((parseFloat(v) || 0) * 100));
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const GROUP = { 1: 'Renewal', 2: 'Sibling', 3: 'New' };
+
+  // ── area median (shared by both ledgers) ─────────────────
+  const median = () => $('area').value === 'custom' ? cents($('customMedian').value) : Number($('area').value);
+  const adjusted = (size) => Math.round(median() * E.sizeMultiplier(Math.max(1, Math.min(30, Math.round(size) || 1))));
+
+  // ── chart helpers ───────────────────────────────────────
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const W = 640, PADL = 52, PADR = 52, PADT = 14;
+  function axisNI(H, bottom) {
+    let s = '';
+    for (let k = 0; k <= 3; k += 0.5) { const x = PADL + (k / 3) * (W - PADL - PADR);
+      s += `<line class="axis" x1="${x}" x2="${x}" y1="${PADT}" y2="${bottom}" stroke-dasharray="${k % 1 ? '2 4' : '0'}"/>`;
+      s += `<text x="${x}" y="${bottom + 16}" text-anchor="middle">${Math.round(k * 100)}%</text>`; }
+    s += `<text x="${(W) / 2}" y="${H - 2}" text-anchor="middle">Household income as % of area median</text>`;
+    return s;
+  }
+
+  // ── Ledger 1: one student ───────────────────────────────
+  function readStudent() {
+    const basis = document.querySelector('input[name=basis]:checked').value;
+    const size = parseInt($('size').value, 10) || 1;
+    const adj = adjusted(size);
+    const income = cents($('income').value);
+    const ni = basis === 'income' ? (adj ? income / adj : 0) : policy.categoricalNeedIndex;
+    return { basis, size, adj, income, ni, priority: Number($('prio').value), tuition: cents($('tuition').value), fees: cents($('fees').value),
+      aid: { efs: cents($('efs').value), schoolAid: cents($('schoolAid').value), otherSgo: cents($('otherSgo').value), other: cents($('other').value) } };
+  }
+
+  function renderStudent() {
+    const s = readStudent();
+    $('incomeWrap').hidden = s.basis !== 'income';
+    $('customWrap').hidden = $('area').value !== 'custom';
+    $('basisHint').textContent = s.basis === 'income' ? 'Last calendar year’s cash income for everyone in the household.'
+      : s.basis === 'categorical' ? 'An award letter dated within 12 months. No income math; placed at the policy’s benefits level.' : 'A current foster placement letter. Placed at the policy’s benefits level.';
+    const limit = s.adj * 3;
+    const over = s.basis === 'income' && s.ni > 3;
+    const x = E.explainAward(s.ni, s.tuition, s.fees, s.aid, policy);
+    const amount = over ? 0 : x.amount;
+    $('sAward').textContent = usd(amount);
+    $('sTerms').textContent = amount ? E.splitTerms(amount, policy).map((t) => `${t.term === 'fall' ? 'Fall' : 'Spring'} ${usd(t.amount)}`).join(' · ') + ' · paid to the school' : '';
+    const el = $('sElig');
+    el.className = 'pill ' + (over ? 'bad' : 'ok');
+    el.textContent = over ? 'Over the 300% limit' : s.basis === 'income' ? 'Eligible' : s.basis === 'categorical' ? 'Eligible through benefits' : 'Eligible (foster)';
+    const lim = $('sLimit');
+    const LB = { share: 'Limited by share of need', cap: 'Limited by the cap', unmet: 'Covers all unmet need', minimum: 'Under the minimum award', none: 'No unmet need' };
+    lim.textContent = over ? 'No award' : LB[x.limitedBy];
+    lim.className = 'pill ' + (over || x.limitedBy === 'minimum' || x.limitedBy === 'none' ? 'warn' : 'neutral');
+    $('sNi').textContent = s.basis === 'income' ? pct(s.ni, 1) : pct(s.ni) + ' (assigned)';
+    $('sNiSub').textContent = s.basis === 'income' ? `${usd(s.income)} ÷ ${usd(s.adj)} median for ${s.size}. Limit ${usd(limit)}.` : `Median for ${s.size}: ${usd(s.adj)}. Limit ${usd(limit)}.`;
+    $('sCov').textContent = pct(x.coverage, 1);
+    $('sCapSub').textContent = `Cap at this income: ${usd(x.cap)}`;
+    const bw = policy.rankBandWidth;
+    $('sBand').textContent = over ? '—' : `${GROUP[s.priority]} · band ${x.band + 1}`;
+    $('sBandSub').textContent = over ? '' : bw > 0 ? `Incomes ${pct(x.band * bw)}–${pct((x.band + 1) * bw)} of median, ordered by lottery within the band.` : 'Exact income order.';
+    const L = [
+      ['Tuition + required fees', usd(s.tuition + s.fees)],
+      ['Tennessee EFS', usd(-s.aid.efs), 'sub'], ['School aid', usd(-s.aid.schoolAid), 'sub'], ['Other SGO and aid', usd(-(s.aid.otherSgo + s.aid.other)), 'sub'],
+      ['Unmet need', usd(x.unmet), 'total'],
+      [`× ${pct(x.coverage, 1)} share`, usd(x.byShare), 'sub'],
+      [`Cap at ${s.basis === 'income' ? pct(s.ni) : 'benefits level'}`, usd(x.cap), 'sub'],
+      ['Lionheart award', usd(amount), 'result'],
+      ['Family still owes the school', usd(Math.max(0, x.unmet - amount)), 'sub'],
+    ];
+    $('sLines').innerHTML = L.map(([a, b, c]) => `<div class="line ${c || ''}"><span>${a}</span><span>${b}</span></div>`).join('');
+    const floorTxt = policy.funding.mode === 'floor_then_topup' && amount > policy.funding.floor
+      ? `If a round is short, this student first receives ${usd(Math.min(amount, Math.max(policy.funding.floor, policy.minimumAward)))} with everyone else in line, then the remaining ${usd(amount - Math.min(amount, Math.max(policy.funding.floor, policy.minimumAward)))} in rank order as cash allows.`
+      : policy.funding.mode === 'waterfall' ? 'Under depth-first funding this student receives the full award or waits, in rank order.' : '';
+    $('sNote').textContent = over ? 'Income is over 300% of the area median for this household size, so the student is not eligible under §25F.'
+      : x.limitedBy === 'minimum' ? `The formula gives less than the ${usd(policy.minimumAward)} minimum, so no award is issued.`
+      : x.limitedBy === 'none' ? 'Other aid already covers tuition and fees.' : floorTxt;
+    drawStudentChart(s.ni, over);
+    // ladder
+    const rows = [0, 0.5, 1, 1.5, 2, 2.5, 3].map((k) => { const y = E.explainAward(k, s.tuition, s.fees, s.aid, policy); return [k, y]; });
+    $('sLadder').innerHTML = `<thead><tr><th>Income vs. median</th><th class="r">Income, ${s.size} people</th><th class="r">Share</th><th class="r">Cap</th><th class="r">Award</th><th class="r">Family owes</th></tr></thead><tbody>` +
+      rows.map(([k, y]) => `<tr><td>${pct(k)}</td><td class="r">${usd(Math.round(k * s.adj))}</td><td class="r">${pct(y.coverage, 1)}</td><td class="r">${usd(y.cap)}</td><td class="r">${usd(y.amount)}</td><td class="r">${usd(y.familyShare)}</td></tr>`).join('') + '</tbody>';
+  }
+
+  function drawStudentChart(ni, over) {
+    const H = 230, bottom = H - 34, top = PADT;
+    const maxCap = Math.max(...policy.schedule.map((p) => p.cap), 100000);
+    const capMax = Math.ceil(maxCap / 400000) * 400000;
+    const X = (k) => PADL + (Math.min(3, Math.max(0, k)) / 3) * (W - PADL - PADR);
+    const Yp = (p) => bottom - p * (bottom - top);
+    const Yc = (c) => bottom - (c / capMax) * (bottom - top);
+    let s = axisNI(H, bottom);
+    for (const p of [0, 0.25, 0.5, 0.75, 1]) s += `<text x="${PADL - 8}" y="${Yp(p) + 4}" text-anchor="end">${p * 100}%</text>`;
+    for (let c = 0; c <= capMax; c += capMax / 4) s += `<text x="${W - PADR + 8}" y="${Yc(c) + 4}">$${Math.round(c / 100000)}k</text>`;
+    const pts = []; for (let k = 0; k <= 3.0001; k += 0.05) pts.push(k);
+    s += `<polyline fill="none" stroke="var(--gold)" stroke-width="2" points="${pts.map((k) => `${X(k).toFixed(1)},${Yc(E.capFor(k, policy)).toFixed(1)}`).join(' ')}"/>`;
+    s += `<polyline fill="none" stroke="var(--crimson)" stroke-width="2.5" points="${pts.map((k) => `${X(k).toFixed(1)},${Yp(E.coverageFor(k, policy)).toFixed(1)}`).join(' ')}"/>`;
+    if (!over) { const x = X(ni), y = Yp(E.coverageFor(ni, policy));
+      s += `<line x1="${x}" x2="${x}" y1="${top}" y2="${bottom}" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/><circle cx="${x}" cy="${y}" r="5" fill="var(--ink)"/><circle cx="${x}" cy="${Yc(E.capFor(ni, policy))}" r="4" fill="var(--gold)"/>`; }
+    else s += `<text x="${W - PADR - 4}" y="${top + 12}" text-anchor="end">Over 300%: not eligible</text>`;
+    $('sChart').innerHTML = s;
+  }
+
+  // ── Ledger 2: round simulator ───────────────────────────
+  function prng(str) { let h = E.hash32(str) || 1; return () => { h ^= h << 13; h >>>= 0; h ^= h >>> 17; h ^= h << 5; h >>>= 0; return h / 4294967296; }; }
+  const TUITIONS = [780000, 950000, 1100000, 1250000, 1500000, 1850000];
+  function samplePool() {
+    const n = +$('count').value, cat = +$('catPct').value / 100, efsP = +$('efsPct').value / 100, ren = +$('renPct').value / 100, mix = $('mix').value;
+    const r = prng(`pool:${n}:${mix}:${cat}:${efsP}:${ren}`);
+    const out = []; let hh = 0;
+    for (let i = 0; i < n; i++) {
+      const isCat = r() < cat;
+      let ni;
+      if (mix === 'low') ni = 0.1 + Math.pow(r(), 1.8) * 2.9;
+      else if (mix === 'mid') ni = Math.min(3, 0.3 + ((r() + r() + r()) / 3) * 2.9);
+      else ni = 0.1 + r() * 2.9;
+      if (isCat) ni = null;
+      const size = 2 + Math.floor(r() * 5);
+      const sibling = i > 0 && r() < 0.18;
+      if (!sibling) hh++;
+      const prev = sibling ? out[out.length - 1] : null;
+      const tu = prev ? prev.tuition : TUITIONS[Math.floor(r() * TUITIONS.length)];
+      const efsChance = efsP * (ni == null || ni < 1.5 ? 1.25 : 0.6);
+      const roll = r();
+      const priority = roll < ren * 0.6 ? 1 : roll < ren ? 2 : 3;
+      out.push({ id: 'A' + String(i + 1).padStart(3, '0'), school: prev ? prev.school : 'S' + String(1 + Math.floor(r() * 40)).padStart(2, '0'),
+        size: prev ? prev.size : size, ni: prev ? prev.ni : ni, basis: (prev ? prev.ni : ni) == null ? 'benefits' : 'income',
+        tuition: tu, fees: 40000, efs: r() < Math.min(0.95, efsChance) ? 753000 : 0, schoolAid: r() < 0.2 ? 100000 * (1 + Math.floor(r() * 3)) : 0, otherAid: 0,
+        priority, household: 'H' + hh });
+    }
+    for (const a of out) if (a.ni != null) a.income = Math.round(a.ni * adjusted(a.size));
+    return out;
+  }
+  const EXAMPLE = `id,school,household_size,income,tuition,fees,efs,school_aid,other_aid,group,household
+R-101,Grace Academy,4,benefits,10500,400,7530,0,0,new,H1
+R-102,Grace Academy,4,benefits,10500,400,7530,0,0,new,H1
+R-103,Harpeth Christian,3,38000,9800,350,7530,0,0,new,H2
+R-104,Harpeth Christian,5,61000,9800,350,0,1000,0,new,H3
+R-105,Covenant Classical,6,88000,14500,600,0,0,0,new,H4
+R-106,Covenant Classical,4,112000,14500,600,0,2000,0,new,H5
+R-107,St. Luke Lutheran,2,47000,8200,300,7530,0,0,new,H6
+R-108,St. Luke Lutheran,4,175000,8200,300,0,0,0,new,H7
+R-109,Grace Academy,4,240000,10500,400,0,0,0,new,H8
+R-110,Hillside Baptist,7,foster,7600,250,0,0,0,new,H9
+R-111,Hillside Baptist,3,72000,7600,250,7530,500,0,new,H10
+R-112,Covenant Classical,4,296000,14500,600,0,0,0,new,H11
+R-113,Grace Academy,5,134000,10500,400,0,0,0,new,H12`;
+  function parsePool(text) {
+    const errs = []; const out = [];
+    text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean).forEach((line, i) => {
+      const c = line.split(/\t|,/).map((x) => x.trim());
+      if (i === 0 && /^id$/i.test(c[0])) return;
+      if (c.length < 5) { errs.push(`Line ${i + 1}: needs at least id, school, size, income, tuition.`); return; }
+      const size = parseInt(c[2], 10); const inc = (c[3] || '').toLowerCase();
+      if (!(size >= 1)) { errs.push(`Line ${i + 1}: household size “${c[2]}” isn’t a number.`); return; }
+      const basis = inc.startsWith('ben') || inc === 'snap' ? 'benefits' : inc.startsWith('fos') ? 'foster' : 'income';
+      const income = basis === 'income' ? cents(inc.replace(/[$,]/g, '')) : null;
+      if (basis === 'income' && !/^[\d$,.]+$/.test(inc)) { errs.push(`Line ${i + 1}: income “${c[3]}” should be a number, “benefits” or “foster”.`); return; }
+      const g = (c[9] || 'new').toLowerCase();
+      out.push({ id: c[0] || 'row' + (i + 1), school: c[1] || '—', size, basis, income, tuition: cents(c[4]), fees: cents(c[5]), efs: cents(c[6]), schoolAid: cents(c[7]), otherAid: cents(c[8]),
+        priority: g.startsWith('ren') ? 1 : g.startsWith('sib') ? 2 : 3, household: c[10] || c[0] });
+    });
+    return { rows: out, errs };
+  }
+  function pool() {
+    if (document.querySelector('input[name=src]:checked').value === 'sample') { $('csvErr').textContent = ''; return samplePool(); }
+    const { rows, errs } = parsePool($('csv').value);
+    $('csvErr').textContent = errs.slice(0, 4).join(' ') + (errs.length > 4 ? ` (${errs.length - 4} more)` : '');
+    return rows;
+  }
+  function toCandidates(rows) {
+    const elig = [], over = [];
+    for (const a of rows) {
+      const adj = adjusted(a.size);
+      const ni = a.basis === 'income' ? (a.income != null ? a.income / adj : (a.ni ?? 0)) : policy.categoricalNeedIndex;
+      if (a.basis === 'income' && ni > 3) { over.push(a); continue; }
+      a._ni = ni;
+      elig.push({ applicationId: a.id, studentId: a.id, householdId: a.household, schoolId: a.school, needIndex: ni, priority: a.priority,
+        tuition: a.tuition, requiredFees: a.fees, aid: { efs: a.efs, schoolAid: a.schoolAid, otherSgo: 0, other: a.otherAid } });
+    }
+    return { elig, over };
+  }
+  let lastRun = null; let showAll = false;
+  function renderRound() {
+    const rows = pool();
+    const { elig, over } = toCandidates(rows);
+    const byId = Object.fromEntries(rows.map((r) => [r.id, r]));
+    const cash = cents($('budget').value);
+    const seed = $('seed').value || 'seed';
+    const run = (p) => E.allocateRound({ roundId: 'SIM', seed, cashAvailable: cash, candidates: elig, policy: p });
+    const res = run(policy);
+    const other = run({ ...policy, funding: { ...policy.funding, mode: policy.funding.mode === 'waterfall' ? 'floor_then_topup' : 'waterfall' } });
+    lastRun = { res, byId };
+    const t = res.totals;
+    const funded = res.lines.filter((l) => l.outcome === 'AWARDED');
+    const full = funded.filter((l) => !l.partial);
+    const maxNi = (ls) => ls.length ? Math.max(...ls.map((l) => l.needIndex)) : null;
+    const fullNi = maxNi(full.filter((l) => l.priority === 3));
+    const needing = res.lines.filter((l) => l.fullAmount > 0).length;
+    $('kpis').innerHTML = [
+      ['Students reached', `${t.students}<span class="small muted"> of ${needing}</span>`, `${t.schools} schools`],
+      ['Fully funded', full.length, t.partial ? `${t.partial} partial` : 'No partial awards'],
+      ['Waiting', t.waitlisted, over.length ? `${over.length} over the income limit` : 'Funded as gifts arrive'],
+      ['Awarded', usd(t.awarded), `${usd(t.cashRemaining)} left`],
+      ['To fund everyone', usd(t.shortfall), `Full need ${usd(t.fullNeed)}`],
+      ['Full awards reach', fullNi == null ? '—' : pct(fullNi) + ' of median', 'Highest income fully funded (new)'],
+    ].map(([a, b, c]) => `<div class="kpi"><span class="label">${a}</span><b>${b}</b><span class="small muted">${c}</span></div>`).join('');
+    $('breadth').innerHTML = t.meetsBreadthRule ? '' : `<p class="warnbox">This round funds ${t.students} student${t.students === 1 ? '' : 's'} at ${t.schools} school${t.schools === 1 ? '' : 's'}. Lionheart must fund at least 10 students who don’t all attend one school over the year.</p>`;
+    drawRoundChart(res);
+    const sum = (r) => { const f = r.lines.filter((l) => l.outcome === 'AWARDED'); const low = f.filter((l) => l.needIndex <= 1);
+      const lowAll = r.lines.filter((l) => l.fullAmount > 0 && l.needIndex <= 1);
+      return [r.totals.students, f.filter((l) => !l.partial).length, r.totals.partial, r.totals.waitlisted,
+        lowAll.length ? pct(low.reduce((s, l) => s + l.amount, 0) / Math.max(1, lowAll.reduce((s, l) => s + l.fullAmount, 0))) : '—',
+        f.length ? usd(Math.round(r.totals.awarded / f.length)) : '—', maxNi(f) == null ? '—' : pct(maxNi(f))]; };
+    const A = sum(res), B = sum(other);
+    const nameOf = (m) => m === 'waterfall' ? 'Depth first' : 'Breadth first';
+    const heads = ['Students reached', 'Fully funded', 'Partial', 'Waiting', 'Need met, incomes ≤100% of median', 'Average award', 'Highest income reached'];
+    $('cmp').innerHTML = `<thead><tr><th></th><th class="r">${esc(nameOf(policy.funding.mode))} (current)</th><th class="r">${esc(nameOf(other.mode))}</th></tr></thead><tbody>` +
+      heads.map((h, i) => `<tr><td>${h}</td><td class="r">${A[i]}</td><td class="r">${B[i]}</td></tr>`).join('') + '</tbody>';
+    renderRanked();
+  }
+  function drawRoundChart(res) {
+    const H = 260, bottom = H - 34, top = PADT;
+    const ls = res.lines.filter((l) => l.fullAmount > 0);
+    const maxA = Math.max(100000, ...ls.map((l) => l.fullAmount));
+    const yMax = Math.ceil(maxA / 400000) * 400000;
+    const X = (k) => PADL + (Math.min(3, Math.max(0, k)) / 3) * (W - PADL - PADR);
+    const Y = (c) => bottom - (c / yMax) * (bottom - top);
+    let s = axisNI(H, bottom);
+    for (let c = 0; c <= yMax; c += yMax / 4) s += `<line class="axis" x1="${PADL}" x2="${W - PADR}" y1="${Y(c)}" y2="${Y(c)}" stroke-dasharray="2 4"/><text x="${PADL - 8}" y="${Y(c) + 4}" text-anchor="end">$${(c / 100000).toFixed(0)}k</text>`;
+    const jitter = (id) => ((E.hash32(id) % 1000) / 1000 - 0.5) * 3;
+    for (const l of ls) { const x = (X(l.needIndex) + jitter(l.applicationId)).toFixed(1);
+      s += `<line x1="${x}" x2="${x}" y1="${Y(0)}" y2="${Y(l.fullAmount).toFixed(1)}" stroke="var(--wash)" stroke-width="3"/>`; }
+    for (const l of ls) if (l.amount) { const x = (X(l.needIndex) + jitter(l.applicationId)).toFixed(1);
+      s += `<line x1="${x}" x2="${x}" y1="${Y(0)}" y2="${Y(l.amount).toFixed(1)}" stroke="var(--crimson)" stroke-width="2"/>`; }
+    if (!ls.length) s += `<text x="${W / 2}" y="${H / 2}" text-anchor="middle">No eligible applicants with unmet need.</text>`;
+    $('rChart').innerHTML = s;
+  }
+  function renderRanked() {
+    if (!lastRun) return;
+    const { res, byId } = lastRun;
+    const ls = showAll ? res.lines : res.lines.slice(0, 60);
+    let cutDone = false;
+    const rowsHtml = ls.map((l) => {
+      const a = byId[l.applicationId] || {};
+      const st = l.outcome === 'HELD' ? ['Held', 'none'] : l.outcome === 'NO_AWARD' ? ['No award', 'none'] : l.outcome === 'WAITLISTED' ? ['Waiting', 'wait'] : l.partial ? ['Partial', 'partial'] : ['Full', 'full'];
+      const cut = !cutDone && (l.outcome === 'WAITLISTED' || l.partial) && policy.funding.mode === 'waterfall'; if (cut) cutDone = true;
+      return `<tr class="${cut ? 'cut' : ''}"><td class="r">${l.rank}</td><td>${esc(l.applicationId)}</td><td>${GROUP[l.priority]}</td><td class="r">${a.basis === 'income' ? pct(l.needIndex) : a.basis === 'foster' ? 'Foster' : 'Benefits'}</td><td class="r">${l.band + 1}</td><td>${esc(l.schoolId)}</td><td class="r">${usd(l.unmet)}</td><td class="r">${l.fullAmount ? usd(l.fullAmount) : '—'}</td><td class="r">${l.amount ? usd(l.amount) : '—'}</td><td><span class="status ${st[1]}">${st[0]}</span></td></tr>`;
+    }).join('');
+    $('ranked').innerHTML = `<thead><tr><th class="r">Rank</th><th>Applicant</th><th>Group</th><th class="r">% of median</th><th class="r">Band</th><th>School</th><th class="r">Unmet need</th><th class="r">Full award</th><th class="r">This round</th><th>Status</th></tr></thead><tbody>${rowsHtml}</tbody>`;
+    $('showAll').hidden = res.lines.length <= 60;
+    $('showAll').textContent = showAll ? 'Show first 60' : `Show all ${res.lines.length}`;
+  }
+
+  // ── Ledger 3: policy ────────────────────────────────────
+  function fillPolicy() {
+    $('mode').value = policy.funding.mode;
+    $('floor').value = policy.funding.floor / 100;
+    $('minimum').value = policy.minimumAward / 100;
+    $('band').value = Math.round(policy.rankBandWidth * 100);
+    $('catNi').value = Math.round(policy.categoricalNeedIndex * 100);
+    $('hhCap').value = policy.householdCap == null ? '' : policy.householdCap / 100;
+    $('partial').checked = policy.funding.allowPartial;
+    $('strict').checked = policy.strictOrder;
+    $('sched').innerHTML = `<thead><tr><th>Income (% of median)</th><th>Share of unmet need (%)</th><th>Cap per student ($)</th></tr></thead><tbody>` +
+      policy.schedule.map((p, i) => `<tr><td><input type="number" id="sn${i}" data-i="${i}" data-k="needIndex" min="0" max="400" step="5" value="${Math.round(p.needIndex * 100)}" aria-label="Row ${i + 1} income"></td><td><input type="number" id="sp${i}" data-i="${i}" data-k="pctOfUnmet" min="0" max="100" step="1" value="${+(p.pctOfUnmet * 100).toFixed(2)}" aria-label="Row ${i + 1} share"></td><td><input type="number" id="sc${i}" data-i="${i}" data-k="cap" min="0" step="100" value="${p.cap / 100}" aria-label="Row ${i + 1} cap"></td></tr>`).join('') + '</tbody>';
+    updateChip();
+  }
+  function readPolicy() {
+    const p = clone(policy);
+    p.funding.mode = $('mode').value;
+    p.funding.floor = cents($('floor').value);
+    p.minimumAward = cents($('minimum').value);
+    p.rankBandWidth = Math.max(0, (parseFloat($('band').value) || 0) / 100);
+    p.categoricalNeedIndex = Math.max(0, (parseFloat($('catNi').value) || 0) / 100);
+    p.householdCap = $('hhCap').value === '' ? null : cents($('hhCap').value);
+    p.funding.allowPartial = $('partial').checked;
+    p.strictOrder = $('strict').checked;
+    document.querySelectorAll('#sched input').forEach((inp) => {
+      const i = +inp.dataset.i, k = inp.dataset.k, v = parseFloat(inp.value) || 0;
+      p.schedule[i][k] = k === 'cap' ? Math.round(v * 100) : v / 100;
+    });
+    p.schedule = [...p.schedule].sort((a, b) => a.needIndex - b.needIndex);
+    const changed = JSON.stringify(p) !== JSON.stringify({ ...ADOPTED, version: p.version });
+    p.version = changed ? ADOPTED.version + '-draft' : ADOPTED.version;
+    policy = p;
+    const warn = [];
+    for (let i = 1; i < p.schedule.length; i++) {
+      if (p.schedule[i].pctOfUnmet > p.schedule[i - 1].pctOfUnmet) warn.push(`The share rises between ${pct(p.schedule[i - 1].needIndex)} and ${pct(p.schedule[i].needIndex)} of median, so a higher income would get a larger share.`);
+      if (p.schedule[i].cap > p.schedule[i - 1].cap) warn.push(`The cap rises between ${pct(p.schedule[i - 1].needIndex)} and ${pct(p.schedule[i].needIndex)} of median.`);
+    }
+    if (p.funding.mode === 'floor_then_topup' && p.funding.floor < p.minimumAward) warn.push('The floor is below the minimum award, so the first pass gives the minimum instead.');
+    $('polWarn').innerHTML = warn.length ? `<p class="warnbox">${warn.map(esc).join('<br>')}</p>` : '';
+    updateChip();
+  }
+  function updateChip() { $('polchip').textContent = 'Policy ' + policy.version; $('polchip').style.borderColor = policy.version.endsWith('-draft') ? 'var(--warn)' : ''; }
+
+  // ── wiring ─────────────────────────────────────────────
+  let t1 = 0; const all = () => { clearTimeout(t1); t1 = setTimeout(() => { renderStudent(); renderRound(); }, 60); };
+  $('sf').addEventListener('input', () => { renderStudent(); if (document.activeElement && ['area', 'customMedian'].includes(document.activeElement.id)) all(); });
+  $('sf').addEventListener('change', all);
+  document.querySelectorAll('[data-preset]').forEach((b) => b.addEventListener('click', () => {
+    const P = b.dataset.preset === 'a'
+      ? { basis: 'categorical', size: 3, income: 0, tuition: 9800, fees: 350, efs: 0, schoolAid: 0, otherSgo: 0, other: 0 }
+      : { basis: 'income', size: 5, income: 150000, tuition: 14500, fees: 600, efs: 0, schoolAid: 1500, otherSgo: 0, other: 0 };
+    document.querySelector(`input[name=basis][value=${P.basis}]`).checked = true;
+    for (const k of ['size', 'income', 'tuition', 'fees', 'efs', 'schoolAid', 'otherSgo', 'other']) $(k).value = P[k];
+    renderStudent();
+  }));
+  const syncBudget = (from) => { if (from === 'r') $('budget').value = $('budgetR').value; else $('budgetR').value = Math.min(2000000, +$('budget').value || 0); };
+  $('budgetR').addEventListener('input', () => { syncBudget('r'); renderRound(); });
+  $('budget').addEventListener('input', () => { syncBudget('n'); renderRound(); });
+  const labels = [['count', 'countV', ''], ['catPct', 'catV', '%'], ['efsPct', 'efsV', '%'], ['renPct', 'renV', '%']];
+  $('rf').addEventListener('input', (e) => {
+    labels.forEach(([a, b, s]) => { $(b).textContent = $(a).value + s; });
+    if (e.target.name === 'src') { const paste = e.target.value === 'paste'; $('pasteWrap').hidden = !paste; $('sampleWrap').hidden = paste; if (paste && !$('csv').value.trim()) $('csv').value = EXAMPLE; }
+    if (e.target.id === 'budget' || e.target.id === 'budgetR') return;
+    clearTimeout(t1); t1 = setTimeout(renderRound, 80);
+  });
+  $('loadEx').addEventListener('click', () => { $('csv').value = EXAMPLE; renderRound(); });
+  $('showAll').addEventListener('click', () => { showAll = !showAll; renderRanked(); });
+  $('copyCsv').addEventListener('click', () => {
+    if (!lastRun) return;
+    const head = 'rank,id,group,pct_of_median,band,school,unmet,full_award,this_round,status';
+    const body = lastRun.res.lines.map((l) => [l.rank, l.applicationId, GROUP[l.priority], (l.needIndex * 100).toFixed(1), l.band + 1, l.schoolId, l.unmet / 100, l.fullAmount / 100, l.amount / 100,
+      l.outcome === 'AWARDED' ? (l.partial ? 'partial' : 'full') : l.outcome.toLowerCase()].join(',')).join('\n');
+    copy(head + '\n' + body, 'copyMsg', 'Ranked list copied.');
+  });
+  $('pf').addEventListener('input', () => { readPolicy(); all(); });
+  $('sched').addEventListener('input', () => { readPolicy(); all(); });
+  $('reset').addEventListener('click', () => { policy = clone(ADOPTED); fillPolicy(); readPolicy(); all(); $('polMsg').textContent = 'Reset to the adopted policy.'; });
+  $('copyPol').addEventListener('click', () => {
+    const { version, ...params } = policy;
+    copy(JSON.stringify(params, null, 2), 'polMsg', `Copied. Paste into a new award_policies row (version ${version.replace('-draft', '-v?')}) after the board adopts it.`);
+  });
+  function copy(text, msgId, ok) {
+    const done = () => { $(msgId).textContent = ok; };
+    const fail = () => { const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select();
+      let okk = false; try { okk = document.execCommand('copy'); } catch (e) { /* ignore */ } ta.remove(); $(msgId).textContent = okk ? ok : 'Your browser blocked copying. Select the text and copy it by hand.'; };
+    try { navigator.clipboard.writeText(text).then(done, fail); } catch (e) { fail(); }
+  }
+
+  fillPolicy(); readPolicy(); renderStudent(); renderRound();
+})();
+</script>

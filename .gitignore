@@ -7,3 +7,4 @@ next-env.d.ts
 .trigger
 prototype/dist
 dist-site
+tools/award-calculator/dist/

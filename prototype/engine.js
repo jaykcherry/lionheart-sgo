@@ -31,7 +31,6 @@ var LionheartEngine = (() => {
     HUD_SIZE_MULTIPLIER: () => HUD_SIZE_MULTIPLIER,
     SUBSTANTIAL_SHARE: () => SUBSTANTIAL_SHARE,
     SUBSTANTIAL_THRESHOLD: () => SUBSTANTIAL_THRESHOLD,
-    TIER_RANK: () => TIER_RANK,
     TN_LIMITS_SEED: () => TN_LIMITS_SEED,
     allocateRound: () => allocateRound,
     applicationMachine: () => applicationMachine,
@@ -44,21 +43,27 @@ var LionheartEngine = (() => {
     buildBatch: () => buildBatch,
     buildYearEnd: () => buildYearEnd,
     canRelease: () => canRelease,
+    capFor: () => capFor,
+    coverageFor: () => coverageFor,
     creditForYear: () => creditForYear,
     deadlinesFor: () => deadlinesFor,
     determineEligibility: () => determineEligibility,
     dollars: () => dollars,
     evaluate: () => evaluate,
+    explainAward: () => explainAward,
     feeAndTopupJournal: () => feeAndTopupJournal,
     fmtUSD: () => fmtUSD,
     giftJournal: () => giftJournal,
     giftMachine: () => giftMachine,
     hash32: () => hash32,
     lotteryNumber: () => lotteryNumber,
+    needBand: () => needBand,
+    needIndexOf: () => needIndexOf,
     ninetyPercentTest: () => ninetyPercentTest,
     normAddr: () => normAddr,
     normName: () => normName,
     normalizeCounty: () => normalizeCounty,
+    normalizePolicy: () => normalizePolicy,
     provisionalDonorNumber: () => provisionalDonorNumber,
     rankCandidates: () => rankCandidates,
     reconcile: () => reconcile,
@@ -77,6 +82,7 @@ var LionheartEngine = (() => {
     sum: () => sum,
     tieOut: () => tieOut,
     tierFor: () => tierFor,
+    tierLabel: () => tierLabel,
     toDollars: () => toDollars,
     unmetNeed: () => unmetNeed
   });
@@ -248,32 +254,95 @@ var LionheartEngine = (() => {
 
   // src/domain/awards.ts
   var DEFAULT_POLICY = {
-    version: "2027-28-v1",
-    tiers: {
-      A: { pctOfUnmet: 0.9, capPerStudent: 8e5 },
-      B: { pctOfUnmet: 0.6, capPerStudent: 5e5 },
-      C: { pctOfUnmet: 0.3, capPerStudent: 25e4 }
-    },
-    minimumAward: 25e3,
+    version: "2027-28-v2",
+    schedule: [
+      { needIndex: 0, pctOfUnmet: 0.95, cap: 9e5 },
+      { needIndex: 1, pctOfUnmet: 0.85, cap: 8e5 },
+      { needIndex: 2, pctOfUnmet: 0.55, cap: 5e5 },
+      { needIndex: 3, pctOfUnmet: 0.25, cap: 25e4 }
+    ],
+    categoricalNeedIndex: 0,
+    rankBandWidth: 0.05,
+    funding: { mode: "floor_then_topup", floor: 1e5, allowPartial: true },
+    householdCap: null,
+    minimumAward: 5e4,
     terms: [{ id: "fall", share: 0.5 }, { id: "spring", share: 0.5 }],
     strictOrder: true,
     schoolPreference: { enabled: true, minEligibleApplicants: 10 }
   };
+  function normalizePolicy(params, version) {
+    var _a, _b;
+    const p = {
+      ...DEFAULT_POLICY,
+      ...params,
+      funding: { ...DEFAULT_POLICY.funding, ...(_a = params.funding) != null ? _a : {} },
+      schoolPreference: { ...DEFAULT_POLICY.schoolPreference, ...(_b = params.schoolPreference) != null ? _b : {} }
+    };
+    if (!Array.isArray(p.schedule) || !p.schedule.length) p.schedule = DEFAULT_POLICY.schedule;
+    p.schedule = [...p.schedule].sort((a, b) => a.needIndex - b.needIndex);
+    if (version) p.version = version;
+    return p;
+  }
   function unmetNeed(tuition, requiredFees, aid) {
     return Math.max(0, tuition + requiredFees - aid.efs - aid.schoolAid - aid.otherSgo - aid.other);
   }
-  function awardAmount(tier, unmet, policy = DEFAULT_POLICY) {
-    const rule = policy.tiers[tier];
-    const raw = Math.min(Math.round(unmet * rule.pctOfUnmet), rule.capPerStudent, unmet);
+  function needIndexOf(det, policy = DEFAULT_POLICY) {
+    if (det.method === "categorical" || det.method === "foster") return policy.categoricalNeedIndex;
+    return det.pctAmgi == null ? null : Math.max(0, det.pctAmgi);
+  }
+  function tierLabel(needIndex) {
+    return needIndex <= 1 ? "A" : needIndex <= 2 ? "B" : "C";
+  }
+  function needBand(needIndex, policy = DEFAULT_POLICY) {
+    const w = policy.rankBandWidth > 0 ? policy.rankBandWidth : 1e-9;
+    return Math.floor(needIndex / w + 1e-9);
+  }
+  function interp(needIndex, key, policy) {
+    const pts = policy.schedule;
+    if (needIndex <= pts[0].needIndex) return pts[0][key];
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1], b = pts[i];
+      if (needIndex <= b.needIndex) {
+        const t = b.needIndex === a.needIndex ? 1 : (needIndex - a.needIndex) / (b.needIndex - a.needIndex);
+        return a[key] + (b[key] - a[key]) * t;
+      }
+    }
+    return pts[pts.length - 1][key];
+  }
+  var coverageFor = (needIndex, policy = DEFAULT_POLICY) => Math.round(interp(needIndex, "pctOfUnmet", policy) * 1e4) / 1e4;
+  var capFor = (needIndex, policy = DEFAULT_POLICY) => roundDollar(interp(needIndex, "cap", policy));
+  function awardAmount(needIndex, unmet, policy = DEFAULT_POLICY) {
+    const raw = Math.min(Math.round(unmet * coverageFor(needIndex, policy)), capFor(needIndex, policy), unmet);
     const amt = roundDollar(raw);
     return amt < policy.minimumAward ? 0 : amt;
+  }
+  function explainAward(needIndex, tuition, requiredFees, aid, policy = DEFAULT_POLICY) {
+    const unmet = unmetNeed(tuition, requiredFees, aid);
+    const coverage = coverageFor(needIndex, policy);
+    const cap = capFor(needIndex, policy);
+    const byShare = roundDollar(Math.round(unmet * coverage));
+    const amount = awardAmount(needIndex, unmet, policy);
+    const limitedBy = unmet === 0 ? "none" : amount === 0 ? "minimum" : byShare > cap ? "cap" : byShare >= unmet ? "unmet" : "share";
+    return {
+      needIndex,
+      tier: tierLabel(needIndex),
+      band: needBand(needIndex, policy),
+      cost: tuition + requiredFees,
+      unmet,
+      coverage,
+      cap,
+      byShare,
+      amount,
+      limitedBy,
+      familyShare: Math.max(0, unmet - amount),
+      floorPart: Math.min(amount, policy.funding.floor)
+    };
   }
   function splitTerms(amount, policy = DEFAULT_POLICY) {
     const out = policy.terms.map((t) => ({ term: t.id, amount: Math.floor(amount * t.share / 100) * 100 }));
     out[out.length - 1].amount += amount - sum(out.map((o) => o.amount));
     return out;
   }
-  var TIER_RANK = { A: 0, B: 1, C: 2 };
   function hash32(s) {
     let h = 2166136261;
     for (let i = 0; i < s.length; i++) {
@@ -283,13 +352,13 @@ var LionheartEngine = (() => {
     return h >>> 0;
   }
   var lotteryNumber = (seed, applicantId) => hash32(`${seed}:${applicantId}`);
-  function rankCandidates(cands, seed) {
-    return [...cands].sort((a, b) => a.priority - b.priority || TIER_RANK[a.tier] - TIER_RANK[b.tier] || lotteryNumber(seed, a.applicationId) - lotteryNumber(seed, b.applicationId) || a.applicationId.localeCompare(b.applicationId));
+  function rankCandidates(cands, seed, policy = DEFAULT_POLICY) {
+    return [...cands].sort((a, b) => a.priority - b.priority || needBand(a.needIndex, policy) - needBand(b.needIndex, policy) || lotteryNumber(seed, a.applicationId) - lotteryNumber(seed, b.applicationId) || a.applicationId.localeCompare(b.applicationId));
   }
   function allocateRound(input) {
     var _a, _b, _c, _d, _e;
     const policy = (_a = input.policy) != null ? _a : DEFAULT_POLICY;
-    const ranked = rankCandidates(input.candidates, input.seed);
+    const ranked = rankCandidates(input.candidates, input.seed, policy);
     const eligibleBySchool = /* @__PURE__ */ new Map();
     for (const c of input.candidates) if (!c.hold) eligibleBySchool.set(c.schoolId, ((_b = eligibleBySchool.get(c.schoolId)) != null ? _b : 0) + 1);
     const pools = /* @__PURE__ */ new Map();
@@ -300,67 +369,122 @@ var LionheartEngine = (() => {
       prefTotal += p.amount;
       if (policy.schoolPreference.enabled && ((_d = eligibleBySchool.get(p.schoolId)) != null ? _d : 0) >= policy.schoolPreference.minEligibleApplicants) {
         pools.set(p.schoolId, ((_e = pools.get(p.schoolId)) != null ? _e : 0) + p.amount);
-        honored.push(p.schoolId);
-      } else merged.push(p.schoolId);
+        if (!honored.includes(p.schoolId)) honored.push(p.schoolId);
+      } else if (!merged.includes(p.schoolId)) merged.push(p.schoolId);
     }
     if (prefTotal > input.cashAvailable) throw new Error("preference pools exceed available cash");
     let general = input.cashAvailable - sum([...pools.values()]);
-    const lines = [];
-    let blockedGeneral = false;
-    ranked.forEach((c, i) => {
+    const householdUsed = /* @__PURE__ */ new Map();
+    const st = ranked.map((c, i) => {
       var _a2, _b2;
       const unmet = unmetNeed(c.tuition, c.requiredFees, c.aid);
-      const amount = awardAmount(c.tier, unmet, policy);
+      let full = c.hold ? 0 : awardAmount(c.needIndex, unmet, policy);
+      let note;
+      if (full && policy.householdCap != null) {
+        const left = Math.max(0, policy.householdCap - ((_a2 = householdUsed.get(c.householdId)) != null ? _a2 : 0));
+        if (left < full) {
+          full = left >= policy.minimumAward ? roundDollar(left) : 0;
+          note = "Household cap reached.";
+        }
+        householdUsed.set(c.householdId, ((_b2 = householdUsed.get(c.householdId)) != null ? _b2 : 0) + full);
+      }
+      return { c, rank: i + 1, unmet, full, granted: 0, from: /* @__PURE__ */ new Map(), note };
+    });
+    const pass = (want) => {
+      var _a2, _b2, _c2, _d2;
+      let blocked2 = false;
+      for (const s of st) {
+        if (s.c.hold || !s.full) continue;
+        const need = Math.min(want(s), s.full - s.granted);
+        if (need <= 0) continue;
+        const fromPool = Math.min((_a2 = pools.get(s.c.schoolId)) != null ? _a2 : 0, need);
+        const rest = need - fromPool;
+        let fromGen = 0;
+        if (rest > 0) {
+          if (!blocked2 && general >= rest) fromGen = rest;
+          else {
+            if (!policy.funding.allowPartial) {
+              if (policy.strictOrder) blocked2 = true;
+              continue;
+            }
+            if (!blocked2) fromGen = general;
+            if (policy.strictOrder) blocked2 = true;
+          }
+        }
+        if (fromPool) {
+          pools.set(s.c.schoolId, ((_b2 = pools.get(s.c.schoolId)) != null ? _b2 : 0) - fromPool);
+          s.from.set(s.c.schoolId, ((_c2 = s.from.get(s.c.schoolId)) != null ? _c2 : 0) + fromPool);
+        }
+        if (fromGen) {
+          general -= fromGen;
+          s.from.set("general", ((_d2 = s.from.get("general")) != null ? _d2 : 0) + fromGen);
+        }
+        s.granted += fromPool + fromGen;
+      }
+    };
+    if (policy.funding.mode === "floor_then_topup") pass(() => Math.max(policy.funding.floor, policy.minimumAward));
+    pass((s) => s.full);
+    general += sum([...pools.values()]);
+    pools.clear();
+    pass((s) => s.full);
+    for (const s of st) if (s.granted > 0 && s.granted < policy.minimumAward && s.granted < s.full) {
+      general += s.granted;
+      s.granted = 0;
+      s.from.clear();
+    }
+    const lines = st.map((s) => {
+      var _a2;
+      const c = s.c;
       const base = {
-        rank: i + 1,
+        rank: s.rank,
         applicationId: c.applicationId,
         studentId: c.studentId,
+        householdId: c.householdId,
         schoolId: c.schoolId,
-        tier: c.tier,
+        needIndex: c.needIndex,
+        band: needBand(c.needIndex, policy),
+        tier: tierLabel(c.needIndex),
         priority: c.priority,
         lottery: lotteryNumber(input.seed, c.applicationId),
-        unmet,
-        amount,
+        unmet: s.unmet,
+        fullAmount: s.full,
+        amount: s.granted,
+        shortfall: s.full - s.granted,
+        partial: s.granted > 0 && s.granted < s.full,
         terms: [],
-        fundedFrom: []
+        fundedFrom: [...s.from.entries()].map(([pool, amount]) => ({ pool, amount }))
       };
-      if (c.hold) {
-        lines.push({ ...base, amount: 0, outcome: "HELD", note: c.hold });
-        return;
-      }
-      if (amount === 0) {
-        lines.push({ ...base, outcome: "NO_AWARD", note: unmet === 0 ? "No unmet need after other aid." : "Below minimum award." });
-        return;
-      }
-      const fromPool = Math.min((_a2 = pools.get(c.schoolId)) != null ? _a2 : 0, amount);
-      const needGeneral = amount - fromPool;
-      const generalOk = needGeneral === 0 || !blockedGeneral && general >= needGeneral;
-      if (!generalOk) {
-        if (policy.strictOrder && needGeneral > 0) blockedGeneral = true;
-        lines.push({ ...base, outcome: "WAITLISTED", note: "Insufficient cash on hand; offered automatically as gifts arrive." });
-        return;
-      }
-      if (fromPool) pools.set(c.schoolId, ((_b2 = pools.get(c.schoolId)) != null ? _b2 : 0) - fromPool);
-      general -= needGeneral;
-      const fundedFrom = [
-        ...fromPool ? [{ pool: c.schoolId, amount: fromPool }] : [],
-        ...needGeneral ? [{ pool: "general", amount: needGeneral }] : []
-      ];
-      lines.push({ ...base, terms: splitTerms(amount, policy), fundedFrom, outcome: "AWARDED" });
+      if (c.hold) return { ...base, fullAmount: 0, amount: 0, shortfall: 0, outcome: "HELD", note: c.hold };
+      if (!s.full) return { ...base, outcome: "NO_AWARD", note: (_a2 = s.note) != null ? _a2 : s.unmet === 0 ? "No unmet need after other aid." : "Below minimum award." };
+      if (!s.granted) return { ...base, outcome: "WAITLISTED", note: "Insufficient cash on hand; offered automatically, in rank order, as gifts arrive." };
+      return {
+        ...base,
+        terms: splitTerms(s.granted, policy),
+        outcome: "AWARDED",
+        note: base.partial ? `Partial award; ${(base.shortfall / 100).toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })} more as gifts arrive.` : s.note
+      };
     });
     const awarded = lines.filter((l) => l.outcome === "AWARDED");
+    const students = awarded.length;
+    const schools = new Set(awarded.map((l) => l.schoolId)).size;
     return {
       roundId: input.roundId,
       seed: input.seed,
       policyVersion: policy.version,
+      mode: policy.funding.mode,
       lines,
       totals: {
         awarded: sum(awarded.map((l) => l.amount)),
-        students: awarded.length,
-        schools: new Set(awarded.map((l) => l.schoolId)).size,
+        students,
+        schools,
+        partial: awarded.filter((l) => l.partial).length,
         waitlisted: lines.filter((l) => l.outcome === "WAITLISTED").length,
         held: lines.filter((l) => l.outcome === "HELD").length,
-        cashRemaining: general + sum([...pools.values()])
+        noAward: lines.filter((l) => l.outcome === "NO_AWARD").length,
+        cashRemaining: general,
+        fullNeed: sum(lines.map((l) => l.fullAmount)),
+        shortfall: sum(lines.map((l) => l.shortfall)),
+        meetsBreadthRule: students >= 10 && schools >= 2
       },
       honoredPreferences: honored,
       mergedPreferences: merged
