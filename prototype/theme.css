@@ -647,6 +647,15 @@ details > div { padding: 0 0 22px; max-width: 68ch; animation: rise .45s var(--e
 .k-listed { background: var(--navy); } .k-partner { background: var(--crimson); }
 .school.hot { background: var(--paper); padding-inline: 12px; }
 
+/* school directory */
+.region-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+.chip { font: inherit; font-size: 14px; font-weight: 600; color: var(--navy); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 8px 15px; cursor: pointer; transition: background-color .2s, border-color .2s, color .2s; }
+.chip span { color: var(--ink-3); font-weight: 500; margin-left: 4px; }
+.chip:hover { border-color: var(--navy); }
+.chip[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: var(--paper); }
+.chip[aria-pressed="true"] span { color: var(--gold-hi); }
+.more-row { padding: 22px 0 4px; }
+
 /* eligibility meter */
 .meter { margin-top: 16px; }
 .meter-track { position: relative; height: 12px; background: #ebe5d8; border: 1px solid var(--navy); margin-top: 26px; }

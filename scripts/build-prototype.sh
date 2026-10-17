@@ -17,8 +17,8 @@ faces = '\n'.join([
     face('Libre Franklin', 'franklin.woff2', weight='100 900'),
 ])
 site = site.replace('/*__FONT__*/', faces).replace('/*__THEME__*/', open('prototype/theme.css').read())
-engine = open('prototype/engine.js').read(); portals = open('prototype/portals.js').read(); motion = open('prototype/motion.js').read()
-inject = '<script>\n' + engine + '\nwindow.LionheartEngine = LionheartEngine;\n</script>\n<script>\n' + motion + '\n</script>\n<script>\n' + portals + '\n</script>\n'
+engine = open('prototype/engine.js').read(); portals = open('prototype/portals.js').read(); motion = open('prototype/motion.js').read(); schools = open('prototype/schools.js').read()
+inject = '<script>\n' + schools + '\n</script>\n<script>\n' + engine + '\nwindow.LionheartEngine = LionheartEngine;\n</script>\n<script>\n' + motion + '\n</script>\n<script>\n' + portals + '\n</script>\n'
 i = site.index('<script>\n(function () {')
 out = site[:i] + inject + site[i:]
 dest = sys.argv[1] if len(sys.argv) > 1 else 'prototype/dist/lionheart.html'

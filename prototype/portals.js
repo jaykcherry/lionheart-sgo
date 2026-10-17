@@ -13,7 +13,7 @@ window.LH_PORTALS = function (LH) {
   /* ───────────── Sample data (fictional people; illustrative tuition) ───────────── */
   const TUITION = { cpa: [21500, 650], da: [14900, 500], dca: [14200, 450], ehcs: [12800, 400], gcs: [15600, 500], la: [19800, 600], ncs: [13900, 400], fcs: [11900, 350], ba: [27500, 800], mtcs: [11400, 350], bcs: [15200, 500], ecs: [16800, 550] };
   const SCHOOL_STATE = { cpa: 'ACTIVE', ncs: 'ACTIVE', dca: 'ACTIVE', ehcs: 'ACTIVE', la: 'ACTIVE', mtcs: 'AGREEMENT_SIGNED' };
-  SCHOOLS.forEach((s) => { s.state = SCHOOL_STATE[s.id] || 'UNCLAIMED'; if (s.state === 'ACTIVE') s.status = 'partner'; });
+  SCHOOLS.forEach((s) => { s.state = SCHOOL_STATE[s.id] || 'UNCLAIMED'; }); // demo portal state only; public pages never show a real school as a partner it hasn't become
   const ACTIVE_SCHOOLS = ['cpa', 'ncs', 'dca', 'ehcs', 'la', 'mtcs'];
 
   const FIRST = ['Avery', 'Micah', 'Lucy', 'Eli', 'Grace', 'Noah', 'Hannah', 'Isaac', 'Ruth', 'Caleb', 'Lydia', 'Silas', 'Naomi', 'Jonah', 'Abigail', 'Levi', 'Esther', 'Asher', 'Clara', 'Owen', 'Mabel', 'Jude', 'Phoebe', 'Ezra', 'Iris', 'Gideon', 'June', 'Amos'];

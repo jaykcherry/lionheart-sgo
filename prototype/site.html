@@ -16,7 +16,7 @@
         <a href="#about" data-nav="about">About</a>
       </div>
       <a href="#home" class="brand" aria-label="Lionheart, home">
-        <span class="brand-loc">Nashville · Tennessee</span>
+        <span class="brand-loc">Tennessee</span>
         <span class="brand-word"><i></i><span class="brand-name">LIONHEART</span><i></i></span>
       </a>
       <div class="nav-right">
@@ -48,21 +48,15 @@
 
 /* ───────────────────────── Data ───────────────────────── */
 
-// SAMPLE LIST — replace with Lionheart's accredited-school list. Fields: id, name, city, grades, domain (official email domain used for verification).
-const SCHOOLS = [
-  { id: 'cpa',  name: 'Christ Presbyterian Academy',        city: 'Nashville',     grades: 'PK–12', domain: 'cpalions.org' },
-  { id: 'da',   name: 'Davidson Academy',                   city: 'Nashville',     grades: 'PK–12', domain: 'davidsonacademy.com' },
-  { id: 'dca',  name: 'Donelson Christian Academy',         city: 'Nashville',     grades: 'PK–12', domain: 'dcalions.org' },
-  { id: 'ehcs', name: 'Ezell-Harding Christian School',     city: 'Antioch',       grades: 'PK–12', domain: 'ezellharding.com' },
-  { id: 'gcs',  name: 'Goodpasture Christian School',       city: 'Madison',       grades: 'PK–12', domain: 'goodpasture.org' },
-  { id: 'la',   name: 'Lipscomb Academy',                   city: 'Nashville',     grades: 'PK–12', domain: 'lipscombacademy.org' },
-  { id: 'ncs',  name: 'Nashville Christian School',         city: 'Nashville',     grades: 'PK–12', domain: 'nashvillechristian.org' },
-  { id: 'fcs',  name: 'Friendship Christian School',        city: 'Lebanon',       grades: 'PK–12', domain: 'friendshipchristian.org' },
-  { id: 'ba',   name: 'Brentwood Academy',                  city: 'Brentwood',     grades: '6–12',  domain: 'brentwoodacademy.com' },
-  { id: 'mtcs', name: 'Middle Tennessee Christian School',  city: 'Murfreesboro',  grades: 'PK–12', domain: 'mtcs.org' },
-  { id: 'bcs',  name: 'Briarcrest Christian School',        city: 'Eads',          grades: 'PK–12', domain: 'briarcrest.com' },
-  { id: 'ecs',  name: 'Evangelical Christian School',       city: 'Cordova',       grades: 'PK–12', domain: 'ecseagles.com' }
-].map(s => Object.assign({ status: 'listed' }, s));
+// Tennessee Department of Education Non-Public Schools Directory 2026-27: Christian schools in Categories I–III (prototype/schools.js).
+// Status 'listed' means on the state list, not yet claimed. Only a school that verifies becomes a 'partner'.
+const SCHOOLS = (window.LH_SCHOOLS || []).map(s => Object.assign({ status: 'listed' }, s)).sort((a, b) => a.name.localeCompare(b.name));
+const REGIONS = ['West', 'Middle', 'East'];
+function schoolFilter() {
+  const q = S.q.trim().toLowerCase(), r = S.region;
+  return SCHOOLS.filter(s => (!r || s.region === r) && (!q || (s.name + ' ' + s.city + ' ' + s.county).toLowerCase().includes(q)));
+}
+const domainOk = (s, email) => { const e = String(email).toLowerCase(); return [s.domain, s.alt].filter(Boolean).some(d => e.endsWith('@' + d)); };
 
 // 300% of area median income. Reference uses Tennessee's statewide median family income ($92,300, FY2025, via THDA),
 // adjusted for household size the HUD Section 8 way. The applicant's own county figure decides; many Middle Tennessee counties are higher.
@@ -84,7 +78,7 @@ const S = {
     kids: [{ first: '', last: '', dob: '', grade: '', school: '' }],
     home: { street: '', city: '', zip: '', county: '', size: '', income: '', doc: '' },
     attest: { true: false, verify: false, nodirect: false } },
-  q: '',
+  q: '', region: '', showN: 25,
   claim: { id: null, step: 'confirm', name: '', title: 'Head of school', email: '', auth: false, code: '', err: '' },
   req: { name: '', city: '', email: '', sent: false },
   give: { step: 0, err: '', ref: '', filing: 'joint', from: 'both', amount: '3400', custom: '', when: creditOpen() ? 'now' : 'jan1', fees: false,
@@ -190,9 +184,9 @@ function tnMap(list) {
   const shown = new Set((list || SCHOOLS).map(s => s.id));
   const seen = {};
   const dots = SCHOOLS.map(s => {
-    const ll = CITY_LL[s.city] || CITY_LL.Nashville; const k = seen[s.city] = (seen[s.city] || 0) + 1;
-    const [x, y] = proj(ll).map(Number); const a = k * 2.4, r = k > 1 ? 7 + k * 1.6 : 0;
-    return `<g class="dot${shown.has(s.id) ? '' : ' off'}${s.status === 'partner' ? ' partner' : ''}" data-sid="${s.id}" transform="translate(${(x + Math.cos(a) * r).toFixed(1)} ${(y + Math.sin(a) * r).toFixed(1)})"><circle class="pulse" r="6"/><circle class="core" r="5"/><title>${esc(s.name)}, ${esc(s.city)}</title></g>`;
+    const key = s.lat + ',' + s.lon; const k = seen[key] = (seen[key] || 0) + 1;
+    const [x, y] = proj([s.lon, s.lat]).map(Number); const a = k * 2.4, r = k > 1 ? 2.5 + k * 1.3 : 0;
+    return `<g class="dot${shown.has(s.id) ? '' : ' off'}${s.status === 'partner' ? ' partner' : ''}" data-sid="${s.id}" transform="translate(${(x + Math.cos(a) * r).toFixed(1)} ${(y + Math.sin(a) * r).toFixed(1)})"><circle class="pulse" r="4"/><circle class="core" r="3.6"/><title>${esc(s.name)}, ${esc(s.city)}</title></g>`;
   }).join('');
   const refs = ['Memphis', 'Nashville', 'Knoxville', 'Chattanooga'].map(c => { const [x, y] = proj(CITY_LL[c]); return c === 'Nashville' ? `<text class="city" x="${+x - 24}" y="${+y + 4}" style="text-anchor:end">${c}</text>` : `<text class="city" x="${x}" y="${+y + 24}">${c}</text>`; }).join('');
   return `<svg class="tn-map" viewBox="0 0 740 200" role="img" aria-label="Map of Tennessee showing schools on our list">
@@ -349,11 +343,11 @@ function home() {
   <div class="band" style="border-top:1px solid var(--line);padding-bottom:64px">
     <section class="wrap sec split" style="align-items:end;padding-bottom:40px">
       <div><span class="kicker" data-rv>For schools</span><h2 class="h2" data-rv style="margin-top:16px;--d:.08s">Your school is already on our list.</h2></div>
-      <div data-rv style="--d:.16s"><p class="lead">Confirm with your school email in two minutes. Partnering is free and non-exclusive, and we pay tuition by direct deposit.</p><div class="btn-row" style="margin-top:24px"><a class="btn btn-secondary" href="#schools">Find your school <span class="arr" aria-hidden="true">→</span></a></div></div>
+      <div data-rv style="--d:.16s"><p class="lead">We’ve loaded all <span class="tnum">${SCHOOLS.length}</span> Christian schools on Tennessee’s approved list, from Memphis to Bristol. Confirm with your school email in two minutes. Partnering is free and non-exclusive, and we pay tuition by direct deposit.</p><div class="btn-row" style="margin-top:24px"><a class="btn btn-secondary" href="#schools">Find your school <span class="arr" aria-hidden="true">→</span></a></div></div>
     </section>
     <div class="marquee" data-marquee>
-      <div class="marquee-row">${SCHOOLS.map(s => `<span class="marquee-item">${esc(s.name)} <small>${esc(s.city)}</small></span>`).join('')}</div>
-      <div class="marquee-row rev">${SCHOOLS.slice().reverse().map(s => `<span class="marquee-item">${esc(s.name)}</span>`).join('')}</div>
+      ${(() => { const big = SCHOOLS.filter(s => s.k12 >= 300); const h = Math.ceil(big.length / 2); return `<div class="marquee-row">${big.slice(0, h).map(s => `<span class="marquee-item">${esc(s.name)} <small>${esc(s.city)}</small></span>`).join('')}</div>
+      <div class="marquee-row rev">${big.slice(h).map(s => `<span class="marquee-item">${esc(s.name)}</span>`).join('')}</div>`; })()}
     </div>
   </div>
 
@@ -635,15 +629,14 @@ function appDone() {
 function schools() {
   const c = S.claim;
   if (c.id) return schoolClaim();
-  const q = S.q.trim().toLowerCase();
-  const list = SCHOOLS.filter(s => !q || (s.name + ' ' + s.city).toLowerCase().includes(q));
+  const list = schoolFilter();
   const partners = SCHOOLS.filter(s => s.status === 'partner').length;
   return `
   <div class="band band-field">
     <section class="wrap split" style="padding-block:88px 76px">
       <div>
         <h1 class="display-sm">Your school is already on our list.</h1>
-        <p class="lead" style="margin-top:28px">We’ve pre-loaded Tennessee’s accredited Christian schools. Find yours, say yes, and verify with your school email. It takes about two minutes and costs your school nothing.</p>
+        <p class="lead" style="margin-top:28px">We’ve pre-loaded every Christian school on the Tennessee Department of Education’s approved list, Categories I, II and III, ${SCHOOLS.length} in all. Find yours, say yes, and verify with your school email. It takes about two minutes and costs your school nothing.</p>
       </div>
       <div class="rows" style="border-top:2px solid rgba(255,255,255,.5)">
         ${[['1', 'Find your school', 'Search the list below.'], ['2', 'Say yes', 'Review the partnership terms and confirm you can sign for the school.'], ['3', 'Verify', 'We email a six-digit code to your school address. Enter it and you’re a partner.']]
@@ -654,12 +647,13 @@ function schools() {
   <div class="band">
     <section class="wrap sec" id="list">
       <div style="display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:22px">
-        <div><h2 class="h2">Find your school</h2><p class="small muted" style="margin-top:8px"><span class="tnum">${SCHOOLS.length}</span> accredited schools listed · <span class="tnum">${partners}</span> verified partner${partners === 1 ? '' : 's'}</p></div>
-        <div class="field" style="flex:0 1 360px"><label for="school-q">Search by name or city</label><input class="input" id="school-q" type="search" value="${esc(S.q)}" data-bind="q" data-live="schools" placeholder="e.g. Franklin" autocomplete="off"></div>
+        <div><h2 class="h2">Find your school</h2><p class="small muted" style="margin-top:8px"><span class="tnum">${SCHOOLS.length}</span> Christian schools on the state’s 2026–27 approved list${partners ? ` · <span class="tnum">${partners}</span> verified partner${partners === 1 ? '' : 's'}` : ''}</p></div>
+        <div class="field" style="flex:0 1 360px"><label for="school-q">Search by name, city or county</label><input class="input" id="school-q" type="search" value="${esc(S.q)}" data-bind="q" data-live="schools" placeholder="e.g. Franklin" autocomplete="off"></div>
       </div>
+      <div class="region-chips" role="group" aria-label="Region">${[['', 'All of Tennessee']].concat(REGIONS.map(r => [r, r + ' Tennessee'])).map(([v, l]) => `<button type="button" class="chip" data-action="region" data-r="${v}" aria-pressed="${S.region === v}">${l} <span class="tnum">${v ? SCHOOLS.filter(s => s.region === v).length : SCHOOLS.length}</span></button>`).join('')}</div>
       <div class="school-grid">
         <div class="schools" id="school-list">${schoolRows(list)}</div>
-        <div class="map-wrap"><div class="map-card" id="school-map">${tnMap(list)}<div class="map-key"><span><i class="k-listed"></i>Pre-registered</span><span><i class="k-partner"></i>Verified partner</span></div></div></div>
+        <div class="map-wrap"><div class="map-card" id="school-map">${tnMap(list)}<div class="map-key"><span><i class="k-listed"></i>On the state list</span><span><i class="k-partner"></i>Verified partner</span></div></div><p class="hint" style="margin-top:10px">Source: Tennessee Department of Education, Non-Public Schools Directory 2026–27, updated October 5, 2026. Plotted by ZIP code.</p></div>
       </div>
       <div class="split" style="margin-top:56px">
         <div><h3 class="h3">Not on the list?</h3><p class="body" style="margin-top:10px;max-width:44ch">If your school is accredited and in Tennessee, tell us and we’ll add it within two business days.</p></div>
@@ -686,14 +680,15 @@ function schools() {
   </div>`;
 }
 function schoolRows(list) {
-  if (!list.length) return `<p class="body" style="padding:24px 0">No school matches “${esc(S.q)}”. Try a shorter name, or request to be added below.</p>`;
-  return list.map(s => `
+  if (!list.length) return `<p class="body" style="padding:24px 0">No school matches “${esc(S.q)}”${S.region ? ' in ' + S.region + ' Tennessee' : ''}. Try a shorter name, or request to be added below.</p>`;
+  const n = Math.min(S.showN, list.length);
+  return list.slice(0, n).map(s => `
     <div class="school" data-sid="${s.id}">
-      <div><div class="school-name">${esc(s.name)}</div><div class="school-meta"><span>${esc(s.city)}, TN</span><span>${esc(s.grades)}</span><span>Accredited</span></div></div>
+      <div><div class="school-name">${esc(s.name)}</div><div class="school-meta"><span>${esc(s.city)}, ${esc(s.county)} County</span><span>${esc(s.grades)}</span><span>Category ${esc(s.cat)} · ${esc(s.auth)}</span></div></div>
       <div class="school-act">${s.status === 'partner'
         ? `<span class="pill pill-ok">Verified partner</span>`
-        : `<span class="pill pill-neutral">Pre-registered</span><button type="button" class="btn btn-primary btn-sm" data-action="claim" data-id="${s.id}">This is my school</button>`}</div>
-    </div>`).join('');
+        : `<button type="button" class="btn btn-primary btn-sm" data-action="claim" data-id="${s.id}">This is my school</button>`}</div>
+    </div>`).join('') + (n < list.length ? `<div class="more-row"><button type="button" class="btn btn-secondary" data-action="more">Show ${Math.min(25, list.length - n)} more <span class="muted tnum" style="font-weight:500">· ${list.length - n} left</span></button></div>` : '');
 }
 function schoolClaim() {
   const c = S.claim, s = schoolById(c.id);
@@ -749,9 +744,9 @@ function schoolClaim() {
           <span class="card-kicker">On our list</span>
           <p class="school-name" style="margin-top:10px">${esc(s.name)}</p>
           <p class="small muted" style="margin-top:4px">${esc(s.city)}, Tennessee · ${esc(s.grades)}</p>
-          <div class="sumrow" style="margin-top:12px"><span class="small">Accreditation</span><span class="pill pill-ok">On file</span></div>
-          <div class="sumrow"><span class="small">Email domain</span><span class="small tnum">@${esc(s.domain)}</span></div>
-          <div class="sumrow" style="border-bottom:0"><span class="small">Status</span>${s.status === 'partner' ? '<span class="pill pill-ok">Partner</span>' : '<span class="pill pill-neutral">Pre-registered</span>'}</div>
+          <div class="sumrow" style="margin-top:12px"><span class="small">State approval</span><span class="small">Category ${esc(s.cat)} · ${esc(s.auth)}</span></div>
+          <div class="sumrow"><span class="small">Email domain</span><span class="small tnum">@${esc(s.domain)}${s.alt ? ' or @' + esc(s.alt) : ''}</span></div>
+          <div class="sumrow" style="border-bottom:0"><span class="small">Status</span>${s.status === 'partner' ? '<span class="pill pill-ok">Partner</span>' : '<span class="pill pill-neutral">Not yet claimed</span>'}</div>
           <p class="hint" style="margin-top:12px">No school email? Email [schools@lionheartsgo.org] and we’ll verify by calling your main office.</p>
         </div>
       </aside>
@@ -1069,7 +1064,7 @@ function onBind(e) {
   if (el.dataset.live && PORTAL && PORTAL.onLive) PORTAL.onLive(el.dataset.live);
   if (el.dataset.live === 'elig') { const o = $('#elig-out'); if (o) { o.innerHTML = eligOut(eligResult()); if (window.LHMotion) window.LHMotion.meter(o); } }
   if (el.dataset.live === 'give' || path.startsWith('give.')) { const s = $('#give-summary'); if (s) s.innerHTML = giveSummary(); }
-  if (el.dataset.live === 'schools') { const hit = SCHOOLS.filter(s => !S.q.trim() || (s.name + ' ' + s.city).toLowerCase().includes(S.q.trim().toLowerCase())); const l = $('#school-list'); if (l) l.innerHTML = schoolRows(hit); const ids = new Set(hit.map(s => s.id)); document.querySelectorAll('#school-map .dot').forEach(d => d.classList.toggle('off', !ids.has(d.dataset.sid))); }
+  if (el.dataset.live === 'schools') { S.showN = 25; const hit = schoolFilter(); const l = $('#school-list'); if (l) l.innerHTML = schoolRows(hit); const ids = new Set(hit.map(s => s.id)); document.querySelectorAll('#school-map .dot').forEach(d => d.classList.toggle('off', !ids.has(d.dataset.sid))); }
   if (path === 'elig.size' && routeName() === 'families') rerender();
 }
 document.addEventListener('input', onBind);
@@ -1085,6 +1080,8 @@ document.addEventListener('click', e => {
   if (!b) return;
   const a = b.dataset.action;
   if (PORTAL && PORTAL.onClick(a, b, e)) return;
+  if (a === 'region') { S.region = b.dataset.r; S.showN = 25; rerender(); return; }
+  if (a === 'more') { S.showN += 25; const hit = schoolFilter(); const l = $('#school-list'); if (l) l.innerHTML = schoolRows(hit); return; }
   if (a === 'kid-add') { S.app.kids.push({ first: '', last: S.app.parent.last || '', dob: '', grade: '', school: '' }); saveDraft(); rerender(); }
   if (a === 'kid-remove') { S.app.kids.splice(+b.dataset.i, 1); saveDraft(); rerender(); }
   if (a === 'app-back') { S.app.step--; S.app.err = ''; rerender(); focusFlowTop(); }
@@ -1122,7 +1119,7 @@ document.addEventListener('submit', e => {
   if (f === 'claim') {
     const c = S.claim, s = schoolById(c.id);
     if (!c.name) c.err = 'Add your full name.';
-    else if (!c.email.toLowerCase().endsWith('@' + s.domain)) c.err = `Use your @${esc(s.domain)} email so we can confirm you work at ${esc(s.name)}. No school email? Email [schools@lionheartsgo.org] and we’ll verify through your main office.`;
+    else if (!domainOk(s, c.email)) c.err = `Use your @${esc(s.domain)} email so we can confirm you work at ${esc(s.name)}. No school email? Email [schools@lionheartsgo.org] and we’ll verify through your main office.`;
     else if (!c.auth) c.err = 'Confirm you’re authorized to sign for the school.';
     else { c.err = ''; c.step = 'code'; }
     rerender(); focusFlowTop();
