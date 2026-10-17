@@ -10,7 +10,7 @@ export default async function Claim({ params, searchParams }: { params: Promise<
   const { slug } = await params; const sp = await searchParams;
   const s = await getSession();
   if (!s) redirect(`/signin?next=/school/claim/${slug}`);
-  const { data: school } = await supabaseService().from('schools').select('id, slug, name, city, grades, email_domain, state').eq('slug', slug).single();
+  const { data: school } = await supabaseService().from('schools').select('id, slug, name, city, grades, email_domain, alt_email_domain, state').eq('slug', slug).single();
   if (!school) notFound();
   const step = sp.step ?? 'confirm';
   return (
@@ -21,10 +21,10 @@ export default async function Claim({ params, searchParams }: { params: Promise<
       {sp.error && <p className="errbox" role="alert" style={{ marginBottom: 20 }}>{sp.error}</p>}
       <div className="wrap-narrow" style={{ margin: 0 }}>
         {step === 'confirm' && <form action={claimStart} className="flow-body"><input type="hidden" name="slug" value={slug} />
-          <p className="body">We’ll send a code to your @{school.email_domain} address to confirm you work at {school.name}.</p>
+          <p className="body">{school.email_domain ? <>We’ll send a code to your @{school.email_domain}{school.alt_email_domain ? <> or @{school.alt_email_domain}</> : null} address to confirm you work at {school.name}.</> : <>{school.name} has no school email domain on file, so we’ll verify you by calling the school’s main office.</>}</p>
           <div className="form-grid">
             <div className="field"><label htmlFor="title">Your role</label><select className="input" id="title" name="title">{['Head of school', 'Business manager or CFO', 'Admissions director', 'Board chair', 'Other administrator'].map((t) => <option key={t}>{t}</option>)}</select></div>
-            <div className="field"><label htmlFor="email">School email</label><input className="input" id="email" name="email" type="email" required placeholder={`name@${school.email_domain}`} /></div>
+            <div className="field"><label htmlFor="email">School email</label><input className="input" id="email" name="email" type="email" required placeholder={school.email_domain ? `name@${school.email_domain}` : 'you@example.com'} /></div>
           </div>
           <div className="form-actions"><Link className="btn btn-secondary" href="/schools">Cancel</Link><button className="btn btn-solid">Yes, partner with Lionheart</button></div></form>}
         {step === 'code' && <form action={claimVerify} className="flow-body"><input type="hidden" name="slug" value={slug} />

@@ -1,11 +1,11 @@
-import { supabaseService } from '@/lib/supabase';
 import { give } from '../actions';
+import { SCHOOLS, bySlug, byLabel, schoolLabel, DESIG_RULES } from '@/web/heritage';
 
 export const dynamic = 'force-dynamic';
 
-export default async function Give({ searchParams }: { searchParams: Promise<{ error?: string; cancelled?: string }> }) {
+export default async function Give({ searchParams }: { searchParams: Promise<{ error?: string; cancelled?: string; school?: string; schoolq?: string }> }) {
   const sp = await searchParams;
-  const { data: partners } = await supabaseService().from('schools').select('id, name').eq('state', 'ACTIVE').order('name');
+  const pref = bySlug(sp.school) ?? byLabel(sp.schoolq);
   const before2027 = new Date() < new Date('2027-01-01T00:00:00');
   return (
     <div className="band"><section className="wrap" style={{ paddingBlock: '48px 84px' }}>
@@ -27,9 +27,15 @@ export default async function Give({ searchParams }: { searchParams: Promise<{ e
             <div className="field"><label htmlFor="state">State</label><input className="input" id="state" name="state" required defaultValue="TN" /></div>
             <div className="field"><label htmlFor="zip">ZIP</label><input className="input" id="zip" name="zip" required inputMode="numeric" /></div>
           </div>
-          <div className="field"><label htmlFor="pref">Preferred school (optional, non-binding)</label>
-            <select className="input" id="pref" name="preferred_school"><option value="">No preference: use where most needed</option>{(partners ?? []).map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}</select>
-            <span className="hint">Honored only when that school has at least 10 eligible applicants. Students are always chosen by formula. Please don’t name a school to benefit a relative.</span></div>
+          <div className="pref-box">
+            <div className="field"><label htmlFor="pref">Name a preferred school <span className="muted" style={{ fontWeight: 500 }}>(optional)</span></label>
+              <input className="input" id="pref" name="preferred_school_label" list="dl-pref" defaultValue={pref ? schoolLabel(pref) : ''} placeholder={`Search ${SCHOOLS.length} Tennessee Christian schools`} autoComplete="off" />
+              <datalist id="dl-pref">{SCHOOLS.map((x) => <option key={x.id} value={schoolLabel(x)} />)}</datalist>
+              <span className="hint">Your gift joins that school’s designated pool, which funds eligible students at the school by need, never a particular student, and only when the school has at least 10 eligible applicants. Parents and grandparents may name their own child’s school.</span></div>
+            <label className="tick"><input type="checkbox" name="pref_ack" /><span>If I name a school, I understand my gift isn’t tied to a scholarship for any particular student, including my own child or grandchild, and doesn’t change anyone’s chances.</span></label>
+            <div dangerouslySetInnerHTML={{ __html: DESIG_RULES }} />
+          </div>
+          <p className="note note-warn">Gifts over $5,000 in a year (spouses combined) can make you a “substantial contributor” under federal rules, and then your children and grandchildren can’t receive a Lionheart scholarship that year or the next. If someone in your family may apply, keep your total at $5,000 or less.</p>
           <div className="paper" style={{ padding: '16px 18px' }}>
             <label className="tick"><input type="checkbox" name="designate" defaultChecked /><span>I irrevocably designate up to $1,700 per giver as a qualified contribution under Section 25F, to fund scholarships for eligible Tennessee students. I’m giving my own funds as an individual, not through a business or donor-advised fund, and receive nothing in return.</span></label>
           </div>

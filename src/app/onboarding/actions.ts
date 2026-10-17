@@ -2,7 +2,8 @@
 import { redirect } from 'next/navigation';
 import { getSession, supabaseService } from '@/lib/supabase';
 
-export async function startFamily() {
+export async function startFamily(f: FormData) {
+  const school = String(f.get('school') ?? '').replace(/[^a-z0-9-]/g, '');
   const s = await getSession();
   if (!s) redirect('/signin');
   const sb = supabaseService();
@@ -12,7 +13,7 @@ export async function startFamily() {
     if (error || !h) throw new Error(error?.message);
     await sb.from('user_roles').insert({ user_id: s.userId, role: 'family', household_id: h.id });
   }
-  redirect('/family/apply');
+  redirect('/family/apply' + (school ? `?school=${school}` : ''));
 }
 
 /** Links donor records made at checkout (matched by verified sign-in email) to this account. */

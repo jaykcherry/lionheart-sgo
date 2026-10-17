@@ -7,17 +7,17 @@ export const dynamic = 'force-dynamic';
 const STEPS = ['Home', 'Household', 'Children & schools', 'Income', 'Documents', 'Review'];
 const GRADES = ['K', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
 
-export default async function Apply({ searchParams }: { searchParams: Promise<{ step?: string; error?: string; uploaded?: string }> }) {
+export default async function Apply({ searchParams }: { searchParams: Promise<{ step?: string; error?: string; uploaded?: string; school?: string }> }) {
   const sp = await searchParams;
   const s = await getSession();
   const householdId = s?.roles.find((r) => r.role === 'family')?.household_id;
-  if (!s || !householdId) redirect('/onboarding');
+  if (!s || !householdId) redirect('/onboarding' + (sp.school ? `?school=${encodeURIComponent(sp.school)}` : ''));
   const step = Math.min(Math.max(Number(sp.step ?? 1), 1), 6);
   const sb = await supabaseUser();
   const [{ data: h }, { data: members }, { data: schools }, { data: apps }, { data: docs }] = await Promise.all([
     sb.from('households').select('*').eq('id', householdId).single(),
     sb.from('household_members').select('*').eq('household_id', householdId).order('created_at'),
-    sb.from('schools').select('id, name, city, state').order('name'),
+    sb.from('schools').select('id, slug, name, city, state').order('name'),
     sb.from('applications').select('id, student_member_id, school_id, grade, state, other_aid(efs_cents, school_aid_cents)').eq('household_id', householdId),
     sb.from('documents').select('id, kind, extracted, created_at').eq('household_id', householdId).order('created_at', { ascending: false }),
   ]);
@@ -62,7 +62,7 @@ export default async function Apply({ searchParams }: { searchParams: Promise<{ 
           {students.map((k) => { const a = apps?.find((x) => x.student_member_id === k.id); const aid = (a?.other_aid as unknown as { efs_cents: number; school_aid_cents: number } | null); return (
             <fieldset key={k.id} className="paper" style={{ padding: 20, margin: 0 }}><legend className="label" style={{ padding: '0 6px' }}>{k.full_name}</legend>
               <div className="form-grid">
-                <div className="field span-all"><label htmlFor={`school_${k.id}`}>School</label><select className="input" id={`school_${k.id}`} name={`school_${k.id}`} defaultValue={a?.school_id ?? ''} required><option value="">Choose a school</option>{(schools ?? []).map((sc) => <option key={sc.id} value={sc.id}>{sc.name} · {sc.city}{sc.state === 'ACTIVE' ? ' (partner)' : ''}</option>)}</select></div>
+                <div className="field span-all"><label htmlFor={`school_${k.id}`}>School</label><select className="input" id={`school_${k.id}`} name={`school_${k.id}`} defaultValue={a?.school_id ?? (schools ?? []).find((x) => x.slug === sp.school)?.id ?? ''} required><option value="">Choose a school</option>{(schools ?? []).map((sc) => <option key={sc.id} value={sc.id}>{sc.name} · {sc.city}{sc.state === 'ACTIVE' ? ' (partner)' : ''}</option>)}</select></div>
                 <div className="field"><label htmlFor={`grade_${k.id}`}>Grade in 2027–28</label><select className="input" id={`grade_${k.id}`} name={`grade_${k.id}`} defaultValue={a?.grade ?? ''} required><option value="">Choose</option>{GRADES.map((g) => <option key={g} value={g}>{g === 'K' ? 'Kindergarten' : `Grade ${g}`}</option>)}</select></div>
                 <div className="field"><label htmlFor={`efs_${k.id}`}>Tennessee EFS award ($)</label><input className="input" id={`efs_${k.id}`} name={`efs_${k.id}`} inputMode="decimal" defaultValue={aid ? aid.efs_cents / 100 : ''} placeholder="0" /></div>
                 <div className="field"><label htmlFor={`aid_${k.id}`}>School financial aid ($)</label><input className="input" id={`aid_${k.id}`} name={`aid_${k.id}`} inputMode="decimal" defaultValue={aid ? aid.school_aid_cents / 100 : ''} placeholder="0" /></div>

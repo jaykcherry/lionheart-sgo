@@ -15,7 +15,7 @@ export async function middleware(req: NextRequest) {
   const { data: { user } } = await sb.auth.getUser();
   const protectedPath = /^\/(family|school|donor(?!\/give)|board|onboarding)(\/|$)/.test(req.nextUrl.pathname);
   if (protectedPath && !user) {
-    const to = req.nextUrl.clone(); to.pathname = '/signin'; to.searchParams.set('next', req.nextUrl.pathname);
+    const to = req.nextUrl.clone(); to.pathname = '/signin'; to.search = ''; to.searchParams.set('next', req.nextUrl.pathname + req.nextUrl.search);
     return NextResponse.redirect(to);
   }
   return res;

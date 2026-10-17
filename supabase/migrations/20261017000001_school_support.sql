@@ -19,3 +19,10 @@ group by s.id;
 revoke all on school_support from public;
 grant select on school_support to anon, authenticated;
 comment on view school_support is 'Aggregated, donor-anonymous support per school for the public tracker. Preferences fund a school pool only when the school has >= 10 eligible applicants in the round (POLICIES.md §5).';
+
+-- "Notify me when giving opens" list. Written only by the service role (the /api/notify route).
+create table if not exists notify_signups (
+  email text primary key check (email ~* '^\S+@\S+\.\S+$'),
+  created_at timestamptz not null default now()
+);
+alter table notify_signups enable row level security;

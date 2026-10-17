@@ -809,7 +809,7 @@ function donors() {
       <div class="stack-m">
         <span class="kicker">Name a school</span>
         <h2 class="h2">Support the school you love</h2>
-        <p class="body" style="max-width:52ch">When you give, you can name one of Tennessee’s ${SCHOOLS.length} Christian schools. Your gift joins that school’s pool and helps its families first, awarded by need. You never choose a student, and you can’t name a school a member of your household attends or is applying to.</p>
+        <p class="body" style="max-width:52ch">When you give, you can name one of Tennessee’s ${SCHOOLS.length} Christian schools. Your gift joins that school’s pool and helps its families first, awarded by need. You never choose a student. Parents and grandparents can name their own child’s school, and their children can still apply; giving doesn’t change anyone’s chances.</p>
         <p class="small"><a href="#schools">See donor support by school</a></p>
       </div>
       <div class="panel">
@@ -936,7 +936,8 @@ function prefChip() {
   const g = S.give, sc = schoolById(g.pref);
   if (!sc) return '';
   return `<div class="pref-chosen"><span class="pill pill-gilt">${esc(sc.name)}, ${esc(sc.city)}</span><span class="small muted">${supportLine(sc)}</span></div>
-    ${tick('give.prefAttest', 'No one in my household attends or is applying to ' + esc(sc.name) + ', and I understand I can’t direct my gift to a particular student.')}`;
+    ${tick('give.prefAttest', 'I understand my gift isn’t tied to a scholarship for any particular student, including my own child or grandchild, and that naming ' + esc(sc.name) + ' doesn’t change anyone’s chances.')}
+    <p class="hint" style="margin:8px 0 0 34px">Parents and grandparents are welcome to name their own school, and their children can still apply. Awards are ranked by need and reviewers never see who gave.</p>`;
 }
 function giveSummary() {
   const g = S.give, c = giveCalc();
@@ -951,6 +952,7 @@ function giveSummary() {
     </div>
     <div class="stack-s" style="margin-top:16px">
       ${c.extra > 0 && c.credit > 0 ? `<p class="small">${usd2(c.extra)} above the credit is a regular charitable gift, deductible if you itemize.</p>` : ''}
+      ${c.total > 5000 ? `<p class="note note-warn">Gifts over $5,000 in a year can make you a “substantial contributor” under federal rules, and then your children and grandchildren can’t receive a Lionheart scholarship that year or the next. If someone in your family may apply, consider keeping your total at $5,000 or less.</p>` : ''}
       ${!c.eligible && g.method === 'daf' ? `<p class="note note-warn">DAF grants don’t earn the credit. Give your $1,700 by card to claim it.</p>` : ''}
       ${!c.eligible && g.method !== 'daf' ? `<p class="note note-warn">Gifts made before January 1, 2027 don’t earn the credit. Choose “Schedule for January 1” to claim it.</p>` : ''}
       ${schoolById(g.pref) ? `<p class="small">Preferred school: <b>${esc(schoolById(g.pref).name)}</b></p>` : ''}
@@ -1099,7 +1101,7 @@ function supportBoard() {
   return kpis + `<ol class="support-board">${rows.slice(0, 12).map((x, i) => `<li data-rv style="--d:${(i * 0.05).toFixed(2)}s"><span class="sb-rank">${i + 1}</span><div class="sb-main"><p class="sb-name">${esc(x.s.name)} <small>${esc(x.s.city)}</small></p><div class="sb-bar"><span style="width:${Math.max(2, x.d.amt / max * 100).toFixed(1)}%"></span></div></div><div class="sb-amt"><b>${usd(x.d.amt)}</b><small>${x.d.n >= 3 ? x.d.n + ' donors' : 'fewer than 3 donors'}</small></div><a class="btn btn-ghost btn-sm" href="#give?school=${x.s.id}">Support</a></li>`).join('')}</ol>`;
 }
 const DESIG_RULES = `<details class="rules"><summary>How a named school is used</summary><div>
-  <p class="body">When you name a school, your gift joins that school’s designated pool. In each award round, the pool funds eligible applicants who attend that school first, ranked by need under our published formula. A donor never chooses a student, and a pool is used only when the school has at least 10 eligible applicants that round, so no gift can be steered to one family. Anything a school’s pool can’t use goes to the general fund for students at every school.</p>
+  <p class="body">When you name a school, your gift joins that school’s designated pool. In each award round, the pool funds eligible applicants who attend that school first, ranked by need under our published formula. A donor never chooses a student, reviewers never see who gave, and a pool is used only when the school has at least 10 eligible applicants that round, so no gift can be steered to one family. Parents and grandparents may name their own child’s school, and their children may apply like anyone else. Anything a school’s pool can’t use goes to the general fund for students at every school.</p>
   <p class="body" style="margin-top:10px">Totals here are gifts with a school named, before any are awarded. They show donor interest; they aren’t a promise of an award. Donor names are never shown.</p>
 </div></details>`;
 

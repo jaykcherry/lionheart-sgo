@@ -7,12 +7,18 @@ const sha = async (s: string) => [...new Uint8Array(await crypto.subtle.digest('
 
 /** Step 1: school admin says "this is my school". We email a 6-digit code to an address on the school's domain. */
 export async function startClaim(sb: SupabaseClient, p: { schoolId: string; userId: string; title: string; email: string }) {
-  const { data: school } = await sb.from('schools').select('id, name, email_domain, state').eq('id', p.schoolId).single();
+  const { data: school } = await sb.from('schools').select('id, name, email_domain, alt_email_domain, state').eq('id', p.schoolId).single();
   if (!school) throw new Error('School not found.');
   if (!['UNCLAIMED', 'CLAIM_PENDING'].includes(school.state)) throw new Error('This school is already claimed. Ask your colleague to add you, or email schools@lionheartscholars.org.');
   const email = p.email.trim().toLowerCase();
-  if (FREE_MAIL.test(email) || !email.endsWith('@' + school.email_domain.toLowerCase())) {
-    throw new Error(`Use your @${school.email_domain} address so we can confirm you work at ${school.name}.`);
+  const domains = [school.email_domain, school.alt_email_domain].filter(Boolean).map((d: string) => d.toLowerCase());
+  if (!domains.length) {
+    // No school email domain on the state list: staff verify by calling the school's main office.
+    await audit(sb, { actorKind: 'person', actorId: p.userId, action: 'school_claim_phone_verification_requested', entityType: 'school', entityId: school.id, after: { title: p.title, email } });
+    throw new Error(`${school.name} has no school email domain on file, so we’ll verify you by calling the school’s main office. We’ve noted your request; expect a call within two business days.`);
+  }
+  if (FREE_MAIL.test(email) || !domains.some((d) => email.endsWith('@' + d))) {
+    throw new Error(`Use your @${domains[0]} address so we can confirm you work at ${school.name}.`);
   }
   const code = String(crypto.getRandomValues(new Uint32Array(1))[0]! % 1_000_000).padStart(6, '0');
   await sb.from('school_claims').insert({ school_id: school.id, user_id: p.userId, title: p.title, email, code_hash: await sha(`${school.id}:${code}`), expires_at: new Date(Date.now() + 15 * 60_000).toISOString() });

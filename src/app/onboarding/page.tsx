@@ -5,9 +5,10 @@ import { startFamily, linkDonor } from './actions';
 
 export const dynamic = 'force-dynamic';
 
-export default async function Onboarding() {
+export default async function Onboarding({ searchParams }: { searchParams: Promise<{ school?: string }> }) {
+  const sp = await searchParams;
   const s = await getSession();
-  if (!s) redirect('/signin');
+  if (!s) redirect('/signin?next=' + encodeURIComponent('/onboarding' + (sp.school ? `?school=${sp.school}` : '')));
   const go = [
     hasRole(s, 'family') && ['/family', 'Family portal'],
     hasRole(s, 'school_admin') && ['/school', 'School portal'],
@@ -21,7 +22,7 @@ export default async function Onboarding() {
       <p className="body">Signed in as {s.email}. You can add more than one role to the same account.</p>
       {go.length > 0 && <div className="btn-row" style={{ marginTop: 20 }}>{go.map(([h, l]) => <Link key={h} className="btn btn-primary" href={h}>{l}</Link>)}</div>}
       <div className="cols-3" style={{ marginTop: 40 }}>
-        <form action={startFamily} className="card"><span className="card-kicker">Family</span><h2 className="h3">Apply for a scholarship</h2>
+        <form action={startFamily} className="card"><input type="hidden" name="school" value={sp.school ?? ''} /><span className="card-kicker">Family</span><h2 className="h3">Apply for a scholarship</h2>
           <p className="body" style={{ flex: 1 }}>Set up your household, add your children, and upload last year’s tax documents.</p><div><button className="btn btn-solid">Start as a family</button></div></form>
         <div className="card"><span className="card-kicker">School</span><h2 className="h3">Claim your school</h2>
           <p className="body" style={{ flex: 1 }}>Find your school on our list and verify with your school email.</p><div><Link className="btn btn-solid" href="/schools">Find my school</Link></div></div>
