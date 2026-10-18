@@ -176,23 +176,11 @@ function creditCalc(id) {
   <p class="hint" style="margin-top:14px">An illustration, not tax advice. Assumes cash gifts from your own funds, made on or after January 1, 2027, and designated for the credit.</p>`;
 }
 
-// Tennessee, projected from approximate border coordinates (lon, lat).
-const TN_BORDER = [[-89.53, 36.5], [-88.05, 36.5], [-87.85, 36.63], [-86.5, 36.65], [-85.0, 36.62], [-83.68, 36.6], [-81.68, 36.59], [-81.92, 36.31], [-82.03, 36.12], [-82.6, 35.97], [-83.1, 35.77], [-83.5, 35.56], [-83.88, 35.52], [-84.02, 35.3], [-84.29, 35.22], [-84.32, 34.99], [-88.2, 34.995], [-90.31, 35.0], [-90.08, 35.12], [-90.1, 35.4], [-89.95, 35.7], [-89.65, 36.0], [-89.55, 36.25]];
-const CITY_LL = { Nashville: [-86.78, 36.16], Antioch: [-86.67, 36.06], Madison: [-86.71, 36.26], Lebanon: [-86.29, 36.21], Brentwood: [-86.78, 36.03], Murfreesboro: [-86.39, 35.85], Eads: [-89.64, 35.18], Cordova: [-89.78, 35.16], Franklin: [-86.87, 35.93], Memphis: [-90.05, 35.15], Knoxville: [-83.92, 35.96], Chattanooga: [-85.31, 35.05], Clarksville: [-87.36, 36.53], Jackson: [-88.81, 35.61] };
-const proj = ([lon, lat]) => [((lon + 90.45) * 81.1 + 10).toFixed(1), ((36.75 - lat) * 100 + 10).toFixed(1)];
-function tnMap(list) {
-  const shown = new Set((list || SCHOOLS).map(s => s.id));
-  const seen = {};
-  const dots = SCHOOLS.map(s => {
-    const key = s.lat + ',' + s.lon; const k = seen[key] = (seen[key] || 0) + 1;
-    const [x, y] = proj([s.lon, s.lat]).map(Number); const a = k * 2.4, r = k > 1 ? 2.5 + k * 1.3 : 0;
-    return `<g class="dot${shown.has(s.id) ? '' : ' off'}${s.status === 'partner' ? ' partner' : ''}" data-sid="${s.id}" transform="translate(${(x + Math.cos(a) * r).toFixed(1)} ${(y + Math.sin(a) * r).toFixed(1)})"><circle class="pulse" r="4"/><circle class="core" r="3.6"/><title>${esc(s.name)}, ${esc(s.city)}</title></g>`;
-  }).join('');
-  const refs = ['Memphis', 'Nashville', 'Knoxville', 'Chattanooga'].map(c => { const [x, y] = proj(CITY_LL[c]); return c === 'Nashville' ? `<text class="city" x="${+x - 24}" y="${+y + 4}" style="text-anchor:end">${c}</text>` : `<text class="city" x="${x}" y="${+y + 24}">${c}</text>`; }).join('');
-  return `<svg class="tn-map" viewBox="0 0 740 200" role="img" aria-label="Map of Tennessee showing schools on our list">
-    <path class="tn" d="M${TN_BORDER.map(p => proj(p).join(' ')).join('L')}Z"/>
-    <path class="tn-in" d="M${TN_BORDER.map(p => proj(p).join(' ')).join('L')}Z"/>
-    ${refs}${dots}</svg>`;
+// School map data for schoolmap.js (Google Maps or Leaflet). Visible = the current filter.
+function schoolMapData(list) {
+  const json = JSON.stringify({ schools: SCHOOLS.map(s => ({ id: s.id, n: s.name, c: s.city, co: s.county, g: s.grades, cat: s.cat, lat: s.lat, lon: s.lon, p: s.status === 'partner', claim: s.status === 'partner' ? null : 'action', give: '#give?school=' + s.id })),
+    visible: list.length === SCHOOLS.length ? null : list.map(s => s.id) });
+  return `<div class="map-canvas" id="school-map-canvas"></div><script type="application/json" id="school-map-data">${json.replace(/</g, '\\u003c')}<\/script>`;
 }
 
 // Journey documents: one per step.
@@ -662,7 +650,7 @@ function schools() {
       <div class="region-chips" role="group" aria-label="Region">${[['', 'All of Tennessee']].concat(REGIONS.map(r => [r, r + ' Tennessee'])).map(([v, l]) => `<button type="button" class="chip" data-action="region" data-r="${v}" aria-pressed="${S.region === v}">${l} <span class="tnum">${v ? SCHOOLS.filter(s => s.region === v).length : SCHOOLS.length}</span></button>`).join('')}</div>
       <div class="school-grid">
         <div class="schools" id="school-list">${schoolRows(list)}</div>
-        <div class="map-wrap"><div class="map-card" id="school-map">${tnMap(list)}<div class="map-key"><span><i class="k-listed"></i>On the state list</span><span><i class="k-partner"></i>Verified partner</span></div></div><p class="hint" style="margin-top:10px">Source: Tennessee Department of Education, Non-Public Schools Directory 2026–27, updated October 5, 2026. Plotted by ZIP code.</p></div>
+        <div class="map-wrap"><div class="map-card" id="school-map">${schoolMapData(list)}<div class="map-key"><span id="map-count"><span class="tnum">${list.length}</span> school${list.length === 1 ? '' : 's'} shown</span><span><i class="k-listed"></i>On the state list</span><span><i class="k-partner"></i>Verified partner</span></div></div><p class="hint" style="margin-top:10px">Source: Tennessee Department of Education, Non-Public Schools Directory 2026–27, updated October 5, 2026. Pins mark each school’s ZIP code area; click a pin or a school for details.</p></div>
       </div>
       <div class="split" style="margin-top:56px">
         <div><h3 class="h3">Not on the list?</h3><p class="body" style="margin-top:10px;max-width:44ch">If your school is accredited and in Tennessee, tell us and we’ll add it within two business days.</p></div>
@@ -1328,7 +1316,7 @@ function onBind(e) {
   if (/^app\.kids\.\d+\.school$/.test(path) && e.type === 'change') { rerender(); return; }
   if (el.dataset.live === 'elig') { const o = $('#elig-out'); if (o) { o.innerHTML = eligOut(eligResult()); if (window.LHMotion) window.LHMotion.meter(o); } }
   if (el.dataset.live === 'give' || path.startsWith('give.')) { const s = $('#give-summary'); if (s) s.innerHTML = giveSummary(); }
-  if (el.dataset.live === 'schools') { S.showN = 25; const hit = schoolFilter(); const l = $('#school-list'); if (l) l.innerHTML = schoolRows(hit); const ids = new Set(hit.map(s => s.id)); document.querySelectorAll('#school-map .dot').forEach(d => d.classList.toggle('off', !ids.has(d.dataset.sid))); }
+  if (el.dataset.live === 'schools' && e.type === 'input') { S.showN = 25; const hit = schoolFilter(); const l = $('#school-list'); if (l) l.innerHTML = schoolRows(hit); if (window.LHSchoolMap) window.LHSchoolMap.setVisible(hit.length === SCHOOLS.length ? null : hit.map(s => s.id)); const mc = $('#map-count'); if (mc) mc.innerHTML = `<span class="tnum">${hit.length}</span> school${hit.length === 1 ? '' : 's'} shown`; }
   if (path === 'elig.size' && routeName() === 'families') rerender();
 }
 document.addEventListener('input', onBind);

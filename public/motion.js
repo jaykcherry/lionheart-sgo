@@ -320,20 +320,27 @@
 
   /* ── map ↔ list ── */
   function mapLink(root) {
-    const map = root.querySelector('#school-map'); if (!map) return;
+    const canvas = root.querySelector('#school-map-canvas'); if (!canvas || !window.LHSchoolMap) return;
     const list = root.querySelector('#school-list');
-    const hot = id => {
-      map.querySelectorAll('.dot.hot').forEach(d => d.classList.remove('hot'));
+    const M = window.LHSchoolMap;
+    M.mount(canvas);
+    if (!list) return;
+    const mark = id => {
       list.querySelectorAll('.school.hot').forEach(d => d.classList.remove('hot'));
-      if (!id) return;
-      const d = map.querySelector('.dot[data-sid="' + id + '"]'); if (d) { d.classList.add('hot'); d.parentNode.appendChild(d); }
-      const r = list.querySelector('.school[data-sid="' + id + '"]'); if (r) r.classList.add('hot');
+      const r = id && list.querySelector('.school[data-sid="' + id + '"]'); if (r) r.classList.add('hot');
+      return r;
     };
-    list.addEventListener('mouseover', e => { const r = e.target.closest('.school[data-sid]'); hot(r && r.dataset.sid); });
-    list.addEventListener('focusin', e => { const r = e.target.closest('.school[data-sid]'); hot(r && r.dataset.sid); });
-    list.addEventListener('mouseleave', () => hot(null));
-    map.addEventListener('mouseover', e => { const d = e.target.closest('.dot'); hot(d && d.dataset.sid); });
-    map.addEventListener('click', e => { const d = e.target.closest('.dot'); if (!d) return; const r = list.querySelector('.school[data-sid="' + d.dataset.sid + '"]'); if (r) r.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' }); });
+    M.onHover = id => mark(id);
+    M.onSelect = id => { const r = mark(id); if (r) r.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'nearest' }); };
+    if (list.dataset.mapWired) return; list.dataset.mapWired = '1';
+    list.addEventListener('mouseover', e => { const r = e.target.closest('.school[data-sid]'); M.highlight(r && r.dataset.sid); mark(r && r.dataset.sid); });
+    list.addEventListener('focusin', e => { const r = e.target.closest('.school[data-sid]'); M.highlight(r && r.dataset.sid); mark(r && r.dataset.sid); });
+    list.addEventListener('mouseleave', () => { M.highlight(null); mark(null); });
+    list.addEventListener('click', e => {
+      const r = e.target.closest('.school[data-sid]'); if (!r || e.target.closest('a,button')) return;
+      M.select(r.dataset.sid);
+      const c = root.querySelector('#school-map-canvas'); if (c && window.innerWidth < 960) c.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' });
+    });
   }
 
   /* ── magnetic buttons ── */
@@ -399,5 +406,5 @@
     if (el.dataset.io && HOOKS[el.dataset.io]) HOOKS[el.dataset.io](el, anim && !reduced());
   }
 
-  window.LHMotion = { mount, refresh, meter, journeyRefresh: f => journeyRefresh(!!f) };
+  window.LHMotion = { mount, refresh, meter, journeyRefresh: f => journeyRefresh(!!f), mapLink: () => mapLink(document.getElementById('app') || document.body) };
 })();

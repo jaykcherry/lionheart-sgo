@@ -48,6 +48,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div><strong>Please note</strong>Tax information here is general guidance, not tax advice. Talk with your tax preparer.</div>
           </div>
         </footer>
+        <Script id="lh-maps-key" strategy="beforeInteractive">{`window.LH_GMAPS_KEY = ${JSON.stringify(process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY ?? '')};`}</Script>
+        <Script src="/schoolmap.js" strategy="afterInteractive" />
         <Script src="/motion.js" strategy="afterInteractive" />
         <MotionMount />
       </body>

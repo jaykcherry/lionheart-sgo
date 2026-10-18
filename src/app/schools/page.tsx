@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { supabaseService } from '@/lib/supabase';
-import { DESIG_RULES, REGIONS, SCHOOLS, supportBoard, supportLine, tnMap, type Support } from '@/web/heritage';
+import { DESIG_RULES, REGIONS, SCHOOLS, schoolMapData, supportBoard, supportLine, type Support } from '@/web/heritage';
 
 export const dynamic = 'force-dynamic';
 
@@ -65,8 +65,10 @@ export default async function Schools({ searchParams }: { searchParams: Promise<
             })}
             {shown < list.length && <div className="more-row"><Link className="btn btn-secondary" href={`/schools${qs({ n: String(shown + 25) })}`} scroll={false}>Show {Math.min(25, list.length - shown)} more <span className="muted tnum" style={{ fontWeight: 500 }}>· {list.length - shown} left</span></Link></div>}
           </div>
-          <div className="map-wrap"><div className="map-card" id="school-map"><div dangerouslySetInnerHTML={{ __html: tnMap(new Set(list.map((s) => s.id)), partners) }} /><div className="map-key"><span><i className="k-listed" />On the state list</span><span><i className="k-partner" />Verified partner</span></div></div>
-            <p className="hint" style={{ marginTop: 10 }}>Source: Tennessee Department of Education, Non-Public Schools Directory 2026–27, updated October 5, 2026. Plotted by ZIP code.</p></div>
+          <div className="map-wrap"><div className="map-card" id="school-map"><div className="map-canvas" id="school-map-canvas" />
+            <script type="application/json" id="school-map-data" dangerouslySetInnerHTML={{ __html: schoolMapData(list.length === SCHOOLS.length ? null : list.map((s) => s.id), state) }} />
+            <div className="map-key"><span><span className="tnum">{list.length}</span> school{list.length === 1 ? '' : 's'} shown</span><span><i className="k-listed" />On the state list</span><span><i className="k-partner" />Verified partner</span></div></div>
+            <p className="hint" style={{ marginTop: 10 }}>Source: Tennessee Department of Education, Non-Public Schools Directory 2026–27, updated October 5, 2026. Pins mark each school’s ZIP code area; click a pin or a school for details.</p></div>
         </div>
         <p className="body" style={{ marginTop: 40 }}>Not listed? Email schools@lionheartscholars.org with your school’s name, city and state approval category and we’ll add it within two business days.</p>
       </section></div>

@@ -4,7 +4,8 @@ set -euo pipefail
 cd "$(cd "$(dirname "$0")" && pwd)/.."
 bash scripts/build-prototype.sh prototype/dist/body.html >/dev/null
 python3 - <<'PY'
-import os
+import os, json
+gkey = os.environ.get('LH_GMAPS_KEY') or (open('config/google-maps-key.txt').read().strip() if os.path.exists('config/google-maps-key.txt') else '')
 body = open('prototype/dist/body.html').read()
 title_end = body.index('</title>') + len('</title>')
 title, rest = body[:title_end], body[title_end:]
@@ -20,6 +21,7 @@ head = f'''<!doctype html>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#1c2a4a">
 <link rel="icon" href="{fav}">
+<script>window.LH_GMAPS_KEY = {json.dumps(gkey)};</script>
 '''
 i = rest.index('<style>'); j = rest.index('</style>') + len('</style>')
 html = head + rest[i:j] + '\n</head>\n<body>\n' + rest[:i] + rest[j:] + '\n</body>\n</html>\n'

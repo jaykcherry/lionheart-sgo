@@ -320,20 +320,27 @@
 
   /* ── map ↔ list ── */
   function mapLink(root) {
-    const map = root.querySelector('#school-map'); if (!map) return;
+    const canvas = root.querySelector('#school-map-canvas'); if (!canvas || !window.LHSchoolMap) return;
     const list = root.querySelector('#school-list');
-    const hot = id => {
-      map.querySelectorAll('.dot.hot').forEach(d => d.classList.remove('hot'));
+    const M = window.LHSchoolMap;
+    M.mount(canvas);
+    if (!list) return;
+    const mark = id => {
       list.querySelectorAll('.school.hot').forEach(d => d.classList.remove('hot'));
-      if (!id) return;
-      const d = map.querySelector('.dot[data-sid="' + id + '"]'); if (d) { d.classList.add('hot'); d.parentNode.appendChild(d); }
-      const r = list.querySelector('.school[data-sid="' + id + '"]'); if (r) r.classList.add('hot');
+      const r = id && list.querySelector('.school[data-sid="' + id + '"]'); if (r) r.classList.add('hot');
+      return r;
     };
-    list.addEventListener('mouseover', e => { const r = e.target.closest('.school[data-sid]'); hot(r && r.dataset.sid); });
-    list.addEventListener('focusin', e => { const r = e.target.closest('.school[data-sid]'); hot(r && r.dataset.sid); });
-    list.addEventListener('mouseleave', () => hot(null));
-    map.addEventListener('mouseover', e => { const d = e.target.closest('.dot'); hot(d && d.dataset.sid); });
-    map.addEventListener('click', e => { const d = e.target.closest('.dot'); if (!d) return; const r = list.querySelector('.school[data-sid="' + d.dataset.sid + '"]'); if (r) r.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' }); });
+    M.onHover = id => mark(id);
+    M.onSelect = id => { const r = mark(id); if (r) r.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'nearest' }); };
+    if (list.dataset.mapWired) return; list.dataset.mapWired = '1';
+    list.addEventListener('mouseover', e => { const r = e.target.closest('.school[data-sid]'); M.highlight(r && r.dataset.sid); mark(r && r.dataset.sid); });
+    list.addEventListener('focusin', e => { const r = e.target.closest('.school[data-sid]'); M.highlight(r && r.dataset.sid); mark(r && r.dataset.sid); });
+    list.addEventListener('mouseleave', () => { M.highlight(null); mark(null); });
+    list.addEventListener('click', e => {
+      const r = e.target.closest('.school[data-sid]'); if (!r || e.target.closest('a,button')) return;
+      M.select(r.dataset.sid);
+      const c = root.querySelector('#school-map-canvas'); if (c && window.innerWidth < 960) c.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' });
+    });
   }
 
   /* ── magnetic buttons ── */
@@ -350,7 +357,7 @@
     root.querySelectorAll('section').forEach(sec => {
       let i = 0;
       [...sec.children].forEach(ch => {
-        if (ch.hasAttribute('data-rv') || ch.querySelector('[data-rv]')) return;
+        if (ch.hasAttribute('data-rv') || ch.querySelector('[data-rv]') || ch.querySelector('#school-map-canvas')) return;
         ch.setAttribute('data-rv', ''); ch.style.setProperty('--d', Math.min(i++ * 0.09, 0.45) + 's');
       });
     });
@@ -380,7 +387,8 @@
       targets.forEach(el => reveal(el, false));
       requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('instant')));
     } else if ('IntersectionObserver' in window) {
-      io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); reveal(e.target, true); } }), { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+      // Tall elements may never reach 12% visible, so also reveal once 160px of them is on screen.
+      io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && (e.intersectionRatio >= 0.12 || e.intersectionRect.height >= 160)) { io.unobserve(e.target); reveal(e.target, true); } }), { rootMargin: '0px 0px -8% 0px', threshold: [0, 0.02, 0.05, 0.12] });
       targets.forEach(el => io.observe(el));
     } else targets.forEach(el => reveal(el, false));
     countdown(root);
@@ -399,5 +407,5 @@
     if (el.dataset.io && HOOKS[el.dataset.io]) HOOKS[el.dataset.io](el, anim && !reduced());
   }
 
-  window.LHMotion = { mount, refresh, meter, journeyRefresh: f => journeyRefresh(!!f) };
+  window.LHMotion = { mount, refresh, meter, journeyRefresh: f => journeyRefresh(!!f), mapLink: () => mapLink(document.getElementById('app') || document.body) };
 })();

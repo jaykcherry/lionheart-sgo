@@ -62,20 +62,17 @@ export function creditCalc(id: string) {
   <p class="hint" style="margin-top:14px">An illustration, not tax advice. Assumes cash gifts from your own funds, made on or after January 1, 2027, and designated for the credit.</p>`;
 }
 
-const TN_BORDER: [number, number][] = [[-89.53, 36.5], [-88.05, 36.5], [-87.85, 36.63], [-86.5, 36.65], [-85.0, 36.62], [-83.68, 36.6], [-81.68, 36.59], [-81.92, 36.31], [-82.03, 36.12], [-82.6, 35.97], [-83.1, 35.77], [-83.5, 35.56], [-83.88, 35.52], [-84.02, 35.3], [-84.29, 35.22], [-84.32, 34.99], [-88.2, 34.995], [-90.31, 35.0], [-90.08, 35.12], [-90.1, 35.4], [-89.95, 35.7], [-89.65, 36.0], [-89.55, 36.25]];
-const CITY: Record<string, [number, number]> = { Memphis: [-90.05, 35.15], Nashville: [-86.78, 36.16], Knoxville: [-83.92, 35.96], Chattanooga: [-85.31, 35.05] };
-const proj = ([lon, lat]: [number, number]): [number, number] => [(lon + 90.45) * 81.1 + 10, (36.75 - lat) * 100 + 10];
-
-export function tnMap(shown: Set<string>, partners: Set<string>) {
-  const seen: Record<string, number> = {};
-  const dots = SCHOOLS.map((s) => {
-    const key = `${s.lat},${s.lon}`; const k = (seen[key] = (seen[key] ?? 0) + 1);
-    const [x, y] = proj([s.lon, s.lat]); const a = k * 2.4, r = k > 1 ? 2.5 + k * 1.3 : 0;
-    return `<g class="dot${shown.has(s.id) ? '' : ' off'}${partners.has(s.id) ? ' partner' : ''}" data-sid="${s.id}" transform="translate(${(x + Math.cos(a) * r).toFixed(1)} ${(y + Math.sin(a) * r).toFixed(1)})"><circle class="pulse" r="4"/><circle class="core" r="3.6"/><title>${esc(s.name)}, ${esc(s.city)}</title></g>`;
-  }).join('');
-  const refs = Object.entries(CITY).map(([c, ll]) => { const [x, y] = proj(ll); return c === 'Nashville' ? `<text class="city" x="${(x - 24).toFixed(1)}" y="${(y + 4).toFixed(1)}" style="text-anchor:end">${c}</text>` : `<text class="city" x="${x.toFixed(1)}" y="${(y + 24).toFixed(1)}">${c}</text>`; }).join('');
-  const d = 'M' + TN_BORDER.map((p) => proj(p).map((n) => n.toFixed(1)).join(' ')).join('L') + 'Z';
-  return `<svg class="tn-map" viewBox="0 0 740 200" role="img" aria-label="Map of Tennessee showing schools on our list"><path class="tn" d="${d}"/><path class="tn-in" d="${d}"/>${refs}${dots}</svg>`;
+/** Data block for the zoomable school map (public/schoolmap.js). `visible` null = all schools. */
+export function schoolMapData(visible: string[] | null, status: Map<string, string>) {
+  const json = JSON.stringify({
+    schools: SCHOOLS.map((s) => {
+      const st = status.get(s.id) ?? 'UNCLAIMED';
+      return { id: s.id, n: s.name, c: s.city, co: s.county, g: s.grades, cat: s.cat, lat: s.lat, lon: s.lon, p: st === 'ACTIVE',
+        claim: st === 'UNCLAIMED' || st === 'CLAIM_PENDING' ? `/school/claim/${s.id}` : null, give: `/donor/give?school=${s.id}` };
+    }),
+    visible,
+  });
+  return json.replace(/</g, '\\u003c');
 }
 
 export function journeyDocs(amt: number) {
