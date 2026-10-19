@@ -1174,6 +1174,7 @@ function schoolPage() {
     <div class="tracker-grid">
       <div class="tracker-main">
         <span class="kicker">Donor support tracker</span>
+        <h2 class="h2" style="margin-top:12px">${esc(s.name)}</h2>
         <div class="tracker-figures">
           <div><span class="kpi-label">Designated by donors</span><span class="tracker-n tnum">${usd(d.amt)}</span></div>
           <div><span class="kpi-label">Donors</span><span class="tracker-n tnum">${d.amt ? (d.n >= 3 ? d.n : '<small>fewer than 3</small>') : '0'}</span></div>

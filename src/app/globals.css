@@ -1006,7 +1006,7 @@ a.school-name:hover, a.school-name:focus-visible { text-decoration: underline; t
 .school-hero { padding-block: 40px 64px; }
 .school-back { color: inherit; opacity: .85; }
 .tracker-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 48px; align-items: start; }
-.tracker-figures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 18px; border-top: 2px solid var(--navy); border-bottom: 1px solid var(--line); }
+.tracker-figures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 24px; border-top: 2px solid var(--navy); border-bottom: 1px solid var(--line); }
 .tracker-figures > div { padding: 18px 16px 20px 0; display: flex; flex-direction: column; gap: 6px; }
 .tracker-n { font-family: var(--display); font-size: 44px; line-height: 1; color: var(--navy); font-variant-numeric: lining-nums tabular-nums; }
 .tracker-n small { font-family: var(--serif); font-size: 18px; color: var(--ink-3); }
