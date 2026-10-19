@@ -4,12 +4,18 @@ import { sum } from './money';
 /**
  * School payments. Tuition and fees are paid directly to the school (prop. Treas. Reg. §1.25F-3(c)(5)(iii)).
  * A term payment is released only when: the school confirmed enrollment in the window, the family
- * re-attested Tennessee residency, the payee account is verified and not recently changed, the
+ * re-attested Tennessee residency, the payee account is verified (a new or changed account must be confirmed
+ * from the school's email on file with the state and be past its cancel window), the
  * student is not on hold, and cash is in the segregated account. Two people approve each batch.
  */
 
 export interface TermAward { awardId: string; studentId: string; schoolId: string; term: string; amount: Cents }
-export interface SchoolPayee { schoolId: string; verified: boolean; changedAt?: string; callbackConfirmed: boolean }
+/**
+ * verified: bank-link ownership check passed. emailConfirmed: someone at the school's TDOE directory inbox clicked
+ * Confirm. payableAfter: end of the cancel window (BANK_CHANGE_HOLD_DAYS after the request), during which anyone
+ * notified can cancel the change from a link. All automated; no phone calls.
+ */
+export interface SchoolPayee { schoolId: string; verified: boolean; changedAt?: string; emailConfirmed: boolean; payableAfter?: string }
 
 export interface PaymentGate {
   enrollmentConfirmed: boolean;
@@ -20,7 +26,7 @@ export interface PaymentGate {
 export interface BatchLine extends TermAward { status: 'READY' | 'BLOCKED'; blockers: string[] }
 export interface Batch { batchId: string; term: string; lines: BatchLine[]; readyTotal: Cents; bySchool: Record<string, Cents> }
 
-export const BANK_CHANGE_COOLDOWN_DAYS = 10;
+export const BANK_CHANGE_HOLD_DAYS = 3;
 
 export function buildBatch(batchId: string, term: string, awards: TermAward[], gates: Record<string, PaymentGate>,
   payees: Record<string, SchoolPayee>, asOf: string, segregatedCash: Cents): Batch {
@@ -32,10 +38,8 @@ export function buildBatch(batchId: string, term: string, awards: TermAward[], g
     if (!g?.residencyReattested) blockers.push('Family has not re-attested Tennessee residency');
     if (g?.hold) blockers.push(`On hold: ${g.hold}`);
     if (!p?.verified) blockers.push('School bank account not verified');
-    if (p?.changedAt) {
-      const days = (Date.parse(asOf) - Date.parse(p.changedAt)) / 86_400_000;
-      if (days < BANK_CHANGE_COOLDOWN_DAYS && !p.callbackConfirmed) blockers.push('Bank account changed recently; callback to school required');
-    }
+    if (p?.changedAt && !p.emailConfirmed) blockers.push('Bank account change not yet confirmed from the school’s email on file');
+    if (p?.payableAfter && asOf < p.payableAfter.slice(0, 10)) blockers.push(`Bank account change in its cancel window until ${p.payableAfter.slice(0, 10)}`);
     if (!blockers.length) {
       if (cashLeft >= a.amount) cashLeft -= a.amount; else blockers.push('Insufficient cash in segregated account');
     }

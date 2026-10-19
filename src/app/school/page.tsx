@@ -6,7 +6,7 @@ import { confirmRoster, withdraw, payeeSubmit } from './actions';
 
 export const dynamic = 'force-dynamic';
 
-export default async function SchoolPortal({ searchParams }: { searchParams: Promise<{ welcome?: string; error?: string }> }) {
+export default async function SchoolPortal({ searchParams }: { searchParams: Promise<{ welcome?: string; error?: string; bank?: string }> }) {
   const sp = await searchParams;
   const s = await getSession();
   const schoolId = s?.roles.find((r) => r.role === 'school_admin')?.school_id;
@@ -15,7 +15,7 @@ export default async function SchoolPortal({ searchParams }: { searchParams: Pro
   const [{ data: school }, { data: roster }, { data: payee }, { data: lines }] = await Promise.all([
     sb.from('schools').select('name, state').eq('id', schoolId).single(),
     sb.from('school_roster').select('*').eq('school_id', schoolId).order('student_name'),
-    sb.from('school_payees').select('last4, verified_at, callback_confirmed_at').eq('school_id', schoolId).eq('active', true).maybeSingle(),
+    sb.from('school_payees').select('last4, verified_at, email_confirmed_at, email_confirmed_to, payable_after').eq('school_id', schoolId).eq('active', true).maybeSingle(),
     sb.from('disbursement_lines').select('term, amount_cents, status, award_id').eq('school_id', schoolId),
   ]);
   const term = new Date().getMonth() >= 6 ? 'fall' : 'spring';
@@ -28,6 +28,7 @@ export default async function SchoolPortal({ searchParams }: { searchParams: Pro
       <div className="band"><section className="wrap stack-l" style={{ paddingBlock: '40px 84px' }}>
         {sp.welcome && <p className="notice notice-ok">Welcome. Your agreement is signed. Add your bank account below so we can pay tuition.</p>}
         {sp.error && <p className="errbox">{sp.error}</p>}
+        {sp.bank === 'requested' && <p className="notice notice-ok">Bank account saved. We’ve emailed your school’s address on file with the state to confirm it; nothing changes until someone there clicks Confirm.</p>}
         <div className="split"><div><h2 className="h3">Setup</h2></div><ol className="checklist">{setup.map(([d, l]) => <li key={l} data-done={d}><span className="ck">{d ? '✓' : ''}</span><div><p>{l}</p></div></li>)}</ol></div>
 
         <section><h2 className="h3">Confirm {term} enrollment</h2><p className="body" style={{ marginTop: 6 }}>We pay only for students you confirm. {pending.length ? `${pending.length} waiting.` : 'All confirmed.'}</p>
@@ -49,7 +50,7 @@ export default async function SchoolPortal({ searchParams }: { searchParams: Pro
             <div className="field"><label htmlFor="days">Days attended this term</label><input className="input" id="days" name="days" inputMode="numeric" required /></div>
             <div className="span-all"><button className="btn btn-secondary">Report withdrawal</button></div></form></section>
 
-        <section className="split"><div><h2 className="h3">Bank account</h2><p className="body" style={{ marginTop: 6 }}>{payee ? `Checking ending ${payee.last4}. ${payee.callback_confirmed_at ? 'Verified.' : 'We’ll call your main office to confirm before paying it.'}` : 'Not set up yet.'}</p></div>
+        <section className="split"><div><h2 className="h3">Bank account</h2><p className="body" style={{ marginTop: 6 }}>{payee ? `Checking ending ${payee.last4}. ${payee.payable_after && new Date(payee.payable_after) > new Date() ? `Confirmed by ${payee.email_confirmed_to}; payments start after ${new Date(payee.payable_after).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}.` : 'Verified.'}` : 'Not set up yet.'} When you connect or change an account, we email your school’s address on file with the Tennessee Department of Education to confirm it.</p></div>
           <form action={payeeSubmit} className="paper form-grid" style={{ padding: 20 }}>
             <div className="field"><label htmlFor="legal_name">School legal name</label><input className="input" id="legal_name" name="legal_name" required /></div>
             <div className="field"><label htmlFor="ein">School EIN</label><input className="input" id="ein" name="ein" required placeholder="00-0000000" /></div>

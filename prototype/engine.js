@@ -21,7 +21,7 @@ var LionheartEngine = (() => {
   // src/domain/index.ts
   var index_exports = {};
   __export(index_exports, {
-    BANK_CHANGE_COOLDOWN_DAYS: () => BANK_CHANGE_COOLDOWN_DAYS,
+    BANK_CHANGE_HOLD_DAYS: () => BANK_CHANGE_HOLD_DAYS,
     CASH_METHODS: () => CASH_METHODS,
     CATEGORICAL_PROGRAMS: () => CATEGORICAL_PROGRAMS,
     CREDIT_CAP: () => CREDIT_CAP,
@@ -606,7 +606,7 @@ var LionheartEngine = (() => {
   }
 
   // src/domain/disbursement.ts
-  var BANK_CHANGE_COOLDOWN_DAYS = 10;
+  var BANK_CHANGE_HOLD_DAYS = 3;
   function buildBatch(batchId, term, awards, gates, payees, asOf, segregatedCash) {
     var _a;
     let cashLeft = segregatedCash;
@@ -618,10 +618,8 @@ var LionheartEngine = (() => {
       if (!(g == null ? void 0 : g.residencyReattested)) blockers.push("Family has not re-attested Tennessee residency");
       if (g == null ? void 0 : g.hold) blockers.push(`On hold: ${g.hold}`);
       if (!(p == null ? void 0 : p.verified)) blockers.push("School bank account not verified");
-      if (p == null ? void 0 : p.changedAt) {
-        const days = (Date.parse(asOf) - Date.parse(p.changedAt)) / 864e5;
-        if (days < BANK_CHANGE_COOLDOWN_DAYS && !p.callbackConfirmed) blockers.push("Bank account changed recently; callback to school required");
-      }
+      if ((p == null ? void 0 : p.changedAt) && !p.emailConfirmed) blockers.push("Bank account change not yet confirmed from the school\u2019s email on file");
+      if ((p == null ? void 0 : p.payableAfter) && asOf < p.payableAfter.slice(0, 10)) blockers.push(`Bank account change in its cancel window until ${p.payableAfter.slice(0, 10)}`);
       if (!blockers.length) {
         if (cashLeft >= a.amount) cashLeft -= a.amount;
         else blockers.push("Insufficient cash in segregated account");

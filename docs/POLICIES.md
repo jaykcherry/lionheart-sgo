@@ -46,7 +46,7 @@ All qualified contributions and their earnings are held in a separate bank accou
 By January 31 each donor receives a written acknowledgment: Lionheart's EIN, total designated qualified contributions for the year, the donor's unique donor number, and a statement that no goods or services were provided. By February 28 Lionheart reports each donor number, name, address and total to the IRS. Both are released only if they tie to designated deposits to the cent. Lionheart does not collect donor Social Security numbers.
 
 ## 9. Fraud prevention
-Duplicate-award checks against EFS, school aid and other SGOs; document reuse detection across households; address and bank-account matching; changes to a school's bank account take effect only after staff confirm by calling the school's main office number on file; every payment batch needs two approvers, one a board officer.
+Duplicate-award checks against EFS, school aid and other SGOs; document reuse detection across households; address and bank-account matching; a new or changed school bank account is paid only after it is confirmed from the school's email on file with the Tennessee Department of Education (never an address the requester supplies) and a three-day cancel window has passed, with cancel links sent to the requester and every school administrator; every payment batch needs two approvers, one a board officer.
 
 ## 10. Refunds and withdrawals
 Schools report withdrawals within 30 days and refund the unused share of a paid term, prorated by days enrolled out of 90, within 30 days. Refunds are §25F income in the year received and are re-awarded.

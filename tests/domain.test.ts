@@ -4,7 +4,7 @@ import {
   unmetNeed, awardAmount, allocateRound, splitTerms, rankCandidates, type Candidate, DEFAULT_POLICY, type AwardPolicy,
   coverageFor, capFor, needIndexOf, explainAward, normalizePolicy,
   routeGift, splitCouple, creditForYear, substantialContributors, screen,
-  ninetyPercentTest, buildBatch, canRelease, refundDue, giftJournal, assertBalanced, reconcile,
+  ninetyPercentTest, buildBatch, canRelease, type SchoolPayee, refundDue, giftJournal, assertBalanced, reconcile,
   buildYearEnd, tieOut, applicationMachine, batchMachine, evaluate, blocked, dollars,
 } from '../src/domain';
 
@@ -207,13 +207,15 @@ describe('disbursement', () => {
   const awards = [{ awardId: 'a1', studentId: 's1', schoolId: 'cpa', term: 'fall', amount: dollars(2_500) }, { awardId: 'a2', studentId: 's2', schoolId: 'ncs', term: 'fall', amount: dollars(2_500) }];
   it('blocks lines missing enrollment confirmation or a verified payee', () => {
     const b = buildBatch('B1', 'fall', awards, { a1: { enrollmentConfirmed: true, residencyReattested: true }, a2: { enrollmentConfirmed: false, residencyReattested: true } },
-      { cpa: { schoolId: 'cpa', verified: true, callbackConfirmed: true }, ncs: { schoolId: 'ncs', verified: true, callbackConfirmed: true } }, '2027-08-15', dollars(100_000));
+      { cpa: { schoolId: 'cpa', verified: true, emailConfirmed: true }, ncs: { schoolId: 'ncs', verified: true, emailConfirmed: true } }, '2027-08-15', dollars(100_000));
     expect(b.readyTotal).toBe(dollars(2_500)); expect(b.lines[1]!.blockers).toContain('School has not confirmed enrollment');
   });
-  it('blocks a recently changed bank account until a callback is confirmed', () => {
-    const b = buildBatch('B1', 'fall', awards.slice(0, 1), { a1: { enrollmentConfirmed: true, residencyReattested: true } },
-      { cpa: { schoolId: 'cpa', verified: true, changedAt: '2027-08-12', callbackConfirmed: false } }, '2027-08-15', dollars(100_000));
-    expect(b.lines[0]!.status).toBe('BLOCKED');
+  it('blocks a changed bank account until the school confirms by email and the cancel window passes', () => {
+    const run = (p: Partial<SchoolPayee>, asOf = '2027-08-15') => buildBatch('B1', 'fall', awards.slice(0, 1), { a1: { enrollmentConfirmed: true, residencyReattested: true } },
+      { cpa: { schoolId: 'cpa', verified: true, changedAt: '2027-08-12', emailConfirmed: false, ...p } }, asOf, dollars(100_000)).lines[0]!;
+    expect(run({}).status).toBe('BLOCKED');
+    expect(run({ emailConfirmed: true, payableAfter: '2027-08-16T12:00:00Z' }).blockers[0]).toMatch(/cancel window/);
+    expect(run({ emailConfirmed: true, payableAfter: '2027-08-15T09:00:00Z' }).status).toBe('READY');
   });
   it('needs two approvers other than the preparer', () => {
     expect(canRelease([{ userId: 'job', at: '' }, { userId: 'ann', at: '' }], 'job').ok).toBe(false);

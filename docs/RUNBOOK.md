@@ -7,7 +7,7 @@ Target staffing in year one: one part-time operations/compliance lead (about 0.5
 - Read any critical compliance finding. Critical findings already paused the affected flow.
 
 ## Weekly
-- Confirm bank-change requests by phone (number on file, never from the request), then click "I called the main office".
+- Bank changes confirm themselves by email (school's TDOE directory address + 3-day cancel window). Glance at any "payee_change_cancelled" tickets; no calls.
 - Spot-check 5 automatically approved applications against their documents (sampling keeps the automation honest).
 
 ## Each award round (Apr, Jul, Dec)

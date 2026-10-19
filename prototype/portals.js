@@ -106,7 +106,7 @@ window.LH_PORTALS = function (LH) {
     payees: {}, batch: null, approvals: [], batchState: 'DRAFT', sent: [], withdrawals: [], prefSchool: '', eDelivery: true,
     reviews: {}, seenOnboarding: {}, wd: { award: '', days: '30' }, newBank: '',
   };
-  ACTIVE_SCHOOLS.forEach((id) => { P.payees[id] = { schoolId: id, verified: id !== 'mtcs', callbackConfirmed: true, last4: String(1000 + (H(id) % 9000)) }; });
+  ACTIVE_SCHOOLS.forEach((id) => { P.payees[id] = { schoolId: id, verified: id !== 'mtcs', emailConfirmed: true, last4: String(1000 + (H(id) % 9000)) }; });
 
   const giftsBefore = (date) => GIFTS.filter((g) => !g.scheduled && g.date <= date);
   const designatedTotal = (date) => giftsBefore(date).reduce((a, g) => a + g.amount, 0);
@@ -169,7 +169,7 @@ window.LH_PORTALS = function (LH) {
     const ninety = E.ninetyPercentTest([{ year: 2027, contributions: designated, earnings: $d(412), refunds: 0 }],
       P.sent.map((b) => ({ date: b.date, amount: b.total })), DEMO_DATE, scheduled);
     const recon = [{ severity: 'warn', code: 'NOT_DEPOSITED', message: 'Stripe payout po_1Q8x (3 gifts, $4,100 net) in transit; expected Aug 13.', ref: 'po_1Q8x' }];
-    if (Object.values(P.payees).some((p) => p.changedAt && !p.callbackConfirmed)) recon.push({ severity: 'critical', code: 'PAYEE_CHANGE', message: 'A school changed its bank account. Payments to that school are paused until a callback confirms it.', ref: 'payee' });
+    if (Object.values(P.payees).some((p) => p.changedAt && (!p.emailConfirmed || (p.payableAfter && DEMO_DATE < p.payableAfter)))) recon.push({ severity: 'warn', code: 'PAYEE_CHANGE', message: 'A school changed its bank account. Payments to that school wait until the school confirms from its email on file with the state and the 3-day cancel window ends. No action needed.', ref: 'payee' });
     const awardedStudents = Object.keys(AWARD).map((id) => ({ studentId: id, schoolId: APPS.find((a) => a.id === id).school, year: 2027 }));
     const deadlines = E.deadlinesFor(2027).map((d) => ({ ...d, done: ['irs-portal-2027', 'tn-list-2027'].includes(d.id) }));
     const segLedger = segBalance();
@@ -329,9 +329,12 @@ window.LH_PORTALS = function (LH) {
             <div><button class="btn btn-primary" type="submit">Report withdrawal</button></div></form></div>
             ${P.withdrawals.length ? `<h3 class="h4" style="margin-top:32px">Reported</h3><div class="tablewrap"><table class="table"><tbody>${P.withdrawals.map((w) => `<tr><td>${esc(w.name)}</td><td>${w.days} days</td><td class="num">${money(w.refund)} due</td></tr>`).join('')}</tbody></table></div>` : ''}`;
         }
-        return `<div class="split"><div class="stack-m"><h2 class="h3">Where we send payments</h2><p class="body">To protect you from payment fraud, a changed account is held for ${E.BANK_CHANGE_COOLDOWN_DAYS} days unless we confirm it by phone with your main office.</p></div>
-          <div class="paper stack-m" style="padding:22px"><div class="sumrow" style="padding-top:0"><span>Current account</span><span class="tnum">Checking ••••${esc(payee.last4)}</span></div>
-          <div class="sumrow"><span>Status</span>${payee.changedAt && !payee.callbackConfirmed ? pill('Change pending callback', 'pill-warn') : pill('Verified', 'pill-ok')}</div>
+        const dirMail = ((window.LH_SCHOOLS || []).find((x) => x.id === sid) || {}).vm || ['the school’s email on file'];
+        const bankPending = payee.changedAt && !payee.emailConfirmed, bankHolding = payee.emailConfirmed && payee.payableAfter && DEMO_DATE < payee.payableAfter;
+        return `<div class="split"><div class="stack-m"><h2 class="h3">Where we send payments</h2><p class="body">To protect you from payment fraud, a new account must be confirmed from your school’s email on file with the Tennessee Department of Education (${esc(dirMail.join(' or '))}). We then wait ${E.BANK_CHANGE_HOLD_DAYS} days before paying it, and anyone we notified can cancel from their email until then. No phone calls.</p></div>
+          <div class="paper stack-m" style="padding:22px"><div class="sumrow" style="padding-top:0"><span>${bankPending ? 'Requested account' : 'Current account'}</span><span class="tnum">Checking ••••${esc(payee.last4)}</span></div>
+          <div class="sumrow"><span>Status</span>${bankPending ? pill('Waiting for the school to confirm by email', 'pill-warn') : bankHolding ? pill('Confirmed · payable ' + payee.payableAfter, 'pill-gilt') : pill('Verified', 'pill-ok')}</div>
+          ${bankPending || bankHolding ? `<p class="hint">Prototype: ${bankPending ? `<button type="button" class="btn btn-ghost btn-sm" data-action="sch-bank-confirm">Confirm from the school’s inbox</button>` : ''}<button type="button" class="btn btn-ghost btn-sm" data-action="sch-bank-cancel">Cancel from an emailed link</button></p>` : ''}
           <form class="stack-s" data-form="sch-bank"><div class="field"><label for="nb">New routing + account number</label><input class="input" id="nb" data-bind="p.newBank" placeholder="Routing · account" autocomplete="off"></div><div><button class="btn btn-secondary" type="submit">Request account change</button></div></form></div></div>`;
       });
   }
@@ -445,6 +448,8 @@ window.LH_PORTALS = function (LH) {
     if (a === 'as') { P.role = b.dataset.role; location.hash = { family: 'family-portal', school: 'school-portal', donor: 'donor-portal', board: 'board' }[P.role]; return true; }
     if (a === 'passkey') { toast('Prototype: passkeys need the production app.'); return true; }
     if (a === 'ptab') { P.tab[b.dataset.role] = b.dataset.tab; rerender(); return true; }
+    if (a === 'sch-bank-confirm') { const d = new Date(DEMO_DATE + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + E.BANK_CHANGE_HOLD_DAYS); Object.assign(P.payees.ncs, { emailConfirmed: true, payableAfter: d.toISOString().slice(0, 10) }); toast('Confirmed from the school’s inbox. Payable after the cancel window.'); rerender(); return true; }
+    if (a === 'sch-bank-cancel') { if (P.prevPayee) P.payees.ncs = P.prevPayee; P.prevPayee = null; toast('Change cancelled. Payments stay with the previous account.'); rerender(); return true; }
     if (a === 'fam-accept' || a === 'fam-decline') {
       const app = APPS.find((x) => x.id === b.dataset.id);
       app.state = E.applicationMachine.transition(app.state, a === 'fam-accept' ? 'ACCEPTED' : 'DECLINED', { kind: 'person', id: 'dana', role: 'family' });
@@ -511,8 +516,9 @@ window.LH_PORTALS = function (LH) {
     }
     if (f === 'sch-bank') {
       if (!P.newBank.trim()) { toast('Enter the new account details.'); return true; }
-      Object.assign(P.payees.ncs, { changedAt: DEMO_DATE, callbackConfirmed: false, last4: P.newBank.replace(/\D/g, '').slice(-4) || '0000' }); P.newBank = '';
-      toast('Change requested. We’ll call your main office to confirm before paying the new account.'); rerender(); return true;
+      P.prevPayee = Object.assign({}, P.payees.ncs);
+      Object.assign(P.payees.ncs, { changedAt: DEMO_DATE, emailConfirmed: false, payableAfter: undefined, last4: P.newBank.replace(/\D/g, '').slice(-4) || '0000' }); P.newBank = '';
+      toast('Change requested. We’ve emailed your school’s address on file with the state to confirm it.'); rerender(); return true;
     }
     if (f === 'don-settings') { toast('Preferences saved.'); return true; }
     if (f === 'run-r2') {

@@ -25,9 +25,9 @@ export async function prepareBatch(sb: SupabaseClient, term: string, name: strin
       hold: app.state === 'HELD' ? app.hold_reason ?? 'Held' : ['WITHDRAWN', 'DECLINED', 'CLOSED'].includes(app.state) ? app.state.toLowerCase() : app.state === 'AWARDED' ? 'Family has not accepted' : undefined,
     };
   }
-  const { data: payees } = await sb.from('school_payees').select('school_id, verified_at, changed_at, callback_confirmed_at').eq('active', true);
+  const { data: payees } = await sb.from('school_payees').select('school_id, verified_at, changed_at, email_confirmed_at, payable_after, replaces_payee_id').eq('active', true);
   const payeeMap: Record<string, SchoolPayee> = {};
-  for (const p of payees ?? []) payeeMap[p.school_id] = { schoolId: p.school_id, verified: !!p.verified_at, changedAt: p.changed_at?.slice(0, 10), callbackConfirmed: !!p.callback_confirmed_at };
+  for (const p of payees ?? []) payeeMap[p.school_id] = { schoolId: p.school_id, verified: !!p.verified_at, changedAt: p.changed_at?.slice(0, 10), emailConfirmed: !!p.email_confirmed_at, payableAfter: p.payable_after ?? undefined };
   const { data: cash } = await sb.from('ledger_postings').select('amount_cents').eq('fund', '25F-TN').eq('account', 'cash');
   const segCash = (cash ?? []).reduce((s, r) => s + Number(r.amount_cents), 0);
 

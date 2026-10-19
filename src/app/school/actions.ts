@@ -46,14 +46,16 @@ export async function claimSign(f: FormData) {
 
 /**
  * Bank details are entered into the payment provider's hosted form; we receive only a token and last 4.
- * This action records the token and opens the mandatory callback ticket.
+ * This action records the token; the school confirms from its email on file with the state (no phone calls).
  */
 export async function payeeSubmit(f: FormData) {
   const s = await me();
   const schoolId = s.roles.find((r) => r.role === 'school_admin')?.school_id;
   if (!schoolId) redirect('/schools');
-  await requestPayeeChange(supabaseService(), { schoolId, userId: s.userId, legalName: str(f, 'legal_name'), ein: str(f, 'ein'), processorAccountRef: str(f, 'account_token'), last4: str(f, 'last4') });
+  try { await requestPayeeChange(supabaseService(), { schoolId, userId: s.userId, userEmail: s.email, legalName: str(f, 'legal_name'), ein: str(f, 'ein'), processorAccountRef: str(f, 'account_token'), last4: str(f, 'last4') }); }
+  catch (e) { redirect('/school?error=' + encodeURIComponent((e as Error).message)); }
   revalidatePath('/school');
+  redirect('/school?bank=requested');
 }
 
 export async function confirmRoster(f: FormData) {

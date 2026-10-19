@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getSession, hasRole, supabaseUser } from '@/lib/supabase';
 import { fmtUSD, type Finding, type AllocationResult } from '@/domain';
-import { runComplianceNow, runAwardRound, approveAwardRound, prepare, approve, send, decide, resolveTicket, confirmPayeeCallback, grantRole } from './actions';
+import { runComplianceNow, runAwardRound, approveAwardRound, prepare, approve, send, decide, resolveTicket, grantRole } from './actions';
 
 export const dynamic = 'force-dynamic';
 const SEV: Record<string, string> = { critical: 'pill-bad', warn: 'pill-warn', info: 'pill-ok' };
@@ -39,7 +39,7 @@ export default async function Board({ searchParams }: { searchParams: Promise<{ 
                   <form action={decide}><input type="hidden" name="application_id" value={t.entity_id} /><input type="hidden" name="to" value="ELIGIBLE" /><button className="btn btn-secondary btn-sm">Approve eligible</button></form>
                   <form action={decide}><input type="hidden" name="application_id" value={t.entity_id} /><input type="hidden" name="to" value="DOCS_PENDING" /><button className="btn btn-secondary btn-sm">Request documents</button></form>
                   <form action={decide}><input type="hidden" name="application_id" value={t.entity_id} /><input type="hidden" name="to" value="DENIED" /><button className="btn btn-ghost btn-sm">Deny</button></form></>}
-                {t.kind === 'payee_change' && t.entity_id && <form action={confirmPayeeCallback}><input type="hidden" name="school_id" value={t.entity_id} /><button className="btn btn-secondary btn-sm">I called the main office and confirmed</button></form>}
+                
                 <form action={resolveTicket}><input type="hidden" name="ticket_id" value={t.id} /><button className="btn btn-ghost btn-sm">Mark resolved</button></form>
               </div><p className="hint">Only a person can decide. Every decision is logged with your name.</p></article>))}</div></section>
 

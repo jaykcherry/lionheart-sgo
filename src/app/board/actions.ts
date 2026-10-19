@@ -63,16 +63,6 @@ export async function resolveTicket(f: FormData) {
   back();
 }
 
-/** After a staff member phones the school's main office (number on file) and confirms the account. */
-export async function confirmPayeeCallback(f: FormData) {
-  const s = await ops();
-  const sb = supabaseService();
-  await sb.from('school_payees').update({ verified_at: new Date().toISOString(), callback_confirmed_at: new Date().toISOString(), callback_confirmed_by: s.userId }).eq('school_id', str(f, 'school_id')).eq('active', true);
-  await sb.from('schools').update({ state: 'ACTIVE' }).eq('id', str(f, 'school_id')).in('state', ['AGREEMENT_SIGNED', 'PAYEE_VERIFIED', 'ACTIVE']);
-  await audit(sb, { actorKind: 'person', actorId: s.userId, action: 'payee_callback_confirmed', entityType: 'school', entityId: str(f, 'school_id') });
-  back();
-}
-
 export async function grantRole(f: FormData) {
   const s = await ops(true);
   const sb = supabaseService();
