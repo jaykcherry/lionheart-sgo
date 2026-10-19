@@ -237,9 +237,9 @@ function home() {
     <section class="wrap hero">
       <div>
         <p class="hero-verse" data-rv>“The righteous are bold as a lion.” Proverbs 28:1</p>
-        <h1 class="display lines" data-io><span class="ln"><span>Your federal taxes,</span></span><span class="ln"><span style="--d:.12s">a child’s Christian</span></span><span class="ln"><span style="--d:.24s">education.</span></span></h1>
+        <h1 class="display lines" data-io><span class="ln"><span>Your tax bill can</span></span><span class="ln"><span style="--d:.12s">send a child to</span></span><span class="ln"><span style="--d:.24s">Christian school.</span></span></h1>
         <div class="ornament grow" data-io>${STAR}</div>
-        <p class="lead" data-rv style="--d:.55s">Under the new federal scholarship tax credit, every dollar you give to Lionheart, up to $1,700 a person, comes back off your federal tax bill. It becomes tuition at a Tennessee Christian school.</p>
+        <p class="lead" data-rv style="--d:.55s">Give up to $1,700 to Lionheart, or $3,400 if you’re married, and you get every dollar back as a federal tax credit. We turn it into tuition for Tennessee kids at Christian schools.</p>
         <div class="hero-cta" data-rv style="--d:.7s"><a class="btn btn-gold magnetic" href="#give" id="hero-give">${joint ? 'Give $3,400 as a couple' : 'Give $1,700'} <span class="arr" aria-hidden="true">→</span></a><a class="btn btn-secondary" href="#families">Apply for a scholarship</a></div>
       </div>
       <div class="cert-stage" data-rv="scale" data-rosette="wreath" style="--d:.25s">
@@ -1154,7 +1154,7 @@ function matHTML(kind, c) {
     ${matFoot(c)}</div>`;
   if (kind === 'poster') return `<div class="mat mat-poster">${matHead(c)}
     <p class="m-eyebrow">${c.s ? esc(c.s.name) : 'Tennessee Christian schools'}</p>
-    <h2 class="m-h" style="font-size:76px">Your federal taxes, a child’s Christian education.</h2>
+    <h2 class="m-h" style="font-size:76px">Your tax bill can send a child to Christian school.</h2>
     <p class="m-lead" style="font-size:22px">Give up to $1,700 each, $3,400 as a couple, and get every dollar back as a federal tax credit. It becomes a scholarship for a Tennessee family.</p>
     <div class="m-pair big"><div class="m-qr">${qrSvg(c.give, 300)}<span>Scan to give</span><small>Give $1,700 each, get it all back</small></div><div class="m-qr">${qrSvg(c.apply, 300)}<span>Scan to apply</span><small>Tuition help for Tennessee families</small></div></div>
     <p class="m-big" style="text-align:center;font-size:30px">Gifts count from January 1, 2027. Most Tennessee families qualify.</p>

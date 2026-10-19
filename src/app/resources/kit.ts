@@ -57,7 +57,7 @@ function matHTML(kind, c) {
     ${matFoot(c)}</div>`;
   if (kind === 'poster') return `<div class="mat mat-poster">${matHead(c)}
     <p class="m-eyebrow">${c.s ? esc(c.s.name) : 'Tennessee Christian schools'}</p>
-    <h2 class="m-h" style="font-size:76px">Your federal taxes, a child’s Christian education.</h2>
+    <h2 class="m-h" style="font-size:76px">Your tax bill can send a child to Christian school.</h2>
     <p class="m-lead" style="font-size:22px">Give up to $1,700 each, $3,400 as a couple, and get every dollar back as a federal tax credit. It becomes a scholarship for a Tennessee family.</p>
     <div class="m-pair big"><div class="m-qr">${qrSvg(c.give, 300)}<span>Scan to give</span><small>Give $1,700 each, get it all back</small></div><div class="m-qr">${qrSvg(c.apply, 300)}<span>Scan to apply</span><small>Tuition help for Tennessee families</small></div></div>
     <p class="m-big" style="text-align:center;font-size:30px">Gifts count from January 1, 2027. Most Tennessee families qualify.</p>

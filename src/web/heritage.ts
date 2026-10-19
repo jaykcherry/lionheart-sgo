@@ -122,9 +122,9 @@ export function homeHTML(limits: number[], notified: boolean) {
     <section class="wrap hero">
       <div>
         <p class="hero-verse" data-rv>“The righteous are bold as a lion.” Proverbs 28:1</p>
-        <h1 class="display lines" data-io><span class="ln"><span>Your federal taxes,</span></span><span class="ln"><span style="--d:.12s">a child’s Christian</span></span><span class="ln"><span style="--d:.24s">education.</span></span></h1>
+        <h1 class="display lines" data-io><span class="ln"><span>Your tax bill can</span></span><span class="ln"><span style="--d:.12s">send a child to</span></span><span class="ln"><span style="--d:.24s">Christian school.</span></span></h1>
         <div class="ornament grow" data-io>${STAR}</div>
-        <p class="lead" data-rv style="--d:.55s">Under the new federal scholarship tax credit, every dollar you give to Lionheart, up to $1,700 a person, comes back off your federal tax bill. It becomes tuition at a Tennessee Christian school.</p>
+        <p class="lead" data-rv style="--d:.55s">Give up to $1,700 to Lionheart, or $3,400 if you’re married, and you get every dollar back as a federal tax credit. We turn it into tuition for Tennessee kids at Christian schools.</p>
         <div class="hero-cta" data-rv style="--d:.7s"><a class="btn btn-gold magnetic" href="/donor/give" id="hero-give">Give $3,400 as a couple <span class="arr" aria-hidden="true">→</span></a><a class="btn btn-secondary" href="/families">Apply for a scholarship</a></div>
       </div>
       <div class="cert-stage" data-rv="scale" data-rosette="wreath" style="--d:.25s">
