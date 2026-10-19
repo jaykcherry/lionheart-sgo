@@ -80,7 +80,14 @@
     return new Promise((res, rej) => {
       const cb = '__lhGmapsReady';
       window[cb] = () => res();
-      window.gm_authFailure = () => { rej(new Error('Google Maps key rejected')); };
+      window.gm_authFailure = () => { fellBack = true; rej(new Error('Google Maps key rejected')); };
+      // Billing or API-activation problems don't call gm_authFailure; Google only logs them. Watch for that log
+      // and switch to the OpenStreetMap map so visitors never see Google's "can't load" dialog.
+      const oe = console.error;
+      console.error = function (...a) {
+        try { const m = a.map(String).join(' '); if (/Google Maps JavaScript API error/.test(m)) fallbackFromGoogle(m.split('\n')[0]); } catch (e) { /* ignore */ }
+        return oe.apply(console, a);
+      };
       loadScript(`https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(window.LH_GMAPS_KEY)}&v=weekly&loading=async&callback=${cb}`).catch(rej);
     }).then(() => {
       st.engine = 'google';
@@ -95,6 +102,22 @@
     });
   }
   const gBounds = (b) => new google.maps.LatLngBounds({ lat: b[0][0], lng: b[0][1] }, { lat: b[1][0], lng: b[1][1] });
+
+  let fellBack = false;
+  function fallbackFromGoogle(why) {
+    if (fellBack || !st.node) return; fellBack = true;
+    console.warn('[LHSchoolMap] Google Maps unavailable (' + why + '); using OpenStreetMap.');
+    const after = () => {
+      st.markers.clear(); st.popup = null; st.map = null; st.engine = null; st.hot = null;
+      const fresh = document.createElement('div'); fresh.className = st.node.className;
+      fresh.setAttribute('role', 'region'); fresh.setAttribute('aria-label', st.node.getAttribute('aria-label') || 'Map of schools');
+      if (st.node.parentNode) st.node.parentNode.replaceChild(fresh, st.node);
+      st.node = fresh;
+      st.ready = initLeaflet(st.node).then(() => { buildMarkers(); applyVisible(st.visible != null); });
+      st.ready.catch(() => {});
+    };
+    if (st.ready) st.ready.then(after, after); else after();
+  }
 
   // ── Leaflet ───────────────────────────────────────────────
   function initLeaflet(el) {
