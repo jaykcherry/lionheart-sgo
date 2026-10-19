@@ -79,13 +79,16 @@
   function initGoogle(el) {
     return new Promise((res, rej) => {
       const cb = '__lhGmapsReady';
-      window[cb] = () => res();
-      window.gm_authFailure = () => { fellBack = true; rej(new Error('Google Maps key rejected')); };
+      let settled = false;
+      // Before the map exists, reject so mount() switches to Leaflet; afterwards, swap the live map out.
+      const failed = (why) => { if (!settled) { settled = true; fellBack = true; rej(new Error(why)); } else fallbackFromGoogle(why); };
+      window[cb] = () => { if (!settled) { settled = true; res(); } };
+      window.gm_authFailure = () => failed('Google Maps key rejected');
       // Billing or API-activation problems don't call gm_authFailure; Google only logs them. Watch for that log
       // and switch to the OpenStreetMap map so visitors never see Google's "can't load" dialog.
       const oe = console.error;
       console.error = function (...a) {
-        try { const m = a.map(String).join(' '); if (/Google Maps JavaScript API error/.test(m)) fallbackFromGoogle(m.split('\n')[0]); } catch (e) { /* ignore */ }
+        try { const m = a.map(String).join(' '); if (/Google Maps JavaScript API error/.test(m)) failed(m.split('\n')[0]); } catch (e) { /* ignore */ }
         return oe.apply(console, a);
       };
       loadScript(`https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(window.LH_GMAPS_KEY)}&v=weekly&loading=async&callback=${cb}`).catch(rej);
