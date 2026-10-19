@@ -201,7 +201,7 @@ function creditCalc(id) {
 
 // School map data for schoolmap.js (Google Maps or Leaflet). Visible = the current filter.
 function schoolMapData(list) {
-  const json = JSON.stringify({ schools: SCHOOLS.map(s => ({ id: s.id, n: s.name, c: s.city, co: s.county, g: s.grades, cat: s.cat, lat: s.lat, lon: s.lon, p: s.status === 'partner', claim: s.status === 'partner' ? null : 'action', give: '#give?school=' + s.id })),
+  const json = JSON.stringify({ schools: SCHOOLS.map(s => ({ id: s.id, n: s.name, c: s.city, co: s.county, g: s.grades, cat: s.cat, lat: s.lat, lon: s.lon, a: s.street || '', ap: s.geo === 'zip', p: s.status === 'partner', claim: s.status === 'partner' ? null : 'action', give: '#give?school=' + s.id })),
     visible: list.length === SCHOOLS.length ? null : list.map(s => s.id) });
   return `<div class="map-canvas" id="school-map-canvas"></div><script type="application/json" id="school-map-data">${json.replace(/</g, '\\u003c')}<\/script>`;
 }
@@ -666,7 +666,7 @@ function schools() {
       <div class="region-chips" role="group" aria-label="Region">${[['', 'All of Tennessee']].concat(REGIONS.map(r => [r, r + ' Tennessee'])).map(([v, l]) => `<button type="button" class="chip" data-action="region" data-r="${v}" aria-pressed="${S.region === v}">${l} <span class="tnum">${v ? SCHOOLS.filter(s => s.region === v).length : SCHOOLS.length}</span></button>`).join('')}</div>
       <div class="school-grid">
         <div class="schools" id="school-list">${schoolRows(list)}</div>
-        <div class="map-wrap"><div class="map-card" id="school-map">${schoolMapData(list)}<div class="map-key"><span id="map-count"><span class="tnum">${list.length}</span> school${list.length === 1 ? '' : 's'} shown</span><span><i class="k-listed"></i>On the state list</span><span><i class="k-partner"></i>Verified partner</span></div></div><p class="hint" style="margin-top:10px">Source: Tennessee Department of Education, Non-Public Schools Directory 2026–27, updated October 5, 2026. Pins mark each school’s ZIP code area; click a pin or a school for details.</p></div>
+        <div class="map-wrap"><div class="map-card" id="school-map">${schoolMapData(list)}<div class="map-key"><span id="map-count"><span class="tnum">${list.length}</span> school${list.length === 1 ? '' : 's'} shown</span><span><i class="k-listed"></i>On the state list</span><span><i class="k-partner"></i>Verified partner</span></div></div><p class="hint" style="margin-top:10px">Source: Tennessee Department of Education, Non-Public Schools Directory 2026–27, updated October 5, 2026. Pins mark each school’s street address (a few marked approximate show the ZIP code area). Click a pin or a school for details.</p></div>
       </div>
       <div class="split" style="margin-top:56px">
         <div><h3 class="h3">Not on the list?</h3><p class="body" style="margin-top:10px;max-width:44ch">If your school is accredited and in Tennessee, tell us and we’ll add it within two business days.</p></div>

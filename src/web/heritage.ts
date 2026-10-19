@@ -7,7 +7,7 @@ import directory from '@/data/schools.json';
 
 export type DirSchool = {
   id: string; name: string; city: string; county: string; zip: string; region: 'West' | 'Middle' | 'East';
-  cat: string; auth: string; grades: string; k12: number; site: string; domain: string; alt: string; lat: number; lon: number; umbrella?: boolean;
+  cat: string; auth: string; grades: string; k12: number; site: string; domain: string; alt: string; lat: number; lon: number; geo?: 'osm' | 'census' | 'zip'; street?: string; umbrella?: boolean;
 };
 export const SCHOOLS = (directory as DirSchool[]).slice().sort((a, b) => a.name.localeCompare(b.name));
 export const REGIONS = ['West', 'Middle', 'East'] as const;
@@ -89,7 +89,7 @@ export function schoolMapData(visible: string[] | null, status: Map<string, stri
   const json = JSON.stringify({
     schools: SCHOOLS.map((s) => {
       const st = status.get(s.id) ?? 'UNCLAIMED';
-      return { id: s.id, n: s.name, c: s.city, co: s.county, g: s.grades, cat: s.cat, lat: s.lat, lon: s.lon, p: st === 'ACTIVE',
+      return { id: s.id, n: s.name, c: s.city, co: s.county, g: s.grades, cat: s.cat, lat: s.lat, lon: s.lon, a: s.street ?? '', ap: s.geo === 'zip', p: st === 'ACTIVE',
         claim: st === 'UNCLAIMED' || st === 'CLAIM_PENDING' ? `/school/claim/${s.id}` : null, give: `/donor/give?school=${s.id}` };
     }),
     visible,

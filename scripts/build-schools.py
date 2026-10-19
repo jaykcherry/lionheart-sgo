@@ -26,6 +26,9 @@ if os.path.exists('data/private/tdoe-contacts-2026-27.psv'):
 def mask(e):
     local, _, dom = e.partition('@')
     return (local[:2] if len(local) > 3 else local[:1]) + '•••@' + dom
+# Street-level coordinates (scripts/geocode-schools.py output): OpenStreetMap school POIs, else US Census address match.
+# Falls back to the ZIP centroid for anything not geocoded.
+GEO = json.load(open('data/school-geo-2026-27.json')) if os.path.exists('data/school-geo-2026-27.json') else {}
 seen, out, contact_sql = {}, [], []
 for i, r in enumerate(rows):
     sid = DEMO.get(r['name']) or re.sub(r'[^a-z0-9]+', '-', r['name'].lower()).strip('-')[:40]
@@ -36,7 +39,7 @@ for i, r in enumerate(rows):
     alt = em if em and em not in GENERIC and em != dom else ''
     if not dom and alt: dom, alt = alt, ''
     reg = 'West' if r['county'] in WEST else 'East' if r['county'] in EAST else 'Middle'
-    out.append({'id': sid, 'name': r['name'], 'city': r['city'], 'county': r['county'], 'zip': r['zip'], 'region': reg, 'cat': r['category'], 'auth': r['authorizer'], 'grades': r['grades'], 'k12': int(r['k12_students'] or 0), 'site': r['website'], 'domain': dom, 'alt': alt, 'lat': round(float(z['lat']), 3), 'lon': round(float(z['long']), 3), 'umbrella': r.get('umbrella_option') == 'yes'})
+    out.append({'id': sid, 'name': r['name'], 'city': r['city'], 'county': r['county'], 'zip': r['zip'], 'region': reg, 'cat': r['category'], 'auth': r['authorizer'], 'grades': r['grades'], 'k12': int(r['k12_students'] or 0), 'site': r['website'], 'domain': dom, 'alt': alt, 'lat': GEO[sid]['lat'] if sid in GEO else round(float(z['lat']), 3), 'lon': GEO[sid]['lon'] if sid in GEO else round(float(z['long']), 3), 'geo': GEO[sid]['src'] if sid in GEO else 'zip', 'umbrella': r.get('umbrella_option') == 'yes'})
     c = CONTACTS.get(i)
     if c:
         emails = [e.strip().lower() for e in (c['email'], c['alt_email']) if e.strip()]

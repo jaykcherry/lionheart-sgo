@@ -50,25 +50,25 @@
   const st = { node: null, engine: null, map: null, markers: new Map(), schools: [], byId: new Map(), visible: null, visKey: '', dataKey: '', hot: null, popup: null, ready: null, tilesOk: false };
   const api = { onSelect: null };
 
-  // Schools share ZIP centroids; fan duplicates out in a small spiral so each pin can be clicked.
+  // A few schools share an address (or a ZIP centroid); fan duplicates out in a small spiral so each pin can be clicked.
   function place(list) {
     const seen = {};
     return list.map((s) => {
       const key = s.lat + ',' + s.lon; const k = (seen[key] = (seen[key] || 0) + 1) - 1;
       if (!k) return Object.assign({}, s);
-      const a = k * 2.39996, r = 0.0045 * Math.sqrt(k);
+      const a = k * 2.39996, r = (s.ap ? 0.0045 : 0.0012) * Math.sqrt(k);
       return Object.assign({}, s, { lat: s.lat + Math.sin(a) * r, lon: s.lon + Math.cos(a) * r * 1.25 });
     });
   }
 
   function popupHTML(s) {
-    const q = encodeURIComponent(`${s.n}, ${s.c}, TN`);
+    const q = encodeURIComponent(s.a ? `${s.n}, ${s.a}, ${s.c}, TN` : `${s.n}, ${s.c}, TN`);
     const claim = s.p ? '<span class="pill pill-ok">Verified partner</span>'
       : s.claim === 'action' ? `<button type="button" class="btn btn-primary btn-sm" data-action="claim" data-id="${esc(s.id)}">This is my school</button>`
       : s.claim ? `<a class="btn btn-primary btn-sm" href="${esc(s.claim)}">This is my school</a>` : '';
-    return `<div class="mp"><p class="mp-name">${esc(s.n)}</p><p class="mp-meta">${esc(s.c)}, ${esc(s.co)} County · ${esc(s.g)}${s.cat ? ' · Category ' + esc(s.cat) : ''}</p>
+    return `<div class="mp"><p class="mp-name">${esc(s.n)}</p><p class="mp-meta">${s.a ? esc(s.a) + ', ' : ''}${esc(s.c)}, ${esc(s.co)} County · ${esc(s.g)}${s.cat ? ' · Category ' + esc(s.cat) : ''}</p>
       <div class="mp-act">${claim}${s.give ? `<a class="btn btn-ghost btn-sm" href="${esc(s.give)}">Support</a>` : ''}</div>
-      <p class="mp-foot"><a href="https://www.google.com/maps/search/?api=1&amp;query=${q}" target="_blank" rel="noopener">Open in Google Maps ↗</a><span>Pin marks the ZIP code area</span></p></div>`;
+      <p class="mp-foot"><a href="https://www.google.com/maps/search/?api=1&amp;query=${q}" target="_blank" rel="noopener">Open in Google Maps ↗</a>${s.ap ? '<span>Pin marks the ZIP code area</span>' : ''}</p></div>`;
   }
 
   // ── Google ────────────────────────────────────────────────

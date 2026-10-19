@@ -61,7 +61,7 @@ export default async function Schools({ searchParams }: { searchParams: Promise<
           <div className="map-wrap"><div className="map-card" id="school-map"><div className="map-canvas" id="school-map-canvas" />
             <script type="application/json" id="school-map-data" dangerouslySetInnerHTML={{ __html: schoolMapData(list.length === SCHOOLS.length ? null : list.map((s) => s.id), state) }} />
             <div className="map-key"><span><span className="tnum">{list.length}</span> school{list.length === 1 ? '' : 's'} shown</span><span><i className="k-listed" />On the state list</span><span><i className="k-partner" />Verified partner</span></div></div>
-            <p className="hint" style={{ marginTop: 10 }}>Source: Tennessee Department of Education, Non-Public Schools Directory 2026–27, updated October 5, 2026. Pins mark each school’s ZIP code area; click a pin or a school for details.</p></div>
+            <p className="hint" style={{ marginTop: 10 }}>Source: Tennessee Department of Education, Non-Public Schools Directory 2026–27, updated October 5, 2026. Pins mark each school’s street address (a few marked approximate show the ZIP code area). Click a pin or a school for details.</p></div>
         </div>
         <p className="body" style={{ marginTop: 40 }}>Not listed? Email schools@lionheartscholars.org with your school’s name, city and state approval category and we’ll add it within two business days.</p>
       </section></div>

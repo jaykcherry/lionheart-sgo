@@ -1,0 +1,1722 @@
+{
+"abundant-life-christian-academy": {
+"lat": 35.86373,
+"lon": -86.38965,
+"src": "census"
+},
+"adventist-christian-school-of-maryville": {
+"lat": 35.77192,
+"lon": -83.91346,
+"src": "census"
+},
+"advocate-christian-academy": {
+"lat": 36.00259,
+"lon": -87.13703,
+"src": "census"
+},
+"agathos-classical-school": {
+"lat": 35.60436,
+"lon": -87.01392,
+"src": "osm"
+},
+"algood-christian-elementary-school": {
+"lat": 36.20667,
+"lon": -85.45033,
+"src": "census"
+},
+"all-saints-episcopal-school": {
+"lat": 36.18193,
+"lon": -83.33423,
+"src": "osm"
+},
+"altis-international-school-distance-lear": {
+"lat": 35.02711,
+"lon": -85.05386,
+"src": "census"
+},
+"antioch-christian-academy": {
+"lat": 35.42528,
+"lon": -84.53449,
+"src": "census"
+},
+"apostolic-christian-academy": {
+"lat": 35.74105,
+"lon": -84.04083,
+"src": "census"
+},
+"apostolic-christian-school": {
+"lat": 35.98762,
+"lon": -83.992,
+"src": "osm"
+},
+"apostolic-gospel-academy": {
+"lat": 36.57031,
+"lon": -82.5902,
+"src": "census"
+},
+"augustine-school": {
+"lat": 35.72044,
+"lon": -88.86196,
+"src": "census"
+},
+"avondale-seventh-day-adventist-school": {
+"lat": 35.05174,
+"lon": -85.26623,
+"src": "census"
+},
+"ba": {
+"lat": 36.03424,
+"lon": -86.81887,
+"src": "osm"
+},
+"bcs": {
+"lat": 35.12284,
+"lon": -89.73213,
+"src": "osm"
+},
+"beacon-academy": {
+"lat": 35.02886,
+"lon": -85.0834,
+"src": "census"
+},
+"belvoir-christian-academy": {
+"lat": 35.00377,
+"lon": -85.24453,
+"src": "osm"
+},
+"berean-academy": {
+"lat": 35.14463,
+"lon": -85.25119,
+"src": "census"
+},
+"berean-christian-school": {
+"lat": 36.00817,
+"lon": -83.89127,
+"src": "census"
+},
+"bethel-christian-academy": {
+"lat": 35.12951,
+"lon": -85.21538,
+"src": "census"
+},
+"bill-rice-christian-academy": {
+"lat": 35.84271,
+"lon": -86.56475,
+"src": "census"
+},
+"bill-rice-christian-academy-home-school-": {
+"lat": 35.84271,
+"lon": -86.56475,
+"src": "census"
+},
+"binghampton-christian-academy": {
+"lat": 35.13682,
+"lon": -89.9625,
+"src": "osm"
+},
+"blizzard-mines-little-school-on-the-farm": {
+"lat": 35.98734,
+"lon": -84.52629,
+"src": "census"
+},
+"bowman-hills-school": {
+"lat": 35.18719,
+"lon": -84.85207,
+"src": "census"
+},
+"boyd-buchanan-school": {
+"lat": 35.04068,
+"lon": -85.21391,
+"src": "osm"
+},
+"brainerd-baptist-school": {
+"lat": 35.01257,
+"lon": -85.23968,
+"src": "osm"
+},
+"breath-of-life-preparatory-preschool": {
+"lat": 35.22297,
+"lon": -89.93738,
+"src": "census"
+},
+"bright-beginnings-christian-school": {
+"lat": 35.17832,
+"lon": -87.0508,
+"src": "census"
+},
+"brinkley-heights-urban-academy": {
+"lat": 35.16363,
+"lon": -89.95162,
+"src": "census"
+},
+"calvary-chapel-christian-school": {
+"lat": 35.63399,
+"lon": -87.01894,
+"src": "census"
+},
+"calvary-christian-academy": {
+"lat": 36.35336,
+"lon": -84.15177,
+"src": "osm"
+},
+"camden-united-christian-academy": {
+"lat": 36.0568,
+"lon": -88.10568,
+"src": "census"
+},
+"campbell-county-christian-academy": {
+"lat": 36.40459,
+"lon": -84.07043,
+"src": "census"
+},
+"candies-creek-academy": {
+"lat": 35.27363,
+"lon": -84.85792,
+"src": "census"
+},
+"cedar-view-christian-school": {
+"lat": 36.58859,
+"lon": -82.57714,
+"src": "census"
+},
+"cedars-preparatory-academy": {
+"lat": 36.20884,
+"lon": -86.30004,
+"src": "census"
+},
+"centerville-christian-school": {
+"lat": 35.78006,
+"lon": -87.49835,
+"src": "census"
+},
+"central-baptist-kindergarten": {
+"lat": 36.31972,
+"lon": -82.3536,
+"src": "census"
+},
+"central-baptist-school": {
+"lat": 35.18627,
+"lon": -89.88095,
+"src": "osm"
+},
+"central-christian-academy": {
+"lat": 36.32017,
+"lon": -88.86223,
+"src": "census"
+},
+"chapel-hill-christian-academy": {
+"lat": 36.51313,
+"lon": -87.29188,
+"src": "census"
+},
+"chattanooga-christian-school": {
+"lat": 35.01393,
+"lon": -85.32152,
+"src": "osm"
+},
+"chattanooga-christian-school-the-glenwoo": {
+"lat": 35.03788,
+"lon": -85.2637,
+"src": "census"
+},
+"chesterton-academy-of-st-margaret-clithe": {
+"lat": 35.89983,
+"lon": -84.11504,
+"src": "census"
+},
+"chesterton-academy-of-the-incarnation": {
+"lat": 35.92509,
+"lon": -86.86695,
+"src": "census"
+},
+"christ-classical-academy": {
+"lat": 36.05659,
+"lon": -89.39929,
+"src": "osm"
+},
+"christ-life-academy": {
+"lat": 35.2274,
+"lon": -87.2671,
+"src": "census"
+},
+"christ-methodist-day-school": {
+"lat": 35.12054,
+"lon": -89.9124,
+"src": "osm"
+},
+"christ-s-legacy-academy": {
+"lat": 35.4299,
+"lon": -84.61162,
+"src": "census"
+},
+"christ-the-king-lutheran-school": {
+"lat": 35.10566,
+"lon": -89.88677,
+"src": "osm"
+},
+"christ-the-king-school": {
+"lat": 36.11839,
+"lon": -86.79722,
+"src": "osm"
+},
+"christ-trinity-christian-academy-site-1": {
+"lat": 35.04829,
+"lon": -89.76393,
+"src": "census"
+},
+"christ-trinity-christian-academy-site-2": {
+"lat": 35.05197,
+"lon": -89.86106,
+"src": "census"
+},
+"christ-trinity-christian-academy-site-3": {
+"lat": 35.00535,
+"lon": -89.84561,
+"src": "census"
+},
+"christian-academy-of-knoxville": {
+"lat": 35.92491,
+"lon": -84.10568,
+"src": "osm"
+},
+"christian-academy-of-the-cumberlands-ele": {
+"lat": 35.95368,
+"lon": -85.02409,
+"src": "census"
+},
+"christian-academy-of-the-cumberlands-hig": {
+"lat": 35.94407,
+"lon": -85.01782,
+"src": "osm"
+},
+"christian-academy-of-the-smokies": {
+"lat": 35.86148,
+"lon": -83.50447,
+"src": "census"
+},
+"christian-brothers-lasalle-high-school": {
+"lat": 35.13091,
+"lon": -89.86201,
+"src": "census"
+},
+"christian-community-schools": {
+"lat": 36.46439,
+"lon": -86.68473,
+"src": "census"
+},
+"christian-heritage-academy": {
+"lat": 35.18271,
+"lon": -86.10912,
+"src": "census"
+},
+"christian-life-academy-of-memphis": {
+"lat": 35.21808,
+"lon": -89.7498,
+"src": "census"
+},
+"clarksville-christian-school": {
+"lat": 36.51553,
+"lon": -87.26335,
+"src": "census"
+},
+"cleveland-christian-school": {
+"lat": 35.1546,
+"lon": -84.87945,
+"src": "census"
+},
+"collegedale-academy-lower-campus": {
+"lat": 35.04421,
+"lon": -85.05202,
+"src": "census"
+},
+"collegedale-academy-upper-campus": {
+"lat": 35.04427,
+"lon": -85.05188,
+"src": "census"
+},
+"columbia-academy": {
+"lat": 35.61461,
+"lon": -87.05784,
+"src": "osm"
+},
+"columbia-academy-at-spring-hill": {
+"lat": 35.7529,
+"lon": -86.96679,
+"src": "census"
+},
+"community-christian-day-school": {
+"lat": 35.97509,
+"lon": -86.51691,
+"src": "osm"
+},
+"concord-christian-school": {
+"lat": 35.87578,
+"lon": -84.17132,
+"src": "osm"
+},
+"cooper-christian-academy": {
+"lat": 35.48615,
+"lon": -86.43686,
+"src": "census"
+},
+"covenant-academy": {
+"lat": 35.62244,
+"lon": -85.87106,
+"src": "census"
+},
+"cpa": {
+"lat": 36.04827,
+"lon": -86.87888,
+"src": "osm"
+},
+"creative-life-preparatory-school": {
+"lat": 35.11458,
+"lon": -90.0742,
+"src": "census"
+},
+"crockett-christian-school": {
+"lat": 35.82159,
+"lon": -89.22172,
+"src": "osm"
+},
+"cross-creek-christian-school-lower-schoo": {
+"lat": 35.59264,
+"lon": -84.47943,
+"src": "census"
+},
+"cross-creek-christian-school-upper-schoo": {
+"lat": 35.60074,
+"lon": -84.45407,
+"src": "osm"
+},
+"crossroads-christian-academy": {
+"lat": 35.80074,
+"lon": -84.25081,
+"src": "census"
+},
+"cumberland-christian-academy-online-high": {
+"lat": 36.02826,
+"lon": -83.92181,
+"src": "census"
+},
+"cumberland-community-school": {
+"lat": 36.18239,
+"lon": -85.14553,
+"src": "census"
+},
+"da": {
+"lat": 36.28117,
+"lon": -86.77811,
+"src": "osm"
+},
+"day-spring-christian-academy": {
+"lat": 35.97948,
+"lon": -83.94169,
+"src": "census"
+},
+"dayspring-academy": {
+"lat": 36.45539,
+"lon": -86.71726,
+"src": "census"
+},
+"dca": {
+"lat": 36.18181,
+"lon": -86.64933,
+"src": "census"
+},
+"dekalb-christian-academy": {
+"lat": 35.95198,
+"lon": -85.8127,
+"src": "census"
+},
+"drummonds-christian-academy": {
+"lat": 35.4206,
+"lon": -89.89472,
+"src": "census"
+},
+"dunlap-adventist-school": {
+"lat": 35.35433,
+"lon": -85.39409,
+"src": "census"
+},
+"east-tennessee-christian-home-academy": {
+"lat": 36.34083,
+"lon": -82.23362,
+"src": "census"
+},
+"eastview-christian-academy": {
+"lat": 35.06272,
+"lon": -88.53994,
+"src": "census"
+},
+"ecs": {
+"lat": 35.15063,
+"lon": -89.81121,
+"src": "census"
+},
+"ehcs": {
+"lat": 36.06604,
+"lon": -86.63666,
+"src": "census"
+},
+"emmanuel-united-methodist-kindergarten": {
+"lat": 35.08399,
+"lon": -89.84573,
+"src": "census"
+},
+"enlightium-academy": {
+"lat": 36.247,
+"lon": -87.03082,
+"src": "osm"
+},
+"episcopal-school-of-nashville": {
+"lat": 36.18025,
+"lon": -86.74655,
+"src": "census"
+},
+"f-c-boyd-christian-school": {
+"lat": 35.66824,
+"lon": -85.79565,
+"src": "census"
+},
+"f-h-jenkins-preparatory-school": {
+"lat": 36.20471,
+"lon": -86.79926,
+"src": "census"
+},
+"fairview-christian-academy": {
+"lat": 35.45528,
+"lon": -84.55911,
+"src": "census"
+},
+"faith-bible-holiness-academy": {
+"lat": 36.14141,
+"lon": -85.26991,
+"src": "census"
+},
+"faith-christian-academy": {
+"lat": 36.23549,
+"lon": -83.28569,
+"src": "census"
+},
+"faith-christian-academy-2": {
+"lat": 36.41573,
+"lon": -84.93621,
+"src": "osm"
+},
+"faith-christian-school": {
+"lat": 35.24976,
+"lon": -89.88074,
+"src": "census"
+},
+"faith-haven-christian-academy": {
+"lat": 35.214,
+"lon": -84.83181,
+"src": "census"
+},
+"faith-heritage-christian-academy": {
+"lat": 35.28225,
+"lon": -89.92001,
+"src": "census"
+},
+"faith-missionary-academy": {
+"lat": 35.36768,
+"lon": -85.60816,
+"src": "census"
+},
+"family-christian-academy": {
+"lat": 36.26522,
+"lon": -86.65865,
+"src": "census"
+},
+"family-christian-school": {
+"lat": 35.57721,
+"lon": -88.92445,
+"src": "census"
+},
+"father-ryan-high-school": {
+"lat": 36.09787,
+"lon": -86.7661,
+"src": "osm"
+},
+"faulkner-springs-christian-school": {
+"lat": 35.71599,
+"lon": -85.76438,
+"src": "osm"
+},
+"fayette-christian-school": {
+"lat": 35.23467,
+"lon": -89.42385,
+"src": "census"
+},
+"fcs": {
+"lat": 36.27024,
+"lon": -86.33858,
+"src": "census"
+},
+"first-assembly-christian-school": {
+"lat": 35.12991,
+"lon": -89.78178,
+"src": "census"
+},
+"first-baptist-academy": {
+"lat": 36.0336,
+"lon": -84.02745,
+"src": "census"
+},
+"first-lutheran-school": {
+"lat": 35.9848,
+"lon": -83.92241,
+"src": "osm"
+},
+"foundations-preschool-academy": {
+"lat": 35.01637,
+"lon": -85.323,
+"src": "census"
+},
+"franklin-classical-school": {
+"lat": 35.94063,
+"lon": -86.83652,
+"src": "census"
+},
+"franklin-road-academy": {
+"lat": 36.0829,
+"lon": -86.77125,
+"src": "osm"
+},
+"franklin-road-christian-school": {
+"lat": 35.84482,
+"lon": -86.45296,
+"src": "census"
+},
+"freedom-hill-christian-school": {
+"lat": 35.35442,
+"lon": -87.27885,
+"src": "census"
+},
+"gallaway-christian-academy": {
+"lat": 35.32429,
+"lon": -89.61727,
+"src": "osm"
+},
+"gcs": {
+"lat": 36.25268,
+"lon": -86.74362,
+"src": "census"
+},
+"general-assembly-academy": {
+"lat": 35.56011,
+"lon": -87.50378,
+"src": "census"
+},
+"generations-christian-academy": {
+"lat": 35.92299,
+"lon": -86.86937,
+"src": "census"
+},
+"germantown-baptist-church-learning-cente": {
+"lat": 35.06256,
+"lon": -89.74785,
+"src": "census"
+},
+"good-news-christian-school": {
+"lat": 35.62185,
+"lon": -88.32968,
+"src": "census"
+},
+"grace-baptist-academy": {
+"lat": 35.0142,
+"lon": -85.12651,
+"src": "census"
+},
+"grace-baptist-academy-2": {
+"lat": 36.46781,
+"lon": -86.89677,
+"src": "census"
+},
+"grace-christian-academy": {
+"lat": 35.8987,
+"lon": -86.95314,
+"src": "census"
+},
+"grace-christian-academy-2": {
+"lat": 35.98819,
+"lon": -84.0768,
+"src": "census"
+},
+"grace-covenant-baptist-academy": {
+"lat": 35.92855,
+"lon": -84.12325,
+"src": "osm"
+},
+"grace-ministries-and-christian-school": {
+"lat": 35.24897,
+"lon": -89.38629,
+"src": "census"
+},
+"grace-st-luke-s-episcopal-school": {
+"lat": 35.13302,
+"lon": -90.00551,
+"src": "osm"
+},
+"greater-memphis-adventist-academy": {
+"lat": 35.21727,
+"lon": -89.88327,
+"src": "census"
+},
+"greater-praise-christian-academy": {
+"lat": 35.23177,
+"lon": -89.94216,
+"src": "census"
+},
+"greater-things-christian-school": {
+"lat": 36.03803,
+"lon": -87.23148,
+"src": "census"
+},
+"greeneville-adventist-academy": {
+"lat": 36.15302,
+"lon": -82.84431,
+"src": "osm"
+},
+"hamilton-heights-christian-academy": {
+"lat": 35.0765,
+"lon": -85.17541,
+"src": "census"
+},
+"harbert-hills-academy-elementary": {
+"lat": 35.21066,
+"lon": -88.06436,
+"src": "census"
+},
+"harding-academy-of-memphis": {
+"lat": 35.102,
+"lon": -89.91577,
+"src": "census"
+},
+"hendersonville-christian-academy": {
+"lat": 36.32094,
+"lon": -86.62257,
+"src": "census"
+},
+"heritage-academy": {
+"lat": 36.13263,
+"lon": -85.12471,
+"src": "census"
+},
+"heritage-baptist-academy": {
+"lat": 35.14493,
+"lon": -89.72687,
+"src": "census"
+},
+"heritage-christian-academy": {
+"lat": 36.11822,
+"lon": -83.50667,
+"src": "census"
+},
+"heritage-christian-academy-2": {
+"lat": 35.70721,
+"lon": -85.74971,
+"src": "census"
+},
+"heritage-christian-academy-mt-juliet": {
+"lat": 36.1933,
+"lon": -86.52845,
+"src": "census"
+},
+"heritage-christian-academy-of-east-tn": {
+"lat": 36.42776,
+"lon": -83.63552,
+"src": "census"
+},
+"hickory-classical-christian-school": {
+"lat": 36.16807,
+"lon": -85.47214,
+"src": "census"
+},
+"hickory-valley-christian-school": {
+"lat": 35.04765,
+"lon": -85.16989,
+"src": "census"
+},
+"highland-academy": {
+"lat": 36.52077,
+"lon": -86.49543,
+"src": "census"
+},
+"highland-elementary-school": {
+"lat": 36.51931,
+"lon": -86.49619,
+"src": "census"
+},
+"highland-rim-academy": {
+"lat": 36.13667,
+"lon": -85.48602,
+"src": "osm"
+},
+"hillside-christian-academy": {
+"lat": 36.25199,
+"lon": -86.74319,
+"src": "census"
+},
+"holy-rosary-academy": {
+"lat": 36.16771,
+"lon": -86.67517,
+"src": "census"
+},
+"holy-rosary-catholic-school": {
+"lat": 35.10664,
+"lon": -89.89983,
+"src": "census"
+},
+"imagination-station-learning-center": {
+"lat": 35.65099,
+"lon": -88.39532,
+"src": "census"
+},
+"immaculate-conception-school": {
+"lat": 36.51457,
+"lon": -87.30178,
+"src": "census"
+},
+"immanuel-community-school": {
+"lat": 35.95664,
+"lon": -83.9111,
+"src": "census"
+},
+"immanuel-lutheran-school": {
+"lat": 35.17988,
+"lon": -89.85256,
+"src": "census"
+},
+"inez-wrenn-seventh-day-adventist-school": {
+"lat": 35.97294,
+"lon": -85.04785,
+"src": "census"
+},
+"iron-hill-christian-academy": {
+"lat": 35.66357,
+"lon": -88.09241,
+"src": "census"
+},
+"jackson-christian-school": {
+"lat": 35.66957,
+"lon": -88.86671,
+"src": "osm"
+},
+"jasper-adventist-christian-school": {
+"lat": 35.08272,
+"lon": -85.62436,
+"src": "census"
+},
+"jellico-christian-academy": {
+"lat": 36.56887,
+"lon": -84.14535,
+"src": "census"
+},
+"jonathan-edwards-classical-academy": {
+"lat": 36.29599,
+"lon": -86.77567,
+"src": "census"
+},
+"kimball-christian-academy": {
+"lat": 35.04612,
+"lon": -85.67498,
+"src": "census"
+},
+"king-s-academy-nashville": {
+"lat": 36.06038,
+"lon": -86.71433,
+"src": "census"
+},
+"kingdom-christian-academy": {
+"lat": 35.02761,
+"lon": -89.71103,
+"src": "census"
+},
+"knoxville-adventist-school": {
+"lat": 35.94688,
+"lon": -83.964,
+"src": "osm"
+},
+"knoxville-baptist-christian-school": {
+"lat": 36.01468,
+"lon": -83.8888,
+"src": "census"
+},
+"knoxville-catholic-high-school": {
+"lat": 35.9303,
+"lon": -84.0911,
+"src": "osm"
+},
+"knoxville-christian-school": {
+"lat": 35.90251,
+"lon": -84.16931,
+"src": "census"
+},
+"la": {
+"lat": 36.10663,
+"lon": -86.79612,
+"src": "osm"
+},
+"lakeside-christian-academy": {
+"lat": 36.34314,
+"lon": -88.32973,
+"src": "census"
+},
+"lakeway-christian-schools-cornerstone-ch": {
+"lat": 36.15476,
+"lon": -83.2745,
+"src": "census"
+},
+"lakeway-christian-schools-lakeway-christ": {
+"lat": 36.11091,
+"lon": -83.34034,
+"src": "census"
+},
+"lakeway-christian-schools-tri-cities-chr": {
+"lat": 36.50917,
+"lon": -82.38855,
+"src": "census"
+},
+"lakeway-christian-schools-tri-cities-chr-2": {
+"lat": 36.4735,
+"lon": -82.49922,
+"src": "census"
+},
+"lancaster-christian-academy": {
+"lat": 35.97892,
+"lon": -86.51044,
+"src": "census"
+},
+"lancaster-christian-early-learning-cente": {
+"lat": 35.8715,
+"lon": -86.46887,
+"src": "census"
+},
+"landmark-christian-academy": {
+"lat": 36.4733,
+"lon": -84.53883,
+"src": "census"
+},
+"landmark-christian-school": {
+"lat": 35.13978,
+"lon": -84.86087,
+"src": "census"
+},
+"laurelbrook-academy": {
+"lat": 35.49293,
+"lon": -85.11246,
+"src": "census"
+},
+"lawrenceburg-adventist-school": {
+"lat": 35.28594,
+"lon": -87.34753,
+"src": "census"
+},
+"lead-christian-academy": {
+"lat": 36.30515,
+"lon": -86.72134,
+"src": "census"
+},
+"legacy-christian-academy-kingston": {
+"lat": 35.85726,
+"lon": -84.48224,
+"src": "census"
+},
+"lenoir-city-christian-academy": {
+"lat": 35.82107,
+"lon": -84.26043,
+"src": "census"
+},
+"lester-coon-adventist-school": {
+"lat": 35.02228,
+"lon": -85.018,
+"src": "census"
+},
+"lexington-christian-academy": {
+"lat": 35.6687,
+"lon": -88.44652,
+"src": "census"
+},
+"liberty-christian-academy": {
+"lat": 36.22961,
+"lon": -88.70522,
+"src": "census"
+},
+"liberty-christian-school": {
+"lat": 35.39601,
+"lon": -84.67616,
+"src": "census"
+},
+"life-christian-academy": {
+"lat": 36.42611,
+"lon": -86.69384,
+"src": "census"
+},
+"lighthouse-christian-academy": {
+"lat": 36.20425,
+"lon": -83.33484,
+"src": "census"
+},
+"lighthouse-christian-academy-2": {
+"lat": 35.27624,
+"lon": -84.76351,
+"src": "census"
+},
+"lighthouse-christian-school": {
+"lat": 36.05182,
+"lon": -86.67398,
+"src": "osm"
+},
+"lighthouse-christian-school-2": {
+"lat": 36.56721,
+"lon": -82.54854,
+"src": "census"
+},
+"lighthouse-christian-school-3": {
+"lat": 36.31237,
+"lon": -86.59771,
+"src": "census"
+},
+"living-promise-academy": {
+"lat": 36.16808,
+"lon": -83.37524,
+"src": "census"
+},
+"living-springs-christian-academy": {
+"lat": 36.39878,
+"lon": -82.49908,
+"src": "census"
+},
+"living-word-victory-christian-academy": {
+"lat": 36.63066,
+"lon": -87.39535,
+"src": "census"
+},
+"lord-s-tabernacle-christian-academy": {
+"lat": 35.11976,
+"lon": -89.96777,
+"src": "census"
+},
+"madison-academy": {
+"lat": 36.25339,
+"lon": -86.67941,
+"src": "census"
+},
+"madonna-learning-center": {
+"lat": 35.09701,
+"lon": -89.82939,
+"src": "census"
+},
+"maryville-christian-school": {
+"lat": 35.73437,
+"lon": -84.02428,
+"src": "census"
+},
+"mccallie-school": {
+"lat": 35.02749,
+"lon": -85.26319,
+"src": "osm"
+},
+"memphis-heritage-christian-school": {
+"lat": 35.17961,
+"lon": -89.93325,
+"src": "osm"
+},
+"memphis-junior-academy": {
+"lat": 35.13231,
+"lon": -89.89787,
+"src": "osm"
+},
+"memphis-university-school": {
+"lat": 35.09786,
+"lon": -89.85651,
+"src": "osm"
+},
+"metro-christian-academy": {
+"lat": 36.32625,
+"lon": -86.70525,
+"src": "census"
+},
+"mission-montessori-school": {
+"lat": 35.01517,
+"lon": -85.23336,
+"src": "census"
+},
+"monroe-academy": {
+"lat": 35.91266,
+"lon": -87.32652,
+"src": "census"
+},
+"morristown-covenant-academy": {
+"lat": 36.2073,
+"lon": -83.29394,
+"src": "census"
+},
+"mother-of-divine-grace-school": {
+"lat": 36.03853,
+"lon": -86.95803,
+"src": "census"
+},
+"mt-juliet-christian-academy": {
+"lat": 36.18343,
+"lon": -86.51146,
+"src": "census"
+},
+"mtcs": {
+"lat": 35.86876,
+"lon": -86.38297,
+"src": "osm"
+},
+"murfreesboro-adventist-school": {
+"lat": 35.79257,
+"lon": -86.37262,
+"src": "census"
+},
+"nashville-christian-school-sawyer-brown": {
+"lat": 36.10652,
+"lon": -86.93217,
+"src": "osm"
+},
+"ncs": {
+"lat": 36.11213,
+"lon": -86.92981,
+"src": "census"
+},
+"new-beginnings-christian-academy": {
+"lat": 35.73846,
+"lon": -89.53989,
+"src": "census"
+},
+"new-beginnings-homeschool-christian-acad": {
+"lat": 35.22696,
+"lon": -88.23919,
+"src": "census"
+},
+"new-hope-academy": {
+"lat": 35.91778,
+"lon": -86.89914,
+"src": "osm"
+},
+"new-hope-christian-academy": {
+"lat": 35.20829,
+"lon": -89.99013,
+"src": "census"
+},
+"new-hope-christian-school": {
+"lat": 36.08831,
+"lon": -83.81596,
+"src": "census"
+},
+"new-life-christian-academy": {
+"lat": 36.0543,
+"lon": -84.53241,
+"src": "census"
+},
+"notre-dame-high-school": {
+"lat": 35.0381,
+"lon": -85.25888,
+"src": "osm"
+},
+"oasis-christian-academy": {
+"lat": 35.37858,
+"lon": -84.62039,
+"src": "census"
+},
+"ooltewah-adventist-school": {
+"lat": 35.09317,
+"lon": -85.05499,
+"src": "osm"
+},
+"our-lady-of-perpetual-help-catholic-scho": {
+"lat": 35.0842,
+"lon": -89.79163,
+"src": "census"
+},
+"our-lady-of-perpetual-help-school": {
+"lat": 35.00498,
+"lon": -85.23328,
+"src": "osm"
+},
+"overbrook-catholic-school": {
+"lat": 36.13356,
+"lon": -86.84246,
+"src": "osm"
+},
+"paideia-academy": {
+"lat": 35.93205,
+"lon": -84.15363,
+"src": "census"
+},
+"petra-christian-academy": {
+"lat": 36.11153,
+"lon": -86.93069,
+"src": "census"
+},
+"pleasant-view-christian-school": {
+"lat": 36.38537,
+"lon": -87.03699,
+"src": "osm"
+},
+"point-christian-academy": {
+"lat": 35.12022,
+"lon": -85.28903,
+"src": "census"
+},
+"pope-john-paul-ii-preparatory-school": {
+"lat": 36.31791,
+"lon": -86.66752,
+"src": "census"
+},
+"power-and-grace-preparatory-academy": {
+"lat": 36.5587,
+"lon": -87.33758,
+"src": "census"
+},
+"presbyterian-day-school": {
+"lat": 35.1237,
+"lon": -89.92814,
+"src": "osm"
+},
+"priest-lake-christian-academy": {
+"lat": 36.08293,
+"lon": -86.60587,
+"src": "census"
+},
+"providence-academy": {
+"lat": 36.33684,
+"lon": -82.43546,
+"src": "osm"
+},
+"providence-christian-academy": {
+"lat": 35.88734,
+"lon": -86.37113,
+"src": "census"
+},
+"pursuit-academy-of-worship-arts": {
+"lat": 35.88273,
+"lon": -83.79232,
+"src": "census"
+},
+"redemption-baptist-academy": {
+"lat": 36.19327,
+"lon": -84.65903,
+"src": "census"
+},
+"redemption-point-christian-academy": {
+"lat": 35.04124,
+"lon": -85.07546,
+"src": "census"
+},
+"redemption-school-of-worship": {
+"lat": 36.04116,
+"lon": -84.03282,
+"src": "census"
+},
+"revolution-christian-academy": {
+"lat": 35.75764,
+"lon": -83.8956,
+"src": "census"
+},
+"rhea-county-academy": {
+"lat": 35.49049,
+"lon": -85.02036,
+"src": "census"
+},
+"ridgetop-adventist-elementary-school": {
+"lat": 36.39897,
+"lon": -86.76888,
+"src": "osm"
+},
+"rio-christian-academy": {
+"lat": 35.75682,
+"lon": -84.06433,
+"src": "census"
+},
+"river-s-edge-christian-academy-buffat-he": {
+"lat": 36.03755,
+"lon": -83.86906,
+"src": "census"
+},
+"river-s-edge-christian-academy-cumberlan": {
+"lat": 35.97746,
+"lon": -84.01163,
+"src": "census"
+},
+"river-s-edge-christian-academy-west-camp": {
+"lat": 35.9052,
+"lon": -84.07682,
+"src": "census"
+},
+"river-s-edge-christian-academy-west-have": {
+"lat": 35.9728,
+"lon": -84.01396,
+"src": "census"
+},
+"riverside-christian-academy": {
+"lat": 35.12224,
+"lon": -86.56513,
+"src": "census"
+},
+"rossville-christian-academy": {
+"lat": 35.03832,
+"lon": -89.54224,
+"src": "osm"
+},
+"rutherford-county-christian-school": {
+"lat": 35.93292,
+"lon": -86.54819,
+"src": "census"
+},
+"sacred-heart-cathedral-school": {
+"lat": 35.92527,
+"lon": -84.00189,
+"src": "osm"
+},
+"sacred-heart-catholic-school": {
+"lat": 35.24598,
+"lon": -87.33507,
+"src": "census"
+},
+"savannah-christian-academy": {
+"lat": 35.27766,
+"lon": -88.22896,
+"src": "census"
+},
+"sensational-enlightenment-academy": {
+"lat": 35.06082,
+"lon": -89.86684,
+"src": "census"
+},
+"seymour-community-christian-school": {
+"lat": 35.88677,
+"lon": -83.7729,
+"src": "census"
+},
+"sheltering-tree-ranch": {
+"lat": 35.17175,
+"lon": -88.21248,
+"src": "census"
+},
+"shenandoah-baptist-academy": {
+"lat": 35.13462,
+"lon": -84.76945,
+"src": "census"
+},
+"shepherd-s-christian-academy": {
+"lat": 35.3381,
+"lon": -84.52231,
+"src": "census"
+},
+"shepherd-s-christian-academy-middle-high": {
+"lat": 35.3381,
+"lon": -84.52235,
+"src": "census"
+},
+"signal-mountain-christian-school": {
+"lat": 35.16302,
+"lon": -85.31195,
+"src": "osm"
+},
+"silverdale-baptist-academy": {
+"lat": 35.06269,
+"lon": -85.13894,
+"src": "census"
+},
+"souls-harbor-lighthouse-christian-academ": {
+"lat": 35.51213,
+"lon": -88.22796,
+"src": "osm"
+},
+"south-haven-christian-school": {
+"lat": 36.4754,
+"lon": -86.8557,
+"src": "census"
+},
+"spring-hill-academy-preschool": {
+"lat": 35.77485,
+"lon": -86.91303,
+"src": "census"
+},
+"st-agnes-academy-st-dominic-school": {
+"lat": 35.13102,
+"lon": -89.90191,
+"src": "census"
+},
+"st-andrew-s-school": {
+"lat": 35.69744,
+"lon": -83.64628,
+"src": "census"
+},
+"st-andrew-s-sewanee-school": {
+"lat": 35.21686,
+"lon": -85.89345,
+"src": "osm"
+},
+"st-ann-catholic-school": {
+"lat": 36.15191,
+"lon": -86.84869,
+"src": "census"
+},
+"st-ann-catholic-school-2": {
+"lat": 35.20467,
+"lon": -89.84467,
+"src": "census"
+},
+"st-benedict-auburndale-high-school": {
+"lat": 35.1861,
+"lon": -89.79108,
+"src": "census"
+},
+"st-bernard-academy": {
+"lat": 36.13228,
+"lon": -86.80555,
+"src": "osm"
+},
+"st-cecilia-academy": {
+"lat": 36.13202,
+"lon": -86.84216,
+"src": "osm"
+},
+"st-clement-coptic-orthodox-christian-aca": {
+"lat": 36.05963,
+"lon": -86.72255,
+"src": "census"
+},
+"st-dominic-catholic-school": {
+"lat": 36.53952,
+"lon": -82.53444,
+"src": "census"
+},
+"st-edward-elementary-school": {
+"lat": 36.11051,
+"lon": -86.73974,
+"src": "census"
+},
+"st-francis-of-assisi-catholic-school": {
+"lat": 35.18255,
+"lon": -89.7914,
+"src": "osm"
+},
+"st-george-s-independent-school-colliervi": {
+"lat": 35.09804,
+"lon": -89.72051,
+"src": "census"
+},
+"st-george-s-independent-school-germantow": {
+"lat": 35.08274,
+"lon": -89.78843,
+"src": "census"
+},
+"st-henry-school": {
+"lat": 36.09251,
+"lon": -86.88545,
+"src": "census"
+},
+"st-john-neumann-catholic-school": {
+"lat": 35.88555,
+"lon": -84.19263,
+"src": "census"
+},
+"st-john-vianney-catholic-school": {
+"lat": 36.39686,
+"lon": -86.4453,
+"src": "osm"
+},
+"st-joseph-school": {
+"lat": 36.0299,
+"lon": -83.94786,
+"src": "osm"
+},
+"st-joseph-school-2": {
+"lat": 36.24641,
+"lon": -86.72126,
+"src": "census"
+},
+"st-jude-school": {
+"lat": 35.11552,
+"lon": -85.26455,
+"src": "osm"
+},
+"st-louis-catholic-school": {
+"lat": 35.12453,
+"lon": -89.88814,
+"src": "osm"
+},
+"st-mary-s-catholic-school": {
+"lat": 35.65142,
+"lon": -88.85363,
+"src": "osm"
+},
+"st-mary-s-episcopal-school": {
+"lat": 35.13233,
+"lon": -89.90929,
+"src": "osm"
+},
+"st-mary-school-johnson-city": {
+"lat": 36.35252,
+"lon": -82.34557,
+"src": "census"
+},
+"st-mary-school-oak-ridge": {
+"lat": 36.01733,
+"lon": -84.2524,
+"src": "census"
+},
+"st-matthew-catholic-school": {
+"lat": 36.03087,
+"lon": -86.95882,
+"src": "census"
+},
+"st-michael-academy": {
+"lat": 35.89842,
+"lon": -86.66649,
+"src": "census"
+},
+"st-nicholas-school": {
+"lat": 35.04432,
+"lon": -85.14047,
+"src": "osm"
+},
+"st-patrick-school": {
+"lat": 36.10876,
+"lon": -87.64332,
+"src": "census"
+},
+"st-paul-catholic-school": {
+"lat": 35.02083,
+"lon": -90.01553,
+"src": "census"
+},
+"st-paul-christian-academy": {
+"lat": 36.09756,
+"lon": -86.82528,
+"src": "osm"
+},
+"st-paul-s-day-school-and-kindergarten": {
+"lat": 36.54917,
+"lon": -82.55337,
+"src": "census"
+},
+"st-peter-s-episcopal-school": {
+"lat": 35.11558,
+"lon": -85.26992,
+"src": "osm"
+},
+"st-pius-x-classical-academy": {
+"lat": 36.20859,
+"lon": -86.82299,
+"src": "census"
+},
+"st-rose-of-lima-catholic-school": {
+"lat": 35.86447,
+"lon": -86.36926,
+"src": "census"
+},
+"standifer-gap-seventh-day-adventist-scho": {
+"lat": 35.03513,
+"lon": -85.1078,
+"src": "osm"
+},
+"tabernacle-christian-academy": {
+"lat": 36.1337,
+"lon": -83.85488,
+"src": "census"
+},
+"tabernacle-christian-school": {
+"lat": 36.19558,
+"lon": -83.30935,
+"src": "census"
+},
+"temple-baptist-academy": {
+"lat": 36.027,
+"lon": -84.0204,
+"src": "census"
+},
+"temple-baptist-christian-school": {
+"lat": 35.49365,
+"lon": -86.09975,
+"src": "census"
+},
+"tennessee-avenue-christian-academy": {
+"lat": 36.5861,
+"lon": -82.17459,
+"src": "census"
+},
+"tennessee-christian-preparatory-school": {
+"lat": 35.18851,
+"lon": -84.83396,
+"src": "census"
+},
+"the-academy-for-g-o-d": {
+"lat": 36.22656,
+"lon": -86.63298,
+"src": "census"
+},
+"the-ark-academy": {
+"lat": 35.03173,
+"lon": -85.27689,
+"src": "census"
+},
+"the-collegiate-school-of-memphis": {
+"lat": 35.15082,
+"lon": -89.94874,
+"src": "census"
+},
+"the-covenant-school": {
+"lat": 36.09293,
+"lon": -86.82194,
+"src": "census"
+},
+"the-episcopal-school-of-knoxville": {
+"lat": 35.91453,
+"lon": -84.15729,
+"src": "osm"
+},
+"the-king-s-academy": {
+"lat": 35.87581,
+"lon": -83.74393,
+"src": "census"
+},
+"the-king-s-daughters-school": {
+"lat": 35.61289,
+"lon": -87.04033,
+"src": "census"
+},
+"the-law-leadership-school": {
+"lat": 36.3006,
+"lon": -86.72125,
+"src": "census"
+},
+"tipton-christian-academy": {
+"lat": 35.53056,
+"lon": -89.63058,
+"src": "census"
+},
+"tipton-rosemark-academy": {
+"lat": 35.36386,
+"lon": -89.77204,
+"src": "census"
+},
+"toddler-town-prep": {
+"lat": 35.04954,
+"lon": -89.84825,
+"src": "census"
+},
+"top-academy-tabernacle-of-praise": {
+"lat": 36.57416,
+"lon": -82.5808,
+"src": "census"
+},
+"towering-oaks-christian-school": {
+"lat": 36.15422,
+"lon": -82.79706,
+"src": "census"
+},
+"tri-state-christian-academy": {
+"lat": 36.5489,
+"lon": -83.67205,
+"src": "census"
+},
+"trinitas-classical-academy": {
+"lat": 35.93255,
+"lon": -86.88431,
+"src": "census"
+},
+"trinity-academy": {
+"lat": 35.91116,
+"lon": -85.06046,
+"src": "osm"
+},
+"trinity-christian-academy": {
+"lat": 35.68929,
+"lon": -88.90773,
+"src": "osm"
+},
+"trinity-christian-academy-2": {
+"lat": 36.02579,
+"lon": -83.99121,
+"src": "census"
+},
+"triumph-association-etc-llc-christian-su": {
+"lat": 35.22393,
+"lon": -89.90631,
+"src": "census"
+},
+"unity-christian-academy": {
+"lat": 36.51726,
+"lon": -87.30864,
+"src": "census"
+},
+"upper-cumberland-christian-academy-agape": {
+"lat": 36.35379,
+"lon": -85.32741,
+"src": "census"
+},
+"valley-christian-academy": {
+"lat": 35.36175,
+"lon": -84.6797,
+"src": "census"
+},
+"victory-baptist-academy": {
+"lat": 35.51858,
+"lon": -86.45492,
+"src": "census"
+},
+"west-hills-baptist-church-preschool-kind": {
+"lat": 35.9284,
+"lon": -84.04591,
+"src": "census"
+},
+"western-christian-academy": {
+"lat": 36.33594,
+"lon": -82.30051,
+"src": "census"
+},
+"westminster-academy": {
+"lat": 35.07941,
+"lon": -89.85831,
+"src": "osm"
+},
+"white-stone-academy-columbia": {
+"lat": 35.60091,
+"lon": -87.06324,
+"src": "census"
+},
+"white-stone-academy-dickson": {
+"lat": 36.03287,
+"lon": -87.35081,
+"src": "census"
+},
+"winchester-christian-academy": {
+"lat": 35.17944,
+"lon": -86.09226,
+"src": "census"
+},
+"woodbury-seventh-day-adventist-elementar": {
+"lat": 35.73531,
+"lon": -86.06705,
+"src": "census"
+},
+"woodland-presbyterian-school": {
+"lat": 35.10509,
+"lon": -89.88849,
+"src": "osm"
+},
+"word-of-faith-christian-academy": {
+"lat": 35.08704,
+"lon": -89.94537,
+"src": "osm"
+},
+"word-of-life-christian-academy": {
+"lat": 35.34607,
+"lon": -85.40442,
+"src": "census"
+},
+"zion-christian-academy": {
+"lat": 35.5981,
+"lon": -87.14444,
+"src": "census"
+}
+}
