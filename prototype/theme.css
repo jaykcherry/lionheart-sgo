@@ -98,8 +98,8 @@ a:hover { color: var(--crimson); }
 .rosette-side { width: 780px; height: 780px; left: -320px; top: 50%; margin-top: -390px; color: #e2c48d; opacity: .3; }
 .cert-stage { position: relative; }
 .cert-stage > .cert, .cert-stage > .cert-filing { position: relative; z-index: 1; }
-.rosette-wreath { left: 50%; top: calc(50% + 30px); width: 900px; height: 900px; margin: -450px 0 0 -450px; opacity: .7; }
-@media (max-width: 760px) { .rosette-wreath { width: 620px; height: 620px; margin: -310px 0 0 -310px; opacity: .45; } }
+.rosette-wreath { left: 50%; top: calc(50% + 30px); width: 960px; height: 960px; margin: -480px 0 0 -480px; opacity: .55; }
+@media (max-width: 760px) { .rosette-wreath { width: 640px; height: 640px; margin: -320px 0 0 -320px; opacity: .45; } }
 .rosette-cert { left: 50%; top: 50%; width: 440px; height: 440px; margin: -220px 0 0 -220px; }
 @media (max-width: 760px) { .rosette-hero { width: 720px; height: 720px; right: -360px; margin-top: -360px; opacity: .35; } .rosette-side { left: -420px; } }
 .rosette svg { width: 100%; height: 100%; overflow: visible; display: block; }
@@ -972,7 +972,8 @@ details.rules summary { font-size: 16px; padding: 14px 0; }
 .rosette .lyr.spin-r { animation: spin-r 320s linear infinite; }
 /* olive wreath: the branches sway gently, the inner ring of leaves turns slowly */
 .rosette .lyr.sway { transform-origin: 50% 50%; animation: sway 16s ease-in-out infinite alternate; }
-.rosette .lyr.turn { animation: spin-r 260s linear infinite; }
+.rosette .lyr.sway-r { transform-origin: 50% 50%; animation: sway 22s ease-in-out infinite alternate-reverse; }
+.rosette .lyr.turn { animation: spin 300s linear infinite; }
 @keyframes sway { from { transform: rotate(-3.5deg) scale(.995); } to { transform: rotate(3.5deg) scale(1.005); } }
 .rosette-cert .lyr { animation: none !important; will-change: auto; }
 .rosette path.drawn { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); animation: draw 3.6s var(--ease) forwards; animation-delay: var(--d, 0s); }

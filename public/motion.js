@@ -52,13 +52,14 @@
     return { outline: `M${f1(bx)} ${f1(by)}Q${f1(mx + px)} ${f1(my + py)} ${f1(tx)} ${f1(ty)}Q${f1(mx - px)} ${f1(my - py)} ${f1(bx)} ${f1(by)}Z`,
       rib: `M${f1(bx + dx * L * 0.08)} ${f1(by + dy * L * 0.08)}L${f1(bx + dx * L * 0.82)} ${f1(by + dy * L * 0.82)}` };
   }
-  function oliveBranch(c, R, side, n) {
-    // side -1: left branch (angle increases from the bottom), +1: right branch (angle decreases)
-    const a0 = Math.PI / 2 + side * -0.16, span = 2.4, steps = 90;
+  function oliveBranch(c, R, side, n, rot = 0, sz = 1) {
+    // side -1: left branch (angle increases from the bottom), +1: right branch (angle decreases); rot turns the whole wreath
+    const a0 = Math.PI / 2 + rot + side * -0.16, span = 2.4, steps = 90;
     const at = (t) => { const a = a0 - side * span * t, r = R + 7 * Math.sin(t * Math.PI * 2.2); return [c + r * Math.cos(a), c + r * Math.sin(a), a]; };
     let stem = '';
     const [sx, sy] = at(0);
-    stem += `M${f1(c - side * 26)} ${f1(c + R + 26)}L${f1(sx)} ${f1(sy)}`;      // crossed stem ends below the wreath
+    const tx0 = -side * 26, ty0 = R + 26, cr = Math.cos(rot), sr = Math.sin(rot);
+    stem += `M${f1(c + tx0 * cr - ty0 * sr)} ${f1(c + tx0 * sr + ty0 * cr)}L${f1(sx)} ${f1(sy)}`;      // crossed stem ends
     for (let k = 1; k <= steps; k++) { const [x, y] = at(k / steps); stem += `L${f1(x)} ${f1(y)}`; }
     let leaves = '', ribs = '', olives = '';
     for (let k = 1; k <= n; k++) {
@@ -70,15 +71,15 @@
         const [lx, ly] = off ? at(Math.min(1, t + off)) : [x, y];
         const phi = (out > 0 ? 34 : 40) * Math.PI / 180;
         const dx = tx * Math.cos(phi) + out * nx * Math.sin(phi), dy = ty * Math.cos(phi) + out * ny * Math.sin(phi);
-        const g = leaf(lx, ly, dx, dy, 50 * sc, 9.5 * sc); leaves += g.outline; ribs += g.rib;
+        const g = leaf(lx, ly, dx, dy, 50 * sc * sz, 9.5 * sc * sz); leaves += g.outline; ribs += g.rib;
       });
       if (k % 3 === 2) {
-        const ox = x - nx * 13 * sc + tx * 6, oy = y - ny * 13 * sc + ty * 6, r = 5.2 * sc;
+        const ox = x - nx * 13 * sc * sz + tx * 6, oy = y - ny * 13 * sc * sz + ty * 6, r = 5.2 * sc * sz;
         olives += `M${f1(ox - r)} ${f1(oy)}a${f1(r)} ${f1(r * 0.8)} 0 1 0 ${f1(2 * r)} 0a${f1(r)} ${f1(r * 0.8)} 0 1 0 ${f1(-2 * r)} 0`;
       }
     }
     const [ex, ey, ea] = at(1);
-    const tip = leaf(ex, ey, side * Math.sin(ea), -side * Math.cos(ea), 30, 6.5); leaves += tip.outline; ribs += tip.rib;
+    const tip = leaf(ex, ey, side * Math.sin(ea), -side * Math.cos(ea), 30 * sz, 6.5 * sz); leaves += tip.outline; ribs += tip.rib;
     return [stem, leaves, ribs, olives];
   }
   function leafRing(c, R, n) {
@@ -97,7 +98,9 @@
     const c = 300;
     const L = kind === 'cert'
       ? [[wavyRing(c, 250, 22, 14, 10, 360), trochoid(c, 15, 7, 6, 15, 4200)], [wavyRing(c, 160, 16, 10, 8, 300)]]
-      : [[...oliveBranch(c, 238, -1, 15), ...oliveBranch(c, 238, 1, 15)], [leafRing(c, 150, 44)]];
+      : [[...oliveBranch(c, 214, -1, 14), ...oliveBranch(c, 214, 1, 14)],
+         [...oliveBranch(c, 262, -1, 17, Math.PI, 0.9), ...oliveBranch(c, 262, 1, 17, Math.PI, 0.9)],
+         [...oliveBranch(c, 300, -1, 20, Math.PI / 2, 0.8), ...oliveBranch(c, 300, 1, 20, Math.PI / 2, 0.8)]];
     return (ROSETTE_CACHE[kind] = L);
   }
   function addRosette(host, kind, animate) {
@@ -107,13 +110,13 @@
     box.setAttribute('aria-hidden', 'true');
     rosetteLayers(kind).forEach((paths, li) => {
       const lyr = document.createElement('div');
-      lyr.className = 'lyr ' + (kind === 'cert' ? (li ? 'spin-r' : 'spin') : (li ? 'turn' : 'sway'));
+      lyr.className = 'lyr ' + (kind === 'cert' ? (li ? 'spin-r' : 'spin') : ['sway', 'sway-r', 'turn'][li] || 'turn');
       const svg = document.createElementNS(SVGNS, 'svg');
       svg.setAttribute('viewBox', '0 0 600 600');
       paths.forEach((d, pi) => {
         const p = document.createElementNS(SVGNS, 'path');
         p.setAttribute('d', d);
-        p.setAttribute('stroke-width', kind === 'cert' ? (li ? '0.6' : '0.75') : (li ? '0.7' : pi % 4 === 2 ? '0.5' : '0.9'));
+        p.setAttribute('stroke-width', kind === 'cert' ? (li ? '0.6' : '0.75') : pi % 4 === 2 ? '0.5' : ['0.9', '0.8', '0.7'][li] || '0.7');
         svg.appendChild(p);
         if (animate && !reduced()) {
           p.dataset.draw = String(li * 0.35 + pi * 0.25);
