@@ -23,13 +23,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Link href="/donors">Donors</Link>
                 <Link href="/families">Families</Link>
                 <Link href="/schools">Schools</Link>
-                <Link href="/resources">Resources</Link>
+                <Link href="/resources" className="nav-mobile-only">Resources</Link>
               </div>
-              <Link href="/" className="brand" aria-label="Lionheart, home">
-                <span className="brand-loc">Tennessee</span>
+              <Link href="/" className="brand" aria-label="Lionheart Tennessee, home">
                 <span className="brand-word"><i /><span className="brand-name">LIONHEART</span><i /></span>
+                <span className="brand-loc">Tennessee</span>
               </Link>
               <div className="nav-right">
+                <Link href="/resources">Resources</Link>
                 <Link href="/signin?next=/onboarding">Apply</Link>
                 <Link href="/donor/give" className="btn btn-crimson btn-sm">Make a gift</Link>
               </div>

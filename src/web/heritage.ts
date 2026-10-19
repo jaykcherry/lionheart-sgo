@@ -118,7 +118,7 @@ export function homeHTML(limits: number[], notified: boolean) {
     ['August and January', 'A school is paid', 'Once the school confirms enrollment, tuition goes straight to it by ACH, with two signatures on every payment.', 'full', 'Paid as tuition, straight to the school'],
   ];
   return `
-  <div class="band band-field" data-rosette="hero">
+  <div class="band band-field" data-rosette="none">
     <section class="wrap hero">
       <div>
         <p class="hero-verse" data-rv>“The righteous are bold as a lion.” Proverbs 28:1</p>
@@ -127,7 +127,7 @@ export function homeHTML(limits: number[], notified: boolean) {
         <p class="lead" data-rv style="--d:.55s">Under the new federal scholarship tax credit, every dollar you give to Lionheart, up to $1,700 a person, comes back off your federal tax bill. It becomes tuition at a Tennessee Christian school.</p>
         <div class="hero-cta" data-rv style="--d:.7s"><a class="btn btn-gold magnetic" href="/donor/give" id="hero-give">Give $3,400 as a couple <span class="arr" aria-hidden="true">→</span></a><a class="btn btn-secondary" href="/families">Apply for a scholarship</a></div>
       </div>
-      <div class="cert-stage" data-rv="scale" style="--d:.25s">
+      <div class="cert-stage" data-rv="scale" data-rosette="wreath" style="--d:.25s">
         <div class="cert-filing">${seg('home-filing', [['joint', 'Married, filing jointly'], ['single', 'Single']], 'joint', 'Filing status')}</div>
         <div class="cert" id="cert" data-io="cert">${certCard(joint)}</div>
       </div>

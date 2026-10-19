@@ -100,8 +100,12 @@ a:hover { color: var(--crimson); }
 
 /* engraved rosettes injected by motion.js */
 .rosette { position: absolute; pointer-events: none; z-index: 0; color: var(--gold); opacity: .55; }
-.rosette-hero { width: 1000px; height: 1000px; right: -280px; top: 50%; margin-top: -500px; }
+.rosette-hero { width: 960px; height: 960px; right: -240px; top: 50%; margin-top: -480px; opacity: .6; }
 .rosette-side { width: 780px; height: 780px; left: -320px; top: 50%; margin-top: -390px; color: #e2c48d; opacity: .3; }
+.cert-stage { position: relative; }
+.cert-stage > .cert, .cert-stage > .cert-filing { position: relative; z-index: 1; }
+.rosette-wreath { left: 50%; top: calc(50% + 30px); width: 900px; height: 900px; margin: -450px 0 0 -450px; opacity: .7; }
+@media (max-width: 760px) { .rosette-wreath { width: 620px; height: 620px; margin: -310px 0 0 -310px; opacity: .45; } }
 .rosette-cert { left: 50%; top: 50%; width: 440px; height: 440px; margin: -220px 0 0 -220px; }
 @media (max-width: 760px) { .rosette-hero { width: 720px; height: 720px; right: -360px; margin-top: -360px; opacity: .35; } .rosette-side { left: -420px; } }
 .rosette svg { width: 100%; height: 100%; overflow: visible; display: block; }
@@ -131,6 +135,17 @@ a:hover { color: var(--crimson); }
 .brand:hover { color: var(--navy); }
 .brand-loc { font-family: var(--serif); font-size: 11px; letter-spacing: .34em; padding-left: .34em; color: var(--gold-ink); text-transform: uppercase; transition: opacity .3s, height .35s var(--ease), margin .35s; height: 14px; overflow: hidden; }
 .site-head.stuck .brand-loc { opacity: 0; height: 0; margin-top: -6px; }
+.brand { gap: 5px; }
+.nav-left a.nav-mobile-only { display: none; }
+.nav-left, .nav-right { flex-wrap: nowrap; white-space: nowrap; }
+@media (max-width: 1180px) and (min-width: 901px) {
+  .nav { gap: 14px; }
+  .nav-left { gap: 20px; } .nav-right { gap: 16px; }
+  .brand-word { gap: 10px; } .brand-word i { width: 20px; } .brand:hover .brand-word i { width: 28px; }
+  .brand-name { font-size: 31px; letter-spacing: .18em; padding-left: .18em; }
+  .nav-links a:not(.btn), .nav-right a:not(.btn) { font-size: 14.5px; }
+}
+@media (max-width: 1060px) and (min-width: 901px) { .brand-word i { display: none; } .brand-name { font-size: 28px; } .nav-left { gap: 16px; } .nav-right { gap: 14px; } }
 .brand-word { display: flex; align-items: center; gap: 16px; }
 .brand-word i { width: 40px; height: 5px; border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); transition: width .5s var(--ease); }
 .brand:hover .brand-word i { width: 56px; }
@@ -144,12 +159,14 @@ a:hover { color: var(--crimson); }
 @media (max-width: 900px) {
   .nav { grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; }
   .brand { align-items: flex-start; grid-row: 1; }
-  .brand-loc { display: none; }
+  .brand { gap: 3px; }
+  .brand-loc { font-size: 9.5px; letter-spacing: .3em; padding-left: 0; height: 12px; }
   .brand-word i { display: none; }
   .brand-name { font-size: 26px; padding-left: 0; letter-spacing: .18em; }
   .site-head.stuck .brand-name { font-size: 22px; }
   .nav-right { grid-row: 1; grid-column: 2; }
   .nav-right a:not(.btn) { display: none; }
+  .nav-left a.nav-mobile-only { display: inline-block; }
   .nav-left { grid-row: 2; grid-column: 1 / -1; gap: 22px; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; }
   .topbar .wrap > span:first-child { display: none; }
   .topbar .wrap { justify-content: flex-end; }
@@ -959,6 +976,10 @@ details.rules summary { font-size: 16px; padding: 14px 0; }
 .rosette .lyr { position: absolute; inset: 0; will-change: transform; }
 .rosette .lyr.spin { animation: spin 240s linear infinite; }
 .rosette .lyr.spin-r { animation: spin-r 320s linear infinite; }
+/* olive wreath: the branches sway gently, the inner ring of leaves turns slowly */
+.rosette .lyr.sway { transform-origin: 50% 50%; animation: sway 16s ease-in-out infinite alternate; }
+.rosette .lyr.turn { animation: spin-r 260s linear infinite; }
+@keyframes sway { from { transform: rotate(-3.5deg) scale(.995); } to { transform: rotate(3.5deg) scale(1.005); } }
 .rosette-cert .lyr { animation: none !important; will-change: auto; }
 .rosette path.drawn { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); animation: draw 3.6s var(--ease) forwards; animation-delay: var(--d, 0s); }
 

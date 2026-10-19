@@ -44,14 +44,60 @@
     return d;
   }
   function gcd(a, b) { return b ? gcd(b, a % b) : a; }
+
+  /* ── olive wreath (engraved line style): two branches rising from crossed stems, leaves in pairs, a few olives ── */
+  const f1 = (n) => n.toFixed(1);
+  function leaf(bx, by, dx, dy, L, W) {
+    const tx = bx + dx * L, ty = by + dy * L, mx = bx + dx * L * 0.5, my = by + dy * L * 0.5, px = -dy * W, py = dx * W;
+    return { outline: `M${f1(bx)} ${f1(by)}Q${f1(mx + px)} ${f1(my + py)} ${f1(tx)} ${f1(ty)}Q${f1(mx - px)} ${f1(my - py)} ${f1(bx)} ${f1(by)}Z`,
+      rib: `M${f1(bx + dx * L * 0.08)} ${f1(by + dy * L * 0.08)}L${f1(bx + dx * L * 0.82)} ${f1(by + dy * L * 0.82)}` };
+  }
+  function oliveBranch(c, R, side, n) {
+    // side -1: left branch (angle increases from the bottom), +1: right branch (angle decreases)
+    const a0 = Math.PI / 2 + side * -0.16, span = 2.4, steps = 90;
+    const at = (t) => { const a = a0 - side * span * t, r = R + 7 * Math.sin(t * Math.PI * 2.2); return [c + r * Math.cos(a), c + r * Math.sin(a), a]; };
+    let stem = '';
+    const [sx, sy] = at(0);
+    stem += `M${f1(c - side * 26)} ${f1(c + R + 26)}L${f1(sx)} ${f1(sy)}`;      // crossed stem ends below the wreath
+    for (let k = 1; k <= steps; k++) { const [x, y] = at(k / steps); stem += `L${f1(x)} ${f1(y)}`; }
+    let leaves = '', ribs = '', olives = '';
+    for (let k = 1; k <= n; k++) {
+      const t = k / (n + 0.6), sc = 1 - 0.42 * t;
+      const [x, y, a] = at(t);
+      const tx = side * Math.sin(a), ty = -side * Math.cos(a);                    // growth direction along the stem
+      const nx = Math.cos(a), ny = Math.sin(a);                                  // outward normal
+      [[1, 0], [-1, 0.035]].forEach(([out, off]) => {
+        const [lx, ly] = off ? at(Math.min(1, t + off)) : [x, y];
+        const phi = (out > 0 ? 34 : 40) * Math.PI / 180;
+        const dx = tx * Math.cos(phi) + out * nx * Math.sin(phi), dy = ty * Math.cos(phi) + out * ny * Math.sin(phi);
+        const g = leaf(lx, ly, dx, dy, 50 * sc, 9.5 * sc); leaves += g.outline; ribs += g.rib;
+      });
+      if (k % 3 === 2) {
+        const ox = x - nx * 13 * sc + tx * 6, oy = y - ny * 13 * sc + ty * 6, r = 5.2 * sc;
+        olives += `M${f1(ox - r)} ${f1(oy)}a${f1(r)} ${f1(r * 0.8)} 0 1 0 ${f1(2 * r)} 0a${f1(r)} ${f1(r * 0.8)} 0 1 0 ${f1(-2 * r)} 0`;
+      }
+    }
+    const [ex, ey, ea] = at(1);
+    const tip = leaf(ex, ey, side * Math.sin(ea), -side * Math.cos(ea), 30, 6.5); leaves += tip.outline; ribs += tip.rib;
+    return [stem, leaves, ribs, olives];
+  }
+  function leafRing(c, R, n) {
+    let d = '';
+    for (let k = 0; k < n; k++) {
+      const a = (k / n) * Math.PI * 2, x = c + R * Math.cos(a), y = c + R * Math.sin(a);
+      const dx = -Math.sin(a), dy = Math.cos(a), out = k % 2 ? 1 : -1, phi = 0.5;
+      const lx = dx * Math.cos(phi) + out * Math.cos(a) * Math.sin(phi), ly = dy * Math.cos(phi) + out * Math.sin(a) * Math.sin(phi);
+      d += leaf(x, y, lx, ly, 22, 4.5).outline;
+    }
+    return d;
+  }
   const ROSETTE_CACHE = {};
   function rosetteLayers(kind) {
     if (ROSETTE_CACHE[kind]) return ROSETTE_CACHE[kind];
     const c = 300;
     const L = kind === 'cert'
       ? [[wavyRing(c, 250, 22, 14, 10, 360), trochoid(c, 15, 7, 6, 15, 4200)], [wavyRing(c, 160, 16, 10, 8, 300)]]
-      : [[wavyRing(c, 276, 18, 18, 14, 420), wavyRing(c, 200, 26, 12, 12, 360), trochoid(c, 17, 7, 5, 14, 5000)],
-         [wavyRing(c, 238, 10, 24, 10, 420), wavyRing(c, 120, 18, 9, 10, 300)]];
+      : [[...oliveBranch(c, 238, -1, 15), ...oliveBranch(c, 238, 1, 15)], [leafRing(c, 150, 44)]];
     return (ROSETTE_CACHE[kind] = L);
   }
   function addRosette(host, kind, animate) {
@@ -61,13 +107,13 @@
     box.setAttribute('aria-hidden', 'true');
     rosetteLayers(kind).forEach((paths, li) => {
       const lyr = document.createElement('div');
-      lyr.className = 'lyr ' + (li ? 'spin-r' : 'spin');
+      lyr.className = 'lyr ' + (kind === 'cert' ? (li ? 'spin-r' : 'spin') : (li ? 'turn' : 'sway'));
       const svg = document.createElementNS(SVGNS, 'svg');
       svg.setAttribute('viewBox', '0 0 600 600');
       paths.forEach((d, pi) => {
         const p = document.createElementNS(SVGNS, 'path');
         p.setAttribute('d', d);
-        p.setAttribute('stroke-width', li ? '0.6' : '0.75');
+        p.setAttribute('stroke-width', kind === 'cert' ? (li ? '0.6' : '0.75') : (li ? '0.7' : pi % 4 === 2 ? '0.5' : '0.9'));
         svg.appendChild(p);
         if (animate && !reduced()) {
           p.dataset.draw = String(li * 0.35 + pi * 0.25);
@@ -267,11 +313,12 @@
   let px = 0, py = 0;
   function parallax() {
     if (reduced()) return;
-    document.querySelectorAll('.rosette-hero, .rosette-side').forEach(r => {
+    document.querySelectorAll('.rosette-hero, .rosette-side, .rosette-wreath').forEach(r => {
       const host = r.parentElement.getBoundingClientRect();
       if (host.bottom < 0 || host.top > window.innerHeight) return;
-      const sy = -host.top * 0.12;
-      r.style.translate = `${(px * 24).toFixed(1)}px ${(sy + py * 18).toFixed(1)}px`;
+      const k = r.classList.contains('rosette-wreath') ? 0.4 : 1;
+      const sy = -host.top * 0.12 * k;
+      r.style.translate = `${(px * 24 * k).toFixed(1)}px ${(sy + py * 18 * k).toFixed(1)}px`;
     });
   }
 
@@ -377,6 +424,7 @@
     if (animate && ['families', 'schools', 'donors'].includes(route)) autoReveal(root);
     root.querySelectorAll('.band-field, [data-rosette]').forEach(h => {
       const kind = h.dataset.rosette || 'hero';
+      if (kind === 'none') return;
       addRosette(h, kind, animate && kind !== 'cert');
     });
     root.querySelectorAll('.cert-stage').forEach(tilt);
