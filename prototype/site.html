@@ -53,9 +53,31 @@
 // Status 'listed' means on the state list, not yet claimed. Only a school that verifies becomes a 'partner'.
 const SCHOOLS = (window.LH_SCHOOLS || []).map(s => Object.assign({ status: 'listed' }, s)).sort((a, b) => a.name.localeCompare(b.name));
 const REGIONS = ['West', 'Middle', 'East'];
+// Every word must match name, city, county or website; initials ("CPA") and punctuation-free spellings match too.
+const STOP_W = new Set(['of', 'the', 'and', 'at', 'for', 'in']);
+const normQ = (t) => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[’'.]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+const SKEYS = new Map();
+function schoolKey(s) {
+  let k = SKEYS.get(s.id); if (k) return k;
+  const w = normQ(s.name).split(' ');
+  k = ` ${normQ([s.name, s.city, s.county, s.site, s.domain].join(' '))} ${w.map(x => x[0]).join('')} ${w.filter(x => !STOP_W.has(x)).map(x => x[0]).join('')} `;
+  SKEYS.set(s.id, k); return k;
+}
+function schoolMatches(s, q) {
+  const toks = normQ(q).split(' ').filter(Boolean);
+  if (!toks.length) return true;
+  const k = schoolKey(s);
+  return toks.every(t => k.includes(' ' + t) || (t.length >= 4 && k.includes(t)));
+}
+// Exact initials or a name that starts with the query go first ("CPA" → Christ Presbyterian Academy).
+function schoolRank(list, q) {
+  const t = normQ(q), tight = t.replace(/ /g, '');
+  const score = (s) => { const k = schoolKey(s), n = normQ(s.name); return n.startsWith(t) || k.includes(' ' + tight + ' ') ? 0 : n.includes(t) ? 1 : 2; };
+  return list.map((s, i) => [score(s), i, s]).sort((a, b) => a[0] - b[0] || a[1] - b[1]).map(x => x[2]);
+}
 function schoolFilter() {
-  const q = S.q.trim().toLowerCase(), r = S.region;
-  return SCHOOLS.filter(s => (!r || s.region === r) && (!q || (s.name + ' ' + s.city + ' ' + s.county).toLowerCase().includes(q)));
+  const r = S.region, list = SCHOOLS.filter(s => (!r || s.region === r) && schoolMatches(s, S.q));
+  return S.q.trim() ? schoolRank(list, S.q) : list;
 }
 const domainOk = (s, email) => { const e = String(email).toLowerCase(); return [s.domain, s.alt].filter(Boolean).some(d => e.endsWith('@' + d)); };
 
@@ -635,18 +657,11 @@ function schools() {
       </div>
     </section>
   </div>
-  <div class="band band-surface" id="support" style="border-bottom:1px solid var(--line)">
-    <section class="wrap sec">
-      <div class="calc-head"><div><span class="kicker" data-rv>Donor support</span><h2 class="h2" data-rv style="margin-top:16px">Where donors are naming schools</h2></div><p class="lead" data-rv>Donors can name a preferred school. This tracker shows the total named for each school, so families can see where support is strongest and schools can watch it grow.</p></div>
-      <div style="margin-top:40px" data-rv>${supportBoard()}</div>
-      <div style="margin-top:24px">${DESIG_RULES}</div>
-    </section>
-  </div>
   <div class="band">
     <section class="wrap sec" id="list">
       <div style="display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:22px">
         <div><h2 class="h2">Find your school</h2><p class="small muted" style="margin-top:8px"><span class="tnum">${SCHOOLS.length}</span> Christian schools on the state’s 2026–27 approved list${partners ? ` · <span class="tnum">${partners}</span> verified partner${partners === 1 ? '' : 's'}` : ''}</p></div>
-        <div class="field" style="flex:0 1 360px"><label for="school-q">Search by name, city or county</label><input class="input" id="school-q" type="search" value="${esc(S.q)}" data-bind="q" data-live="schools" placeholder="e.g. Franklin" autocomplete="off"></div>
+        <div class="field" style="flex:0 1 360px"><label for="school-q">Search by name, initials, city or county</label><input class="input" id="school-q" type="search" value="${esc(S.q)}" data-bind="q" data-live="schools" placeholder="e.g. Franklin or CPA" autocomplete="off"></div>
       </div>
       <div class="region-chips" role="group" aria-label="Region">${[['', 'All of Tennessee']].concat(REGIONS.map(r => [r, r + ' Tennessee'])).map(([v, l]) => `<button type="button" class="chip" data-action="region" data-r="${v}" aria-pressed="${S.region === v}">${l} <span class="tnum">${v ? SCHOOLS.filter(s => s.region === v).length : SCHOOLS.length}</span></button>`).join('')}</div>
       <div class="school-grid">
@@ -662,6 +677,13 @@ function schools() {
           <div class="field" style="justify-content:end"><button class="btn btn-primary" type="submit">Request to be added</button></div>
         </form>`}
       </div>
+    </section>
+  </div>
+  <div class="band band-surface" id="support" style="border-top:1px solid var(--line)">
+    <section class="wrap sec">
+      <div class="calc-head"><div><span class="kicker" data-rv>Donor support</span><h2 class="h2" data-rv style="margin-top:16px">Where donors are naming schools</h2></div><p class="lead" data-rv>Donors can name a preferred school. This tracker shows the total named for each school, so families can see where support is strongest and schools can watch it grow.</p></div>
+      <div style="margin-top:40px" data-rv>${supportBoard()}</div>
+      <div style="margin-top:24px">${DESIG_RULES}</div>
     </section>
   </div>
   <div class="band band-surface" style="border-top:1px solid var(--color-divider)">

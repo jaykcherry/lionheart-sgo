@@ -11,6 +11,28 @@ export type DirSchool = {
 };
 export const SCHOOLS = (directory as DirSchool[]).slice().sort((a, b) => a.name.localeCompare(b.name));
 export const REGIONS = ['West', 'Middle', 'East'] as const;
+
+// Search: every word must match the name, city, county or website. Also matches initials ("CPA" finds
+// Christ Presbyterian Academy) and ignores punctuation ("St Marys" finds St. Mary's).
+const STOP = new Set(['of', 'the', 'and', 'at', 'for', 'in']);
+const norm = (t: string) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[’'.]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+const searchKey = (s: DirSchool) => {
+  const words = norm(s.name).split(' ');
+  return ` ${norm([s.name, s.city, s.county, s.site, s.domain].join(' '))} ${words.map((w) => w[0]).join('')} ${words.filter((w) => !STOP.has(w)).map((w) => w[0]).join('')} `;
+};
+const KEYS = new Map<string, string>();
+export function schoolRank<T extends DirSchool>(list: T[], q: string): T[] {
+  const t = norm(q), tight = t.replace(/ /g, '');
+  if (!t) return list;
+  const score = (s: DirSchool) => { let k = KEYS.get(s.id); if (!k) { k = searchKey(s); KEYS.set(s.id, k); } const n = norm(s.name); return n.startsWith(t) || k.includes(` ${tight} `) ? 0 : n.includes(t) ? 1 : 2; };
+  return list.map((s, i) => [score(s), i, s] as const).sort((a, b) => a[0] - b[0] || a[1] - b[1]).map((x) => x[2]);
+}
+export function schoolMatches(s: DirSchool, q: string) {
+  const toks = norm(q).split(' ').filter(Boolean);
+  if (!toks.length) return true;
+  let k = KEYS.get(s.id); if (!k) { k = searchKey(s); KEYS.set(s.id, k); }
+  return toks.every((t) => k!.includes(' ' + t) || (t.length >= 4 && k!.includes(t)));
+}
 export const schoolLabel = (s: Pick<DirSchool, 'name' | 'city'>) => `${s.name} — ${s.city}`;
 export const bySlug = (slug?: string | null) => (slug ? SCHOOLS.find((s) => s.id === slug) : undefined);
 export const byLabel = (v?: string | null) => { const t = String(v ?? '').trim().toLowerCase(); return SCHOOLS.find((s) => schoolLabel(s).toLowerCase() === t) ?? SCHOOLS.find((s) => s.name.toLowerCase() === t); };

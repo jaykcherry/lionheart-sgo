@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { supabaseService } from '@/lib/supabase';
-import { DESIG_RULES, REGIONS, SCHOOLS, schoolMapData, supportBoard, supportLine, type Support } from '@/web/heritage';
+import { DESIG_RULES, REGIONS, SCHOOLS, schoolMapData, schoolMatches, schoolRank, supportBoard, supportLine, type Support } from '@/web/heritage';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,8 +16,7 @@ export default async function Schools({ searchParams }: { searchParams: Promise<
   const state = new Map((rows ?? []).map((r) => [r.slug as string, r.state as string]));
   const support = new Map<string, Support>((sup ?? []).map((r) => [r.slug as string, { cents: Number(r.designated_cents), donors: r.donor_count as number | null }]));
   const partners = new Set([...state].filter(([, st]) => st === 'ACTIVE').map(([slug]) => slug));
-  const ql = q.trim().toLowerCase();
-  const list = SCHOOLS.filter((s) => (!region || s.region === region) && (!ql || `${s.name} ${s.city} ${s.county}`.toLowerCase().includes(ql)));
+  const list = schoolRank(SCHOOLS.filter((s) => (!region || s.region === region) && schoolMatches(s, q)), q);
   const shown = Math.min(Number(n) || 25, list.length);
   const qs = (o: Partial<Sp>) => { const p = new URLSearchParams(); const m = { q, region, ...o }; if (m.q) p.set('q', m.q); if (m.region) p.set('region', m.region); if (o.n) p.set('n', o.n); const s = p.toString(); return s ? `?${s}#list` : '#list'; };
   return (
@@ -31,18 +30,12 @@ export default async function Schools({ searchParams }: { searchParams: Promise<
         </div>
       </section></div>
 
-      <div className="band band-surface" id="support" style={{ borderBottom: '1px solid var(--line)' }}><section className="wrap sec">
-        <div className="calc-head"><div><span className="kicker" data-rv>Donor support</span><h2 className="h2" data-rv style={{ marginTop: 16 }}>Where donors are naming schools</h2></div><p className="lead" data-rv>Donors can name a preferred school. This tracker shows the total named for each school, so families can see where support is strongest and schools can watch it grow.</p></div>
-        <div style={{ marginTop: 40 }} data-rv dangerouslySetInnerHTML={{ __html: supportBoard(support) }} />
-        <div style={{ marginTop: 24 }} dangerouslySetInnerHTML={{ __html: DESIG_RULES }} />
-      </section></div>
-
       <div className="band"><section className="wrap sec" id="list">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', gap: 20, flexWrap: 'wrap', marginBottom: 22 }}>
           <div><h2 className="h2">Find your school</h2><p className="small muted" style={{ marginTop: 8 }}>{SCHOOLS.length} Christian schools on the state’s 2026–27 approved list{partners.size ? ` · ${partners.size} verified partner${partners.size === 1 ? '' : 's'}` : ''}</p></div>
-          <form className="field" style={{ flex: '0 1 360px' }} action="/schools#list"><label htmlFor="school-q">Search by name, city or county</label>
+          <form className="field" style={{ flex: '0 1 360px' }} action="/schools#list"><label htmlFor="school-q">Search by name, initials, city or county</label>
             {region && <input type="hidden" name="region" value={region} />}
-            <input className="input" id="school-q" name="q" type="search" defaultValue={q} placeholder="e.g. Franklin" autoComplete="off" /></form>
+            <input className="input" id="school-q" name="q" type="search" defaultValue={q} placeholder="e.g. Franklin or CPA" autoComplete="off" /></form>
         </div>
         <div className="region-chips" role="group" aria-label="Region">
           {([['', 'All of Tennessee'], ...REGIONS.map((r) => [r, `${r} Tennessee`])] as [string, string][]).map(([v, l]) => (
@@ -71,6 +64,12 @@ export default async function Schools({ searchParams }: { searchParams: Promise<
             <p className="hint" style={{ marginTop: 10 }}>Source: Tennessee Department of Education, Non-Public Schools Directory 2026–27, updated October 5, 2026. Pins mark each school’s ZIP code area; click a pin or a school for details.</p></div>
         </div>
         <p className="body" style={{ marginTop: 40 }}>Not listed? Email schools@lionheartscholars.org with your school’s name, city and state approval category and we’ll add it within two business days.</p>
+      </section></div>
+
+      <div className="band band-surface" id="support" style={{ borderTop: '1px solid var(--line)' }}><section className="wrap sec">
+        <div className="calc-head"><div><span className="kicker" data-rv>Donor support</span><h2 className="h2" data-rv style={{ marginTop: 16 }}>Where donors are naming schools</h2></div><p className="lead" data-rv>Donors can name a preferred school. This tracker shows the total named for each school, so families can see where support is strongest and schools can watch it grow.</p></div>
+        <div style={{ marginTop: 40 }} data-rv dangerouslySetInnerHTML={{ __html: supportBoard(support) }} />
+        <div style={{ marginTop: 24 }} dangerouslySetInnerHTML={{ __html: DESIG_RULES }} />
       </section></div>
     </>
   );
