@@ -5,7 +5,10 @@ cd "$(cd "$(dirname "$0")" && pwd)/.."
 bash scripts/build-prototype.sh prototype/dist/body.html >/dev/null
 python3 - <<'PY'
 import os, json
-gkey = os.environ.get('LH_GMAPS_KEY') or (open('config/google-maps-key.txt').read().strip() if os.path.exists('config/google-maps-key.txt') else '')
+# Google Maps stays off until billing is enabled on the key's Cloud project (otherwise Google shows its
+# "can't load Google Maps correctly" dialog). Turn it on with LH_GMAPS_ENABLED=1 or by creating config/google-maps-enabled.
+gon = os.environ.get('LH_GMAPS_ENABLED') == '1' or os.path.exists('config/google-maps-enabled')
+gkey = (os.environ.get('LH_GMAPS_KEY') or (open('config/google-maps-key.txt').read().strip() if os.path.exists('config/google-maps-key.txt') else '')) if gon else ''
 body = open('prototype/dist/body.html').read()
 title_end = body.index('</title>') + len('</title>')
 title, rest = body[:title_end], body[title_end:]
