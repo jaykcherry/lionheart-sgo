@@ -24,6 +24,18 @@ head = f'''<!doctype html>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#1c2a4a">
 <link rel="icon" href="{fav}">
+<link rel="apple-touch-icon" href="https://lionheartscholars.org/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lionheart Scholarship Fund">
+<meta property="og:url" content="https://lionheartscholars.org/">
+<meta property="og:title" content="Give $3,400. Get it all back. Help a family pay tuition.">
+<meta property="og:description" content="Give up to $1,700 each ($3,400 as a couple) to Lionheart and get it back as a federal tax credit. It becomes tuition at a Tennessee Christian school.">
+<meta property="og:image" content="https://lionheartscholars.org/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lionheart Scholarship Fund: Give $3,400. Get it all back. Help a family pay tuition.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lionheartscholars.org/og-image.png">
 <script>window.LH_GMAPS_KEY = {json.dumps(gkey)};</script>
 '''
 i = rest.index('<style>'); j = rest.index('</style>') + len('</style>')
@@ -31,6 +43,8 @@ html = head + rest[i:j] + '\n</head>\n<body>\n' + rest[:i] + rest[j:] + '\n</bod
 os.makedirs('dist-site', exist_ok=True)
 open('dist-site/index.html', 'w').write(html)
 open('dist-site/CNAME', 'w').write('lionheartscholars.org\n')
+import shutil
+for f in ('og-image.png', 'apple-touch-icon.png'): shutil.copy('prototype/og/' + f, 'dist-site/' + f)
 open('dist-site/.nojekyll', 'w').write('')
 open('dist-site/404.html', 'w').write(html)
 print('dist-site/index.html', len(html))

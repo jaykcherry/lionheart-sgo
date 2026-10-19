@@ -1,0 +1,44 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face { font-family: "Caslon Display"; src: url(../fonts/caslon-display.woff2) format("woff2"); }
+@font-face { font-family: "Caslon Text"; font-style: italic; src: url(../fonts/caslon-text-400i.woff2) format("woff2"); }
+@font-face { font-family: "Franklin"; src: url(../fonts/franklin.woff2) format("woff2"); font-weight: 100 900; }
+html, body { margin: 0; }
+body { width: 1200px; height: 630px; overflow: hidden; }
+.card { position: relative; width: 1200px; height: 630px; box-sizing: border-box; padding: 64px 76px;
+  background: radial-gradient(900px 520px at 78% 30%, #2a3c64 0%, #1c2a4a 55%, #141f38 100%); color: #fbf8f1; font-family: "Franklin", sans-serif; }
+.frame { position: absolute; inset: 22px; border: 1px solid rgba(216,191,138,.55); }
+.frame::after { content: ""; position: absolute; inset: 6px; border: 1px solid rgba(216,191,138,.25); }
+.word { display: flex; align-items: center; gap: 18px; }
+.word i { display: block; width: 46px; height: 7px; border-top: 1px solid #d8bf8a; border-bottom: 1px solid #d8bf8a; }
+.word b { font-family: "Caslon Display", serif; font-weight: 400; font-size: 46px; letter-spacing: .2em; padding-left: .2em; }
+.sub { margin-top: 8px; font-family: "Caslon Display", serif; font-size: 17px; letter-spacing: .34em; color: #d8bf8a; text-transform: uppercase; padding-left: 82px; }
+h1 { margin: 66px 0 0; font-family: "Caslon Display", serif; font-weight: 400; font-size: 82px; line-height: 1.04; letter-spacing: -.005em; }
+h1 em { font-family: "Caslon Text", serif; font-style: italic; color: #d8bf8a; font-size: 62px; display: block; margin-top: 12px; }
+.foot { position: absolute; left: 76px; right: 76px; bottom: 56px; display: flex; justify-content: space-between; align-items: end; font-size: 21px; color: rgba(251,248,241,.82); }
+.foot strong { color: #fbf8f1; font-weight: 600; letter-spacing: .01em; }
+.wreath { position: absolute; right: 18px; top: 92px; width: 420px; height: 420px; opacity: .42; }
+</style></head>
+<body><div class="card">
+  <div class="frame"></div>
+  <svg class="wreath" viewBox="-250 -250 500 500" aria-hidden="true"></svg>
+  <div class="word"><i></i><b>LIONHEART</b><i></i></div>
+  <div class="sub">Scholarship Fund</div>
+  <h1>Give $3,400.<br>Get it all back.<em>Help a family pay tuition.</em></h1>
+  <div class="foot"><span>Federal scholarship tax credit · Tennessee Christian schools</span><strong>lionheartscholars.org</strong></div>
+</div>
+<script>
+// Olive wreath: two branches of leaves around a circle.
+const svg = document.querySelector('.wreath'); let out = '';
+const leaf = (x, y, a, s) => `<path transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${a.toFixed(1)}) scale(${s})" d="M0 0 C 8 -6, 26 -6, 34 0 C 26 6, 8 6, 0 0 Z" fill="none" stroke="#d8bf8a" stroke-width="1.6"/>`;
+for (const side of [-1, 1]) {
+  out += `<path d="M ${side * 0} 205 A 205 205 0 0 ${side > 0 ? 0 : 1} ${side * 160} -128" fill="none" stroke="#d8bf8a" stroke-width="1.6"/>`;
+  for (let i = 0; i < 15; i++) {
+    const t = Math.PI / 2 + side * (-0.12 - i * 0.165), x = 205 * Math.cos(t), y = 205 * Math.sin(t), tang = t * 180 / Math.PI + (side > 0 ? -90 : 90);
+    out += leaf(x, y, tang - 38, 1.15 - i * 0.025) + leaf(x, y, tang + 38 + 180 * 0, 1.0 - i * 0.025).replace('rotate(', 'scale(-1 1) rotate(');
+  }
+}
+svg.innerHTML = out;
+</script>
+</body></html>

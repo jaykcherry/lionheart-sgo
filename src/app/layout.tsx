@@ -8,6 +8,15 @@ export const metadata: Metadata = {
   title: 'Lionheart — Scholarships for Tennessee Christian schools',
   description: 'Give up to $1,700 each ($3,400 as a couple) and claim it back as a federal tax credit. Your gift becomes tuition at a Tennessee Christian school.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lionheartscholars.org'),
+  // Link previews (iMessage, Slack, Facebook, X). Image source: prototype/og/og.html, rendered by scripts/render-og.cjs.
+  openGraph: {
+    type: 'website', siteName: 'Lionheart Scholarship Fund', url: '/',
+    title: 'Give $3,400. Get it all back. Help a family pay tuition.',
+    description: 'Give up to $1,700 each ($3,400 as a couple) to Lionheart and get it back as a federal tax credit. It becomes tuition at a Tennessee Christian school.',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Lionheart Scholarship Fund: Give $3,400. Get it all back. Help a family pay tuition.' }],
+  },
+  twitter: { card: 'summary_large_image', images: ['/og-image.png'] },
+  icons: { apple: '/apple-touch-icon.png' },
 };
 export const viewport: Viewport = { themeColor: '#1c2a4a' };
 
