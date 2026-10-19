@@ -31,7 +31,7 @@ The code is complete; it goes live when these accounts exist. Roughly in order:
 Supabase ~$25, Vercel ~$20, Trigger.dev $0–50, Resend ~$20, Anthropic ~$50–300 (about $0.02–0.05 per document), Stripe ~2.2% + 30¢ per card gift under nonprofit pricing, Increase/bank ACH ~$0–100. Roughly $150–500/month plus card fees.
 
 ## School map (Google Maps)
-The Schools page map uses Google Maps when a browser key is configured, and OpenStreetMap (CARTO tiles) otherwise.
+The Schools page map uses Google Maps when a browser key is configured, and OpenStreetMap tiles otherwise (no key needed; CARTO's free basemaps now require a key, so they're no longer used).
 1. In Google Cloud Console, create a project, enable **Maps JavaScript API**, and create an API key.
 2. Restrict the key: Application restriction = Websites (`https://lionheartscholars.org/*`, `https://www.lionheartscholars.org/*`, plus your Vercel domain); API restriction = Maps JavaScript API only. A browser key is visible in page source by design; the restrictions are what protect it.
 3. Static site (GitHub Pages): put the key in `config/google-maps-key.txt` (or `LH_GMAPS_KEY=…` in the environment) and run `scripts/build-site.sh`.

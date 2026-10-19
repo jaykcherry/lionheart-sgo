@@ -1,7 +1,7 @@
 /* Lionheart school map — a zoomable map of the schools directory.
  *
  * Google Maps when a browser key is configured (window.LH_GMAPS_KEY), otherwise Leaflet with
- * OpenStreetMap/CARTO tiles. If tiles can't load (e.g. a sandboxed preview), the map still works
+ * OpenStreetMap tiles. If tiles can't load (e.g. a sandboxed preview), the map still works
  * as a vector map with the state outline.
  *
  * Markup contract (shared by the static site and the Next app):
@@ -129,8 +129,8 @@
       const m = st.map = L.map(el, { zoomSnap: 0.25, zoomDelta: 0.5, minZoom: 5, maxZoom: 15, scrollWheelZoom: false, maxBounds: [[25, -104], [46, -68]], attributionControl: true });
       m.fitBounds(TN_BOUNDS, { padding: [12, 12] });
       let loads = 0, errs = 0;
-      const tiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        subdomains: 'abcd', maxZoom: 19, attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · © <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
+      const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19, attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
       }).addTo(m);
       tiles.on('tileload', () => { loads++; st.tilesOk = true; el.classList.remove('no-tiles'); });
       tiles.on('tileerror', () => { errs++; if (errs >= 3 && !loads) noTiles(el); });
