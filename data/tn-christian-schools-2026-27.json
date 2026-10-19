@@ -15,7 +15,11 @@
   "alt": "",
   "lat": 35.799,
   "lon": -83.885,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "rc•••@gccsda.com"
+  ],
+  "street": "2921 Sevierville Rd."
  },
  {
   "id": "algood-christian-elementary-school",
@@ -29,11 +33,15 @@
   "grades": "PreK-8",
   "k12": 22,
   "site": "cookevillechristianelementary22.adventistschoolconnect.org",
-  "domain": "cookevillechristianelementary22.adventistschoolconnect.org",
+  "domain": "",
   "alt": "",
   "lat": 36.182,
   "lon": -85.441,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "al•••@gmail.com"
+  ],
+  "street": "2660 Hwy 111 North"
  },
  {
   "id": "all-saints-episcopal-school",
@@ -51,7 +59,12 @@
   "alt": "",
   "lat": 36.196,
   "lon": -83.275,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ss•••@asestn.org",
+   "mc•••@asestn.org"
+  ],
+  "street": "3275 Maple Valley Road"
  },
  {
   "id": "altis-international-school-distance-lear",
@@ -69,7 +82,12 @@
   "alt": "",
   "lat": 35.078,
   "lon": -85.064,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "co•••@altischool.com",
+   "po•••@gmail.com"
+  ],
+  "street": "10372 Scenic View Drive"
  },
  {
   "id": "apostolic-christian-academy",
@@ -87,7 +105,12 @@
   "alt": "",
   "lat": 35.688,
   "lon": -84.077,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ja•••@acamaryville.org",
+   "ad•••@acamaryville.org"
+  ],
+  "street": "1331 William Blount Drive"
  },
  {
   "id": "apostolic-christian-school",
@@ -105,7 +128,12 @@
   "alt": "",
   "lat": 36.005,
   "lon": -83.977,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ac•••@gmail.com",
+   "de•••@acsknoxville.org"
+  ],
+  "street": "5020 Pleasant Ridge Road"
  },
  {
   "id": "augustine-school",
@@ -123,7 +151,12 @@
   "alt": "",
   "lat": 35.683,
   "lon": -88.828,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "rs•••@augustineschool.com",
+   "dn•••@augustineschool.com"
+  ],
+  "street": "1171 Old Humboldt Road"
  },
  {
   "id": "avondale-seventh-day-adventist-school",
@@ -141,7 +174,12 @@
   "alt": "avondalesda.org",
   "lat": 35.061,
   "lon": -85.248,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pr•••@avondalesda.org",
+   "tm•••@scc-sda.org"
+  ],
+  "street": "1201 North Orchard Knob Ave"
  },
  {
   "id": "beacon-academy",
@@ -159,7 +197,11 @@
   "alt": "",
   "lat": 35.078,
   "lon": -85.064,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "tb•••@beaconacademy.us"
+  ],
+  "street": "3005 Ooltewah Ringgold Road"
  },
  {
   "id": "belvoir-christian-academy",
@@ -177,7 +219,11 @@
   "alt": "bcacademy.net",
   "lat": 35.002,
   "lon": -85.238,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "dt•••@bcacademy.net"
+  ],
+  "street": "800 Belvoir Ave."
  },
  {
   "id": "berean-academy",
@@ -195,7 +241,12 @@
   "alt": "",
   "lat": 35.159,
   "lon": -85.218,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ha•••@bereanacademy.net",
+   "br•••@bereanacademy.net"
+  ],
+  "street": "441 Berean Lane"
  },
  {
   "id": "berean-christian-school",
@@ -213,7 +264,12 @@
   "alt": "berean.me",
   "lat": 35.992,
   "lon": -83.85,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jo•••@berean.me",
+   "ra•••@berean.me"
+  ],
+  "street": "2329 Prosser Road"
  },
  {
   "id": "bethel-christian-academy",
@@ -231,7 +287,12 @@
   "alt": "",
   "lat": 35.159,
   "lon": -85.218,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ts•••@bethelbiblevillage.org",
+   "nh•••@bethelbiblevillage.org"
+  ],
+  "street": "3001 Hamill Road"
  },
  {
   "id": "bill-rice-christian-academy",
@@ -249,7 +310,12 @@
   "alt": "billriceranch.org",
   "lat": 35.845,
   "lon": -86.487,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "nr•••@billriceranch.org",
+   "in•••@brcamustangs.org"
+  ],
+  "street": "1812 Bill Rice Ranch Road"
  },
  {
   "id": "binghampton-christian-academy",
@@ -267,7 +333,11 @@
   "alt": "",
   "lat": 35.108,
   "lon": -89.946,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "mc•••@bcamemphis.org"
+  ],
+  "street": "175 N. Tillman Street"
  },
  {
   "id": "bowman-hills-school",
@@ -285,7 +355,12 @@
   "alt": "",
   "lat": 35.202,
   "lon": -84.848,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jm•••@gccsda.org",
+   "ja•••@bowmanhillsschool.org"
+  ],
+  "street": "300 Westview Drive, NE"
  },
  {
   "id": "boyd-buchanan-school",
@@ -303,7 +378,12 @@
   "alt": "",
   "lat": 35.027,
   "lon": -85.236,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "rm•••@bbschool.org",
+   "cw•••@bbschool.org"
+  ],
+  "street": "4650 Buccaneer Trail"
  },
  {
   "id": "brainerd-baptist-school",
@@ -321,7 +401,12 @@
   "alt": "brainerdbaptist.org",
   "lat": 35.027,
   "lon": -85.236,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sc•••@brainerdbaptist.org",
+   "rm•••@brainerdbaptist.org"
+  ],
+  "street": "4107 Mayfair Avenue"
  },
  {
   "id": "breath-of-life-preparatory-preschool",
@@ -339,7 +424,12 @@
   "alt": "bol.academy",
   "lat": 35.202,
   "lon": -89.972,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "kl•••@bol.academy",
+   "ja•••@bol.academy"
+  ],
+  "street": "3795 Frayser Raleigh Road"
  },
  {
   "id": "ba",
@@ -357,7 +447,12 @@
   "alt": "",
   "lat": 36.006,
   "lon": -86.791,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "am•••@brentwoodacademy.com",
+   "ad•••@brentwoodacademy.com"
+  ],
+  "street": "219 Granny White Pike"
  },
  {
   "id": "bcs",
@@ -375,7 +470,12 @@
   "alt": "",
   "lat": 35.155,
   "lon": -89.676,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jw•••@briarcrest.com",
+   "lm•••@briarcrest.com"
+  ],
+  "street": "76 S. Houston Levee"
  },
  {
   "id": "brinkley-heights-urban-academy",
@@ -393,7 +493,12 @@
   "alt": "",
   "lat": 35.157,
   "lon": -89.927,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jm•••@bhua.org",
+   "pa•••@att.net"
+  ],
+  "street": "3260 Macon Road"
  },
  {
   "id": "campbell-county-christian-academy",
@@ -411,7 +516,12 @@
   "alt": "",
   "lat": 36.411,
   "lon": -84.114,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "do•••@ccchristianacademy.com",
+   "ad•••@ccchristianacademy.com"
+  ],
+  "street": "2709 General Carl Stiner Hwy"
  },
  {
   "id": "cedars-preparatory-academy",
@@ -429,7 +539,12 @@
   "alt": "thecedarsprep.net",
   "lat": 36.21,
   "lon": -86.302,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ma•••@thecedarsprep.net",
+   "sy•••@thecedarsprep.net"
+  ],
+  "street": "410 West Main Street"
  },
  {
   "id": "centerville-christian-school",
@@ -447,7 +562,12 @@
   "alt": "",
   "lat": 35.78,
   "lon": -87.478,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sj•••@kytn.net",
+   "ad•••@centervillechristianschool.org"
+  ],
+  "street": "1010 Lower Shipps Bend N"
  },
  {
   "id": "central-baptist-kindergarten",
@@ -465,7 +585,12 @@
   "alt": "",
   "lat": 36.334,
   "lon": -82.341,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "we•••@cbcjc.org",
+   "as•••@cbcjc.org"
+  ],
+  "street": "300 North Roan Street"
  },
  {
   "id": "central-baptist-school",
@@ -483,7 +608,11 @@
   "alt": "centralbaptistministries.org",
   "lat": 35.184,
   "lon": -89.857,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pr•••@centralbaptistministries.org"
+  ],
+  "street": "5470 Raleigh LaGrange Rd"
  },
  {
   "id": "chapel-hill-christian-academy",
@@ -501,7 +630,12 @@
   "alt": "",
   "lat": 36.511,
   "lon": -87.276,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sh•••@chapelhillchristianacademy.com",
+   "in•••@chapelhillchristianacademy.com"
+  ],
+  "street": "2001 Madison Street"
  },
  {
   "id": "chattanooga-christian-school",
@@ -519,7 +653,12 @@
   "alt": "",
   "lat": 34.998,
   "lon": -85.331,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sc•••@ccsk12.com",
+   "mc•••@ccsk12.com"
+  ],
+  "street": "3354 Charger Drive"
  },
  {
   "id": "chattanooga-christian-school-the-glenwoo",
@@ -537,7 +676,12 @@
   "alt": "tgsk5.com",
   "lat": 35.031,
   "lon": -85.272,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "nj•••@tgsk5.com",
+   "sc•••@ccsk12.com"
+  ],
+  "street": "2424 E 3rd Street"
  },
  {
   "id": "chesterton-academy-of-st-margaret-clithe",
@@ -555,7 +699,12 @@
   "alt": "",
   "lat": 35.858,
   "lon": -84.119,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "of•••@knoxchesterton.com",
+   "zs•••@knoxchesterton.com"
+  ],
+  "street": "217 Fox Road"
  },
  {
   "id": "chesterton-academy-of-the-incarnation",
@@ -573,7 +722,12 @@
   "alt": "",
   "lat": 35.933,
   "lon": -86.879,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "at•••@chestertontn.com",
+   "in•••@chestertontn.com"
+  ],
+  "street": "113 2nd Avenue S"
  },
  {
   "id": "christ-life-academy",
@@ -591,7 +745,12 @@
   "alt": "",
   "lat": 35.251,
   "lon": -87.353,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "lw•••@christlifeacademy.com",
+   "of•••@christlifeacademy.com"
+  ],
+  "street": "3911 Pulaski Highway"
  },
  {
   "id": "christ-methodist-day-school",
@@ -609,7 +768,11 @@
   "alt": "",
   "lat": 35.112,
   "lon": -89.903,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "bw•••@cmdsmemphis.org"
+  ],
+  "street": "411 S.Grove Park Rd"
  },
  {
   "id": "cpa",
@@ -627,7 +790,12 @@
   "alt": "",
   "lat": 36.099,
   "lon": -86.822,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "na•••@cpalions.org",
+   "ad•••@cpalions.org"
+  ],
+  "street": "2323-A Old Hickory Boulevard"
  },
  {
   "id": "christ-the-king-lutheran-school",
@@ -645,7 +813,11 @@
   "alt": "",
   "lat": 35.082,
   "lon": -89.85,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "an•••@ctkschool.com"
+  ],
+  "street": "5296 Park Avenue"
  },
  {
   "id": "christ-the-king-school",
@@ -663,7 +835,12 @@
   "alt": "cks-nashville.org",
   "lat": 36.134,
   "lon": -86.801,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "al•••@cks-nashville.org",
+   "je•••@cks-nashville.org"
+  ],
+  "street": "3105 Belmont Boulevard"
  },
  {
   "id": "christian-academy-of-knoxville",
@@ -681,7 +858,12 @@
   "alt": "cakmail.org",
   "lat": 35.933,
   "lon": -84.076,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "rf•••@cakmail.org",
+   "lm•••@cakmail.org"
+  ],
+  "street": "529 Academy Way"
  },
  {
   "id": "christian-academy-of-the-cumberlands-ele",
@@ -699,7 +881,12 @@
   "alt": "",
   "lat": 35.962,
   "lon": -85.051,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "kw•••@cacknights.com",
+   "ac•••@cacknights.com"
+  ],
+  "street": "325 Braun St."
  },
  {
   "id": "christian-academy-of-the-cumberlands-hig",
@@ -717,7 +904,12 @@
   "alt": "",
   "lat": 35.962,
   "lon": -85.051,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ac•••@cacknights.com",
+   "kw•••@cacknights.com"
+  ],
+  "street": "286 Hayes Street"
  },
  {
   "id": "christian-brothers-lasalle-high-school",
@@ -735,7 +927,12 @@
   "alt": "",
   "lat": 35.121,
   "lon": -89.865,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jb•••@cbhs.org",
+   "ca•••@cbhs.org"
+  ],
+  "street": "5900 Walnut Grove Road"
  },
  {
   "id": "christian-community-schools",
@@ -753,7 +950,12 @@
   "alt": "iamacolt.com",
   "lat": 36.46,
   "lon": -86.671,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sc•••@iamacolt.com",
+   "cg•••@iamacolt.com"
+  ],
+  "street": "506 Hester Drive"
  },
  {
   "id": "christ-s-legacy-academy",
@@ -771,7 +973,12 @@
   "alt": "clak12.org",
   "lat": 35.457,
   "lon": -84.604,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sa•••@clak12.org",
+   "ad•••@clak12.org"
+  ],
+  "street": "625 S. Matlock Avenue"
  },
  {
   "id": "clarksville-christian-school",
@@ -789,7 +996,12 @@
   "alt": "",
   "lat": 36.511,
   "lon": -87.276,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ap•••@clarksvillechristianschool.org",
+   "ad•••@clarksvillechristianschool.org"
+  ],
+  "street": "505 Hwy. 76"
  },
  {
   "id": "collegedale-academy-lower-campus",
@@ -807,7 +1019,12 @@
   "alt": "",
   "lat": 35.048,
   "lon": -85.057,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "mw•••@collegedaleacademy.com",
+   "ma•••@collegedaleacademy.com"
+  ],
+  "street": "4856 College Drive E"
  },
  {
   "id": "collegedale-academy-upper-campus",
@@ -825,7 +1042,12 @@
   "alt": "",
   "lat": 35.048,
   "lon": -85.057,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "tc•••@collegedaleacademy.com",
+   "bb•••@collegedaleacademy.com"
+  ],
+  "street": "4855 College Drive E"
  },
  {
   "id": "columbia-academy",
@@ -843,7 +1065,12 @@
   "alt": "",
   "lat": 35.616,
   "lon": -87.038,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ja•••@cabulldogs.org",
+   "cl•••@cabulldogs.org"
+  ],
+  "street": "1101 West 7th Street"
  },
  {
   "id": "columbia-academy-at-spring-hill",
@@ -861,7 +1088,12 @@
   "alt": "",
   "lat": 35.717,
   "lon": -86.905,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "na•••@cabulldogs.org",
+   "cl•••@cabulldogs.org"
+  ],
+  "street": "756 Beechcroft Rd"
  },
  {
   "id": "community-christian-day-school",
@@ -879,7 +1111,12 @@
   "alt": "",
   "lat": 35.966,
   "lon": -86.505,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ch•••@communitychristiandayschool.com",
+   "je•••@comcast.net"
+  ],
+  "street": "185 Enon Springs Road West"
  },
  {
   "id": "concord-christian-school",
@@ -897,7 +1134,12 @@
   "alt": "concordcs.org",
   "lat": 35.876,
   "lon": -84.175,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ds•••@concordcs.org",
+   "lz•••@concordcs.org"
+  ],
+  "street": "11704 Kingston Pike"
  },
  {
   "id": "cooper-christian-academy",
@@ -915,7 +1157,12 @@
   "alt": "",
   "lat": 35.486,
   "lon": -86.462,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sb•••@ccacubs.org",
+   "jj•••@ccacubs.org"
+  ],
+  "street": "1012 Madison St."
  },
  {
   "id": "covenant-academy",
@@ -933,7 +1180,12 @@
   "alt": "",
   "lat": 35.683,
   "lon": -85.77,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ad•••@covenantacademylions.com",
+   "br•••@covenantacademylions.com"
+  ],
+  "street": "1079 Country Club Drive"
  },
  {
   "id": "creative-life-preparatory-school",
@@ -951,7 +1203,12 @@
   "alt": "",
   "lat": 35.102,
   "lon": -90.033,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ca•••@creativelifeinc.org",
+   "ca•••@creativelifeinc.org"
+  ],
+  "street": "1222 Riverside Boulevard"
  },
  {
   "id": "cumberland-christian-academy-online-high",
@@ -969,7 +1226,12 @@
   "alt": "",
   "lat": 36.05,
   "lon": -83.923,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ad•••@cumberlandchristianacad.org",
+   "jt•••@cumberlandchristianacad.org"
+  ],
+  "street": "3203 Tazewell Pike"
  },
  {
   "id": "da",
@@ -987,7 +1249,12 @@
   "alt": "",
   "lat": 36.219,
   "lon": -86.774,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "lj•••@davidsonacademy.com",
+   "dd•••@davidsonacademy.com"
+  ],
+  "street": "1414 W Old Hickory Boulevard"
  },
  {
   "id": "dayspring-academy",
@@ -1005,7 +1272,12 @@
   "alt": "",
   "lat": 36.423,
   "lon": -86.791,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "je•••@dayspringacademyk12.org",
+   "ke•••@dayspringacademyk12.org"
+  ],
+  "street": "2838 Heights Circle Drive"
  },
  {
   "id": "dca",
@@ -1023,7 +1295,12 @@
   "alt": "",
   "lat": 36.163,
   "lon": -86.661,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ks•••@dcawildcats.org",
+   "cf•••@dcawildcats.org"
+  ],
+  "street": "300 Danyacrest Drive"
  },
  {
   "id": "dunlap-adventist-school",
@@ -1037,11 +1314,16 @@
   "grades": "PreK-8",
   "k12": 31,
   "site": "antf75.adventistschoolconnect.org",
-  "domain": "antf75.adventistschoolconnect.org",
+  "domain": "",
   "alt": "",
   "lat": 35.384,
   "lon": -85.392,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sa•••@gccsda.com",
+   "sw•••@gccsda.com"
+  ],
+  "street": "105 Apache Lane"
  },
  {
   "id": "enlightium-academy",
@@ -1059,7 +1341,12 @@
   "alt": "",
   "lat": 36.273,
   "lon": -87.045,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "w.•••@enlightiumacademy.com",
+   "o.•••@enlightiumacademy.com"
+  ],
+  "street": "1642 TN-12"
  },
  {
   "id": "episcopal-school-of-nashville",
@@ -1077,7 +1364,12 @@
   "alt": "",
   "lat": 36.18,
   "lon": -86.741,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ja•••@esnashville.org",
+   "ka•••@esnashville.org"
+  ],
+  "street": "1310 Ordway Place"
  },
  {
   "id": "evangelical-christian-school-lower-schoo",
@@ -1095,7 +1387,12 @@
   "alt": "",
   "lat": 35.087,
   "lon": -89.77,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ac•••@ecseagles.com",
+   "rt•••@ecseagles.com"
+  ],
+  "street": "1920 Forest Hill Irene Road"
  },
  {
   "id": "ecs",
@@ -1113,7 +1410,12 @@
   "alt": "",
   "lat": 35.156,
   "lon": -89.776,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sh•••@ecseagles.com",
+   "rt•••@ecseagles.com"
+  ],
+  "street": "7600 Macon Road"
  },
  {
   "id": "ehcs",
@@ -1131,7 +1433,11 @@
   "alt": "",
   "lat": 36.059,
   "lon": -86.659,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "cm•••@ezellharding.com"
+  ],
+  "street": "574 Bell Road"
  },
  {
   "id": "f-c-boyd-christian-school",
@@ -1149,7 +1455,12 @@
   "alt": "",
   "lat": 35.683,
   "lon": -85.77,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "dn•••@fcbcs.org",
+   "jm•••@fcbs.org"
+  ],
+  "street": "806 Morrison Street"
  },
  {
   "id": "f-h-jenkins-preparatory-school",
@@ -1167,7 +1478,12 @@
   "alt": "",
   "lat": 36.219,
   "lon": -86.774,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sw•••@fhjenkins.net",
+   "of•••@mcesda.org"
+  ],
+  "street": "814 Youngs Lane"
  },
  {
   "id": "fairview-christian-academy",
@@ -1185,7 +1501,12 @@
   "alt": "",
   "lat": 35.457,
   "lon": -84.604,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ad•••@fairviewchristianacademy.org",
+   "pa•••@fairviewathens.org"
+  ],
+  "street": "259 County Road 439"
  },
  {
   "id": "faith-haven-christian-academy",
@@ -1203,7 +1524,12 @@
   "alt": "",
   "lat": 35.202,
   "lon": -84.848,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "co•••@faithhavenchristianacademy.com",
+   "fa•••@gmail.com"
+  ],
+  "street": "4995 North Lee Hwy"
  },
  {
   "id": "faith-heritage-christian-academy",
@@ -1221,7 +1547,12 @@
   "alt": "",
   "lat": 35.319,
   "lon": -89.905,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "in•••@faithheritage.com",
+   "of•••@faithheritage.com"
+  ],
+  "street": "4274 Duncan Road"
  },
  {
   "id": "family-christian-school",
@@ -1239,7 +1570,12 @@
   "alt": "",
   "lat": 35.557,
   "lon": -88.976,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ha•••@fcsofjackson.org",
+   "ka•••@fcsofjackson.org"
+  ],
+  "street": "535 Denmark Jackson Road"
  },
  {
   "id": "father-ryan-high-school",
@@ -1257,7 +1593,12 @@
   "alt": "",
   "lat": 36.107,
   "lon": -86.774,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "da•••@fatherryan.org",
+   "es•••@fatherryan.org"
+  ],
+  "street": "700 Norwood Drive"
  },
  {
   "id": "faulkner-springs-christian-school",
@@ -1275,7 +1616,12 @@
   "alt": "",
   "lat": 35.683,
   "lon": -85.77,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pw•••@gccsda.com",
+   "ph•••@mcminnvilleschool.org"
+  ],
+  "street": "201 Bluff Springs Road"
  },
  {
   "id": "fayette-christian-school",
@@ -1293,7 +1639,11 @@
   "alt": "",
   "lat": 35.277,
   "lon": -89.392,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "am•••@fcswarriors.org"
+  ],
+  "street": "12465 US Highway 64"
  },
  {
   "id": "first-assembly-christian-school",
@@ -1311,7 +1661,12 @@
   "alt": "",
   "lat": 35.156,
   "lon": -89.776,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "bs•••@facsmemphis.org",
+   "sh•••@facsmemphis.org"
+  ],
+  "street": "8650 Walnut Grove Road"
  },
  {
   "id": "first-baptist-academy",
@@ -1329,7 +1684,12 @@
   "alt": "",
   "lat": 36.044,
   "lon": -84.04,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ja•••@fbaeagles.org",
+   "ha•••@fbaeagles.org"
+  ],
+  "street": "7706 Ewing Road"
  },
  {
   "id": "first-lutheran-school",
@@ -1347,7 +1707,11 @@
   "alt": "firstlutheranschool.com",
   "lat": 35.998,
   "lon": -83.915,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ji•••@firstlutheranschool.com"
+  ],
+  "street": "1207 Broadway, NE"
  },
  {
   "id": "foundations-preschool-academy",
@@ -1365,7 +1729,12 @@
   "alt": "",
   "lat": 34.998,
   "lon": -85.331,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ch•••@fpachatt.com",
+   "al•••@fpachatt.com"
+  ],
+  "street": "3401 Broad St."
  },
  {
   "id": "franklin-christian-academy",
@@ -1383,7 +1752,12 @@
   "alt": "",
   "lat": 35.933,
   "lon": -86.879,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "nb•••@franklinchristianacademy.org",
+   "th•••@franklinchristianacademy.org"
+  ],
+  "street": "1 Falcon Way"
  },
  {
   "id": "franklin-road-academy",
@@ -1401,7 +1775,12 @@
   "alt": "",
   "lat": 36.064,
   "lon": -86.77,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ca•••@franklinroadacademy.com",
+   "ma•••@franklinroadacademy.com"
+  ],
+  "street": "4700 Franklin Pike"
  },
  {
   "id": "franklin-road-christian-school",
@@ -1419,7 +1798,12 @@
   "alt": "franklinroad.org",
   "lat": 35.845,
   "lon": -86.487,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ju•••@franklinroad.org",
+   "in•••@frcsminutemen.com"
+  ],
+  "street": "3124 Franklin Road"
  },
  {
   "id": "fcs",
@@ -1437,7 +1821,12 @@
   "alt": "",
   "lat": 36.21,
   "lon": -86.302,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "js•••@friendshipchristian.org",
+   "kc•••@friendshipchristian.org"
+  ],
+  "street": "5400 Coles Ferry Pike"
  },
  {
   "id": "gcs",
@@ -1455,7 +1844,12 @@
   "alt": "",
   "lat": 36.26,
   "lon": -86.705,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jb•••@goodpasture.org",
+   "ak•••@goodpasture.org"
+  ],
+  "street": "619 Due West Avenue"
  },
  {
   "id": "grace-baptist-academy",
@@ -1473,7 +1867,12 @@
   "alt": "mygracechatt.org",
   "lat": 35.025,
   "lon": -85.146,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "mp•••@mygracechatt.org",
+   "kw•••@mygracechatt.org"
+  ],
+  "street": "1804 Morris Hill Road"
  },
  {
   "id": "grace-baptist-academy-2",
@@ -1491,7 +1890,12 @@
   "alt": "",
   "lat": 36.502,
   "lon": -86.877,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ar•••@gbcspringfield.org",
+   "ac•••@gbcspringfield.org"
+  ],
+  "street": "2176 Walling Road"
  },
  {
   "id": "grace-christian-academy",
@@ -1509,7 +1913,12 @@
   "alt": "",
   "lat": 35.933,
   "lon": -86.879,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "rm•••@gcalions.com",
+   "sh•••@gcalions.com"
+  ],
+  "street": "3265 Southall Rd"
  },
  {
   "id": "grace-christian-academy-2",
@@ -1527,7 +1936,12 @@
   "alt": "",
   "lat": 35.992,
   "lon": -84.12,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ma•••@gcarams.org",
+   "ju•••@gcarams.org"
+  ],
+  "street": "5914 Beaver Ridge Rd."
  },
  {
   "id": "grace-st-luke-s-episcopal-school",
@@ -1545,7 +1959,12 @@
   "alt": "",
   "lat": 35.133,
   "lon": -90.005,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "as•••@gslschool.org",
+   "df•••@gslschool.org"
+  ],
+  "street": "246 South Belvedere Boulevard"
  },
  {
   "id": "greater-memphis-adventist-academy",
@@ -1563,7 +1982,11 @@
   "alt": "",
   "lat": 35.184,
   "lon": -89.857,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "gm•••@gmail.com"
+  ],
+  "street": "3333 Old Brownsville Road"
  },
  {
   "id": "greater-praise-christian-academy",
@@ -1581,7 +2004,11 @@
   "alt": "",
   "lat": 35.221,
   "lon": -89.941,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "gr•••@gmail.com"
+  ],
+  "street": "3608 Hawkins Mill Road"
  },
  {
   "id": "greater-things-christian-school",
@@ -1599,7 +2026,12 @@
   "alt": "",
   "lat": 36.047,
   "lon": -87.306,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ch•••@gtcswarriors.com",
+   "gr•••@gtcswarriors.com"
+  ],
+  "street": "2612 White Bluff Road"
  },
  {
   "id": "greeneville-adventist-academy",
@@ -1617,7 +2049,12 @@
   "alt": "",
   "lat": 36.132,
   "lon": -82.869,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "gr•••@gccsda.com",
+   "se•••@mygaa.org"
+  ],
+  "street": "305 Takoma Avenue"
  },
  {
   "id": "hamilton-heights-christian-academy",
@@ -1635,7 +2072,11 @@
   "alt": "",
   "lat": 35.094,
   "lon": -85.176,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ja•••@hamiltonheights.net"
+  ],
+  "street": "7717 Canyon Drive"
  },
  {
   "id": "harbert-hills-academy-elementary",
@@ -1653,7 +2094,11 @@
   "alt": "",
   "lat": 35.202,
   "lon": -88.201,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "js•••@yahoo.com"
+  ],
+  "street": "3575 Lonesome Pine Road"
  },
  {
   "id": "harding-academy-of-memphis",
@@ -1671,7 +2116,12 @@
   "alt": "",
   "lat": 35.112,
   "lon": -89.903,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "wi•••@hardingacademymemphis.org",
+   "ho•••@hardinglions.org"
+  ],
+  "street": "1100 Cherry Road"
  },
  {
   "id": "hendersonville-christian-academy",
@@ -1689,7 +2139,11 @@
   "alt": "",
   "lat": 36.305,
   "lon": -86.607,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "a.•••@hcacrusaders.com"
+  ],
+  "street": "260 New Shackle Island Road"
  },
  {
   "id": "heritage-academy",
@@ -1707,7 +2161,12 @@
   "alt": "",
   "lat": 36.151,
   "lon": -85.254,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "do•••@heritagetn.org",
+   "ad•••@heritagetn.org"
+  ],
+  "street": "23100 Clarkrange Highway"
  },
  {
   "id": "heritage-baptist-academy",
@@ -1725,7 +2184,12 @@
   "alt": "",
   "lat": 35.156,
   "lon": -89.776,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "of•••@hbamemphis.com",
+   "s.•••@hbamemphis.com"
+  ],
+  "street": "711 N. Houston-Levee Rd."
  },
  {
   "id": "heritage-christian-academy-of-east-tn",
@@ -1743,7 +2207,12 @@
   "alt": "",
   "lat": 36.471,
   "lon": -83.555,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "am•••@heritagechristiantn.com",
+   "he•••@gmail.com"
+  ],
+  "street": "428 Harmon Rd."
  },
  {
   "id": "hickory-valley-christian-school",
@@ -1761,7 +2230,12 @@
   "alt": "",
   "lat": 35.025,
   "lon": -85.146,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jh•••@hvcs.org",
+   "fr•••@hvcs.org"
+  ],
+  "street": "6605 Shallowford Road"
  },
  {
   "id": "highland-academy",
@@ -1779,7 +2253,12 @@
   "alt": "",
   "lat": 36.567,
   "lon": -86.506,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "cw•••@highland-academy.com",
+   "cw•••@kytn.net"
+  ],
+  "street": "211 Highland Circle Drive"
  },
  {
   "id": "highland-elementary-school",
@@ -1797,7 +2276,11 @@
   "alt": "",
   "lat": 36.567,
   "lon": -86.506,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ms•••@kytn.net"
+  ],
+  "street": "234 Highland Circle Drive"
  },
  {
   "id": "highland-rim-academy",
@@ -1815,7 +2298,12 @@
   "alt": "",
   "lat": 36.218,
   "lon": -85.542,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "h•••@highlandrimacademy.org",
+   "in•••@highlandrimacademy.org"
+  ],
+  "street": "1000 England Drive"
  },
  {
   "id": "holy-rosary-academy",
@@ -1833,7 +2321,12 @@
   "alt": "",
   "lat": 36.163,
   "lon": -86.661,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ro•••@holyrosary.edu",
+   "gl•••@holyrosary.edu"
+  ],
+  "street": "190 Graylynn Drive"
  },
  {
   "id": "holy-rosary-catholic-school",
@@ -1851,7 +2344,12 @@
   "alt": "",
   "lat": 35.112,
   "lon": -89.903,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "da•••@holyrosarymemphis.org",
+   "ka•••@holyrosarymemphis.org"
+  ],
+  "street": "4841 Park Avenue"
  },
  {
   "id": "immaculate-conception-school",
@@ -1869,7 +2367,12 @@
   "alt": "icschooltn.org",
   "lat": 36.511,
   "lon": -87.276,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "cd•••@icschooltn.org",
+   "kg•••@icschooltn.org"
+  ],
+  "street": "1901 Madison Street"
  },
  {
   "id": "immanuel-community-school",
@@ -1887,7 +2390,12 @@
   "alt": "immanuelschoolknox.org",
   "lat": 35.893,
   "lon": -83.939,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "kc•••@immanuelschoolknox.org",
+   "kj•••@immanuelschoolknox.org"
+  ],
+  "street": "520 Sevier Avenue"
  },
  {
   "id": "immanuel-lutheran-school",
@@ -1905,7 +2413,12 @@
   "alt": "ilsmemphis.com",
   "lat": 35.184,
   "lon": -89.857,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ak•••@ilsmemphis.com",
+   "pr•••@immanuelmemphis.org"
+  ],
+  "street": "6319 Raleigh LaGrange Road"
  },
  {
   "id": "inez-wrenn-seventh-day-adventist-school",
@@ -1923,7 +2436,12 @@
   "alt": "",
   "lat": 35.989,
   "lon": -85.012,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jk•••@gccsda.com",
+   "in•••@gmail.com"
+  ],
+  "street": "2337 West Avenue"
  },
  {
   "id": "jackson-christian-school",
@@ -1941,7 +2459,12 @@
   "alt": "",
   "lat": 35.683,
   "lon": -88.828,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pr•••@jcseagles.org",
+   "br•••@jcseagles.org"
+  ],
+  "street": "832 Country Club Lane"
  },
  {
   "id": "jasper-adventist-christian-school",
@@ -1959,7 +2482,11 @@
   "alt": "",
   "lat": 35.097,
   "lon": -85.59,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "tw•••@gccsda.com"
+  ],
+  "street": "787 Highway 150"
  },
  {
   "id": "jellico-christian-academy",
@@ -1977,7 +2504,11 @@
   "alt": "",
   "lat": 36.577,
   "lon": -84.126,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "je•••@gmail.com"
+  ],
+  "street": "170 Adventist Lane"
  },
  {
   "id": "jonathan-edwards-classical-academy",
@@ -1995,7 +2526,12 @@
   "alt": "",
   "lat": 36.274,
   "lon": -86.829,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jo•••@jecanashville.org",
+   "ki•••@jecanashville.org"
+  ],
+  "street": "4479 Jackson Rd."
  },
  {
   "id": "king-s-academy-nashville",
@@ -2013,7 +2549,12 @@
   "alt": "",
   "lat": 36.072,
   "lon": -86.724,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "di•••@kingsacademynashville.com",
+   "lc•••@kingsacademynashville.com"
+  ],
+  "street": "394 Strasser Drive"
  },
  {
   "id": "knoxville-adventist-school",
@@ -2031,7 +2572,12 @@
   "alt": "",
   "lat": 35.924,
   "lon": -84.001,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "gw•••@gccsda.com",
+   "kn•••@gmail.com"
+  ],
+  "street": "3615 Kingston Pike"
  },
  {
   "id": "knoxville-catholic-high-school",
@@ -2049,7 +2595,11 @@
   "alt": "",
   "lat": 35.933,
   "lon": -84.076,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "di•••@knoxvillecatholic.com"
+  ],
+  "street": "9245 Fox Lonas Road"
  },
  {
   "id": "knoxville-christian-school",
@@ -2067,7 +2617,11 @@
   "alt": "",
   "lat": 35.934,
   "lon": -84.148,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "bs•••@kcsknights.org"
+  ],
+  "street": "11549 Snyder Road"
  },
  {
   "id": "lakeway-christian-schools-cornerstone-ch",
@@ -2085,7 +2639,12 @@
   "alt": "",
   "lat": 36.196,
   "lon": -83.275,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "rl•••@lcstn.org",
+   "lg•••@lcstn.org"
+  ],
+  "street": "4801 S. Davy Crockett Parkway"
  },
  {
   "id": "lakeway-christian-schools-lakeway-christ",
@@ -2103,7 +2662,12 @@
   "alt": "",
   "lat": 36.078,
   "lon": -83.3,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "dv•••@lcstn.org",
+   "lg•••@lcstn.org"
+  ],
+  "street": "3720 Roy Messer Highway"
  },
  {
   "id": "lakeway-christian-schools-tri-cities-chr",
@@ -2121,7 +2685,12 @@
   "alt": "",
   "lat": 36.536,
   "lon": -82.366,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ag•••@lcstn.org",
+   "kc•••@lcstn.org"
+  ],
+  "street": "1500 Hwy. 75"
  },
  {
   "id": "lakeway-christian-schools-tri-cities-chr-2",
@@ -2139,7 +2708,12 @@
   "alt": "",
   "lat": 36.471,
   "lon": -82.483,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jh•••@lcstn.org",
+   "kc•••@lcstn.org"
+  ],
+  "street": "415 Lebanon Road"
  },
  {
   "id": "lancaster-christian-academy",
@@ -2157,7 +2731,12 @@
   "alt": "",
   "lat": 35.966,
   "lon": -86.505,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ke•••@lcaknights.com",
+   "ac•••@lcaknights.com"
+  ],
+  "street": "150 Soccer Way"
  },
  {
   "id": "lancaster-christian-early-learning-cente",
@@ -2175,7 +2754,12 @@
   "alt": "",
   "lat": 35.871,
   "lon": -86.418,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "mi•••@lcaknights.com",
+   "ra•••@lcaknights.com"
+  ],
+  "street": "3721 Manson Pike"
  },
  {
   "id": "laurelbrook-academy",
@@ -2193,7 +2777,12 @@
   "alt": "",
   "lat": 35.5,
   "lon": -85.013,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pr•••@laurelbrook.org",
+   "pr•••@laurelbrook.org"
+  ],
+  "street": "114 Campus Drive"
  },
  {
   "id": "laurelbrook-elementary-school",
@@ -2211,7 +2800,12 @@
   "alt": "",
   "lat": 35.5,
   "lon": -85.013,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ll•••@laurelbrook.org",
+   "pr•••@laurelbrook.org"
+  ],
+  "street": "214 Falls Road"
  },
  {
   "id": "lawrenceburg-adventist-school",
@@ -2225,11 +2819,15 @@
   "grades": "1-8",
   "k12": 13,
   "site": "lawrenceburg22.adventistschoolconnect.org",
-  "domain": "lawrenceburg22.adventistschoolconnect.org",
+  "domain": "",
   "alt": "",
   "lat": 35.251,
   "lon": -87.353,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "bc•••@kytn.net"
+  ],
+  "street": "11 Valley Road"
  },
  {
   "id": "lead-christian-academy",
@@ -2247,7 +2845,12 @@
   "alt": "",
   "lat": 36.342,
   "lon": -86.721,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ci•••@leadchristianacademy.com",
+   "ad•••@leadchristianacademy.com"
+  ],
+  "street": "735 Old Dickerson Road"
  },
  {
   "id": "lenoir-city-christian-academy",
@@ -2265,7 +2868,11 @@
   "alt": "",
   "lat": 35.788,
   "lon": -84.219,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jk•••@lccatn.org"
+  ],
+  "street": "2085 Simpson Road East"
  },
  {
   "id": "lester-coon-adventist-school",
@@ -2283,7 +2890,11 @@
   "alt": "",
   "lat": 35.015,
   "lon": -85.016,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "lb•••@gmail.com"
+  ],
+  "street": "11429 Bates Road"
  },
  {
   "id": "lighthouse-christian-academy",
@@ -2301,7 +2912,12 @@
   "alt": "",
   "lat": 36.225,
   "lon": -83.312,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "kg•••@gccsda.com",
+   "li•••@gmail.com"
+  ],
+  "street": "360 West Economy Road"
  },
  {
   "id": "lighthouse-christian-school",
@@ -2319,7 +2935,12 @@
   "alt": "lighthouseministries.org",
   "lat": 36.059,
   "lon": -86.659,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "al•••@lighthouseministries.org",
+   "pa•••@lighthouseministries.org"
+  ],
+  "street": "5100 Blue Hole Road"
  },
  {
   "id": "la",
@@ -2337,7 +2958,12 @@
   "alt": "lipscomb.edu",
   "lat": 36.107,
   "lon": -86.774,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ja•••@lipscomb.edu",
+   "me•••@lipscomb.edu"
+  ],
+  "street": "3901 Granny White Pike"
  },
  {
   "id": "living-springs-christian-academy",
@@ -2351,11 +2977,16 @@
   "grades": "PreK-8",
   "k12": 38,
   "site": "graytn.adventistschoolconnect.org",
-  "domain": "graytn.adventistschoolconnect.org",
+  "domain": "",
   "alt": "",
   "lat": 36.4,
   "lon": -82.452,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "li•••@gmail.com",
+   "mc•••@gccsda.com"
+  ],
+  "street": "314 Delmer Salts Road"
  },
  {
   "id": "living-word-victory-christian-academy",
@@ -2373,7 +3004,12 @@
   "alt": "livingwordchristianacademy.com",
   "lat": 36.585,
   "lon": -87.419,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "j.•••@livingwordchristianacademy.com",
+   "lw•••@gmail.com"
+  ],
+  "street": "959 Tiny Town Road"
  },
  {
   "id": "madison-academy",
@@ -2391,7 +3027,12 @@
   "alt": "",
   "lat": 36.26,
   "lon": -86.705,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "kf•••@madisonacademy.com",
+   "mm•••@madisonacademy.com"
+  ],
+  "street": "100 Academy Road"
  },
  {
   "id": "madonna-learning-center",
@@ -2409,7 +3050,11 @@
   "alt": "",
   "lat": 35.088,
   "lon": -89.805,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jg•••@madonna-learning.org"
+  ],
+  "street": "7007 Poplar Avenue"
  },
  {
   "id": "maryville-christian-school",
@@ -2427,7 +3072,12 @@
   "alt": "mcstn.org",
   "lat": 35.688,
   "lon": -84.077,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "m•••@mcstn.org",
+   "je•••@mcstn.org"
+  ],
+  "street": "2525 Morganton Road"
  },
  {
   "id": "mccallie-school",
@@ -2445,7 +3095,12 @@
   "alt": "",
   "lat": 35.031,
   "lon": -85.272,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "lb•••@mccallie.org",
+   "et•••@mccallie.org"
+  ],
+  "street": "500 Dodds Avenue"
  },
  {
   "id": "memphis-heritage-christian-school",
@@ -2463,7 +3118,12 @@
   "alt": "",
   "lat": 35.179,
   "lon": -89.968,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "tn•••@thesaintsheritage.org",
+   "me•••@yahoo.com"
+  ],
+  "street": "3802 Gragg Avenue"
  },
  {
   "id": "memphis-junior-academy",
@@ -2481,7 +3141,12 @@
   "alt": "",
   "lat": 35.112,
   "lon": -89.903,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "kk•••@kytn.net",
+   "me•••@gmail.com"
+  ],
+  "street": "50 N. Mendenhall Road"
  },
  {
   "id": "memphis-university-school",
@@ -2499,7 +3164,12 @@
   "alt": "",
   "lat": 35.082,
   "lon": -89.85,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pe•••@musowls.org",
+   "mi•••@musowls.org"
+  ],
+  "street": "6191 Park Avenue"
  },
  {
   "id": "metro-christian-academy",
@@ -2517,7 +3187,12 @@
   "alt": "",
   "lat": 36.342,
   "lon": -86.721,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "mr•••@mcaeagles.com",
+   "me•••@mcaeagles.com"
+  ],
+  "street": "322 East Cedar Street"
  },
  {
   "id": "mtcs",
@@ -2535,7 +3210,12 @@
   "alt": "",
   "lat": 35.871,
   "lon": -86.418,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ma•••@mtcscougars.org",
+   "na•••@mtcscougars.org"
+  ],
+  "street": "100 East MTCS Road"
  },
  {
   "id": "mother-of-divine-grace-school",
@@ -2553,7 +3233,12 @@
   "alt": "",
   "lat": 36.066,
   "lon": -86.964,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pr•••@modg.org",
+   "jb•••@modg.org"
+  ],
+  "street": "6512 Buttercup Drive"
  },
  {
   "id": "mt-juliet-christian-academy",
@@ -2571,7 +3256,12 @@
   "alt": "",
   "lat": 36.19,
   "lon": -86.502,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "kp•••@mjca.org",
+   "cw•••@mjca.org"
+  ],
+  "street": "735 North Mt. Juliet Road"
  },
  {
   "id": "murfreesboro-adventist-school",
@@ -2585,11 +3275,15 @@
   "grades": "1-10",
   "k12": 24,
   "site": "murfreesborotn.adventistschoolconnect.org",
-  "domain": "murfreesborotn.adventistschoolconnect.org",
+  "domain": "",
   "alt": "",
   "lat": 35.763,
   "lon": -86.372,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ld•••@kytn.net"
+  ],
+  "street": "2815 Elam Road"
  },
  {
   "id": "ncs",
@@ -2607,7 +3301,12 @@
   "alt": "",
   "lat": 36.155,
   "lon": -86.86,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sh•••@nashvillechristian.org",
+   "in•••@nashvillechristian.org"
+  ],
+  "street": "7565 Charlotte Pike"
  },
  {
   "id": "nashville-christian-school-sawyer-brown",
@@ -2625,7 +3324,12 @@
   "alt": "",
   "lat": 36.066,
   "lon": -86.964,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sh•••@nashvillechristian.org",
+   "in•••@nashvillechristian.org"
+  ],
+  "street": "7555 Sawyer Brown Road"
  },
  {
   "id": "new-hope-academy",
@@ -2643,7 +3347,12 @@
   "alt": "",
   "lat": 35.933,
   "lon": -86.879,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ss•••@nhafranklin.org",
+   "lr•••@nhafranklin.org"
+  ],
+  "street": "1820 Downs Blvd."
  },
  {
   "id": "new-hope-christian-academy",
@@ -2661,7 +3370,11 @@
   "alt": "",
   "lat": 35.251,
   "lon": -90.03,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "lc•••@newhopememphis.org"
+  ],
+  "street": "3000 University Street"
  },
  {
   "id": "notre-dame-high-school",
@@ -2679,7 +3392,12 @@
   "alt": "myndhs365.com",
   "lat": 35.031,
   "lon": -85.272,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sc•••@myndhs365.com",
+   "br•••@myndhs365.com"
+  ],
+  "street": "2701 Vermont Avenue"
  },
  {
   "id": "ooltewah-adventist-school",
@@ -2697,7 +3415,12 @@
   "alt": "",
   "lat": 35.078,
   "lon": -85.064,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ah•••@gccsda.com",
+   "of•••@oaksonline.net"
+  ],
+  "street": "6235 Ooltewah-Georgetown Road"
  },
  {
   "id": "our-lady-of-perpetual-help-catholic-scho",
@@ -2715,7 +3438,12 @@
   "alt": "olphgermantown.org",
   "lat": 35.088,
   "lon": -89.805,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "tf•••@olphgermantown.org",
+   "mr•••@olphowls.org"
+  ],
+  "street": "8151 Poplar Avenue"
  },
  {
   "id": "our-lady-of-perpetual-help-school",
@@ -2733,7 +3461,12 @@
   "alt": "",
   "lat": 35.025,
   "lon": -85.146,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ol•••@myolph.com",
+   "cc•••@myolph.com"
+  ],
+  "street": "505 South Moore Road"
  },
  {
   "id": "overbrook-catholic-school",
@@ -2751,7 +3484,12 @@
   "alt": "",
   "lat": 36.111,
   "lon": -86.869,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sr•••@overbrook.edu",
+   "le•••@overbrook.edu"
+  ],
+  "street": "4210 Harding Pike"
  },
  {
   "id": "paideia-academy",
@@ -2769,7 +3507,12 @@
   "alt": "",
   "lat": 35.934,
   "lon": -84.148,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "dc•••@paideiaknoxville.org",
+   "mb•••@paideiaknoxville.org"
+  ],
+  "street": "10825 Yarnell Road"
  },
  {
   "id": "pleasant-view-christian-school",
@@ -2787,7 +3530,11 @@
   "alt": "",
   "lat": 36.378,
   "lon": -87.04,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "br•••@pvchristian.org"
+  ],
+  "street": "160 Hicks Edgen Road"
  },
  {
   "id": "point-christian-academy",
@@ -2805,7 +3552,12 @@
   "alt": "",
   "lat": 35.127,
   "lon": -85.28,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ho•••@gmail.com",
+   "rb•••@gmail.com"
+  ],
+  "street": "4000 Dayton Blvd."
  },
  {
   "id": "pope-john-paul-ii-preparatory-school",
@@ -2823,7 +3575,12 @@
   "alt": "jp2hs.org",
   "lat": 36.305,
   "lon": -86.607,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "er•••@jp2hs.org",
+   "je•••@jp2hs.org"
+  ],
+  "street": "117 Caldwell Drive"
  },
  {
   "id": "power-and-grace-preparatory-academy",
@@ -2841,7 +3598,12 @@
   "alt": "",
   "lat": 36.522,
   "lon": -87.349,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ka•••@gmail.com",
+   "ad•••@powerandgraceacademy.org"
+  ],
+  "street": "337 Peterson Lane"
  },
  {
   "id": "presbyterian-day-school",
@@ -2859,7 +3621,12 @@
   "alt": "",
   "lat": 35.108,
   "lon": -89.946,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "bs•••@pdsmemphis.org",
+   "rh•••@pdsmemphis.org"
+  ],
+  "street": "4025 Poplar Avenue"
  },
  {
   "id": "providence-academy",
@@ -2877,7 +3644,12 @@
   "alt": "",
   "lat": 36.4,
   "lon": -82.452,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "bh•••@providenceacademy.com",
+   "pa•••@providenceacademy.com"
+  ],
+  "street": "2788 Carroll Creek Road"
  },
  {
   "id": "providence-christian-academy",
@@ -2895,7 +3667,12 @@
   "alt": "",
   "lat": 35.846,
   "lon": -86.39,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "as•••@providencechristian.com",
+   "kk•••@providencechristian.com"
+  ],
+  "street": "410 DeJarnette Lane"
  },
  {
   "id": "revolution-christian-academy",
@@ -2913,7 +3690,12 @@
   "alt": "rcawarriors.org",
   "lat": 35.799,
   "lon": -83.885,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ph•••@rcawarriors.org",
+   "ka•••@rcawarriors.org"
+  ],
+  "street": "3419 E. Lamar Alexander Parkway"
  },
  {
   "id": "ridgetop-adventist-elementary-school",
@@ -2931,7 +3713,12 @@
   "alt": "",
   "lat": 36.403,
   "lon": -86.772,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "mc•••@kytn.net",
+   "mc•••@ktteach.me"
+  ],
+  "street": "102 King Street"
  },
  {
   "id": "rio-christian-academy",
@@ -2949,7 +3736,12 @@
   "alt": "riomissions.org",
   "lat": 35.688,
   "lon": -84.077,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ch•••@riomissions.org",
+   "br•••@riomissions.org"
+  ],
+  "street": "370 South Long Hollow Road"
  },
  {
   "id": "river-s-edge-christian-academy-buffat-he",
@@ -2967,7 +3759,12 @@
   "alt": "",
   "lat": 36.032,
   "lon": -83.802,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "bu•••@riversedgeca.com",
+   "he•••@riversedgeca.com"
+  ],
+  "street": "2800 Mill Road"
  },
  {
   "id": "river-s-edge-christian-academy-cumberlan",
@@ -2985,7 +3782,12 @@
   "alt": "",
   "lat": 35.979,
   "lon": -84.003,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "hs•••@riversedgeca.com",
+   "cu•••@riversedgeca.com"
+  ],
+  "street": "5600 Western Ave."
  },
  {
   "id": "river-s-edge-christian-academy-west-camp",
@@ -3003,7 +3805,12 @@
   "alt": "",
   "lat": 35.933,
   "lon": -84.076,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "we•••@riversedgeca.com",
+   "he•••@riversedgeca.com"
+  ],
+  "street": "401 S. Peters Road"
  },
  {
   "id": "river-s-edge-christian-academy-west-have",
@@ -3021,7 +3828,12 @@
   "alt": "",
   "lat": 35.979,
   "lon": -84.003,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "he•••@riversedgeca.com",
+   "in•••@riversedgeca.com"
+  ],
+  "street": "5651 Matlock Drive"
  },
  {
   "id": "riverside-christian-academy",
@@ -3039,7 +3851,12 @@
   "alt": "",
   "lat": 35.153,
   "lon": -86.566,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "lo•••@rcaknights.org",
+   "ca•••@rcaknights.org"
+  ],
+  "street": "116 Riverside Lane"
  },
  {
   "id": "rossville-christian-academy",
@@ -3057,7 +3874,12 @@
   "alt": "",
   "lat": 35.077,
   "lon": -89.568,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "cb•••@rossvillechristian.com",
+   "rb•••@rossvillechristian.com"
+  ],
+  "street": "280 High St."
  },
  {
   "id": "sacred-heart-cathedral-school",
@@ -3075,7 +3897,12 @@
   "alt": "shcknox.org",
   "lat": 35.924,
   "lon": -84.001,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "vh•••@shcknox.org",
+   "kd•••@shcknox.org"
+  ],
+  "street": "711 S. Northshore Drive"
  },
  {
   "id": "sacred-heart-catholic-school",
@@ -3093,7 +3920,12 @@
   "alt": "",
   "lat": 35.251,
   "lon": -87.353,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sh•••@shslburg.com",
+   "ti•••@shslburg.com"
+  ],
+  "street": "220 Berger Street"
  },
  {
   "id": "savannah-christian-academy",
@@ -3111,7 +3943,12 @@
   "alt": "",
   "lat": 35.202,
   "lon": -88.201,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "tr•••@savannahchristianacademy.org",
+   "la•••@savannahchristianacademy.org"
+  ],
+  "street": "3514 Cravens Road"
  },
  {
   "id": "sensational-enlightenment-academy",
@@ -3129,7 +3966,11 @@
   "alt": "",
   "lat": 35.058,
   "lon": -89.864,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "se•••@gmail.com"
+  ],
+  "street": "5960 Knight Arnold Rd"
  },
  {
   "id": "seymour-community-christian-school",
@@ -3147,7 +3988,11 @@
   "alt": "",
   "lat": 35.87,
   "lon": -83.749,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ko•••@yahoo.com"
+  ],
+  "street": "994 S. Old Sevierville Pike"
  },
  {
   "id": "sheltering-tree-ranch",
@@ -3165,7 +4010,12 @@
   "alt": "",
   "lat": 35.202,
   "lon": -88.201,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "au•••@shelteringtree.org",
+   "bo•••@shelteringtree.org"
+  ],
+  "street": "3100 Hwy 226"
  },
  {
   "id": "silverdale-baptist-academy",
@@ -3183,7 +4033,12 @@
   "alt": "silverdaleba.org",
   "lat": 35.025,
   "lon": -85.146,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "bh•••@silverdaleba.org",
+   "em•••@silverdaleba.org"
+  ],
+  "street": "7236 Bonny Oaks Drive"
  },
  {
   "id": "south-haven-christian-school",
@@ -3201,7 +4056,11 @@
   "alt": "shbcministries.org",
   "lat": 36.502,
   "lon": -86.877,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sb•••@shbcministries.org"
+  ],
+  "street": "112 Academy Drive"
  },
  {
   "id": "st-agnes-academy-st-dominic-school",
@@ -3219,7 +4078,12 @@
   "alt": "",
   "lat": 35.112,
   "lon": -89.903,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sg•••@saa-sds.org",
+   "hk•••@saa-sds.org"
+  ],
+  "street": "4830 Walnut Grove Road"
  },
  {
   "id": "st-andrew-s-sewanee-school",
@@ -3237,7 +4101,12 @@
   "alt": "",
   "lat": 35.201,
   "lon": -85.913,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ks•••@sasweb.org",
+   "ab•••@sasweb.org"
+  ],
+  "street": "290 Quintard Road"
  },
  {
   "id": "st-andrew-s-school",
@@ -3255,7 +4124,12 @@
   "alt": "",
   "lat": 35.845,
   "lon": -83.539,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "aw•••@wvr.org",
+   "bt•••@wvr.org"
+  ],
+  "street": "100 One Fine Place/3601 Lyon Springs Road"
  },
  {
   "id": "st-ann-catholic-school",
@@ -3273,7 +4147,12 @@
   "alt": "stannnash.org",
   "lat": 36.155,
   "lon": -86.86,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ar•••@stannnash.org",
+   "kr•••@stannnash.org"
+  ],
+  "street": "5105 Charlotte Avenue"
  },
  {
   "id": "st-ann-catholic-school-2",
@@ -3291,7 +4170,12 @@
   "alt": "",
   "lat": 35.184,
   "lon": -89.857,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "di•••@sascolts.org",
+   "an•••@sascolts.org"
+  ],
+  "street": "6529 Stage Road"
  },
  {
   "id": "st-benedict-auburndale-high-school",
@@ -3309,7 +4193,12 @@
   "alt": "",
   "lat": 35.16,
   "lon": -89.782,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "vi•••@sbaeagles.org",
+   "ad•••@sbaeagles.org"
+  ],
+  "street": "8250 Varnavas Drive"
  },
  {
   "id": "st-bernard-academy",
@@ -3327,7 +4216,11 @@
   "alt": "stbernard.org",
   "lat": 36.134,
   "lon": -86.801,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "mr•••@stbernard.org"
+  ],
+  "street": "2304 Bernard Avenue"
  },
  {
   "id": "st-cecilia-academy",
@@ -3345,7 +4238,12 @@
   "alt": "",
   "lat": 36.111,
   "lon": -86.869,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sr•••@stcecilia.edu",
+   "li•••@stcecilia.edu"
+  ],
+  "street": "4210 Harding Road"
  },
  {
   "id": "st-clement-coptic-orthodox-christian-aca",
@@ -3363,7 +4261,12 @@
   "alt": "",
   "lat": 36.072,
   "lon": -86.724,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "bs•••@stclementacademy.com",
+   "st•••@gmail.com"
+  ],
+  "street": "476 McMurray Drive"
  },
  {
   "id": "st-dominic-catholic-school",
@@ -3381,7 +4284,12 @@
   "alt": "saintdomschool.com",
   "lat": 36.521,
   "lon": -82.517,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pr•••@saintdomschool.com",
+   "fi•••@saintdomschool.com"
+  ],
+  "street": "1474 East Center Street"
  },
  {
   "id": "st-edward-elementary-school",
@@ -3399,7 +4307,12 @@
   "alt": "",
   "lat": 36.072,
   "lon": -86.724,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sb•••@stedward.org",
+   "ya•••@stedward.org"
+  ],
+  "street": "190 Thompson Lane"
  },
  {
   "id": "st-francis-of-assisi-catholic-school",
@@ -3417,7 +4330,11 @@
   "alt": "",
   "lat": 35.16,
   "lon": -89.782,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "al•••@sfawolves.org"
+  ],
+  "street": "2100 N. Germantown Parkway"
  },
  {
   "id": "st-george-s-independent-school-colliervi",
@@ -3435,7 +4352,12 @@
   "alt": "",
   "lat": 35.055,
   "lon": -89.677,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "lp•••@sgis.org",
+   "sl•••@sgis.org"
+  ],
+  "street": "1880 Wolf River Blvd."
  },
  {
   "id": "st-george-s-independent-school-germantow",
@@ -3453,7 +4375,11 @@
   "alt": "",
   "lat": 35.088,
   "lon": -89.805,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sl•••@sgis.org"
+  ],
+  "street": "8250 Poplar Avenue"
  },
  {
   "id": "st-henry-school",
@@ -3471,7 +4397,11 @@
   "alt": "sthenry.org",
   "lat": 36.111,
   "lon": -86.869,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sj•••@sthenry.org"
+  ],
+  "street": "6401 Harding Road"
  },
  {
   "id": "st-john-neumann-catholic-school",
@@ -3489,7 +4419,12 @@
   "alt": "",
   "lat": 35.876,
   "lon": -84.175,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "km•••@sjncs-knox.org",
+   "bd•••@sjncs-knox.org"
+  ],
+  "street": "625 St. John Court"
  },
  {
   "id": "st-john-vianney-catholic-school",
@@ -3507,7 +4442,12 @@
   "alt": "stjvcs.org",
   "lat": 36.383,
   "lon": -86.451,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jo•••@stjvcs.org",
+   "se•••@stjvcs.org"
+  ],
+  "street": "501 North Water Avenue"
  },
  {
   "id": "st-joseph-school",
@@ -3525,7 +4465,11 @@
   "alt": "",
   "lat": 36.05,
   "lon": -83.923,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "az•••@sjsknox.org"
+  ],
+  "street": "1810 Howard Drive"
  },
  {
   "id": "st-joseph-school-2",
@@ -3543,7 +4487,12 @@
   "alt": "stjosephnashville.org",
   "lat": 36.26,
   "lon": -86.705,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "al•••@stjosephnashville.org",
+   "dr•••@stjosephnashville.org"
+  ],
+  "street": "1225 Gallatin Pike South"
  },
  {
   "id": "st-jude-school",
@@ -3561,7 +4510,11 @@
   "alt": "",
   "lat": 35.127,
   "lon": -85.28,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ov•••@mysjs.com"
+  ],
+  "street": "930 Ashland Terrace"
  },
  {
   "id": "st-louis-catholic-school",
@@ -3579,7 +4532,12 @@
   "alt": "",
   "lat": 35.112,
   "lon": -89.903,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "te•••@stlouismemphis.org",
+   "an•••@stlouismemphis.org"
+  ],
+  "street": "5192 Shady Grove Road"
  },
  {
   "id": "st-mary-school-johnson-city",
@@ -3597,7 +4555,12 @@
   "alt": "",
   "lat": 36.334,
   "lon": -82.341,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "be•••@stmarysjc.org",
+   "pr•••@stmarysjc.org"
+  ],
+  "street": "2211 East Lakeview Drive"
  },
  {
   "id": "st-mary-school-oak-ridge",
@@ -3615,7 +4578,12 @@
   "alt": "",
   "lat": 36.016,
   "lon": -84.262,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sm•••@stmarysoakridge.org",
+   "sm•••@stmarysoakridge.org"
+  ],
+  "street": "323 Vermont Avenue"
  },
  {
   "id": "st-mary-s-catholic-school",
@@ -3633,7 +4601,11 @@
   "alt": "stmarys.tn.org",
   "lat": 35.683,
   "lon": -88.828,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ak•••@stmarys.tn.org"
+  ],
+  "street": "1665 Hwy. 45 By-Pass"
  },
  {
   "id": "st-mary-s-episcopal-school",
@@ -3651,7 +4623,12 @@
   "alt": "",
   "lat": 35.112,
   "lon": -89.903,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "at•••@stmarysschool.org",
+   "kg•••@stmarysschool.org"
+  ],
+  "street": "60 Perkins Extended"
  },
  {
   "id": "st-matthew-catholic-school",
@@ -3669,7 +4646,11 @@
   "alt": "",
   "lat": 35.98,
   "lon": -86.911,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "as•••@stmatthewtn.org"
+  ],
+  "street": "533 Sneed Road W."
  },
  {
   "id": "st-michael-academy",
@@ -3687,7 +4668,12 @@
   "alt": "",
   "lat": 35.931,
   "lon": -86.683,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ti•••@stmichaeltn.org",
+   "ar•••@stmichaeltn.org"
+  ],
+  "street": "7674 Nolensville Road"
  },
  {
   "id": "st-nicholas-school",
@@ -3705,7 +4691,11 @@
   "alt": "",
   "lat": 35.025,
   "lon": -85.146,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "rm•••@stns.org"
+  ],
+  "street": "7525 Min-Tom Drive"
  },
  {
   "id": "st-patrick-school",
@@ -3723,7 +4713,12 @@
   "alt": "",
   "lat": 36.049,
   "lon": -87.652,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "si•••@sps-tn.org",
+   "vi•••@sps-tn.org"
+  ],
+  "street": "175 St. Patrick Street"
  },
  {
   "id": "st-paul-catholic-school",
@@ -3741,7 +4736,11 @@
   "alt": "stpaulsmemphis.com",
   "lat": 35.03,
   "lon": -90.012,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pr•••@stpaulsmemphis.com"
+  ],
+  "street": "1425 E. Shelby Drive"
  },
  {
   "id": "st-paul-christian-academy",
@@ -3759,7 +4758,11 @@
   "alt": "stpaulchristian.org",
   "lat": 36.099,
   "lon": -86.822,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "wn•••@stpaulchristian.org"
+  ],
+  "street": "5033 Hillsboro Pike"
  },
  {
   "id": "st-peter-s-episcopal-school",
@@ -3777,7 +4780,12 @@
   "alt": "stpeters.org",
   "lat": 35.127,
   "lon": -85.28,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "mr•••@stpeters.org",
+   "ts•••@stpeters.org"
+  ],
+  "street": "848 Ashland Terrace"
  },
  {
   "id": "st-pius-x-classical-academy",
@@ -3795,7 +4803,12 @@
   "alt": "",
   "lat": 36.207,
   "lon": -86.846,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pr•••@stpiusnashville.org",
+   "jh•••@stpiusnashville.org"
+  ],
+  "street": "2750 Tucker Road"
  },
  {
   "id": "st-rose-of-lima-catholic-school",
@@ -3813,7 +4826,12 @@
   "alt": "",
   "lat": 35.846,
   "lon": -86.39,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sr•••@saintrose.org",
+   "sv•••@op-tn.org"
+  ],
+  "street": "1601 North Tennessee Boulevard"
  },
  {
   "id": "standifer-gap-seventh-day-adventist-scho",
@@ -3827,11 +4845,15 @@
   "grades": "PreK-8",
   "k12": 48,
   "site": "sgsdachattanoogatn.adventistschoolconnect.org",
-  "domain": "sgsdachattanoogatn.adventistschoolconnect.org",
+  "domain": "",
   "alt": "",
   "lat": 35.025,
   "lon": -85.146,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "st•••@gmail.com"
+  ],
+  "street": "8255 Standifer Gap Road"
  },
  {
   "id": "temple-baptist-academy",
@@ -3849,7 +4871,12 @@
   "alt": "",
   "lat": 36.044,
   "lon": -84.04,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "he•••@templebaptistacademy.com",
+   "kr•••@templebaptistacademy.com"
+  ],
+  "street": "1700 W Beaver Creek Drive"
  },
  {
   "id": "temple-baptist-christian-school",
@@ -3867,7 +4894,12 @@
   "alt": "",
   "lat": 35.496,
   "lon": -86.082,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "tb•••@yahoo.com",
+   "pr•••@templeministries.com"
+  ],
+  "street": "66 Fairlane Drive"
  },
  {
   "id": "tennessee-avenue-christian-academy",
@@ -3885,7 +4917,11 @@
   "alt": "",
   "lat": 36.569,
   "lon": -82.182,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ci•••@tabaptist.org"
+  ],
+  "street": "806 Tennessee Avenue"
  },
  {
   "id": "tennessee-christian-preparatory-school",
@@ -3903,7 +4939,11 @@
   "alt": "tcpsk12.org",
   "lat": 35.202,
   "lon": -84.848,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jt•••@tcpsk12.org"
+  ],
+  "street": "4100 Stephens Road NE"
  },
  {
   "id": "the-academy-for-g-o-d",
@@ -3921,7 +4961,12 @@
   "alt": "",
   "lat": 36.242,
   "lon": -86.612,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "de•••@academyforgod.org",
+   "ad•••@academyforgod.org"
+  ],
+  "street": "401 Center Street"
  },
  {
   "id": "the-collegiate-school-of-memphis",
@@ -3939,7 +4984,12 @@
   "alt": "",
   "lat": 35.157,
   "lon": -89.927,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "mc•••@collegiatememphis.org",
+   "wg•••@collegiatememphis.org"
+  ],
+  "street": "3353 Faxon Avenue"
  },
  {
   "id": "the-covenant-school",
@@ -3957,7 +5007,12 @@
   "alt": "",
   "lat": 36.099,
   "lon": -86.822,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "tw•••@thecovenantschool.com",
+   "kk•••@thecovenantschool.com"
+  ],
+  "street": "33 Burton Hills Blvd"
  },
  {
   "id": "the-episcopal-school-of-knoxville",
@@ -3975,7 +5030,12 @@
   "alt": "",
   "lat": 35.934,
   "lon": -84.148,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ta•••@esknoxville.org",
+   "km•••@esknoxville.org"
+  ],
+  "street": "950 Episcopal School Way"
  },
  {
   "id": "the-king-s-academy",
@@ -3993,7 +5053,12 @@
   "alt": "",
   "lat": 35.87,
   "lon": -83.749,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "fe•••@thekingsacademy.net",
+   "ag•••@thekingsacademy.net"
+  ],
+  "street": "202 Smothers Road"
  },
  {
   "id": "the-king-s-daughters-school",
@@ -4011,7 +5076,12 @@
   "alt": "",
   "lat": 35.616,
   "lon": -87.038,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "er•••@tkds.org",
+   "ta•••@tkds.org"
+  ],
+  "street": "412 West Ninth Street"
  },
  {
   "id": "tipton-christian-academy",
@@ -4029,7 +5099,12 @@
   "alt": "",
   "lat": 35.56,
   "lon": -89.65,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pm•••@tiptonchristianacademy.com",
+   "lb•••@tiptonchristianacademy.com"
+  ],
+  "street": "2105 Hwy. 59 South"
  },
  {
   "id": "tipton-rosemark-academy",
@@ -4047,7 +5122,12 @@
   "alt": "rebelmail.net",
   "lat": 35.319,
   "lon": -89.905,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ag•••@rebelmail.net",
+   "sd•••@rebelmail.net"
+  ],
+  "street": "8696 Rosemark Road"
  },
  {
   "id": "trinity-academy",
@@ -4065,7 +5145,12 @@
   "alt": "",
   "lat": 35.849,
   "lon": -85.131,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "in•••@tacrossville.org",
+   "cw•••@tachargers.org"
+  ],
+  "street": "3270 Lantana Road"
  },
  {
   "id": "trinity-christian-academy",
@@ -4083,7 +5168,12 @@
   "alt": "mytcalions.com",
   "lat": 35.683,
   "lon": -88.828,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ju•••@mytcalions.com",
+   "kr•••@mytcalions.com"
+  ],
+  "street": "10 Windy City Road"
  },
  {
   "id": "tullahoma-seventh-day-adventist-christia",
@@ -4101,7 +5191,12 @@
   "alt": "",
   "lat": 35.347,
   "lon": -86.22,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "kh•••@kytn.net",
+   "tu•••@gmail.com"
+  ],
+  "street": "231 Turkey Creek"
  },
  {
   "id": "valley-christian-academy",
@@ -4119,7 +5214,12 @@
   "alt": "",
   "lat": 35.373,
   "lon": -84.695,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pb•••@valleychristianacademy.us",
+   "hc•••@valleychristianacademy.us"
+  ],
+  "street": "482 County Road 725, Box 3148"
  },
  {
   "id": "victory-baptist-academy",
@@ -4137,7 +5237,12 @@
   "alt": "",
   "lat": 35.486,
   "lon": -86.462,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ly•••@gmail.com",
+   "vb•••@gmail.com"
+  ],
+  "street": "2200 North Main Street"
  },
  {
   "id": "west-hills-baptist-church-preschool-kind",
@@ -4155,7 +5260,12 @@
   "alt": "",
   "lat": 35.946,
   "lon": -84.023,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pr•••@wherechildrengrow.org",
+   "kr•••@wherechildrengrow.org"
+  ],
+  "street": "409 N. Winston Road"
  },
  {
   "id": "western-christian-academy",
@@ -4173,7 +5283,12 @@
   "alt": "",
   "lat": 36.334,
   "lon": -82.341,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jg•••@westernchristianacademy.com",
+   "w•••@westernchristianacademy.com"
+  ],
+  "street": "244 Sinking Creek Road"
  },
  {
   "id": "westminster-academy",
@@ -4191,7 +5306,12 @@
   "alt": "",
   "lat": 35.082,
   "lon": -89.85,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pa•••@wamemphis.com",
+   "in•••@wamemphis.com"
+  ],
+  "street": "2520 Ridgeway Road"
  },
  {
   "id": "winchester-christian-academy",
@@ -4209,7 +5329,12 @@
   "alt": "wcaedu.net",
   "lat": 35.186,
   "lon": -86.113,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ca•••@wcaedu.net",
+   "ch•••@wcaedu.net"
+  ],
+  "street": "1230 South College St."
  },
  {
   "id": "woodbury-seventh-day-adventist-elementar",
@@ -4223,11 +5348,16 @@
   "grades": "PreK-8",
   "k12": 17,
   "site": "woodburytn.adventistschoolconnect.org",
-  "domain": "woodburytn.adventistschoolconnect.org",
+  "domain": "",
   "alt": "",
   "lat": 35.814,
   "lon": -86.05,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jo•••@hotmail.com",
+   "jz•••@kytn.net"
+  ],
+  "street": "1434 Hollow Springs Road"
  },
  {
   "id": "woodland-presbyterian-school",
@@ -4245,7 +5375,12 @@
   "alt": "",
   "lat": 35.082,
   "lon": -89.85,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "am•••@woodlandschool.org",
+   "te•••@woodlandschool.org"
+  ],
+  "street": "5217 Park Avenue"
  },
  {
   "id": "word-of-faith-christian-academy",
@@ -4263,7 +5398,12 @@
   "alt": "",
   "lat": 35.108,
   "lon": -89.946,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "wo•••@gmail.com",
+   "ch•••@gmail.com"
+  ],
+  "street": "3528 Sharpe Avenue"
  },
  {
   "id": "zion-christian-academy",
@@ -4281,7 +5421,12 @@
   "alt": "",
   "lat": 35.616,
   "lon": -87.038,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "rj•••@zioneagles.org",
+   "rn•••@zioneagles.org"
+  ],
+  "street": "6901 Old Zion Road"
  },
  {
   "id": "abundant-life-christian-academy",
@@ -4299,7 +5444,12 @@
   "alt": "",
   "lat": 35.846,
   "lon": -86.39,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "of•••@abundantacademy.com",
+   "bb•••@abundantacademy.com"
+  ],
+  "street": "1510 Memorial Boulevard"
  },
  {
   "id": "advocate-christian-academy",
@@ -4317,7 +5467,12 @@
   "alt": "",
   "lat": 35.975,
   "lon": -87.132,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ra•••@advocatechristianacademy.com",
+   "rk•••@gmail.com"
+  ],
+  "street": "920 Hwy 96 N"
  },
  {
   "id": "agathos-classical-school",
@@ -4335,7 +5490,12 @@
   "alt": "",
   "lat": 35.616,
   "lon": -87.038,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "of•••@agathosschool.com",
+   "te•••@agathosschool.com"
+  ],
+  "street": "1201 Mapleash Ave"
  },
  {
   "id": "antioch-christian-academy",
@@ -4353,7 +5513,11 @@
   "alt": "",
   "lat": 35.427,
   "lon": -84.483,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "ac•••@yahoo.com"
+  ],
+  "street": "1036 Hwy 39 E"
  },
  {
   "id": "apostolic-gospel-academy",
@@ -4371,7 +5535,12 @@
   "alt": "",
   "lat": 36.548,
   "lon": -82.562,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "ag•••@yahoo.com",
+   "ma•••@yahoo.com"
+  ],
+  "street": "1780 Granby Road"
  },
  {
   "id": "bill-rice-christian-academy-home-school-",
@@ -4389,7 +5558,12 @@
   "alt": "billriceranch.org",
   "lat": 35.845,
   "lon": -86.487,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "nr•••@billriceranch.org",
+   "nr•••@gmail.com"
+  ],
+  "street": "1812 Bill Rice Ranch Road"
  },
  {
   "id": "blizzard-mines-little-school-on-the-farm",
@@ -4407,7 +5581,12 @@
   "alt": "",
   "lat": 35.935,
   "lon": -84.516,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "bm•••@gmail.com",
+   "bl•••@gmail.com"
+  ],
+  "street": "530 Blizzard Mines Road"
  },
  {
   "id": "bright-beginnings-christian-school",
@@ -4425,7 +5604,11 @@
   "alt": "",
   "lat": 35.209,
   "lon": -87.039,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "bb•••@gmail.com"
+  ],
+  "street": "1827 Mill Street"
  },
  {
   "id": "calvary-chapel-christian-school",
@@ -4443,7 +5626,11 @@
   "alt": "",
   "lat": 35.616,
   "lon": -87.038,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "ra•••@cccstn.org"
+  ],
+  "street": "1028 Nashville Hwy"
  },
  {
   "id": "calvary-christian-academy",
@@ -4461,7 +5648,12 @@
   "alt": "",
   "lat": 36.411,
   "lon": -84.114,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "no•••@gmail.com",
+   "cu•••@gmail.com"
+  ],
+  "street": "2139 Jacksboro Pike"
  },
  {
   "id": "camden-united-christian-academy",
@@ -4479,7 +5671,12 @@
   "alt": "",
   "lat": 36.056,
   "lon": -88.112,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "de•••@gmail.com",
+   "cu•••@gmail.com"
+  ],
+  "street": "178 Hummingbird Circle"
  },
  {
   "id": "candies-creek-academy",
@@ -4497,7 +5694,12 @@
   "alt": "",
   "lat": 35.256,
   "lon": -84.767,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "jg•••@candiescreekacademy.com",
+   "in•••@candiescreekacademy.com"
+  ],
+  "street": "294 Old Eureka Road NW"
  },
  {
   "id": "cedar-view-christian-school",
@@ -4515,7 +5717,11 @@
   "alt": "",
   "lat": 36.548,
   "lon": -82.562,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ti•••@aol.com"
+  ],
+  "street": "1900 Flanders, PO Box 143"
  },
  {
   "id": "central-christian-academy",
@@ -4533,7 +5739,12 @@
   "alt": "",
   "lat": 36.343,
   "lon": -88.855,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "k.•••@ccamartin.org",
+   "kw•••@yahoo.com"
+  ],
+  "street": "801 Harrison Road"
  },
  {
   "id": "central-learning-center",
@@ -4551,7 +5762,11 @@
   "alt": "centralchurch.com",
   "lat": 35.055,
   "lon": -89.677,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "c•••@centralchurch.com"
+  ],
+  "street": "2005 E. Winchester Boulevard"
  },
  {
   "id": "christ-classical-academy",
@@ -4569,7 +5784,12 @@
   "alt": "",
   "lat": 36.044,
   "lon": -89.384,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "km•••@christclassicalacademy.com",
+   "sm•••@christclassicalacademy.com"
+  ],
+  "street": "1005 Hwy 51 Bypass W"
  },
  {
   "id": "christ-trinity-christian-academy-site-1",
@@ -4587,7 +5807,12 @@
   "alt": "",
   "lat": 35.031,
   "lon": -89.812,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "mc•••@yahoo.com",
+   "mc•••@ctcanow.com"
+  ],
+  "street": "3655 Southwind Park Cove"
  },
  {
   "id": "christ-trinity-christian-academy-site-2",
@@ -4605,7 +5830,12 @@
   "alt": "",
   "lat": 35.058,
   "lon": -89.864,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "in•••@ctcanow.com",
+   "ke•••@gmail.com"
+  ],
+  "street": "3533 Ridge Meadow Pkwy"
  },
  {
   "id": "christ-trinity-christian-academy-site-3",
@@ -4623,7 +5853,12 @@
   "alt": "",
   "lat": 35.023,
   "lon": -89.849,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "in•••@ctcanow.com",
+   "s•••@ctcanow.com"
+  ],
+  "street": "5225 Shady Ridge Drive"
  },
  {
   "id": "christian-academy-of-the-smokies",
@@ -4641,7 +5876,11 @@
   "alt": "",
   "lat": 35.845,
   "lon": -83.539,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "of•••@casmokies.com"
+  ],
+  "street": "1625 Old Newport Hwy."
  },
  {
   "id": "christian-heritage-academy",
@@ -4659,7 +5898,12 @@
   "alt": "",
   "lat": 35.186,
   "lon": -86.113,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "al•••@outlook.com",
+   "al•••@gmail.com"
+  ],
+  "street": "504 S. Jefferson Street"
  },
  {
   "id": "christian-life-academy-of-memphis",
@@ -4677,7 +5921,12 @@
   "alt": "clamemphis.org",
   "lat": 35.205,
   "lon": -89.804,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ad•••@clamemphis.org",
+   "he•••@clamemphis.org"
+  ],
+  "street": "9375 Davies Plantation Road"
  },
  {
   "id": "cleveland-christian-school",
@@ -4695,7 +5944,12 @@
   "alt": "",
   "lat": 35.131,
   "lon": -84.875,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pr•••@ccfschool.us",
+   "cc•••@aol.com"
+  ],
+  "street": "695 South Ocoee Street"
  },
  {
   "id": "crockett-christian-school",
@@ -4713,7 +5967,11 @@
   "alt": "",
   "lat": 35.838,
   "lon": -89.227,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "cr•••@hotmail.com"
+  ],
+  "street": "175 Chestnut Bluff Rd."
  },
  {
   "id": "cross-creek-christian-school-lower-schoo",
@@ -4731,7 +5989,12 @@
   "alt": "",
   "lat": 35.602,
   "lon": -84.461,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "me•••@gmail.com",
+   "cr•••@gmail.com"
+  ],
+  "street": "777 New Highway 68"
  },
  {
   "id": "cross-creek-christian-school-upper-schoo",
@@ -4749,7 +6012,12 @@
   "alt": "",
   "lat": 35.602,
   "lon": -84.461,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "me•••@gmail.com",
+   "cr•••@gmail.com"
+  ],
+  "street": "501 Sweetwater Vonore Rd."
  },
  {
   "id": "crossroads-christian-academy",
@@ -4767,7 +6035,12 @@
   "alt": "",
   "lat": 35.788,
   "lon": -84.219,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "dg•••@ccatn.com",
+   "mg•••@ccatn.com"
+  ],
+  "street": "1963 Martel Road"
  },
  {
   "id": "cumberland-community-school",
@@ -4785,7 +6058,12 @@
   "alt": "",
   "lat": 36.151,
   "lon": -85.254,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "di•••@gmail.com",
+   "jm•••@gmail.com"
+  ],
+  "street": "3065 Muddy Pond Road"
  },
  {
   "id": "day-spring-christian-academy",
@@ -4803,7 +6081,12 @@
   "alt": "",
   "lat": 35.979,
   "lon": -84.003,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ma•••@gmail.com",
+   "bu•••@gmail.com"
+  ],
+  "street": "935 W Oldham Avenue"
  },
  {
   "id": "dekalb-christian-academy",
@@ -4821,7 +6104,12 @@
   "alt": "",
   "lat": 35.93,
   "lon": -85.805,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "de•••@gmail.com",
+   "sc•••@dekalbchristianacademy.com"
+  ],
+  "street": "750 S. Congress Blvd."
  },
  {
   "id": "drummonds-christian-academy",
@@ -4839,7 +6127,12 @@
   "alt": "",
   "lat": 35.445,
   "lon": -89.924,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "nb•••@gmail.com",
+   "ao•••@gmail.com"
+  ],
+  "street": "2357 Wilkinsville Road"
  },
  {
   "id": "eagle-bend-christian-academy",
@@ -4857,7 +6150,12 @@
   "alt": "",
   "lat": 36.087,
   "lon": -84.19,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ea•••@gmail.com",
+   "of•••@eaglebendca.org"
+  ],
+  "street": "1740 N. Charles G. Seviers Blvd."
  },
  {
   "id": "east-tennessee-christian-home-academy",
@@ -4875,7 +6173,12 @@
   "alt": "",
   "lat": 36.344,
   "lon": -82.201,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "et•••@gmail.com",
+   "et•••@icloud.com"
+  ],
+  "street": "517 Allen Avenue"
  },
  {
   "id": "eastview-christian-academy",
@@ -4893,7 +6196,11 @@
   "alt": "",
   "lat": 35.064,
   "lon": -88.602,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ea•••@gmail.com"
+  ],
+  "street": "7810 Hwy 45 S."
  },
  {
   "id": "emmanuel-united-methodist-kindergarten",
@@ -4911,7 +6218,12 @@
   "alt": "emmanuelmemphis.org",
   "lat": 35.082,
   "lon": -89.85,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "mj•••@emmanuelmemphis.org",
+   "hg•••@emmanuelmemphis.org"
+  ],
+  "street": "2404 Kirby Road"
  },
  {
   "id": "faith-bible-holiness-academy",
@@ -4929,7 +6241,12 @@
   "alt": "",
   "lat": 36.151,
   "lon": -85.254,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "je•••@gmail.com",
+   "je•••@yahoo.com"
+  ],
+  "street": "605 S. Pine Street"
  },
  {
   "id": "faith-christian-academy",
@@ -4947,7 +6264,11 @@
   "alt": "",
   "lat": 36.225,
   "lon": -83.312,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "f•••@musfiber.com"
+  ],
+  "street": "1826 Ivy Lane"
  },
  {
   "id": "faith-christian-academy-2",
@@ -4965,7 +6286,11 @@
   "alt": "",
   "lat": 36.425,
   "lon": -84.936,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "wc•••@myfaithchristian.org"
+  ],
+  "street": "627 S. Main St., P.O. Box 313"
  },
  {
   "id": "faith-christian-school",
@@ -4983,7 +6308,11 @@
   "alt": "",
   "lat": 35.232,
   "lon": -89.851,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "br•••@hotmail.com"
+  ],
+  "street": "4550 Austin Peay Hwy N Bldg #1"
  },
  {
   "id": "faith-missionary-academy",
@@ -5001,7 +6330,12 @@
   "alt": "",
   "lat": 35.372,
   "lon": -85.618,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "fa•••@benlomand.net",
+   "sm•••@benlomand.net"
+  ],
+  "street": "511 Red Barn Road"
  },
  {
   "id": "family-christian-academy",
@@ -5019,7 +6353,11 @@
   "alt": "fcanow.com",
   "lat": 36.242,
   "lon": -86.612,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "be•••@fcanow.com"
+  ],
+  "street": "925 Industrial Dr."
  },
  {
   "id": "franklin-classical-school",
@@ -5037,7 +6375,12 @@
   "alt": "",
   "lat": 35.912,
   "lon": -86.766,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "tc•••@franklinclassical.com",
+   "of•••@franklinclassical.com"
+  ],
+  "street": "1021 Windcross Ct."
  },
  {
   "id": "freedom-hill-christian-school",
@@ -5055,7 +6398,12 @@
   "alt": "",
   "lat": 35.333,
   "lon": -87.304,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "fr•••@yahoo.com",
+   "mp•••@aol.com"
+  ],
+  "street": "4300 Hwy. 43 N"
  },
  {
   "id": "gallaway-christian-academy",
@@ -5073,7 +6421,12 @@
   "alt": "",
   "lat": 35.327,
   "lon": -89.62,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ga•••@gmail.com",
+   "ch•••@gmail.com"
+  ],
+  "street": "377 Main Street"
  },
  {
   "id": "general-assembly-academy",
@@ -5087,11 +6440,16 @@
   "grades": "K-12",
   "k12": 354,
   "site": "gaahome.weebly.com",
-  "domain": "weebly.com",
-  "alt": "gaahome.com",
+  "domain": "gaahome.com",
+  "alt": "",
   "lat": 35.527,
   "lon": -87.489,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ca•••@gaahome.com",
+   "in•••@gaahome.com"
+  ],
+  "street": "161 Baker Road"
  },
  {
   "id": "generations-christian-academy",
@@ -5109,7 +6467,12 @@
   "alt": "generationschurchonline.org",
   "lat": 35.933,
   "lon": -86.879,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "lw•••@generationschurchonline.org",
+   "de•••@generationschurchonline.org"
+  ],
+  "street": "408 Church Street"
  },
  {
   "id": "germantown-baptist-church-learning-cente",
@@ -5127,7 +6490,12 @@
   "alt": "",
   "lat": 35.087,
   "lon": -89.77,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "bd•••@germantownbaptist.org",
+   "jc•••@germantownbaptist.org"
+  ],
+  "street": "9450 Poplar Avenue"
  },
  {
   "id": "good-news-christian-school",
@@ -5145,7 +6513,12 @@
   "alt": "",
   "lat": 35.651,
   "lon": -88.393,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "lo•••@gncsonline.org",
+   "je•••@gncsonline.org"
+  ],
+  "street": "675 Reed Road"
  },
  {
   "id": "grace-covenant-baptist-academy",
@@ -5163,7 +6536,12 @@
   "alt": "",
   "lat": 35.933,
   "lon": -84.076,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "gr•••@comcast.net",
+   "me•••@comcast.net"
+  ],
+  "street": "9956 Dutchtown Rd"
  },
  {
   "id": "grace-ministries-and-christian-school",
@@ -5181,7 +6559,11 @@
   "alt": "",
   "lat": 35.277,
   "lon": -89.392,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "ad•••@somervillechristianschool.org"
+  ],
+  "street": "205 Henry Drive"
  },
  {
   "id": "heritage-christian-academy-mt-juliet",
@@ -5199,7 +6581,12 @@
   "alt": "",
   "lat": 36.19,
   "lon": -86.502,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "ka•••@gmail.com",
+   "kr•••@gmail.com"
+  ],
+  "street": "3700 Old Lebanon Dirt Road"
  },
  {
   "id": "heritage-christian-academy",
@@ -5217,7 +6604,11 @@
   "alt": "hcajc.org",
   "lat": 36.116,
   "lon": -83.481,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "ad•••@hcajc.org"
+  ],
+  "street": "316 West Old Andrew Johnson Highway"
  },
  {
   "id": "heritage-christian-academy-2",
@@ -5235,7 +6626,12 @@
   "alt": "",
   "lat": 35.683,
   "lon": -85.77,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "br•••@benlomand.net",
+   "qu•••@gmail.com"
+  ],
+  "street": "715 Cadillac Lane"
  },
  {
   "id": "hickory-classical-christian-school",
@@ -5253,7 +6649,12 @@
   "alt": "",
   "lat": 36.218,
   "lon": -85.542,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "in•••@hickoryccs.org",
+   "he•••@hickoryccs.org"
+  ],
+  "street": "200 N. Old Kentucky Road"
  },
  {
   "id": "hillside-christian-academy",
@@ -5271,7 +6672,11 @@
   "alt": "",
   "lat": 36.26,
   "lon": -86.705,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "na•••@gmail.com"
+  ],
+  "street": "744 Due West Avenue N"
  },
  {
   "id": "imagination-station-learning-center",
@@ -5289,7 +6694,11 @@
   "alt": "",
   "lat": 35.651,
   "lon": -88.393,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "fj•••@gmail.com"
+  ],
+  "street": "49 North Main Street"
  },
  {
   "id": "iron-hill-christian-academy",
@@ -5307,7 +6716,11 @@
   "alt": "",
   "lat": 35.666,
   "lon": -88.12,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "gr•••@yahoo.com"
+  ],
+  "street": "1538 Iron Hill Rd."
  },
  {
   "id": "kimball-christian-academy",
@@ -5325,7 +6738,12 @@
   "alt": "",
   "lat": 35.097,
   "lon": -85.59,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "je•••@kimballchristianacademy.org",
+   "kc•••@kimballchristianacademy.org"
+  ],
+  "street": "830 Main Street"
  },
  {
   "id": "kingdom-christian-academy",
@@ -5343,7 +6761,11 @@
   "alt": "",
   "lat": 35.055,
   "lon": -89.677,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ci•••@colliervillefpc.com"
+  ],
+  "street": "10545 Collierville Road"
  },
  {
   "id": "knoxville-baptist-christian-school",
@@ -5361,7 +6783,12 @@
   "alt": "",
   "lat": 35.992,
   "lon": -83.85,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "kb•••@knoxvillebaptisttabernacle.com",
+   "kb•••@gmail.com"
+  ],
+  "street": "3839 Buffat Mill Road"
  },
  {
   "id": "lakeside-christian-academy",
@@ -5379,7 +6806,11 @@
   "alt": "",
   "lat": 36.3,
   "lon": -88.309,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "ph•••@charter.net"
+  ],
+  "street": "2920 Hwy. 641 North"
  },
  {
   "id": "landmark-christian-academy",
@@ -5397,7 +6828,12 @@
   "alt": "",
   "lat": 36.505,
   "lon": -84.529,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "la•••@highland.net",
+   "ml•••@yahoo.com"
+  ],
+  "street": "260 Landmark Road"
  },
  {
   "id": "landmark-christian-school",
@@ -5415,7 +6851,12 @@
   "alt": "",
   "lat": 35.131,
   "lon": -84.875,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "la•••@gmail.com",
+   "la•••@yahoo.com"
+  ],
+  "street": "1802 Lois Street"
  },
  {
   "id": "legacy-christian-academy-kingston",
@@ -5433,7 +6874,12 @@
   "alt": "",
   "lat": 35.853,
   "lon": -84.497,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sp•••@gmail.com",
+   "g•••@ieee.org"
+  ],
+  "street": "2150 Kingston Highway"
  },
  {
   "id": "legacy-christian-school-kodak",
@@ -5451,7 +6897,12 @@
   "alt": "",
   "lat": 36.001,
   "lon": -83.423,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "gm•••@legacychristiankodak.com",
+   "le•••@gmail.com"
+  ],
+  "street": "2941 Douglas Dam Road"
  },
  {
   "id": "lexington-christian-academy",
@@ -5469,7 +6920,12 @@
   "alt": "",
   "lat": 35.651,
   "lon": -88.393,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "le•••@gmail.com",
+   "ni•••@fpclexington.org"
+  ],
+  "street": "9491 Highway 412 West"
  },
  {
   "id": "liberty-christian-academy",
@@ -5487,7 +6943,12 @@
   "alt": "",
   "lat": 36.212,
   "lon": -88.618,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "li•••@gmail.com",
+   "te•••@outlook.com"
+  ],
+  "street": "329 Green Rd"
  },
  {
   "id": "liberty-christian-school",
@@ -5505,7 +6966,12 @@
   "alt": "",
   "lat": 35.457,
   "lon": -84.604,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "lc•••@yahoo.com",
+   "br•••@gmail.com"
+  ],
+  "street": "3328 US-11 South"
  },
  {
   "id": "life-christian-academy",
@@ -5523,7 +6989,12 @@
   "alt": "",
   "lat": 36.46,
   "lon": -86.671,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "be•••@comcast.net",
+   "lc•••@gmail.com"
+  ],
+  "street": "1026 Stearman Drive"
  },
  {
   "id": "lighthouse-christian-academy-2",
@@ -5541,7 +7012,11 @@
   "alt": "",
   "lat": 35.256,
   "lon": -84.767,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "ja•••@gmail.com"
+  ],
+  "street": "8593 NW Hiwasee St."
  },
  {
   "id": "lighthouse-christian-school-2",
@@ -5559,7 +7034,12 @@
   "alt": "",
   "lat": 36.548,
   "lon": -82.562,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pr•••@lcskingsport.com",
+   "ad•••@lcskingsport.com"
+  ],
+  "street": "145 Shipp Springs Road"
  },
  {
   "id": "lighthouse-christian-school-3",
@@ -5577,7 +7057,12 @@
   "alt": "acem.org",
   "lat": 36.305,
   "lon": -86.607,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pa•••@acem.org",
+   "ti•••@acem.org"
+  ],
+  "street": "130 Maple Dr. N"
  },
  {
   "id": "living-promise-academy",
@@ -5595,7 +7080,12 @@
   "alt": "",
   "lat": 36.196,
   "lon": -83.275,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ad•••@livingpromiseacademy.com",
+   "we•••@gmail.com"
+  ],
+  "street": "5075 Dearing Road"
  },
  {
   "id": "lord-s-tabernacle-christian-academy",
@@ -5613,7 +7103,12 @@
   "alt": "",
   "lat": 35.108,
   "lon": -89.946,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "br•••@gmail.com",
+   "jh•••@gmail.com"
+  ],
+  "street": "2818 Midland Ave"
  },
  {
   "id": "macon-christian-academy",
@@ -5631,7 +7126,12 @@
   "alt": "",
   "lat": 36.539,
   "lon": -86.024,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "m•••@nctc.com",
+   "te•••@hotmail.com"
+  ],
+  "street": "707 Warrior Lane"
  },
  {
   "id": "mission-montessori-school",
@@ -5649,7 +7149,12 @@
   "alt": "mmstn.org",
   "lat": 35.027,
   "lon": -85.236,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ad•••@mmstn.org",
+   "e•••@mmstn.org"
+  ],
+  "street": "4519 Brainerd Road"
  },
  {
   "id": "monroe-academy",
@@ -5667,7 +7172,12 @@
   "alt": "",
   "lat": 35.85,
   "lon": -87.313,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "my•••@gmail.com",
+   "sa•••@gmail.com"
+  ],
+  "street": "7011 Patton Park Road"
  },
  {
   "id": "morristown-covenant-academy",
@@ -5685,7 +7195,12 @@
   "alt": "",
   "lat": 36.196,
   "lon": -83.275,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "ad•••@mcovenantacademy.net",
+   "ad•••@gateway-church.net"
+  ],
+  "street": "503 S. Jackson St."
  },
  {
   "id": "mt-pisgah-christian-academy",
@@ -5703,7 +7218,11 @@
   "alt": "",
   "lat": 36.037,
   "lon": -84.349,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "mp•••@comcast.net"
+  ],
+  "street": "160 Patriot Drive"
  },
  {
   "id": "new-beginnings-christian-academy",
@@ -5721,7 +7240,12 @@
   "alt": "",
   "lat": 35.753,
   "lon": -89.535,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "cd•••@gmail.com",
+   "cs•••@liberty.edu"
+  ],
+  "street": "313 South Washington St"
  },
  {
   "id": "new-beginnings-homeschool-christian-acad",
@@ -5739,7 +7263,11 @@
   "alt": "",
   "lat": 35.202,
   "lon": -88.201,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "wh•••@gmail.com"
+  ],
+  "street": "430 Wayne Rd"
  },
  {
   "id": "new-hope-christian-school",
@@ -5757,7 +7285,12 @@
   "alt": "",
   "lat": 36.12,
   "lon": -83.813,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ne•••@gmail.com",
+   "pu•••@gmail.com"
+  ],
+  "street": "7602 Bud Hawkins Road"
  },
  {
   "id": "new-life-christian-academy",
@@ -5775,7 +7308,12 @@
   "alt": "",
   "lat": 36.102,
   "lon": -84.565,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "nl•••@gmail.com",
+   "ma•••@gmail.com"
+  ],
+  "street": "1720 Morgan County Highway"
  },
  {
   "id": "northside-christian-academy",
@@ -5793,7 +7331,11 @@
   "alt": "",
   "lat": 36.044,
   "lon": -89.384,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "rr•••@yahoo.com"
+  ],
+  "street": "4935 Highway 211"
  },
  {
   "id": "oasis-christian-academy",
@@ -5811,7 +7353,12 @@
   "alt": "oasisministries.com",
   "lat": 35.373,
   "lon": -84.695,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sh•••@oasisministries.com",
+   "mi•••@oasisministries.com"
+  ],
+  "street": "245-B County Road 677"
  },
  {
   "id": "petra-christian-academy",
@@ -5829,7 +7376,12 @@
   "alt": "crbcnashville.org",
   "lat": 36.155,
   "lon": -86.86,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jf•••@crbcnashville.org",
+   "fr•••@gmail.com"
+  ],
+  "street": "7511 Charlotte Pike"
  },
  {
   "id": "philos-classical-christian-school",
@@ -5847,7 +7399,12 @@
   "alt": "",
   "lat": 35.635,
   "lon": -86.684,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ma•••@philosclassicalchristian.org",
+   "in•••@philosclassicalchristian.org"
+  ],
+  "street": "1441 Hwy 99"
  },
  {
   "id": "priest-lake-christian-academy",
@@ -5865,7 +7422,12 @@
   "alt": "priestlakechurch.org",
   "lat": 36.059,
   "lon": -86.659,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "te•••@priestlakechurch.org",
+   "ac•••@priestlakechurch.org"
+  ],
+  "street": "3325 Anderson Road"
  },
  {
   "id": "pursuit-academy-of-worship-arts",
@@ -5883,7 +7445,12 @@
   "alt": "",
   "lat": 35.866,
   "lon": -83.479,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "st•••@gmail.com",
+   "co•••@gmail.com"
+  ],
+  "street": "204 Pickens Gap Road"
  },
  {
   "id": "redeemer-classical-academy",
@@ -5901,7 +7468,12 @@
   "alt": "",
   "lat": 35.845,
   "lon": -86.487,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "da•••@redeemerclassicalacademy.com",
+   "ad•••@redeemerclassicalacademy.com"
+  ],
+  "street": "4232 Veterans Parkway"
  },
  {
   "id": "redemption-baptist-academy",
@@ -5919,7 +7491,12 @@
   "alt": "",
   "lat": 36.146,
   "lon": -84.713,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "r•••@highland.net",
+   "ch•••@gmail.com"
+  ],
+  "street": "109 Jim Goad Road"
  },
  {
   "id": "redemption-point-christian-academy",
@@ -5937,7 +7514,12 @@
   "alt": "",
   "lat": 35.078,
   "lon": -85.064,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "rp•••@gmail.com",
+   "st•••@gmail.com"
+  ],
+  "street": "3831 Ooltewah Ringgold Road"
  },
  {
   "id": "redemption-school-of-worship",
@@ -5955,7 +7537,12 @@
   "alt": "redemptionlife.net",
   "lat": 36.044,
   "lon": -84.04,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "ti•••@redemptionlife.net",
+   "di•••@redemptionschoolofworship.net"
+  ],
+  "street": "8109 Sharp Road"
  },
  {
   "id": "rhea-county-academy",
@@ -5973,7 +7560,12 @@
   "alt": "",
   "lat": 35.5,
   "lon": -85.013,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "br•••@gmail.com",
+   "rc•••@gmail.com"
+  ],
+  "street": "245 California Avenue"
  },
  {
   "id": "rutherford-county-christian-school",
@@ -5991,7 +7583,12 @@
   "alt": "",
   "lat": 35.966,
   "lon": -86.505,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "pa•••@rcbaptistchurch.org",
+   "sc•••@rcbaptistchurch.org"
+  ],
+  "street": "5742 Seminary Road"
  },
  {
   "id": "shenandoah-baptist-academy",
@@ -6009,7 +7606,12 @@
   "alt": "vbc.edu",
   "lat": 35.136,
   "lon": -84.846,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "ma•••@vbc.edu",
+   "li•••@gmail.com"
+  ],
+  "street": "138 Osment Road SE"
  },
  {
   "id": "shepherd-s-christian-academy",
@@ -6027,7 +7629,12 @@
   "alt": "",
   "lat": 35.331,
   "lon": -84.528,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "me•••@myhillcrest.church",
+   "mi•••@myhillcrest.church"
+  ],
+  "street": "581 Hillcrest Circle"
  },
  {
   "id": "shepherd-s-christian-academy-middle-high",
@@ -6045,7 +7652,12 @@
   "alt": "",
   "lat": 35.331,
   "lon": -84.528,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "me•••@myhillcrest.church",
+   "mi•••@myhillcrest.church"
+  ],
+  "street": "583 Hillcrest Circle"
  },
  {
   "id": "signal-mountain-christian-school",
@@ -6063,7 +7675,12 @@
   "alt": "",
   "lat": 35.149,
   "lon": -85.336,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "re•••@smcstn.org",
+   "of•••@smcstn.org"
+  ],
+  "street": "808 Key Hulse Road"
  },
  {
   "id": "souls-harbor-lighthouse-christian-academ",
@@ -6081,7 +7698,12 @@
   "alt": "",
   "lat": 35.505,
   "lon": -88.24,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "sh•••@yahoo.com",
+   "ir•••@gmail.com"
+  ],
+  "street": "713 Peace Chapel Road"
  },
  {
   "id": "spring-hill-academy-preschool",
@@ -6099,7 +7721,12 @@
   "alt": "shapreschool.org",
   "lat": 35.717,
   "lon": -86.905,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "of•••@shapreschool.org",
+   "sa•••@gmail.com"
+  ],
+  "street": "2001 Campbell Station Pkwy, Suite B-8"
  },
  {
   "id": "spring-hill-christian-academy",
@@ -6117,7 +7744,12 @@
   "alt": "",
   "lat": 35.717,
   "lon": -86.905,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "ke•••@shchristian.com",
+   "gi•••@springhilllearning.com"
+  ],
+  "street": "500 Saturn Pkwy, Suite 201"
  },
  {
   "id": "spring-hill-early-learning",
@@ -6135,7 +7767,11 @@
   "alt": "",
   "lat": 35.717,
   "lon": -86.905,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "gi•••@springhilllearning.com"
+  ],
+  "street": "500 Saturn Parkway, Suite 201"
  },
  {
   "id": "st-paul-s-day-school-and-kindergarten",
@@ -6153,7 +7789,12 @@
   "alt": "",
   "lat": 36.548,
   "lon": -82.562,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "st•••@gmail.com",
+   "mb•••@gmail.com"
+  ],
+  "street": "160 East Sevier Avenue"
  },
  {
   "id": "tabernacle-christian-academy",
@@ -6171,7 +7812,11 @@
   "alt": "",
   "lat": 36.12,
   "lon": -83.813,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "sv•••@att.net"
+  ],
+  "street": "7829 Tazewell Pike"
  },
  {
   "id": "tabernacle-christian-school",
@@ -6185,11 +7830,16 @@
   "grades": "PreK-12",
   "k12": 27,
   "site": "mbt-church.flywheelsites.com",
-  "domain": "flywheelsites.com",
+  "domain": "",
   "alt": "",
   "lat": 36.196,
   "lon": -83.275,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "lc•••@musfiber.com",
+   "vi•••@gmail.com"
+  ],
+  "street": "918 Jarnigan Avenue"
  },
  {
   "id": "the-ark-academy",
@@ -6207,7 +7857,12 @@
   "alt": "",
   "lat": 35.031,
   "lon": -85.272,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ch•••@thearkacademy.net",
+   "jb•••@thearkacademy.net"
+  ],
+  "street": "708 South Orchard Knob"
  },
  {
   "id": "the-law-leadership-school",
@@ -6225,7 +7880,12 @@
   "alt": "",
   "lat": 36.342,
   "lon": -86.721,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "tr•••@outlook.com",
+   "ta•••@outlook.com"
+  ],
+  "street": "1004 Dickerson Road"
  },
  {
   "id": "toddler-town-prep",
@@ -6243,7 +7903,12 @@
   "alt": "",
   "lat": 35.058,
   "lon": -89.864,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "to•••@yahoo.com",
+   "to•••@gmail.com"
+  ],
+  "street": "6479 Winchester Road, Suite 120"
  },
  {
   "id": "top-academy-tabernacle-of-praise",
@@ -6261,7 +7926,12 @@
   "alt": "",
   "lat": 36.58,
   "lon": -82.573,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "ni•••@icloud.com",
+   "to•••@gmail.com"
+  ],
+  "street": "2055 Granby Road"
  },
  {
   "id": "towering-oaks-christian-school",
@@ -6279,7 +7949,12 @@
   "alt": "toweringoaks.org",
   "lat": 36.245,
   "lon": -82.824,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "ap•••@toweringoaks.org",
+   "kr•••@toweringoaks.org"
+  ],
+  "street": "1985 Buckingham Road"
  },
  {
   "id": "trinitas-classical-academy",
@@ -6297,7 +7972,12 @@
   "alt": "",
   "lat": 35.933,
   "lon": -86.879,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "er•••@tcafranklin.org",
+   "ch•••@tcafranklin.org"
+  ],
+  "street": "810 Del Rio Pike"
  },
  {
   "id": "trinity-christian-academy-2",
@@ -6315,7 +7995,11 @@
   "alt": "",
   "lat": 36.005,
   "lon": -83.977,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "ro•••@gmail.com"
+  ],
+  "street": "6706 Central Avenue Pike"
  },
  {
   "id": "tri-state-christian-academy",
@@ -6333,7 +8017,12 @@
   "alt": "",
   "lat": 36.55,
   "lon": -83.681,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "tr•••@yahoo.com",
+   "a3•••@yahoo.com"
+  ],
+  "street": "271 Arthur Road"
  },
  {
   "id": "triumph-association-etc-llc-christian-su",
@@ -6351,7 +8040,12 @@
   "alt": "",
   "lat": 35.221,
   "lon": -89.941,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "su•••@triumphassociation.com",
+   "ta•••@yahoo.com"
+  ],
+  "street": "3620 Austin Peay Hwy, Suite 2"
  },
  {
   "id": "unity-christian-academy",
@@ -6369,7 +8063,11 @@
   "alt": "",
   "lat": 36.511,
   "lon": -87.276,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "jh•••@aol.com"
+  ],
+  "street": "256 Uffelman Drive"
  },
  {
   "id": "upper-cumberland-christian-academy-agape",
@@ -6387,7 +8085,12 @@
   "alt": "",
   "lat": 36.389,
   "lon": -85.32,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "uc•••@gmail.com",
+   "je•••@yahoo.com"
+  ],
+  "street": "850 County House Rd"
  },
  {
   "id": "white-stone-academy-columbia",
@@ -6405,7 +8108,12 @@
   "alt": "",
   "lat": 35.616,
   "lon": -87.038,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "mo•••@whitestone.academy",
+   "mi•••@whitestone.academy"
+  ],
+  "street": "1301 S. James Campbell Blvd, Suite #4"
  },
  {
   "id": "white-stone-academy-dickson",
@@ -6423,7 +8131,12 @@
   "alt": "",
   "lat": 36.076,
   "lon": -87.4,
-  "umbrella": true
+  "umbrella": true,
+  "vm": [
+   "mo•••@whitestone.academy",
+   "mi•••@whitestone.academy"
+  ],
+  "street": "974 Pomona Road"
  },
  {
   "id": "word-of-life-christian-academy",
@@ -6441,6 +8154,11 @@
   "alt": "",
   "lat": 35.384,
   "lon": -85.392,
-  "umbrella": false
+  "umbrella": false,
+  "vm": [
+   "wo•••@gmail.com",
+   "hm•••@wolchristianacademy.org"
+  ],
+  "street": "136 May Road"
  }
 ]

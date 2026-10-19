@@ -79,7 +79,7 @@ const S = {
     home: { street: '', city: '', zip: '', county: '', size: '', income: '', doc: '' },
     attest: { true: false, verify: false, nodirect: false } },
   q: '', region: '', showN: 25,
-  claim: { id: null, step: 'confirm', name: '', title: 'Head of school', email: '', auth: false, code: '', err: '' },
+  claim: { id: null, step: 'confirm', name: '', title: 'Head of school', email: '', how: '', sentTo: '', auth: false, code: '', err: '' },
   req: { name: '', city: '', email: '', sent: false },
   give: { step: 0, err: '', ref: '', filing: 'joint', from: 'both', amount: '3400', custom: '', when: creditOpen() ? 'now' : 'jan1', fees: false,
     name1: '', name2: '', email: '', street: '', city: '', state: 'TN', zip: '', designate: false,
@@ -303,7 +303,7 @@ function home() {
       <div class="ways">
         ${[['#donors', 'For donors', '$0', 'net cost for a couple who gives $3,400', 'Redirect federal tax you already owe. About five minutes, by card, Apple Pay or PayPal.', 'How giving works'],
            ['#families', 'For families', 'K–12', 'most Tennessee families qualify', 'Household income up to three times your area’s median. Apply in about ten minutes.', 'Check eligibility'],
-           ['#schools', 'For schools', '2 min.', 'to claim your school', 'You’re already on our list. Verify with your school email; no cost, non-exclusive.', 'Find your school']]
+           ['#schools', 'For schools', '2 min.', 'to claim your school', 'You’re already on our list. Verify by email in two minutes; no cost, non-exclusive.', 'Find your school']]
           .map(([h, who, n, t, b, go], i) => `<a class="way" href="${h}" data-rv style="--d:${(i * 0.12).toFixed(2)}s"><div class="wave"></div><div class="way-body"><span class="way-who">${who}</span><span class="way-n">${n}</span><span class="way-t">${t}</span><span class="way-b">${b}</span><span class="way-go">${go}</span></div></a>`).join('')}
       </div>
     </section>
@@ -626,10 +626,10 @@ function schools() {
     <section class="wrap split" style="padding-block:88px 76px">
       <div>
         <h1 class="display-sm">Your school is already on our list.</h1>
-        <p class="lead" style="margin-top:28px">We’ve pre-loaded every Christian school on the Tennessee Department of Education’s approved list, Categories I through IV, ${SCHOOLS.length} in all. Find yours, say yes, and verify with your school email. It takes about two minutes and costs your school nothing.</p>
+        <p class="lead" style="margin-top:28px">We’ve pre-loaded every Christian school on the Tennessee Department of Education’s approved list, Categories I through IV, ${SCHOOLS.length} in all. Find yours, say yes, and verify by email. It takes about two minutes and costs your school nothing.</p>
       </div>
       <div class="rows" style="border-top:2px solid rgba(255,255,255,.5)">
-        ${[['1', 'Find your school', 'Search the list below.'], ['2', 'Say yes', 'Review the partnership terms and confirm you can sign for the school.'], ['3', 'Verify', 'We email a six-digit code to your school address. Enter it and you’re a partner.']]
+        ${[['1', 'Find your school', 'Search the list below.'], ['2', 'Say yes', 'Review the partnership terms and confirm you can sign for the school.'], ['3', 'Verify', 'We email a six-digit code to your school address, or to the school’s email on file with the state. Enter it and you’re a partner.']]
           .map(([n, t, b]) => `<div><span class="numeral" style="font-size:20px">${n}</span><div><p class="rows-title">${t}</p><p class="body">${b}</p></div></div>`).join('')}
       </div>
     </section>
@@ -691,25 +691,35 @@ function schoolClaim() {
   const c = S.claim, s = schoolById(c.id);
   const stepIdx = { confirm: 0, code: 1, done: 2 }[c.step];
   let body = '';
-  if (c.step === 'confirm') body = `
+  if (c.step === 'confirm') {
+    const how = c.how || (s.domain ? 'domain' : 'directory:0');
+    const opt = (v, inner, extra = '') => `<label class="choice"><input type="radio" name="claim-how" data-bind="claim.how" value="${v}"${how === v ? ' checked' : ''}><span>${inner}</span>${extra}</label>`;
+    body = `
     <form class="flow-body" data-form="claim" novalidate>
-      <div><h2 class="h3">Partner with Lionheart?</h2><p class="body" style="margin-top:8px">Confirm who you are. ${s.domain ? `We’ll send a code to your @${esc(s.domain)} email to verify you work at ${esc(s.name)}.` : `${esc(s.name)} has no school email domain on file, so we’ll verify you by calling the school’s main office.`}</p></div>
+      <div><h2 class="h3">Partner with Lionheart?</h2><p class="body" style="margin-top:8px">Tell us who you are, then choose where we should email a six-digit code.</p></div>
       ${c.err ? `<div class="errbox" role="alert">${c.err}</div>` : ''}
       <div class="form-grid">
         ${inp('claim.name', 'Your full name', { ac: 'name' })}
         ${inp('claim.title', 'Your role', { options: ['Head of school', 'Business manager or CFO', 'Admissions director', 'Board chair', 'Other administrator'] })}
-        ${inp('claim.email', 'School email', { type: 'email', ac: 'email', ph: s.domain ? 'name@' + s.domain : 'you@example.com', span: true, bad: c.err && c.err.indexOf('email') > -1 })}
       </div>
+      <fieldset class="choice-list"><legend class="label">Send the code to</legend>
+        ${s.domain ? opt('domain', `<b>My school email</b><span class="small muted">An address ending in @${esc(s.domain)}${s.alt ? ' or @' + esc(s.alt) : ''}. Fastest: the code arrives in a minute.</span>
+          <input class="input" id="f-claim-email" type="email" data-bind="claim.email" autocomplete="email" value="${esc(c.email)}" placeholder="name@${esc(s.domain)}" aria-label="Your school email" style="margin-top:10px">`) : ''}
+        ${(s.vm || []).map((m, i) => opt('directory:' + i, `<b>${esc(m)}</b><span class="small muted">${i ? 'The school’s alternate email' : 'The school’s email'} on file with the Tennessee Department of Education. We’ll tell whoever reads it that you asked, and they can pass the code to you. It stays valid for 48 hours.</span>`)).join('')}
+      </fieldset>
       <div class="paper" style="padding:20px 22px">
         <p class="label" style="margin-bottom:10px">Partnership terms, in short</p>
         <p class="small">No cost to the school · Non-exclusive · Lionheart pays tuition directly by ACH · School confirms enrollment each term · Either side may end it with 30 days’ notice</p>
       </div>
       ${tick('claim.auth', `I’m authorized to enter agreements for ${esc(s.name)}, and we agree to the partnership terms.`)}
-      <div class="flow-actions"><button type="button" class="btn btn-secondary" data-action="claim-cancel">Back to list</button><button type="submit" class="btn btn-solid">Yes, partner with Lionheart</button></div>
+      <div class="flow-actions"><button type="button" class="btn btn-secondary" data-action="claim-cancel">Back to list</button><button type="submit" class="btn btn-solid">Send the code</button></div>
     </form>`;
+  }
   if (c.step === 'code') body = `
     <form class="flow-body" data-form="code" novalidate>
-      <div><h2 class="h3">Check your email</h2><p class="body" style="margin-top:8px">We sent a six-digit code to <strong style="font-weight:600">${esc(c.email)}</strong>. It expires in 15 minutes.</p></div>
+      <div><h2 class="h3">${c.how.startsWith('directory') ? 'Get the code from your school’s inbox' : 'Check your email'}</h2><p class="body" style="margin-top:8px">${c.how.startsWith('directory')
+        ? `We emailed a code to <strong style="font-weight:600">${esc(c.sentTo)}</strong>, the school’s address on file with the state, saying that ${esc(c.name.split(' ')[0] || 'you')} asked to set up ${esc(s.name)}. Ask whoever reads that inbox for the code. It stays valid for 48 hours.`
+        : `We sent a six-digit code to <strong style="font-weight:600">${esc(c.email)}</strong>. It expires in 15 minutes.`}</p></div>
       ${c.err ? `<div class="errbox" role="alert">${c.err}</div>` : ''}
       <div class="field"><label for="f-claim-code">Verification code</label><input class="input code-input" id="f-claim-code" data-bind="claim.code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" value="${esc(c.code)}" placeholder="······"></div>
       <p class="hint">Prototype: any six digits verify.</p>
@@ -718,7 +728,7 @@ function schoolClaim() {
   if (c.step === 'done') body = `
     <div class="flow-body">
       <div><span class="pill pill-ok">Verified partner</span><h2 class="h3" style="margin-top:14px">${esc(s.name)} is a Lionheart partner.</h2>
-      <p class="body" style="margin-top:8px">Thank you, ${esc(c.name.split(' ')[0])}. We’ve emailed the countersigned agreement to ${esc(c.email)}.</p></div>
+      <p class="body" style="margin-top:8px">Thank you, ${esc(c.name.split(' ')[0])}. We’ve emailed the countersigned agreement${c.how.startsWith('directory') ? ` to you and to ${esc(c.sentTo)}` : ` to ${esc(c.email)}`}.</p></div>
       <ol class="timeline">
         <li><span class="when">Next</span><p class="body">Add your bank details for ACH tuition payments. We’ll send a secure link.</p></li>
         <li><span class="when">This month</span><p class="body">Share our families page with parents. Your school now appears as a partner in the application.</p></li>
@@ -742,9 +752,9 @@ function schoolClaim() {
           <p class="school-name" style="margin-top:10px">${esc(s.name)}</p>
           <p class="small muted" style="margin-top:4px">${esc(s.city)}, Tennessee · ${esc(s.grades)}</p>
           <div class="sumrow" style="margin-top:12px"><span class="small">State approval</span><span class="small">Category ${esc(s.cat)} · ${esc(s.auth)}</span></div>
-          <div class="sumrow"><span class="small">Email domain</span><span class="small tnum">${s.domain ? '@' + esc(s.domain) + (s.alt ? ' or @' + esc(s.alt) : '') : 'Phone verification'}</span></div>
+          <div class="sumrow"><span class="small">Verify by email</span><span class="small tnum" style="text-align:right">${[s.domain ? '@' + esc(s.domain) : '', ...(s.vm || []).slice(0, 1).map(esc)].filter(Boolean).join('<br>or ')}</span></div>
           <div class="sumrow" style="border-bottom:0"><span class="small">Status</span>${s.status === 'partner' ? '<span class="pill pill-ok">Partner</span>' : '<span class="pill pill-neutral">Not yet claimed</span>'}</div>
-          <p class="hint" style="margin-top:12px">No school email? Email [schools@lionheartscholars.org] and we’ll verify by calling your main office.</p>
+          <p class="hint" style="margin-top:12px">No school email? We can send the code to the address your school gave the Tennessee Department of Education. If that inbox is out of date, ask your school to update it with the state, or email schools@lionheartscholars.org from any school address.</p>
         </div>
       </aside>
     </div>
@@ -1347,9 +1357,9 @@ document.addEventListener('click', e => {
   if (a === 'kid-add') { S.app.kids.push({ first: '', last: S.app.parent.last || '', dob: '', grade: '', school: '' }); saveDraft(); rerender(); }
   if (a === 'kid-remove') { S.app.kids.splice(+b.dataset.i, 1); saveDraft(); rerender(); }
   if (a === 'app-back') { S.app.step--; S.app.err = ''; rerender(); focusFlowTop(); }
-  if (a === 'claim') { Object.assign(S.claim, { id: b.dataset.id, step: 'confirm', err: '', code: '', auth: false }); rerender(); window.scrollTo(0, 0); }
+  if (a === 'claim') { Object.assign(S.claim, { id: b.dataset.id, step: 'confirm', err: '', code: '', auth: false, how: '', sentTo: '' }); rerender(); window.scrollTo(0, 0); }
   if (a === 'claim-cancel') { e.preventDefault(); S.claim.id = null; rerender(); const l = $('#list'); if (l) l.scrollIntoView(); }
-  if (a === 'claim-resend') { S.claim.code = ''; S.claim.err = ''; rerender(); toast('New code sent to ' + S.claim.email); }
+  if (a === 'claim-resend') { S.claim.code = ''; S.claim.err = ''; rerender(); toast('New code sent to ' + (S.claim.sentTo || S.claim.email)); }
   if (a === 'give-back') { S.give.step--; S.give.err = ''; rerender(); focusFlowTop(); }
   if (a === 'give-daf') { e.preventDefault(); S.give.method = 'daf'; S.give.step = 0; location.hash = 'give'; }
   if (a === 'give-again') { Object.assign(S.give, { ref: '', step: 0, err: '', designate: false, card: '', exp: '', cvc: '' }); rerender(); window.scrollTo(0, 0); }
@@ -1380,10 +1390,11 @@ document.addEventListener('submit', e => {
   if (f === 'req') { const r = S.req; if (!r.name || !/^\S+@\S+\.\S+$/.test(r.email)) { toast('Add the school name and your email.'); return; } r.sent = true; rerender(); }
   if (f === 'claim') {
     const c = S.claim, s = schoolById(c.id);
+    if (!c.how) c.how = s.domain ? 'domain' : 'directory:0';
     if (!c.name) c.err = 'Add your full name.';
-    else if (s.domain && !domainOk(s, c.email)) c.err = `Use your @${esc(s.domain)} email so we can confirm you work at ${esc(s.name)}. No school email? Email [schools@lionheartscholars.org] and we’ll verify through your main office.`;
+    else if (c.how === 'domain' && !domainOk(s, c.email)) c.err = `Use your @${esc(s.domain)} email, or choose the school’s email on file with the state.`;
     else if (!c.auth) c.err = 'Confirm you’re authorized to sign for the school.';
-    else { c.err = ''; c.step = 'code'; }
+    else { c.err = ''; c.sentTo = c.how === 'domain' ? c.email : (s.vm || [])[+c.how.split(':')[1] || 0] || ''; c.step = 'code'; }
     rerender(); focusFlowTop();
   }
   if (f === 'code') {

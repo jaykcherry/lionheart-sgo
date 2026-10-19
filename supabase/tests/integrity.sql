@@ -58,5 +58,10 @@ do $$ begin if (select count(*) from ledger_postings) <> 0 then raise exception 
 -- 10. staff can read all applications
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000cc', false);
 do $$ begin if (select count(*) from applications) <> 2 then raise exception 'staff sees % applications', (select count(*) from applications); end if; raise notice 'ok: staff reads all'; end $$;
+-- 11. school contact emails are server-only, even for signed-in users
+reset role;
+insert into school_contacts (school_id, email, kind, source) select id, 'office@example.org', 'primary', 'test' from schools limit 1;
+set role authenticated;
+do $$ begin if (select count(*) from school_contacts) <> 0 then raise exception 'school contacts visible to users'; end if; raise notice 'ok: school contacts hidden'; end $$;
 reset role;
 \echo ALL DATABASE TESTS PASSED

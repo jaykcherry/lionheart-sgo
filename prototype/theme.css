@@ -260,7 +260,11 @@ select.input { appearance: none; background-image: linear-gradient(45deg, transp
 .tick input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--navy); }
 .choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 10px; }
 .choice { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; border: 1.5px solid #c9bfa9; border-radius: var(--r-sm); cursor: pointer; background: var(--white); transition: border-color .2s, background-color .2s, transform .2s; }
-.choice input { position: absolute; opacity: 0; width: 0; height: 0; }
+.choice input[type="radio"], .choice input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
+.choice-list { border: 0; padding: 0; margin: 0; display: grid; gap: 10px; min-width: 0; }
+.choice-list legend { padding: 0; margin-bottom: 10px; }
+.choice-list .choice > span { display: grid; gap: 4px; }
+.choice-list .choice b { font-weight: 600; color: var(--navy); font-size: 16px; overflow-wrap: anywhere; }
 .choice:hover { border-color: var(--navy); transform: translateY(-1px); }
 .choice:has(input:checked) { border-color: var(--navy); box-shadow: inset 0 0 0 1.5px var(--navy), inset 0 0 0 4px var(--white), inset 0 0 0 5px var(--gold); background: var(--paper); }
 .choice:has(input:focus-visible) { outline: 3px solid var(--gold); outline-offset: 2px; }

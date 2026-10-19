@@ -24,9 +24,9 @@ export default async function Schools({ searchParams }: { searchParams: Promise<
     <>
       <div className="band band-field"><section className="wrap split" style={{ paddingBlock: '84px 76px' }}>
         <div><h1 className="display-sm">Your school is already on our list.</h1>
-          <p className="lead" style={{ marginTop: 28 }}>We’ve pre-loaded every Christian school on the Tennessee Department of Education’s approved list, Categories I through IV, {SCHOOLS.length} in all. Find yours, say yes, and verify with your school email. It takes about two minutes and costs your school nothing.</p></div>
+          <p className="lead" style={{ marginTop: 28 }}>We’ve pre-loaded every Christian school on the Tennessee Department of Education’s approved list, Categories I through IV, {SCHOOLS.length} in all. Find yours, say yes, and verify by email. It takes about two minutes and costs your school nothing.</p></div>
         <div className="rows" style={{ borderTop: '2px solid rgba(255,255,255,.5)' }}>
-          {[['1', 'Find your school', 'Search the list below.'], ['2', 'Say yes', 'Review the partnership terms and confirm you can sign for the school.'], ['3', 'Verify', 'We email a six-digit code to your school address. Enter it and you’re a partner.']].map(([num, t, b]) => (
+          {[['1', 'Find your school', 'Search the list below.'], ['2', 'Say yes', 'Review the partnership terms and confirm you can sign for the school.'], ['3', 'Verify', 'We email a six-digit code to your school address, or to the school’s email on file with the state. Enter it and you’re a partner.']].map(([num, t, b]) => (
             <div key={num}><span className="numeral" style={{ fontSize: 20 }}>{num}</span><div><p className="rows-title">{t}</p><p className="body">{b}</p></div></div>))}
         </div>
       </section></div>

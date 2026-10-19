@@ -357,7 +357,7 @@
     root.querySelectorAll('section').forEach(sec => {
       let i = 0;
       [...sec.children].forEach(ch => {
-        if (ch.hasAttribute('data-rv') || ch.querySelector('[data-rv]')) return;
+        if (ch.hasAttribute('data-rv') || ch.querySelector('[data-rv]') || ch.querySelector('#school-map-canvas')) return;
         ch.setAttribute('data-rv', ''); ch.style.setProperty('--d', Math.min(i++ * 0.09, 0.45) + 's');
       });
     });
@@ -387,7 +387,8 @@
       targets.forEach(el => reveal(el, false));
       requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('instant')));
     } else if ('IntersectionObserver' in window) {
-      io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); reveal(e.target, true); } }), { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+      // Tall elements may never reach 12% visible, so also reveal once 160px of them is on screen.
+      io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && (e.intersectionRatio >= 0.12 || e.intersectionRect.height >= 160)) { io.unobserve(e.target); reveal(e.target, true); } }), { rootMargin: '0px 0px -8% 0px', threshold: [0, 0.02, 0.05, 0.12] });
       targets.forEach(el => io.observe(el));
     } else targets.forEach(el => reveal(el, false));
     countdown(root);

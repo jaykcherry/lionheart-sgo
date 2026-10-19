@@ -18,9 +18,15 @@ async function mySchool(slug?: string) {
 
 export async function claimStart(f: FormData) {
   const { s, sb, school } = await mySchool(str(f, 'slug'));
-  try { await startClaim(sb, { schoolId: school!.id, userId: s.userId, title: str(f, 'title'), email: str(f, 'email') }); }
-  catch (e) { redirect(`/school/claim/${str(f, 'slug')}?error=${encodeURIComponent((e as Error).message)}`); }
-  redirect(`/school/claim/${str(f, 'slug')}?step=code`);
+  const how = str(f, 'how'); // 'domain' or 'directory:<index>'
+  const method = how.startsWith('directory') ? 'directory' as const : 'domain' as const;
+  let sent = '';
+  try {
+    const r = await startClaim(sb, { schoolId: school!.id, userId: s.userId, userEmail: s.email, fullName: str(f, 'full_name'), title: str(f, 'title'), method,
+      email: str(f, 'email'), contactIndex: method === 'directory' ? Number(how.split(':')[1] ?? 0) : undefined });
+    sent = r.sentTo;
+  } catch (e) { redirect(`/school/claim/${str(f, 'slug')}?error=${encodeURIComponent((e as Error).message)}`); }
+  redirect(`/school/claim/${str(f, 'slug')}?step=code&via=${method}&to=${encodeURIComponent(sent)}`);
 }
 
 export async function claimVerify(f: FormData) {

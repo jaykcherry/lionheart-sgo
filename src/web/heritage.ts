@@ -176,7 +176,7 @@ export function homeHTML(limits: number[], notified: boolean) {
       <div class="center"><span class="kicker" data-rv>Take part</span><h2 class="h2" data-rv style="margin:16px 0 52px;--d:.08s">Three ways in</h2></div>
       <div class="ways">${([['/donors', 'For donors', '$0', 'net cost for a couple who gives $3,400', 'Redirect federal tax you already owe. About five minutes, by card, Apple Pay or PayPal.', 'How giving works'],
         ['/families', 'For families', 'K–12', 'most Tennessee families qualify', 'Household income up to three times your area’s median. Apply in about ten minutes.', 'Check eligibility'],
-        ['/schools', 'For schools', '2 min.', 'to claim your school', 'You’re already on our list. Verify with your school email; no cost, non-exclusive.', 'Find your school']] as string[][])
+        ['/schools', 'For schools', '2 min.', 'to claim your school', 'You’re already on our list. Verify by email in two minutes; no cost, non-exclusive.', 'Find your school']] as string[][])
         .map(([href, who, n, t, b, go], i) => `<a class="way" href="${href}" data-rv style="--d:${(i * 0.12).toFixed(2)}s"><div class="wave"></div><div class="way-body"><span class="way-who">${who}</span><span class="way-n">${n}</span><span class="way-t">${t}</span><span class="way-b">${b}</span><span class="way-go">${go}</span></div></a>`).join('')}</div>
     </section>
   </div>

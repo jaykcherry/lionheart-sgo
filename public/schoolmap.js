@@ -72,8 +72,9 @@
   }
 
   // ── Google ────────────────────────────────────────────────
+  const baseR = () => { const z = st.map && st.map.getZoom ? st.map.getZoom() : 7; return z < 6.5 ? 4 : z < 8 ? 5.5 : 7; };
   function gIcon(s, hot) {
-    return { path: google.maps.SymbolPath.CIRCLE, scale: hot ? 9 : 6, fillColor: hot ? C.gold : s.p ? C.crimson : C.navy, fillOpacity: 1, strokeColor: C.ivory, strokeWeight: 2 };
+    return { path: google.maps.SymbolPath.CIRCLE, scale: hot ? baseR() + 4 : baseR(), fillColor: hot ? C.gold : s.p ? C.crimson : C.navy, fillOpacity: 1, strokeColor: C.ivory, strokeWeight: 2 };
   }
   function initGoogle(el) {
     return new Promise((res, rej) => {
@@ -84,11 +85,12 @@
     }).then(() => {
       st.engine = 'google';
       st.map = new google.maps.Map(el, {
-        center: { lat: 35.86, lng: -86.35 }, zoom: 7, minZoom: 6, maxZoom: 15, styles: GSTYLE, gestureHandling: 'cooperative',
+        center: { lat: 35.86, lng: -86.35 }, zoom: 7, minZoom: 5, maxZoom: 15, styles: GSTYLE, gestureHandling: 'cooperative',
         mapTypeControl: false, streetViewControl: false, fullscreenControl: true, clickableIcons: false,
         restriction: { latLngBounds: { south: 33.8, west: -92.2, north: 37.8, east: -79.6 }, strictBounds: false },
       });
       st.popup = new google.maps.InfoWindow({ maxWidth: 300 });
+      st.map.addListener('zoom_changed', resize);
       st.map.fitBounds(gBounds(TN_BOUNDS), 8);
     });
   }
@@ -98,8 +100,8 @@
   function initLeaflet(el) {
     return loadScript('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js').then(() => {
       st.engine = 'leaflet';
-      const m = st.map = L.map(el, { zoomSnap: 0.5, minZoom: 6, maxZoom: 15, scrollWheelZoom: false, maxBounds: [[33.3, -93], [38.3, -79]], attributionControl: true });
-      m.fitBounds(TN_BOUNDS, { padding: [8, 8] });
+      const m = st.map = L.map(el, { zoomSnap: 0.25, zoomDelta: 0.5, minZoom: 5, maxZoom: 15, scrollWheelZoom: false, maxBounds: [[25, -104], [46, -68]], attributionControl: true });
+      m.fitBounds(TN_BOUNDS, { padding: [12, 12] });
       let loads = 0, errs = 0;
       const tiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
         subdomains: 'abcd', maxZoom: 19, attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · © <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
@@ -110,6 +112,7 @@
       // Wheel zoom only after the map is clicked, so the page still scrolls past it.
       m.on('click focus', () => m.scrollWheelZoom.enable());
       m.on('mouseout blur', () => m.scrollWheelZoom.disable());
+      m.on('zoomend', resize);
       st.popup = L.popup({ maxWidth: 300, closeButton: true, autoPanPadding: [24, 24] });
     });
   }
@@ -132,13 +135,19 @@
         mk.addListener('click', () => select(s.id, true));
         mk.addListener('mouseover', () => setHot(s.id, false));
       } else {
-        mk = L.circleMarker([s.lat, s.lon], { radius: 6, color: C.ivory, weight: 2, fillColor: s.p ? C.crimson : C.navy, fillOpacity: 1 });
+        mk = L.circleMarker([s.lat, s.lon], { radius: baseR(), color: C.ivory, weight: 2, fillColor: s.p ? C.crimson : C.navy, fillOpacity: 1 });
         mk.bindTooltip(`${esc(s.n)} · ${esc(s.c)}`, { direction: 'top', offset: [0, -6] });
         mk.on('click', () => select(s.id, true));
         mk.on('mouseover', () => setHot(s.id, false));
       }
       st.markers.set(s.id, mk);
     }
+  }
+  let lastR = 0;
+  function resize() {
+    const r = baseR(); if (r === lastR) return; lastR = r;
+    st.markers.forEach((mk, id) => { if (id === st.hot) return; const s = st.byId.get(id);
+      if (st.engine === 'google') mk.setIcon(gIcon(s, false)); else mk.setRadius(r); });
   }
   function applyVisible(fit) {
     const vis = st.visible;
@@ -167,7 +176,7 @@
     const style = (sid, on) => {
       const s = st.byId.get(sid); const mk = st.markers.get(sid); if (!s || !mk) return;
       if (st.engine === 'google') { mk.setIcon(gIcon(s, on)); mk.setZIndex(on ? 999 : s.p ? 2 : 1); }
-      else { mk.setStyle({ radius: on ? 10 : 6, fillColor: on ? C.gold : s.p ? C.crimson : C.navy }); if (on) mk.bringToFront(); }
+      else { mk.setStyle({ radius: on ? baseR() + 4 : baseR(), fillColor: on ? C.gold : s.p ? C.crimson : C.navy }); if (on) mk.bringToFront(); }
     };
     if (prev) style(prev, false);
     if (id) style(id, true);
@@ -212,16 +221,17 @@
         return;
       }
       if (visKey !== st.visKey) { st.visible = vis; st.visKey = visKey; applyVisible(true); }
-    }, () => {});
+    }, () => {}).catch(report);
   }
+  function report(e) { console.error('[LHSchoolMap]', e && e.message, e && e.stack && e.stack.split('\n')[1]); }
   api.mount = mount;
   api.setVisible = (ids) => {
     const vis = ids ? new Set(ids) : null; const key = vis ? [...vis].sort().join(',') : '*';
     if (key === st.visKey) return; st.visible = vis; st.visKey = key;
-    if (st.ready) st.ready.then(() => applyVisible(true), () => {});
+    if (st.ready) st.ready.then(() => applyVisible(true), () => {}).catch(report);
   };
-  api.highlight = (id) => { if (st.ready) st.ready.then(() => setHot(id || null, true), () => {}); };
-  api.select = (id) => { if (st.ready) st.ready.then(() => select(id, false), () => {}); };
+  api.highlight = (id) => { if (st.ready) st.ready.then(() => setHot(id || null, true), () => {}).catch(report); };
+  api.select = (id) => { if (st.ready) st.ready.then(() => select(id, false), () => {}).catch(report); };
   window.LHSchoolMap = api;
   // If the page's motion layer loaded first, wire the map up now.
   if (window.LHMotion && window.LHMotion.mapLink) window.LHMotion.mapLink();

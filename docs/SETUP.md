@@ -21,7 +21,7 @@ The code is complete; it goes live when these accounts exist. Roughly in order:
 3. From then on, grant staff/board access in `/board` → Grant access (adds them to the disqualified-person registry).
 
 ## Data to load
-- **Schools**: `supabase/seed-schools.sql` loads the TDOE 2026-27 Christian schools (Categories I-IV). To refresh: update `data/tn-christian-schools-2026-27.psv`, run `python3 scripts/build-schools.py`, regenerate the seed, and run `scripts/sync-web.sh`. Add each school's main phone before claims open, since 29 schools have no email domain and are verified by phone.
+- **Schools**: `supabase/seed-schools.sql` loads the TDOE 2026-27 Christian schools (Categories I-IV). To refresh: update `data/tn-christian-schools-2026-27.psv`, run `python3 scripts/build-schools.py`, regenerate the seed, and run `scripts/sync-web.sh`. School contacts for email verification come from the TDOE directory's E-mail and Alternate E-mail columns, kept in `data/private/tdoe-contacts-2026-27.psv` (not committed; re-pull from the TDOE spreadsheet). `scripts/build-schools.py` turns it into `supabase/seed-school-contacts.sql`; run that after `seed-schools.sql`.
 - **Design sync**: the app's theme, fonts, motion layer and school directory come from `prototype/`. After changing the prototype, run `scripts/sync-web.sh`.
 - **Tuition**: schools enter it, or bulk-load `tuition_schedules`.
 - **Income limits**: `npm run limits:load -- <HUD FY2026 CSV> FY2026` to cover all 95 counties.
