@@ -133,7 +133,7 @@ a:hover { color: var(--crimson); }
 .nav-links a:not(.btn):hover::after, .nav-right a:not(.btn):hover::after, .nav a[aria-current="page"]:not(.btn)::after { transform: scaleX(1); }
 .brand { display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; color: var(--navy); }
 .brand:hover { color: var(--navy); }
-.brand-loc { font-family: var(--serif); font-size: 11px; letter-spacing: .34em; padding-left: .34em; color: var(--gold-ink); text-transform: uppercase; transition: opacity .3s, height .35s var(--ease), margin .35s; height: 14px; overflow: hidden; }
+.brand-loc { font-family: var(--serif); font-size: 11px; letter-spacing: .26em; padding-left: .26em; white-space: nowrap; color: var(--gold-ink); text-transform: uppercase; transition: opacity .3s, height .35s var(--ease), margin .35s; height: 14px; overflow: hidden; }
 .site-head.stuck .brand-loc { opacity: 0; height: 0; margin-top: -6px; }
 .brand { gap: 5px; }
 .nav-left a.nav-mobile-only { display: none; }
@@ -160,7 +160,7 @@ a:hover { color: var(--crimson); }
   .nav { grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; }
   .brand { align-items: flex-start; grid-row: 1; }
   .brand { gap: 3px; }
-  .brand-loc { font-size: 9.5px; letter-spacing: .3em; padding-left: 0; height: 12px; }
+  .brand-loc { font-size: 9px; letter-spacing: .18em; padding-left: .18em; height: 12px; }
   .brand-word i { display: none; }
   .brand-name { font-size: 26px; padding-left: 0; letter-spacing: .18em; }
   .site-head.stuck .brand-name { font-size: 22px; }

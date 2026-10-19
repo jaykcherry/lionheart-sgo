@@ -25,9 +25,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Link href="/schools">Schools</Link>
                 <Link href="/resources" className="nav-mobile-only">Resources</Link>
               </div>
-              <Link href="/" className="brand" aria-label="Lionheart Tennessee, home">
+              <Link href="/" className="brand" aria-label="Lionheart Scholarship Fund, home">
                 <span className="brand-word"><i /><span className="brand-name">LIONHEART</span><i /></span>
-                <span className="brand-loc">Tennessee</span>
+                <span className="brand-loc">Scholarship Fund</span>
               </Link>
               <div className="nav-right">
                 <Link href="/resources">Resources</Link>
