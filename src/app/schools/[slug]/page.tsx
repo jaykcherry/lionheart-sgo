@@ -45,7 +45,6 @@ export default async function SchoolTracker({ params }: { params: Promise<{ slug
         <div className="tracker-grid">
           <div className="tracker-main">
             <span className="kicker">Donor support tracker</span>
-            <h2 className="h2" style={{ marginTop: 12 }}>Named for {s.name}</h2>
             <div className="tracker-figures">
               <div><span className="kpi-label">Designated by donors</span><span className="tracker-n tnum">{usd(cents / 100)}</span></div>
               <div><span className="kpi-label">Donors</span><span className="tracker-n tnum">{cents ? (donors && donors >= 3 ? donors : <small>fewer than 3</small>) : '0'}</span></div>
