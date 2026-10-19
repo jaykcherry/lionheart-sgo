@@ -1,13 +1,15 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getSession, supabaseUser } from '@/lib/supabase';
-import { saveHousehold, addMember, chooseSchools, saveIncome, uploadDocument, submitApplications } from '../actions';
+import { saveHousehold, addMember, chooseSchools, saveIncome, uploadDocument, submitApplications, signIrsConsent } from '../actions';
+import { CONSENT_4506C_TEXT } from '../irsConsent';
 
 export const dynamic = 'force-dynamic';
-const STEPS = ['Home', 'Household', 'Children & schools', 'Income', 'Documents', 'Review'];
+const STEPS = ['Home', 'Household', 'Children & schools', 'Income', 'Verify income', 'Review'];
+const IRS_STATE: Record<string, [string, string]> = { REQUESTED: ['Waiting for the IRS', 'pill-neutral'], RECEIVED: ['Verified by the IRS', 'pill-ok'], NO_RECORD: ['IRS has no return on file yet', 'pill-gilt'], REJECTED: ['IRS could not match', 'pill-gilt'], ERROR: ['Retrying', 'pill-neutral'] };
 const GRADES = ['K', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
 
-export default async function Apply({ searchParams }: { searchParams: Promise<{ step?: string; error?: string; uploaded?: string; school?: string }> }) {
+export default async function Apply({ searchParams }: { searchParams: Promise<{ step?: string; error?: string; uploaded?: string; school?: string; irs?: string }> }) {
   const sp = await searchParams;
   const s = await getSession();
   const householdId = s?.roles.find((r) => r.role === 'family')?.household_id;
@@ -21,6 +23,9 @@ export default async function Apply({ searchParams }: { searchParams: Promise<{ 
     sb.from('applications').select('id, student_member_id, school_id, grade, state, other_aid(efs_cents, school_aid_cents)').eq('household_id', householdId),
     sb.from('documents').select('id, kind, extracted, created_at').eq('household_id', householdId).order('created_at', { ascending: false }),
   ]);
+  const { data: irs } = await sb.from('irs_transcript_requests').select('id, state, requested_at, consent:irs_consents(tax_year, name_on_return, ssn_last4)').eq('household_id', householdId).order('requested_at', { ascending: false });
+  const irsOn = (process.env.TRANSCRIPT_PROVIDER ?? 'none') !== 'none';
+  const taxYear = new Date().getFullYear() - 1;
   const students = (members ?? []).filter((m) => m.is_student);
   const adults = (members ?? []).filter((m) => !m.is_student);
 
@@ -82,7 +87,27 @@ export default async function Apply({ searchParams }: { searchParams: Promise<{ 
         </form>}
 
         {step === 5 && <div className="flow-body">
-          <div><h2 className="h3">Upload documents</h2><p className="body">Last year’s W-2s or Form 1040, any benefit letter, and one proof of your Tennessee address. We read them automatically and show you what we found to confirm. Social Security numbers are never stored in our records.</p></div>
+          {irsOn && <>
+            <div><h2 className="h3">Let the IRS confirm your income</h2><p className="body">The fastest way: sign IRS Form 4506-C here and the IRS sends us a copy of your {taxYear} tax return figures, usually within a few business days. You won’t need to upload W-2s or a 1040. If you filed jointly, one spouse signs. Your Social Security number goes straight to the IRS service and is never stored by Lionheart.</p></div>
+            {sp.irs && <p className="notice notice-ok">Signed. We’ve asked the IRS for your {taxYear} return. We’ll email you when it arrives.</p>}
+            {!!irs?.length && <div className="tablewrap"><table className="table"><tbody>{irs.map((r) => { const c = r.consent as unknown as { tax_year: number; name_on_return: string; ssn_last4: string }; const st = IRS_STATE[r.state] ?? [r.state, 'pill-neutral']; return <tr key={r.id}><td>{c.name_on_return} · •••-••-{c.ssn_last4}</td><td>{c.tax_year} return</td><td><span className={`pill ${st[1]}`}>{st[0]}</span></td></tr>; })}</tbody></table></div>}
+            <form action={signIrsConsent} className="form-grid paper" style={{ padding: 20 }}>
+              <input type="hidden" name="tax_year" value={taxYear} />
+              <div className="field"><label htmlFor="filing_status">How did you file for {taxYear}?</label><select className="input" id="filing_status" name="filing_status" defaultValue="mfj"><option value="mfj">Married filing jointly</option><option value="single">Single</option><option value="hoh">Head of household</option><option value="mfs">Married filing separately</option><option value="qss">Qualifying surviving spouse</option></select></div>
+              <div className="field"><label htmlFor="member_primary">Who filed</label><select className="input" id="member_primary" name="member_primary" required>{adults.map((m) => <option key={m.id} value={m.id}>{m.full_name}</option>)}</select></div>
+              <div className="field"><label htmlFor="name_on_return">Name on the return</label><input className="input" id="name_on_return" name="name_on_return" required autoComplete="name" /></div>
+              <div className="field"><label htmlFor="ssn">Social Security number or ITIN</label><input className="input" id="ssn" name="ssn" required inputMode="numeric" autoComplete="off" placeholder="•••-••-••••" /></div>
+              <div className="field"><label htmlFor="member_spouse">Spouse on a joint return</label><select className="input" id="member_spouse" name="member_spouse" defaultValue=""><option value="">Not a joint return</option>{adults.map((m) => <option key={m.id} value={m.id}>{m.full_name}</option>)}</select></div>
+              <div className="field"><label htmlFor="spouse_name_on_return">Spouse’s name on the return</label><input className="input" id="spouse_name_on_return" name="spouse_name_on_return" /></div>
+              <div className="field"><label htmlFor="spouse_ssn">Spouse’s SSN or ITIN</label><input className="input" id="spouse_ssn" name="spouse_ssn" inputMode="numeric" autoComplete="off" /></div>
+              <div className="field span-all"><label htmlFor="address_on_return">Address on the return</label><input className="input" id="address_on_return" name="address_on_return" required defaultValue={[h?.street, h?.city, 'TN', h?.zip].filter(Boolean).join(', ')} /></div>
+              <p className="hint span-all" style={{ whiteSpace: 'normal' }}>{CONSENT_4506C_TEXT}</p>
+              <label className="tick span-all"><input type="checkbox" name="consent" required /><span>I authorize this request.</span></label>
+              <div className="field"><label htmlFor="signature">Sign by typing your name as it appears on the return</label><input className="input" id="signature" name="signature" required /></div>
+              <div className="field" style={{ justifyContent: 'end' }}><button className="btn btn-solid">Sign and send to the IRS</button></div>
+            </form>
+          </>}
+          <div><h2 className="h3">{irsOn ? 'Documents' : 'Upload documents'}</h2><p className="body">{irsOn ? 'Everyone needs one proof of your Tennessee address, plus any benefit letter. Upload W-2s or a Form 1040 only if you didn’t use the IRS option above or didn’t file a return.' : 'Last year’s W-2s or Form 1040, any benefit letter, and one proof of your Tennessee address.'} We read them automatically and show you what we found to confirm. Social Security numbers are never stored in our records.</p></div>
           {sp.uploaded && <p className="notice notice-ok">Uploaded. We’ll show what we read on your portal in a minute or two.</p>}
           <form action={uploadDocument} className="form-grid paper" style={{ padding: 20 }}>
             <div className="field"><label htmlFor="kind">Document type</label><select className="input" id="kind" name="kind">{[['w2', 'W-2'], ['1040', 'Form 1040'], ['paystub', 'Pay stub'], ['benefit_letter', 'Benefit letter'], ['proof_of_address', 'Proof of address'], ['other', 'Other']].map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></div>

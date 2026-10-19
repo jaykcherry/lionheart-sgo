@@ -37,3 +37,14 @@ The Schools page map uses Google Maps when a browser key is configured and enabl
 3. Static site (GitHub Pages): put the key in `config/google-maps-key.txt` (or `LH_GMAPS_KEY=…` in the environment) and run `scripts/build-site.sh`.
 4. Next app: set `NEXT_PUBLIC_GOOGLE_MAPS_KEY` in Vercel.
 Pins sit at each school's ZIP code centroid (the state directory has no street addresses). To place pins on the building, geocode the 358 schools once with the Places API and store lat/lon in `data/tn-christian-schools-2026-27.psv`.
+
+## Automation services
+
+| Setting | What it does | Without it |
+|---|---|---|
+| `TRANSCRIPT_PROVIDER=ives_vendor`, `IVES_API_URL`, `IVES_API_KEY` | Families e-sign Form 4506-C in the application; the IRS sends last year's return figures through an IVES participant (typically a few dollars per transcript, a few business days). The adapter in `src/server/irsTranscripts.ts` expects normalized JSON; point it at the vendor or a thin proxy that maps their format. `mock` echoes stated income for staging. | Families upload W-2s/1040s and documents are read automatically |
+| `PAYOUT_PROVIDER=increase`, `INCREASE_API_KEY`, `INCREASE_SEGREGATED_ACCOUNT_ID` | Approved batches send themselves by ACH on the pay date | A critical ticket opens on the pay date; nothing sends |
+| `MAIL_PROVIDER=lob`, `LOB_API_KEY`, `LOB_FROM_ADDRESS_ID` | Paper acknowledgments for donors without e-delivery consent are printed and mailed first-class | A ticket asks staff to mail them |
+| `OPS_ALERT_EMAILS` | Who gets tie-out problems, IRS report reminders and approval requests (in addition to board users) | Only board users are emailed |
+
+Award rounds need no setup: they read the public drand beacon (`api.drand.sh` and mirrors) at run time.

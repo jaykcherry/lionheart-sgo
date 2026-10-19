@@ -259,6 +259,10 @@ describe('state machines', () => {
   it('batches need a board approver second', () => {
     expect(batchMachine.can('APPROVED_1', 'APPROVED_2', { kind: 'person', id: 'u', role: 'staff' }).ok).toBe(false);
   });
+  it('a job cannot approve and a batch cannot send on one approval', () => {
+    expect(batchMachine.can('PREPARED', 'APPROVED_1', { kind: 'job', id: 'j' }).ok).toBe(false);
+    expect(batchMachine.can('APPROVED_1', 'SENT', { kind: 'job', id: 'j' }).ok).toBe(false);
+  });
 });
 
 describe('compliance monitor', () => {
@@ -273,5 +277,72 @@ describe('substantial contributor share test', () => {
   it('a $6,000 donor is not substantial when gifts total $351,000 (2% = $7,020)', () => {
     const totals = [{ householdKey: 'big', personIds: [], amount: dollars(6_000) }, ...Array.from({ length: 101 }, (_, i) => ({ householdKey: 'd' + i, personIds: [], amount: dollars(3_415) }))];
     expect(substantialContributors(totals)).toEqual([]);
+  });
+});
+
+import { mergeTranscripts, transcriptToIncomeItems, nextTranscriptRetry, consentValid, type TranscriptOutcome } from '../src/domain/irs';
+describe('IRS transcripts', () => {
+  const ret = (wages: number, extra: Partial<Extract<TranscriptOutcome, { kind: 'return' }>['fields']> = {}): Extract<TranscriptOutcome, { kind: 'return' }> => ({ kind: 'return', taxYear: 2026, coversMemberIds: ['p1', 'p2'], fields: {
+    filingStatus: 'mfj', wages: dollars(wages), taxableInterest: 0, ordinaryDividends: 0, businessIncome: 0, rentalRoyalty: 0, unemployment: 0, socialSecurityGross: 0, pensionsTaxable: 0, otherIncome: 0, agi: dollars(wages), ...extra } });
+  it('replaces typed taxable income for the filers, keeps untaxed child support', () => {
+    const stated = [{ personId: 'p1', type: 'wages' as const, amount: dollars(80_000), year: 2026, cash: true, source: 'attestation' as const },
+      { personId: 'p2', type: 'child_support' as const, amount: dollars(6_000), year: 2026, cash: true, source: 'attestation' as const }];
+    const m = mergeTranscripts(stated, [ret(95_000)], []);
+    expect(m.items.filter((i) => i.source === 'transcript').reduce((s, i) => s + i.amount, 0)).toBe(dollars(95_000));
+    expect(m.items.find((i) => i.type === 'child_support')?.amount).toBe(dollars(6_000));
+    expect(m.notes[0]).toMatch(/IRS figure is used/);
+  });
+  it('counts business losses as zero and Social Security gross', () => {
+    const items = transcriptToIncomeItems(ret(40_000, { businessIncome: dollars(-5_000), socialSecurityGross: dollars(12_000) }));
+    expect(items.find((i) => i.type === 'self_employment')).toBeUndefined();
+    expect(items.find((i) => i.type === 'social_security')?.amount).toBe(dollars(12_000));
+  });
+  it('a transcript clears the attestation-only review flag', () => {
+    const m = mergeTranscripts([{ personId: 'p1', type: 'wages', amount: dollars(90_000), year: 2026, cash: true, source: 'attestation' }], [ret(90_000)], []);
+    const d = determineEligibility(baseApp({ incomeItems: m.items }), TN_LIMITS_SEED);
+    expect(d.result).toBe('ELIGIBLE');
+    expect(m.notes[0]).toMatch(/confirms/);
+  });
+  it('flags a zero-income statement the IRS contradicts', () => {
+    expect(mergeTranscripts([], [ret(30_000)], ['p2']).contradictsZeroIncome).toBe(true);
+  });
+  it('retries "no record" every 14 days through the extended deadline', () => {
+    expect(nextTranscriptRetry(2026, '2027-03-01')).toBe('2027-03-15');
+    expect(nextTranscriptRetry(2026, '2027-10-10')).toBeNull();
+  });
+  it('a 4506-C is good for 120 days', () => {
+    expect(consentValid('2027-01-01T10:00:00Z', '2027-05-01')).toBe(true);
+    expect(consentValid('2027-01-01T10:00:00Z', '2027-05-02')).toBe(false);
+  });
+});
+
+import { batchSafety, netRefunds } from '../src/domain/disbursement';
+import { beaconRoundAt, beaconTimeOf, roundPlan, seedFromBeacon, DRAND_QUICKNET } from '../src/domain/beacon';
+describe('payment automation', () => {
+  it('blocks a batch that pays a school more than its unpaid awards', () => {
+    expect(batchSafety({ bySchool: { a: 900_00 }, awardedForTermBySchool: { a: 1000_00 }, alreadySentForTermBySchool: { a: 200_00 }, segregatedCash: 5000_00, payeeChangedSince: [] })[0]).toMatch(/more than/);
+    expect(batchSafety({ bySchool: { a: 800_00 }, awardedForTermBySchool: { a: 1000_00 }, alreadySentForTermBySchool: { a: 200_00 }, segregatedCash: 5000_00, payeeChangedSince: [] })).toEqual([]);
+  });
+  it('blocks when cash is short or a bank account changed after approval', () => {
+    expect(batchSafety({ bySchool: { a: 100 }, awardedForTermBySchool: { a: 100 }, alreadySentForTermBySchool: {}, segregatedCash: 99, payeeChangedSince: ['a'] })).toHaveLength(2);
+  });
+  it('nets refunds a school owes against its next payment, oldest first, never partially', () => {
+    const r = netRefunds({ a: 5000, b: 300 }, [{ refundId: 'r2', schoolId: 'a', amount: 4000, reportedAt: '2027-09-10' }, { refundId: 'r1', schoolId: 'a', amount: 2000, reportedAt: '2027-09-01' }, { refundId: 'r3', schoolId: 'b', amount: 500, reportedAt: '2027-09-02' }]);
+    expect(r.pay).toEqual({ a: 3000, b: 300 });
+    expect(r.applied.map((x) => x.refundId)).toEqual(['r1']);
+  });
+});
+describe('award round beacon', () => {
+  it('maps times to drand quicknet rounds and back', () => {
+    expect(beaconRoundAt(new Date(DRAND_QUICKNET.genesisTime * 1000).toISOString())).toBe(1);
+    const r = beaconRoundAt('2027-04-15T15:00:00Z');
+    expect(new Date(beaconTimeOf(r)).getTime()).toBeGreaterThanOrEqual(new Date('2027-04-15T15:00:00Z').getTime());
+    expect(new Date(beaconTimeOf(r)).getTime() - new Date('2027-04-15T15:00:00Z').getTime()).toBeLessThan(3000);
+  });
+  it('announces 14 days ahead and freezes an hour before the beacon', () => {
+    const [r1] = roundPlan(2027);
+    expect(r1!.announceAt.slice(0, 10)).toBe('2027-04-01');
+    expect(new Date(r1!.runAt).getTime() - new Date(r1!.freezeAt).getTime()).toBe(3_600_000);
+    expect(seedFromBeacon(r1!.beaconRound, 'ABC')).toBe(`drand-quicknet:${r1!.beaconRound}:abc`);
   });
 });

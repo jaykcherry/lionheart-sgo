@@ -99,7 +99,7 @@ const S = {
   app: { step: 0, err: '', ref: '',
     parent: { first: '', last: '', email: '', phone: '', rel: 'Parent' },
     kids: [{ first: '', last: '', dob: '', grade: '', school: '' }],
-    home: { street: '', city: '', zip: '', county: '', size: '', income: '', doc: '' },
+    home: { street: '', city: '', zip: '', county: '', size: '', income: '', doc: '', verify: 'irs', irsName: '', irsSsn: '', irsSig: '', irsOk: false },
     attest: { true: false, verify: false, nodirect: false } },
   q: '', region: '', showN: 25,
   claim: { id: null, step: 'confirm', name: '', title: 'Head of school', email: '', how: '', sentTo: '', auth: false, code: '', err: '' },
@@ -201,7 +201,7 @@ function creditCalc(id) {
 
 // School map data for schoolmap.js (Google Maps or Leaflet). Visible = the current filter.
 function schoolMapData(list) {
-  const json = JSON.stringify({ schools: SCHOOLS.map(s => ({ id: s.id, n: s.name, c: s.city, co: s.county, g: s.grades, cat: s.cat, lat: s.lat, lon: s.lon, a: s.street || '', ap: s.geo === 'zip', p: s.status === 'partner', claim: s.status === 'partner' ? null : 'action', give: '#give?school=' + s.id })),
+  const json = JSON.stringify({ schools: SCHOOLS.map(s => ({ id: s.id, n: s.name, c: s.city, co: s.county, g: s.grades, cat: s.cat, lat: s.lat, lon: s.lon, a: s.street || '', ap: s.geo === 'zip', p: s.status === 'partner', view: '#school?school=' + s.id, give: '#give?school=' + s.id })),
     visible: list.length === SCHOOLS.length ? null : list.map(s => s.id) });
   return `<div class="map-canvas" id="school-map-canvas"></div><script type="application/json" id="school-map-data">${json.replace(/</g, '\\u003c')}<\/script>`;
 }
@@ -384,7 +384,7 @@ function home() {
       </div>
       <div class="articles" data-rv="right">
         ${[['Scholarships first.', 'At least 90 cents of every dollar becomes tuition.'],
-           ['No favors.', 'Donors never choose a student. Awards follow a published formula, and ties go to a lottery recorded in the board minutes.'],
+           ['No favors.', 'Donors never choose a student. Awards follow a published formula, and ties go to a lottery drawn from a public random number announced in advance.'],
            ['Two signatures.', 'Every payment to a school is approved by staff and by a board officer.'],
            ['Open books.', 'An independent audit and a public report, every year.']]
           .map(([t, b], i) => `<div class="article" data-rv style="--d:${(0.15 + i * 0.12).toFixed(2)}s"><span class="numeral">${roman[i]}.</span><p><b>${t}</b> ${b}</p></div>`).join('')}
@@ -496,8 +496,8 @@ function families() {
           <p class="body">Scholarships pay tuition and fees. Federal law also allows books, uniforms, transportation, tutoring, special-needs services and school technology; Treasury is finalizing the list this fall.</p>
         </div>
         <div class="stack-m">
-          <h3 class="h3">Two documents</h3>
-          <p class="body">Your 2026 federal tax return (Form 1040), or W-2s if you didn’t file, and one proof of your Tennessee address, like a utility bill or driver’s license. You can upload now or later.</p>
+          <h3 class="h3">Little to upload</h3>
+          <p class="body">Sign one IRS form online and the IRS sends us your 2026 income, so there’s no tax return to upload. Or upload your Form 1040 or W-2s if you prefer. Plus one proof of your Tennessee address, like a utility bill or driver’s license.</p>
         </div>
         <div class="stack-m">
           <h3 class="h3">No one can buy a place</h3>
@@ -573,9 +573,18 @@ function apply() {
       ${inp('app.home.county', 'County', { ph: 'e.g. Davidson', hint: 'Your county sets your income limit.' })}
       ${inp('app.home.size', 'People in your household', { options: [['', 'Choose']].concat([1,2,3,4,5,6,7,8,9,10].map(n => [String(n), String(n)])), hint: 'Everyone on your 2026 tax return, plus anyone else you support who lives with you.' })}
       ${inp('app.home.income', '2026 household income', { mode: 'numeric', ph: '$', hint: 'Line 11 of Form 1040 (adjusted gross income). If you didn’t file, add up your W-2s.' })}
-      <div class="field span-all"><label for="f-doc">Upload your 2026 Form 1040 or W-2s (optional now)</label>
+      <div class="field span-all"><span class="label">How should we confirm your income?</span>${seg('app.home.verify', 'f-verify', [['irs', 'Let the IRS confirm it'], ['upload', 'Upload my tax forms']], 'Income verification')}</div>
+      ${a.home.verify === 'irs' ? `<div class="paper span-all" style="padding:18px 20px">
+        <p class="small">Sign IRS Form 4506-C here and the IRS sends us your 2026 tax return figures, usually within a few business days. Nothing to upload. If you filed jointly, one spouse signs. Your Social Security number goes straight to the IRS service and is never stored by Lionheart.</p>
+        <div class="form-grid" style="margin-top:12px">
+          ${inp('app.home.irsName', 'Name on your 2026 return', { ac: 'name' })}
+          ${inp('app.home.irsSsn', 'Social Security number or ITIN', { mode: 'numeric', ph: '•••-••-••••', hint: 'Prototype: don’t enter a real number.' })}
+          ${inp('app.home.irsSig', 'Sign by typing your name', { span: true })}
+        </div>
+        ${tick('app.home.irsOk', 'I authorize the IRS to release my 2026 tax return transcript to Lionheart’s verification service, only to verify income for this scholarship. Valid for one request within 120 days.')}
+      </div>` : `<div class="field span-all"><label for="f-doc">Upload your 2026 Form 1040 or W-2s (optional now)</label>
         <input class="input" id="f-doc" type="file" accept=".pdf,image/*" data-action-change="doc" style="padding:8px">
-        <span class="hint">${a.home.doc ? 'Attached: ' + esc(a.home.doc) : 'PDF or photo. You can also email it to us after you submit.'}</span></div>
+        <span class="hint">${a.home.doc ? 'Attached: ' + esc(a.home.doc) : 'PDF or photo. You can also email it to us after you submit.'}</span></div>`}
     </div>`;
   if (a.step === 3) {
     const lim = incomeLimit(parseInt(a.home.size, 10) || 4);
@@ -585,7 +594,7 @@ function apply() {
       <div class="sumrow" style="padding-top:0"><span class="muted">Parent or guardian</span><span style="text-align:right">${esc(a.parent.first)} ${esc(a.parent.last)}<br><span class="small muted">${esc(a.parent.email)}</span></span></div>
       ${a.kids.map((k, i) => { const s = schoolById(k.school); return `<div class="sumrow"><span class="muted">Child ${i + 1}</span><span style="text-align:right">${esc(k.first)} ${esc(k.last)} · ${k.grade === 'K' ? 'Kindergarten' : 'Grade ' + esc(k.grade)}<br><span class="small muted">${s ? esc(s.name) : k.school === 'other' ? 'Another school' : 'Not decided'}</span></span></div>`; }).join('')}
       <div class="sumrow"><span class="muted">Address</span><span style="text-align:right">${esc(a.home.street)}, ${esc(a.home.city)} ${esc(a.home.zip)}<br><span class="small muted">${esc(a.home.county)} County</span></span></div>
-      <div class="sumrow" style="border-bottom:0"><span class="muted">Household</span><span style="text-align:right">${esc(a.home.size)} people · ${usd(num(a.home.income))}<br><span class="small muted">${num(a.home.income) <= lim ? 'Under the statewide reference limit' : 'Above the statewide reference; we’ll check your county’s limit'}</span></span></div>
+      <div class="sumrow" style="border-bottom:0"><span class="muted">Household</span><span style="text-align:right">${esc(a.home.size)} people · ${usd(num(a.home.income))}<br><span class="small muted">${num(a.home.income) <= lim ? 'Under the statewide reference limit' : 'Above the statewide reference; we’ll check your county’s limit'}</span><br><span class="small muted">${a.home.verify === 'irs' ? (a.home.irsOk && a.home.irsSig ? 'Income: IRS will confirm (Form 4506-C signed)' : 'Income: IRS option chosen but not signed yet') : a.home.doc ? 'Income: tax form attached' : 'Income: tax form to follow'}</span></span></div>
     </div>
     <div class="stack-s">
       ${tick('app.attest.true', 'The information above is true and complete to the best of my knowledge.')}
@@ -614,7 +623,7 @@ function apply() {
           <span class="card-kicker">About 10 minutes</span>
           <p class="small">Your answers are saved on this device as you go, so you can finish later.</p>
           <div class="hr" style="height:1px;background:var(--color-divider)"></div>
-          <p class="small"><strong style="font-weight:600">Have ready</strong><br>2026 Form 1040 or W-2s<br>Proof of Tennessee address<br>Each child’s 2027–28 grade and school</p>
+          <p class="small"><strong style="font-weight:600">Have ready</strong><br>Your SSN (so the IRS can confirm income), or your 2026 Form 1040 or W-2s<br>Proof of Tennessee address<br>Each child’s 2027–28 grade and school</p>
           <div class="hr" style="height:1px;background:var(--color-divider)"></div>
           <p class="small muted">Questions? Email [families@lionheartscholars.org]. We answer within one business day.</p>
         </div>
@@ -704,10 +713,10 @@ function schoolRows(list) {
   const n = Math.min(S.showN, list.length);
   return list.slice(0, n).map(s => `
     <div class="school" data-sid="${s.id}">
-      <div><div class="school-name">${esc(s.name)}</div><div class="school-meta"><span>${esc(s.city)}, ${esc(s.county)} County</span><span>${esc(s.grades)}</span><span>Category ${esc(s.cat)} · ${esc(s.auth)}</span></div><div class="school-support${desigFor(s.id).amt ? ' has' : ''}">${supportLine(s)}</div></div>
+      <div><a class="school-name" href="#school?school=${s.id}">${esc(s.name)}</a><div class="school-meta"><span>${esc(s.city)}, ${esc(s.county)} County</span><span>${esc(s.grades)}</span><span>Category ${esc(s.cat)} · ${esc(s.auth)}</span></div><div class="school-support${desigFor(s.id).amt ? ' has' : ''}">${supportLine(s)}</div></div>
       <div class="school-act">${s.status === 'partner'
         ? `<span class="pill pill-ok">Verified partner</span>`
-        : `<button type="button" class="btn btn-primary btn-sm" data-action="claim" data-id="${s.id}">This is my school</button>`}<a class="btn btn-ghost btn-sm" href="#give?school=${s.id}">Support</a></div>
+        : ''}<a class="btn btn-primary btn-sm" href="#school?school=${s.id}">View school</a><a class="btn btn-ghost btn-sm" href="#give?school=${s.id}">Support</a></div>
     </div>`).join('') + (n < list.length ? `<div class="more-row"><button type="button" class="btn btn-secondary" data-action="more">Show ${Math.min(25, list.length - n)} more <span class="muted tnum" style="font-weight:500">· ${list.length - n} left</span></button></div>` : '');
 }
 function schoolClaim() {
@@ -758,13 +767,13 @@ function schoolClaim() {
         <li><span class="when">Each term</span><p class="body">Confirm enrollment and tuition for scholarship students in one short form.</p></li>
       </ol>
       <div class="copyrow"><div><p class="label">Link for your parents</p><p class="v small">lionheartscholars.org/families</p></div><button type="button" class="btn btn-secondary btn-sm" data-action="copy" data-text="https://lionheartscholars.org/families">Copy</button></div>
-      <div class="flow-actions"><span></span><button type="button" class="btn btn-primary" data-action="claim-cancel">Back to school list</button></div>
+      <div class="flow-actions"><span></span><button type="button" class="btn btn-primary" data-action="claim-cancel">See your school’s page</button></div>
     </div>`;
   return `
   <div class="band"><section class="wrap" style="padding-block:56px 84px">
     <div class="flow">
       <div>
-        <a href="#schools" class="small" data-action="claim-cancel">← All schools</a>
+        <a href="#school?school=${s.id}" class="small" data-action="claim-cancel">← ${esc(s.name)}</a>
         <h1 class="h2" style="margin:14px 0 28px">${esc(s.name)}</h1>
         ${stepper(['Confirm', 'Verify', 'Done'], stepIdx)}
         ${body}
@@ -1103,7 +1112,8 @@ function schoolDatalist(id) { return `<datalist id="${id}">${SCHOOLS.map(s => `<
 // Donor designations by school. Prototype: kept in this browser only; production reads the school_support view.
 const DESIG_KEY = 'lh-designations-v1';
 S.desig = (() => { try { return JSON.parse(localStorage.getItem(DESIG_KEY) || '{}') || {}; } catch (e) { return {}; } })();
-function designate(id, amt) { const d = S.desig[id] || { amt: 0, n: 0 }; d.amt += amt; d.n += 1; S.desig[id] = d; try { localStorage.setItem(DESIG_KEY, JSON.stringify(S.desig)); } catch (e) {} }
+function designate(id, amt) { const d = S.desig[id] || { amt: 0, n: 0 }; d.amt += amt; d.n += 1; const day = new Date().toISOString().slice(0, 10); (d.log = d.log || []).push({ d: day < GIVING_OPENS ? GIVING_OPENS : day, amt }); S.desig[id] = d; try { localStorage.setItem(DESIG_KEY, JSON.stringify(S.desig)); } catch (e) {} }
+const GIVING_OPENS = '2027-01-01';
 const desigFor = id => S.desig[id] || { amt: 0, n: 0 };
 function supportLine(s, short) {
   const d = desigFor(s.id);
@@ -1120,12 +1130,74 @@ function supportBoard() {
       <div><span class="kpi-label">Giving opens</span><span class="support-n" style="font-size:30px">January 1, 2027</span></div>
     </div>`;
   if (!rows.length) return kpis + `<div class="support-empty"><p class="h3">No designations yet.</p><p class="body" style="margin-top:8px">Gifts made or scheduled now are charged January 1, 2027, and appear here the day they’re made. Be the first to name a school.</p><div class="btn-row" style="margin-top:18px"><a class="btn btn-gold" href="#give">Give and name a school <span class="arr" aria-hidden="true">→</span></a></div></div>`;
-  return kpis + `<ol class="support-board">${rows.slice(0, 12).map((x, i) => `<li data-rv style="--d:${(i * 0.05).toFixed(2)}s"><span class="sb-rank">${i + 1}</span><div class="sb-main"><p class="sb-name">${esc(x.s.name)} <small>${esc(x.s.city)}</small></p><div class="sb-bar"><span style="width:${Math.max(2, x.d.amt / max * 100).toFixed(1)}%"></span></div></div><div class="sb-amt"><b>${usd(x.d.amt)}</b><small>${x.d.n >= 3 ? x.d.n + ' donors' : 'fewer than 3 donors'}</small></div><a class="btn btn-ghost btn-sm" href="#give?school=${x.s.id}">Support</a></li>`).join('')}</ol>`;
+  return kpis + `<ol class="support-board">${rows.slice(0, 12).map((x, i) => `<li data-rv style="--d:${(i * 0.05).toFixed(2)}s"><span class="sb-rank">${i + 1}</span><div class="sb-main"><p class="sb-name"><a href="#school?school=${x.s.id}">${esc(x.s.name)}</a> <small>${esc(x.s.city)}</small></p><div class="sb-bar"><span style="width:${Math.max(2, x.d.amt / max * 100).toFixed(1)}%"></span></div></div><div class="sb-amt"><b>${usd(x.d.amt)}</b><small>${x.d.n >= 3 ? x.d.n + ' donors' : 'fewer than 3 donors'}</small></div><a class="btn btn-ghost btn-sm" href="#give?school=${x.s.id}">Support</a></li>`).join('')}</ol>`;
 }
 const DESIG_RULES = `<details class="rules"><summary>How a named school is used</summary><div>
   <p class="body">When you name a school, your gift joins that school’s designated pool. In each award round, the pool funds eligible applicants who attend that school first, ranked by need under our published formula. A donor never chooses a student, reviewers never see who gave, and a pool is used only when the school has at least 10 eligible applicants that round, so no gift can be steered to one family. Parents and grandparents may name their own child’s school, and their children may apply like anyone else. Anything a school’s pool can’t use goes to the general fund for students at every school.</p>
   <p class="body" style="margin-top:10px">Totals here are gifts with a school named, before any are awarded. They show donor interest; they aren’t a promise of an award. Donor names are never shown.</p>
 </div></details>`;
+
+/* ── School page: the donor-support tracker (default page for every school) ── */
+const TYPICAL_AWARD = 5000;   // a mid-range award under the 2027–28 policy; only used to put totals in perspective
+function trackerChart(log) {
+  // Cumulative support by month through 2027; months still ahead are left empty.
+  const now = new Date().toISOString().slice(0, 7);
+  const months = []; for (let m = 1; m <= 12; m++) months.push(`2027-${String(m).padStart(2, '0')}`);
+  const last = (log || []).reduce((m, x) => x.d.slice(0, 7) > m ? x.d.slice(0, 7) : m, now);
+  let run = 0; const pts = months.map(k => { run += (log || []).filter(x => x.d.slice(0, 7) === k).reduce((t, x) => t + x.amt, 0); return k <= last ? run : 0; });
+  const max = Math.max(1, ...pts), W = 560, H = 130, bw = W / months.length;
+  const MN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `<svg class="tracker-chart" viewBox="0 0 ${W} ${H + 24}" role="img" aria-label="Support named for this school, by month, 2027">
+    <line x1="0" y1="${H}" x2="${W}" y2="${H}" class="tc-axis"/>
+    ${pts.map((v, i) => { const h = Math.max(v ? 3 : 0, v / max * (H - 18)); return `<rect x="${(i * bw + bw * 0.18).toFixed(1)}" y="${(H - h).toFixed(1)}" width="${(bw * 0.64).toFixed(1)}" height="${h.toFixed(1)}" rx="2" class="tc-bar"><title>${MN[i]} 2027: ${usd(v)} total</title></rect>`; }).join('')}
+    ${months.map((k, i) => `<text x="${(i * bw + bw / 2).toFixed(1)}" y="${H + 17}" text-anchor="middle" class="tc-label">${MN[+k.slice(5) - 1]}</text>`).join('')}
+  </svg>`;
+}
+function schoolPage() {
+  const s = schoolById(hashParts().p.school);
+  if (!s) return schools();
+  if (S.claim.id === s.id) return schoolClaim();
+  const d = desigFor(s.id), partner = s.status === 'partner';
+  const ranked = SCHOOLS.map(x => ({ id: x.id, amt: desigFor(x.id).amt })).filter(x => x.amt > 0).sort((a, b) => b.amt - a.amt);
+  const rank = ranked.findIndex(x => x.id === s.id) + 1;
+  const url = `${SITE}#school?school=${s.id}`;
+  const worth = Math.floor(d.amt / TYPICAL_AWARD);
+  return `
+  <div class="band band-field" data-rosette="none"><section class="wrap school-hero">
+    <p><a href="#schools" class="small school-back">← All ${SCHOOLS.length} schools</a></p>
+    <p class="kicker" style="margin-top:22px">Category ${esc(s.cat)} · ${esc(s.auth)}</p>
+    <h1 class="display-sm" style="margin-top:10px">${esc(s.name)}</h1>
+    <p class="lead" style="margin-top:14px">${s.street ? esc(s.street) + ', ' : ''}${esc(s.city)} · ${esc(s.county)} County · ${esc(s.grades)}</p>
+    <div style="margin-top:18px">${partner ? '<span class="pill pill-ok">Verified Lionheart partner</span>' : '<span class="pill pill-neutral">On the state’s approved list · not yet confirmed by the school</span>'}</div>
+  </section></div>
+  <div class="band"><section class="wrap sec">
+    <div class="tracker-grid">
+      <div class="tracker-main">
+        <span class="kicker">Donor support tracker</span>
+        <h2 class="h2" style="margin-top:12px">Named for ${esc(s.name)}</h2>
+        <div class="tracker-figures">
+          <div><span class="kpi-label">Designated by donors</span><span class="tracker-n tnum">${usd(d.amt)}</span></div>
+          <div><span class="kpi-label">Donors</span><span class="tracker-n tnum">${d.amt ? (d.n >= 3 ? d.n : '<small>fewer than 3</small>') : '0'}</span></div>
+          <div><span class="kpi-label">Rank among ${SCHOOLS.length} schools</span><span class="tracker-n tnum">${rank ? '#' + rank : '—'}</span></div>
+        </div>
+        ${d.amt ? `<p class="body" style="margin-top:18px">That’s about ${worth ? `${worth} scholarship${worth === 1 ? '' : 's'}` : 'part of one scholarship'} at a typical award of ${usd(TYPICAL_AWARD)}.</p>${trackerChart(d.log)}<p class="hint">Cumulative, by month. Gifts scheduled before January 1, 2027 count on that day.</p>`
+          : `<div class="tracker-empty"><p class="h3">No gifts named for this school yet.</p><p class="body" style="margin-top:8px">Giving opens January 1, 2027. Gifts scheduled now are charged that day and show up here right away. Be the first to name ${esc(s.name)}.</p></div>`}
+        <div style="margin-top:22px">${DESIG_RULES}</div>
+      </div>
+      <aside class="tracker-side">
+        <div class="paper tracker-card">
+          <p class="h4">Support ${esc(s.name)}</p>
+          <p class="small" style="margin-top:6px">Give up to $1,700 ($3,400 as a couple), name this school, and get it back as a federal tax credit.</p>
+          <a class="btn btn-gold" href="#give?school=${s.id}" style="margin-top:14px;width:100%;justify-content:center">Give and name this school</a>
+          <a class="btn btn-secondary" href="#apply?school=${s.id}" style="margin-top:10px;width:100%;justify-content:center">Apply for a scholarship here</a>
+          <div class="btn-row" style="margin-top:12px;gap:8px"><button type="button" class="btn btn-ghost btn-sm" data-action="copy" data-text="${esc(url)}">Copy link to this page</button><a class="btn btn-ghost btn-sm" href="#resources?school=${s.id}">Flyers and QR codes</a></div>
+        </div>
+        ${partner ? `<div class="paper tracker-card"><span class="pill pill-ok">Verified partner</span><p class="small" style="margin-top:10px">This school confirmed its partnership by email. Scholarship payments go straight to the school by direct deposit.</p></div>`
+          : `<div class="paper tracker-card tracker-confirm"><p class="h4">Do you work at ${esc(s.name)}?</p><p class="small" style="margin-top:6px">Confirm your school with a school email in about two minutes. It’s free and non-exclusive, and it lets us pay tuition by direct deposit.</p><button type="button" class="btn btn-primary" data-action="claim" data-id="${s.id}" style="margin-top:14px;width:100%;justify-content:center">Confirm this school</button></div>`}
+      </aside>
+    </div>
+  </section></div>`;
+}
 
 /* ── Resources: print, social and copy kit ── */
 S.res = { school: '', q: '' };
@@ -1301,7 +1373,7 @@ window.addEventListener('resize', () => { if (routeName() === 'resources') fitMa
 
 /* ───────────────────────── Router ───────────────────────── */
 
-const ROUTES = { home, families, apply, schools, donors, give, resources, about: home };
+const ROUTES = { home, families, apply, schools, school: schoolPage, donors, give, resources, about: home };
 const PUBLIC = ['home', 'about', 'families', 'schools', 'donors'];
 let PORTAL = null;
 try {
@@ -1316,7 +1388,7 @@ function render(keepScroll) {
   const y = window.scrollY;
   $('#app').innerHTML = ROUTES[name]();
   document.querySelectorAll('[data-nav]').forEach(a => {
-    const on = a.dataset.nav === name || (name === 'apply' && a.dataset.nav === 'families') || (name === 'give' && a.dataset.nav === 'donors') || (PORTAL && PORTAL.navFor(name) === a.dataset.nav);
+    const on = a.dataset.nav === name || (name === 'apply' && a.dataset.nav === 'families') || (name === 'give' && a.dataset.nav === 'donors') || (name === 'school' && a.dataset.nav === 'schools') || (PORTAL && PORTAL.navFor(name) === a.dataset.nav);
     if (on && a.dataset.nav !== 'give') a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
   });
   if (window.LHMotion) window.LHMotion.mount($('#app'), { animate: changed, route: name });
@@ -1381,7 +1453,7 @@ document.addEventListener('click', e => {
   if (a === 'kid-remove') { S.app.kids.splice(+b.dataset.i, 1); saveDraft(); rerender(); }
   if (a === 'app-back') { S.app.step--; S.app.err = ''; rerender(); focusFlowTop(); }
   if (a === 'claim') { Object.assign(S.claim, { id: b.dataset.id, step: 'confirm', err: '', code: '', auth: false, how: '', sentTo: '' }); rerender(); window.scrollTo(0, 0); }
-  if (a === 'claim-cancel') { e.preventDefault(); S.claim.id = null; rerender(); const l = $('#list'); if (l) l.scrollIntoView(); }
+  if (a === 'claim-cancel') { e.preventDefault(); S.claim.id = null; rerender(); if (routeName() !== 'school') { const l = $('#list'); if (l) l.scrollIntoView(); } else window.scrollTo(0, 0); }
   if (a === 'claim-resend') { S.claim.code = ''; S.claim.err = ''; rerender(); toast('New code sent to ' + (S.claim.sentTo || S.claim.email)); }
   if (a === 'give-back') { S.give.step--; S.give.err = ''; rerender(); focusFlowTop(); }
   if (a === 'give-daf') { e.preventDefault(); S.give.method = 'daf'; S.give.step = 0; location.hash = 'give'; }

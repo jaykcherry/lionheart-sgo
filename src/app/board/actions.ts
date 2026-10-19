@@ -2,8 +2,9 @@
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { getSession, hasRole, supabaseService, supabaseUser } from '@/lib/supabase';
-import { runRound, approveRound } from '@/server/awardService';
-import { prepareBatch, sendBatch } from '@/server/disbursementService';
+import { approveRound } from '@/server/awardService';
+import { markIrsReportSubmitted } from '@/server/yearEndService';
+import { prepareBatch } from '@/server/disbursementService';
 import { runCompliance } from '@/server/complianceService';
 import { audit } from '@/lib/audit';
 
@@ -17,17 +18,19 @@ const back = (msg?: string) => { revalidatePath('/board'); if (msg) redirect('/b
 
 export async function runComplianceNow() { await ops(); await runCompliance(supabaseService()); back(); }
 
-export async function runAwardRound(f: FormData) {
-  const s = await ops();
-  const seed = str(f, 'seed');
-  if (seed.length < 8) return back('Publish a lottery seed of at least 8 characters before running a round.');
-  await runRound(supabaseService(), { cycleId: str(f, 'cycle_id'), name: str(f, 'name'), seed, runBy: s.userId });
-  back();
-}
-
 export async function approveAwardRound(f: FormData) {
   const s = await ops(true);
   try { await approveRound(supabaseService(), str(f, 'round_id'), s.userId); } catch (e) { return back((e as Error).message); }
+  const to = str(f, 'return_to');
+  if (to.startsWith('/board/rounds/')) { revalidatePath(to); redirect(to); }
+  back();
+}
+
+export async function irsReportSubmitted(f: FormData) {
+  const s = await ops(true);
+  const ref = str(f, 'confirmation');
+  if (ref.length < 4) return back('Enter the confirmation number the IRS portal showed.');
+  try { await markIrsReportSubmitted(supabaseService(), Number(str(f, 'year')), s.userId, ref); } catch (e) { return back((e as Error).message); }
   back();
 }
 
@@ -42,13 +45,6 @@ export async function approve(f: FormData) {
   await ops();
   const { error } = await (await supabaseUser()).rpc('approve_batch', { p_batch: str(f, 'batch_id') });
   back(error?.message);
-}
-
-export async function send(f: FormData) {
-  const s = await ops(true);
-  try { await sendBatch(supabaseService(), str(f, 'batch_id')); } catch (e) { return back((e as Error).message); }
-  await audit(supabaseService(), { actorKind: 'person', actorId: s.userId, action: 'batch_send_requested', entityType: 'disbursement_batch', entityId: str(f, 'batch_id') });
-  back();
 }
 
 export async function decide(f: FormData) {

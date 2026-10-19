@@ -6,7 +6,8 @@ import { sum } from './money';
  * A term payment is released only when: the school confirmed enrollment in the window, the family
  * re-attested Tennessee residency, the payee account is verified (a new or changed account must be confirmed
  * from the school's email on file with the state and be past its cancel window), the
- * student is not on hold, and cash is in the segregated account. Two people approve each batch.
+ * student is not on hold, and cash is in the segregated account. Two people approve each batch (the second a
+ * board officer) after automated safety checks (batchSafety); it then sends itself through the bank's API on the pay date.
  */
 
 export interface TermAward { awardId: string; studentId: string; schoolId: string; term: string; amount: Cents }
@@ -56,6 +57,45 @@ export interface Approval { userId: string; at: string }
 export function canRelease(approvals: Approval[], preparedBy: string): { ok: boolean; reason?: string } {
   const distinct = new Set(approvals.map((a) => a.userId).filter((u) => u !== preparedBy));
   return distinct.size >= 2 ? { ok: true } : { ok: false, reason: `Needs 2 distinct approvers other than the preparer (has ${distinct.size}).` };
+}
+
+/**
+ * Checks run automatically before any money leaves, at approval and again at send. Any problem blocks the
+ * batch and opens a ticket; there is no override button.
+ */
+export interface SafetyInput {
+  bySchool: Record<string, Cents>;                 // what this batch would pay each school
+  awardedForTermBySchool: Record<string, Cents>;   // total of approved award terms for these students
+  alreadySentForTermBySchool: Record<string, Cents>;
+  segregatedCash: Cents;
+  payeeChangedSince: string[];                     // schools whose bank account changed after the batch was approved
+  approvedAt?: string;
+}
+export function batchSafety(i: SafetyInput): string[] {
+  const problems: string[] = [];
+  const total = sum(Object.values(i.bySchool));
+  if (total > i.segregatedCash) problems.push(`Batch total ${total} exceeds cash in the §25F account ${i.segregatedCash}.`);
+  for (const [s, amt] of Object.entries(i.bySchool)) {
+    const cap = (i.awardedForTermBySchool[s] ?? 0) - (i.alreadySentForTermBySchool[s] ?? 0);
+    if (amt <= 0) problems.push(`School ${s}: non-positive amount.`);
+    if (amt > cap) problems.push(`School ${s}: ${amt} is more than its unpaid awards for the term (${cap}).`);
+  }
+  for (const s of i.payeeChangedSince) problems.push(`School ${s}: bank account changed after approval; re-approve.`);
+  return problems;
+}
+
+/**
+ * Refunds a school owes (after a mid-term withdrawal) come out of its next payment automatically, oldest first.
+ * A refund larger than what's left of the payment waits for the next one (no partial netting).
+ */
+export interface OwedRefund { refundId: string; schoolId: string; amount: Cents; reportedAt: string }
+export function netRefunds(bySchool: Record<string, Cents>, owed: OwedRefund[]) {
+  const pay = { ...bySchool };
+  const applied: OwedRefund[] = [];
+  for (const r of [...owed].sort((a, b) => a.reportedAt.localeCompare(b.reportedAt))) {
+    if (r.amount > 0 && (pay[r.schoolId] ?? 0) >= r.amount) { pay[r.schoolId]! -= r.amount; applied.push(r); }
+  }
+  return { pay, applied };
 }
 
 /** Withdrawal mid-term: school refunds the unused share, prorated by days enrolled (EFS-style). */

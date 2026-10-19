@@ -19,6 +19,16 @@ const schema = z.object({
   INCREASE_API_KEY: z.string().optional(),
   INCREASE_SEGREGATED_ACCOUNT_ID: z.string().optional(),
   CREDIT_ELIGIBLE_FROM: z.string().default('2027-01-01'),
+  /** IRS income verification through an IVES participant (Form 4506-C). 'none' = families upload documents. */
+  TRANSCRIPT_PROVIDER: z.enum(['none', 'mock', 'ives_vendor']).default('none'),
+  IVES_API_URL: z.string().url().optional(),
+  IVES_API_KEY: z.string().optional(),
+  /** Mailed acknowledgments for donors without e-delivery consent. 'none' = staff mails them. */
+  MAIL_PROVIDER: z.enum(['none', 'lob']).default('none'),
+  LOB_API_KEY: z.string().optional(),
+  LOB_FROM_ADDRESS_ID: z.string().optional(),
+  /** Comma-separated: who gets tie-out problems, IRS report reminders and approval requests (besides board users). */
+  OPS_ALERT_EMAILS: z.string().default(''),
   /** Set to 'true' once Lionheart appears on the IRS SGO list (pledges then charge automatically). */
   SGO_LISTED: z.enum(['true', 'false']).default('false'),
 });

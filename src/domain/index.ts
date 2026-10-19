@@ -10,3 +10,5 @@ export * from './ledger';
 export * from './acknowledgments';
 export * from './stateMachines';
 export * from './compliance';
+export * from './irs';
+export * from './beacon';

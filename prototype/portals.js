@@ -101,7 +101,7 @@ window.LH_PORTALS = function (LH) {
   /* ───────────── Prototype state ───────────── */
   const P = S.p = {
     role: null, tab: {},
-    round1: null, round2: null, round2Seed: 'LH-2027-R2-0812', round2Approved: false,
+    round1: null, round2: null, round2Seed: E.seedFromBeacon(E.beaconRoundAt('2027-08-15T15:00:00Z'), '9f1c4e7a2b6d8035c1e4f7a9b2d5c8e1f3a6b9c2d5e8f1a4b7c0d3e6f9a2b5c8'), round2Approved: false,
     confirmations: {},  // awardId → { enrolled: bool, at }
     payees: {}, batch: null, approvals: [], batchState: 'DRAFT', sent: [], withdrawals: [], prefSchool: '', eDelivery: true,
     reviews: {}, seenOnboarding: {}, wd: { award: '', days: '30' }, newBank: '',
@@ -118,7 +118,7 @@ window.LH_PORTALS = function (LH) {
 
   // Round 1 (April 15, 2027): run once at load and treat as board-approved
   const R1_DATE = '2027-04-15';
-  P.round1 = E.allocateRound({ roundId: '2027-R1', seed: 'LH-2027-R1-0415', cashAvailable: designatedTotal(R1_DATE), preferencePools: prefPools(R1_DATE),
+  P.round1 = E.allocateRound({ roundId: '2027-R1', seed: E.seedFromBeacon(E.beaconRoundAt('2027-04-15T15:00:00Z'), '4be2a91c7d3f5068e1b4c7a0d3f6b9e2c5a8d1f4b7e0a3c6f9b2e5d8a1c4f7b0'), cashAvailable: designatedTotal(R1_DATE), preferencePools: prefPools(R1_DATE),
     candidates: APPS.filter((a) => a.round === 1 && a.det.result === 'ELIGIBLE').map(toCand) });
   const AWARD = {}; // applicationId → { amount, terms, round }
   function applyRound(res, roundNo) {
@@ -397,10 +397,10 @@ window.LH_PORTALS = function (LH) {
             <section class="panel" style="box-shadow:none;border:1px solid var(--color-divider)">
               <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:end"><div><span class="card-kicker">Round 2 · August 2027</span><h2 class="h3" style="margin-top:6px">${r2 ? (P.round2Approved ? 'Approved' : 'Review and approve') : 'Ready to run'}</h2>
               <p class="small muted" style="margin-top:6px">${r2cands.length} candidates (waitlist + new). Uncommitted cash ${money(uncommitted())}. Policy ${E.DEFAULT_POLICY.version}.</p></div>
-              ${r2 ? '' : `<form class="btn-row" data-form="run-r2"><div class="field"><label for="seed">Published lottery seed</label><input class="input" id="seed" data-bind="p.round2Seed" value="${esc(P.round2Seed)}" style="min-width:220px"></div><button class="btn btn-solid" type="submit" style="align-self:end">Run Round 2</button></form>`}</div>
+              ${r2 ? '' : `<form class="btn-row" data-form="run-r2"><p class="small" style="max-width:50ch">In production this runs by itself at its scheduled time. Ties are broken by public drand beacon round <a href="${E.beaconUrl(E.beaconRoundAt('2027-08-15T15:00:00Z'))}" target="_blank" rel="noopener">${E.beaconRoundAt('2027-08-15T15:00:00Z')}</a>, announced two weeks ahead; applicants freeze an hour before, and the board gets a one-click approval link.</p><button class="btn btn-solid" type="submit" style="align-self:end">Run now (demo)</button></form>`}</div>
               ${r2 ? sumLine(r2) + linesTable(r2) + (P.round2Approved ? '' : `<div class="btn-row" style="margin-top:20px"><button class="btn btn-solid" type="button" data-action="r2-approve">Approve Round 2 (board)</button><button class="btn btn-ghost" type="button" data-action="r2-discard">Discard and re-run</button></div>`) : ''}
             </section>
-            <section><span class="card-kicker">Round 1 · April 15, 2027 · approved</span><h2 class="h3" style="margin:6px 0 4px">Seed ${esc(r1.seed)}</h2>${sumLine(r1)}${linesTable(r1)}</section></div>`;
+            <section><span class="card-kicker">Round 1 · April 15, 2027 · approved</span><h2 class="h3" style="margin:6px 0 4px">Beacon round ${esc(r1.seed.split(':')[1] || r1.seed)}</h2>${sumLine(r1)}${linesTable(r1)}</section></div>`;
         }
         if (tab === 'payments') {
           const sent = P.batchState === 'SENT';
@@ -408,8 +408,8 @@ window.LH_PORTALS = function (LH) {
           return `<div class="stack-l">
             <section>
               <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:end"><div><span class="card-kicker">Fall 2027 · ACH on Aug 20</span><h2 class="h3" style="margin-top:6px">Batch 2027-FALL-1 · ${sent ? 'sent' : esc(P.batchState.toLowerCase().replace('_', ' '))}</h2>
-              <p class="small muted" style="margin-top:6px">Prepared by the disbursement job. Two different people must approve: ops lead, then a board officer.</p></div>
-              ${sent ? '' : `<div class="btn-row"><button class="btn btn-secondary" type="button" data-action="appr" data-who="ann" ${P.approvals.some((a) => a.userId === 'ann') || !batch.readyTotal ? 'disabled' : ''}>Approve as Ann (ops lead)</button><button class="btn btn-secondary" type="button" data-action="appr" data-who="ruth" ${P.approvals.some((a) => a.userId === 'ruth') || !batch.readyTotal ? 'disabled' : ''}>Approve as Ruth (treasurer)</button><button class="btn btn-solid" type="button" data-action="send" ${rel.ok ? '' : 'disabled'}>Send ${money(batch.readyTotal)}</button></div>`}</div>
+              <p class="small muted" style="margin-top:6px">Prepared by the disbursement job and checked automatically. Two different people approve (ops lead, then a board officer); it then sends itself by ACH on Aug 20.</p></div>
+              ${sent ? '' : `<div class="btn-row"><button class="btn btn-secondary" type="button" data-action="appr" data-who="ann" ${P.approvals.some((a) => a.userId === 'ann') || !batch.readyTotal ? 'disabled' : ''}>Approve as Ann (ops lead)</button><button class="btn btn-secondary" type="button" data-action="appr" data-who="ruth" ${P.approvals.some((a) => a.userId === 'ruth') || !batch.readyTotal ? 'disabled' : ''}>Approve as Ruth (treasurer)</button><button class="btn btn-solid" type="button" data-action="send" ${rel.ok ? '' : 'disabled'}>Send ${money(batch.readyTotal)} now (demo)</button></div>`}</div>
               ${sent ? '' : `<div class="kpis" style="margin:18px 0">${kpi('Ready', money(batch.readyTotal), `${batch.lines.filter((l) => l.status === 'READY').length} students`)}${kpi('Blocked', batch.lines.filter((l) => l.status === 'BLOCKED').length, 'Paid in a later batch once cleared')}${kpi('Approvals', `${P.approvals.length} of 2`, rel.ok ? 'Ready to send' : esc(rel.reason || ''))}</div>
               <div class="tablewrap"><table class="table" style="min-width:720px"><thead><tr><th>Student</th><th>School</th><th class="num">Amount</th><th>Status</th><th>Why blocked</th></tr></thead><tbody>
               ${batch.lines.sort((a, b) => (a.status > b.status ? -1 : 1)).map((l) => { const a = APPS.find((x) => x.id === l.awardId); return `<tr><td>${esc(a.child)} ${esc(a.family)}</td><td>${esc(schoolName(l.schoolId))}</td><td class="num">${money(l.amount)}</td><td>${pill(l.status === 'READY' ? 'Ready' : 'Blocked', l.status === 'READY' ? 'pill-ok' : 'pill-warn')}</td><td class="small">${esc(l.blockers.join('; '))}</td></tr>`; }).join('')}
@@ -439,7 +439,7 @@ window.LH_PORTALS = function (LH) {
         return `<div class="split"><div class="stack-m"><h2 class="h3">Award policy ${esc(pol.version)}</h2><p class="body">Adopted by the board on March 10, 2027. The award engine can only use board-approved parameters; any change creates a new version.</p></div>
           <div class="stack-m"><div class="tablewrap"><table class="table"><thead><tr><th>Household income</th><th class="num">Share of unmet need</th><th class="num">Cap per student</th></tr></thead><tbody>
           ${pol.schedule.map((p) => `<tr><td>${p.needIndex === 0 ? 'Lowest (SNAP/TANF/WIC/Section 8/SSI, foster)' : Math.round(p.needIndex * 100) + '% of area median'}</td><td class="num">${Math.round(p.pctOfUnmet * 100)}%</td><td class="num">${money(p.cap)}</td></tr>`).join('')}</tbody></table></div>
-          <p class="small">Share and cap slide smoothly between these points. Order: renewals, then siblings of recipients, then lowest income first (in bands of ${Math.round(pol.rankBandWidth * 100)}% of median), ties by published-seed lottery. ${pol.funding.mode === 'floor_then_topup' ? `Every ranked student gets up to ${money(pol.funding.floor)} before anyone is topped up; top-ups then go lowest income first.` : 'Full awards in strict rank order.'} Unmet need = tuition + required fees − EFS − school aid − other SGO awards. Awards only from cash on hand. Minimum award ${money(pol.minimumAward)}. Paid in ${pol.terms.length} terms.</p></div></div>`;
+          <p class="small">Share and cap slide smoothly between these points. Order: renewals, then siblings of recipients, then lowest income first (in bands of ${Math.round(pol.rankBandWidth * 100)}% of median), ties by a lottery seeded from a public randomness beacon announced in advance. ${pol.funding.mode === 'floor_then_topup' ? `Every ranked student gets up to ${money(pol.funding.floor)} before anyone is topped up; top-ups then go lowest income first.` : 'Full awards in strict rank order.'} Unmet need = tuition + required fees − EFS − school aid − other SGO awards. Awards only from cash on hand. Minimum award ${money(pol.minimumAward)}. Paid in ${pol.terms.length} terms.</p></div></div>`;
       });
   }
 

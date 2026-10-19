@@ -48,10 +48,11 @@ export default async function Schools({ searchParams }: { searchParams: Promise<
               const st = state.get(s.id) ?? 'UNCLAIMED'; const sup = support.get(s.id);
               return (
                 <div className="school" data-sid={s.id} key={s.id}>
-                  <div><div className="school-name">{s.name}</div><div className="school-meta"><span>{s.city}, {s.county} County</span><span>{s.grades}</span><span>Category {s.cat} · {s.auth}</span></div>
+                  <div><Link className="school-name" href={`/schools/${s.id}`}>{s.name}</Link><div className="school-meta"><span>{s.city}, {s.county} County</span><span>{s.grades}</span><span>Category {s.cat} · {s.auth}</span></div>
                     <div className={`school-support${sup?.cents ? ' has' : ''}`}>{supportLine(sup)}</div></div>
                   <div className="school-act">
-                    {st === 'ACTIVE' ? <span className="pill pill-ok">Verified partner</span> : st === 'UNCLAIMED' || st === 'CLAIM_PENDING' ? <Link className="btn btn-primary btn-sm" href={`/school/claim/${s.id}`}>This is my school</Link> : <span className="pill pill-gilt">Setting up</span>}
+                    {st === 'ACTIVE' && <span className="pill pill-ok">Verified partner</span>}
+                    <Link className="btn btn-primary btn-sm" href={`/schools/${s.id}`}>View school</Link>
                     <Link className="btn btn-ghost btn-sm" href={`/donor/give?school=${s.id}`}>Support</Link>
                   </div>
                 </div>);

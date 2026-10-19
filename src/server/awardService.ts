@@ -14,8 +14,14 @@ export async function uncommittedCash(sb: SupabaseClient): Promise<number> {
   return balance - committed;
 }
 
-/** Runs a round with the published seed. Stores the full result for audit; awards are created only on approval. */
-export async function runRound(sb: SupabaseClient, opts: { cycleId: string; name: string; seed: string; runBy: string }): Promise<{ roundId: string; result: AllocationResult }> {
+export interface RoundInput { policy: AwardPolicy; candidates: Candidate[]; cashAvailable: number; preferencePools: { schoolId: string; amount: number }[] }
+
+/**
+ * Everything the lottery needs except the seed. Frozen (and hashed) before the beacon value exists, so nothing
+ * about who is in the round or how much cash there is can change after the randomness is known.
+ */
+export async function buildRoundInput(sb: SupabaseClient, cycleId: string): Promise<RoundInput> {
+  const opts = { cycleId };
   const { data: cycle } = await sb.from('cycles').select('school_year, policy_version, award_policies(params)').eq('id', opts.cycleId).single();
   if (!cycle) throw new Error('cycle not found');
   const policy = normalizePolicy((cycle as unknown as { award_policies: { params: Partial<AwardPolicy> & Record<string, unknown> } }).award_policies.params, cycle.policy_version);
@@ -57,11 +63,18 @@ export async function runRound(sb: SupabaseClient, opts: { cycleId: string; name
   const prefList = [...pools.entries()].map(([schoolId, amount]) => ({ schoolId, amount: Math.min(amount, cash) }));
   const scale = prefList.reduce((s, p) => s + p.amount, 0) > cash ? cash / prefList.reduce((s, p) => s + p.amount, 0) : 1;
 
-  const result = allocateRound({ roundId: opts.name, seed: opts.seed, cashAvailable: cash, candidates, policy,
-    preferencePools: prefList.map((p) => ({ ...p, amount: Math.floor(p.amount * scale) })) });
+  candidates.sort((a, b) => a.applicationId.localeCompare(b.applicationId));
+  return { policy, candidates, cashAvailable: cash, preferencePools: prefList.map((p) => ({ ...p, amount: Math.floor(p.amount * scale) })).sort((a, b) => a.schoolId.localeCompare(b.schoolId)) };
+}
 
-  const { data: round, error } = await sb.from('award_rounds').insert({ cycle_id: opts.cycleId, name: opts.name, seed: opts.seed, cash_available_cents: cash,
-    policy_version: policy.version, result, run_at: new Date().toISOString(), run_by: opts.runBy }).select('id').single();
+export const inputSha256 = async (i: RoundInput) => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(i))))].map((b) => b.toString(16).padStart(2, '0')).join('');
+
+/** Runs a round. Stores the full result for audit; awards are created only on approval. */
+export async function runRound(sb: SupabaseClient, opts: { cycleId: string; name: string; seed: string; runBy: string; input?: RoundInput; beaconRound?: number; inputSha?: string }): Promise<{ roundId: string; result: AllocationResult }> {
+  const input = opts.input ?? await buildRoundInput(sb, opts.cycleId);
+  const result = allocateRound({ roundId: opts.name, seed: opts.seed, ...input });
+  const { data: round, error } = await sb.from('award_rounds').insert({ cycle_id: opts.cycleId, name: opts.name, seed: opts.seed, cash_available_cents: input.cashAvailable,
+    policy_version: input.policy.version, result, run_at: new Date().toISOString(), run_by: opts.runBy, beacon_round: opts.beaconRound ?? null, input_sha256: opts.inputSha ?? await inputSha256(input) }).select('id').single();
   if (error || !round) throw new Error(error?.message);
   return { roundId: round.id, result };
 }

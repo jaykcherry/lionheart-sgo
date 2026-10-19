@@ -997,6 +997,35 @@ details.rules summary { font-size: 16px; padding: 14px 0; }
 
 /* lh-tones: soften OpenStreetMap colors to sit with the site palette */
 .map-canvas .leaflet-tile-pane { filter: saturate(.45) sepia(.12) contrast(.96) brightness(1.03); }
+
+/* School page: donor-support tracker */
+a.school-name { display: block; color: inherit; text-decoration: none; }
+a.school-name:hover, a.school-name:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+.sb-name a { color: inherit; text-decoration: none; }
+.sb-name a:hover { text-decoration: underline; }
+.school-hero { padding-block: 40px 64px; }
+.school-back { color: inherit; opacity: .85; }
+.tracker-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+.tracker-figures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 24px; border-top: 2px solid var(--navy); border-bottom: 1px solid var(--line); }
+.tracker-figures > div { padding: 18px 16px 20px 0; display: flex; flex-direction: column; gap: 6px; }
+.tracker-n { font-family: var(--display); font-size: 44px; line-height: 1; color: var(--navy); font-variant-numeric: lining-nums tabular-nums; }
+.tracker-n small { font-family: var(--serif); font-size: 18px; color: var(--ink-3); }
+.tracker-empty { padding: 28px 0 4px; }
+.tracker-chart { width: 100%; height: auto; margin-top: 18px; display: block; }
+.tracker-chart .tc-axis { stroke: var(--line); stroke-width: 1; }
+.tracker-chart .tc-bar { fill: var(--gold, #b9975b); }
+.tracker-chart .tc-label { font: 11px var(--sans, system-ui); fill: var(--ink-3); }
+.tracker-side { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 110px; }
+.tracker-card { padding: 22px; }
+.tracker-confirm { border-top: 3px solid var(--crimson, #8e2a2e); }
+@media (max-width: 860px) {
+  .tracker-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .tracker-side { position: static; }
+  .tracker-n { font-size: 32px; }
+  .tracker-figures { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .tracker-figures > div:last-child { grid-column: 1 / -1; border-top: 1px solid var(--line); }
+}
+.school-hero .pill { white-space: normal; max-width: 100%; line-height: 1.35; }
 /* app-only additions */
 .form-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding-top: 22px; border-top: 1px solid var(--line); }
 main { display: block; }

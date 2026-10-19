@@ -63,7 +63,7 @@
 
   function popupHTML(s) {
     const q = encodeURIComponent(s.a ? `${s.n}, ${s.a}, ${s.c}, TN` : `${s.n}, ${s.c}, TN`);
-    const claim = s.p ? '<span class="pill pill-ok">Verified partner</span>'
+    const claim = s.view ? `<a class="btn btn-primary btn-sm" href="${esc(s.view)}">View school</a>` : s.p ? '<span class="pill pill-ok">Verified partner</span>'
       : s.claim === 'action' ? `<button type="button" class="btn btn-primary btn-sm" data-action="claim" data-id="${esc(s.id)}">This is my school</button>`
       : s.claim ? `<a class="btn btn-primary btn-sm" href="${esc(s.claim)}">This is my school</a>` : '';
     return `<div class="mp"><p class="mp-name">${esc(s.n)}</p><p class="mp-meta">${s.a ? esc(s.a) + ', ' : ''}${esc(s.c)}, ${esc(s.co)} County · ${esc(s.g)}${s.cat ? ' · Category ' + esc(s.cat) : ''}</p>

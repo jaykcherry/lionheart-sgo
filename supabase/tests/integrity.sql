@@ -64,4 +64,18 @@ insert into school_contacts (school_id, email, kind, source) select id, 'office@
 set role authenticated;
 do $$ begin if (select count(*) from school_contacts) <> 0 then raise exception 'school contacts visible to users'; end if; raise notice 'ok: school contacts hidden'; end $$;
 reset role;
+-- 12. IRS consents: a family sees only its own, and only the last four SSN digits are storable
+insert into irs_consents (household_id, tax_year, member_ids, filing_status, name_on_return, ssn_last4, address_on_return, signer_user_id, signer_typed_name, consent_text_version, consent_sha256)
+values ('10000000-0000-0000-0000-00000000000b', 2026, '{}', 'single', 'B Parent', '1234', '1 Main St', '00000000-0000-0000-0000-00000000000b', 'B Parent', 'v1', 'x');
+select expect_error($$insert into irs_consents (household_id, tax_year, member_ids, filing_status, name_on_return, ssn_last4, address_on_return, signer_user_id, signer_typed_name, consent_text_version, consent_sha256)
+  values ('10000000-0000-0000-0000-00000000000b', 2026, '{}', 'single', 'B', '123456789', 'x', '00000000-0000-0000-0000-00000000000b', 'B', 'v1', 'x')$$, 'ssn_last4');
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000a', false);
+do $$ begin if (select count(*) from irs_consents) <> 0 then raise exception 'family A sees another household''s IRS consent'; end if; raise notice 'ok: IRS consents isolated'; end $$;
+reset role;
+-- 13. payments still need two approvers including a board officer
+insert into disbursement_batches (id, name, term, state, prepared_by) values ('60000000-0000-0000-0000-000000000001', 'T-1', 'fall', 'PREPARED', 'job:disbursement-preparer');
+select expect_error($$update disbursement_batches set state = 'SENT' where id = '60000000-0000-0000-0000-000000000001'$$, 'illegal batch transition');
+update disbursement_batches set state = 'APPROVED_1' where id = '60000000-0000-0000-0000-000000000001';
+select expect_error($$update disbursement_batches set state = 'SENT' where id = '60000000-0000-0000-0000-000000000001'$$, 'illegal batch transition');
 \echo ALL DATABASE TESTS PASSED

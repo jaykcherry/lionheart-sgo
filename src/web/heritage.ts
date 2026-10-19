@@ -90,7 +90,7 @@ export function schoolMapData(visible: string[] | null, status: Map<string, stri
     schools: SCHOOLS.map((s) => {
       const st = status.get(s.id) ?? 'UNCLAIMED';
       return { id: s.id, n: s.name, c: s.city, co: s.county, g: s.grades, cat: s.cat, lat: s.lat, lon: s.lon, a: s.street ?? '', ap: s.geo === 'zip', p: st === 'ACTIVE',
-        claim: st === 'UNCLAIMED' || st === 'CLAIM_PENDING' ? `/school/claim/${s.id}` : null, give: `/donor/give?school=${s.id}` };
+        view: `/schools/${s.id}`, give: `/donor/give?school=${s.id}` };
     }),
     visible,
   });
@@ -126,7 +126,23 @@ export function supportBoard(support: Map<string, Support>) {
       <div><span class="kpi-label">Giving opens</span><span class="support-n" style="font-size:30px">January 1, 2027</span></div>
     </div>`;
   if (!rows.length) return kpis + `<div class="support-empty"><p class="h3">No designations yet.</p><p class="body" style="margin-top:8px">Gifts made or scheduled now are charged January 1, 2027, and appear here the day they’re made. Be the first to name a school.</p><div class="btn-row" style="margin-top:18px"><a class="btn btn-gold" href="/donor/give">Give and name a school <span class="arr" aria-hidden="true">→</span></a></div></div>`;
-  return kpis + `<ol class="support-board">${rows.slice(0, 12).map((x, i) => `<li data-rv style="--d:${(i * 0.05).toFixed(2)}s"><span class="sb-rank">${i + 1}</span><div class="sb-main"><p class="sb-name">${esc(x.s.name)} <small>${esc(x.s.city)}</small></p><div class="sb-bar"><span style="width:${Math.max(2, (x.d.cents / max) * 100).toFixed(1)}%"></span></div></div><div class="sb-amt"><b>${usd(x.d.cents / 100)}</b><small>${x.d.donors && x.d.donors >= 3 ? x.d.donors + ' donors' : 'fewer than 3 donors'}</small></div><a class="btn btn-ghost btn-sm" href="/donor/give?school=${x.s.id}">Support</a></li>`).join('')}</ol>`;
+  return kpis + `<ol class="support-board">${rows.slice(0, 12).map((x, i) => `<li data-rv style="--d:${(i * 0.05).toFixed(2)}s"><span class="sb-rank">${i + 1}</span><div class="sb-main"><p class="sb-name"><a href="/schools/${x.s.id}">${esc(x.s.name)}</a> <small>${esc(x.s.city)}</small></p><div class="sb-bar"><span style="width:${Math.max(2, (x.d.cents / max) * 100).toFixed(1)}%"></span></div></div><div class="sb-amt"><b>${usd(x.d.cents / 100)}</b><small>${x.d.donors && x.d.donors >= 3 ? x.d.donors + ' donors' : 'fewer than 3 donors'}</small></div><a class="btn btn-ghost btn-sm" href="/donor/give?school=${x.s.id}">Support</a></li>`).join('')}</ol>`;
+}
+
+/** Cumulative monthly bars for a school's tracker (2027), from school_support_monthly rows. */
+export const TYPICAL_AWARD = 5000;
+export function trackerChart(monthly: { month: string; cents: number }[], now = new Date().toISOString().slice(0, 7)) {
+  const months = Array.from({ length: 12 }, (_, i) => `2027-${String(i + 1).padStart(2, '0')}`);
+  const last = monthly.reduce((m, x) => (x.month > m ? x.month : m), now);
+  let run = 0;
+  const pts = months.map((k) => { run += monthly.filter((x) => x.month <= '2027-01' ? k === '2027-01' : x.month === k).reduce((t, x) => t + x.cents, 0) / 100; return k <= last ? run : 0; });
+  const max = Math.max(1, ...pts), W = 560, H = 130, bw = W / 12;
+  const MN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `<svg class="tracker-chart" viewBox="0 0 ${W} ${H + 24}" role="img" aria-label="Support named for this school, by month, 2027">
+    <line x1="0" y1="${H}" x2="${W}" y2="${H}" class="tc-axis"/>
+    ${pts.map((v, i) => { const h = Math.max(v ? 3 : 0, (v / max) * (H - 18)); return `<rect x="${(i * bw + bw * 0.18).toFixed(1)}" y="${(H - h).toFixed(1)}" width="${(bw * 0.64).toFixed(1)}" height="${h.toFixed(1)}" rx="2" class="tc-bar"><title>${MN[i]} 2027: ${usd(v)} total</title></rect>`; }).join('')}
+    ${months.map((_, i) => `<text x="${(i * bw + bw / 2).toFixed(1)}" y="${H + 17}" text-anchor="middle" class="tc-label">${MN[i]}</text>`).join('')}
+  </svg>`;
 }
 
 export function homeHTML(limits: number[], notified: boolean) {
@@ -253,7 +269,7 @@ export function homeHTML(limits: number[], notified: boolean) {
           <p class="body"><b style="font-family:var(--serif);color:var(--navy)">At least 90 cents of every dollar</b> becomes tuition. Federal law requires it; we track it daily and publish it every year.</p>
         </div>
       </div>
-      <div class="articles" data-rv="right">${([['Scholarships first.', 'At least 90 cents of every dollar becomes tuition.'], ['No favors.', 'Donors never choose a student. Awards follow a published formula, and ties go to a lottery recorded in the board minutes.'], ['Two signatures.', 'Every payment to a school is approved by staff and by a board officer.'], ['Open books.', 'An independent audit and a public report, every year.']] as string[][])
+      <div class="articles" data-rv="right">${([['Scholarships first.', 'At least 90 cents of every dollar becomes tuition.'], ['No favors.', 'Donors never choose a student. Awards follow a published formula, and ties go to a lottery drawn from a public random number announced in advance.'], ['Two signatures.', 'Every payment to a school is approved by staff and by a board officer.'], ['Open books.', 'An independent audit and a public report, every year.']] as string[][])
         .map(([t, b], i) => `<div class="article" data-rv style="--d:${(0.15 + i * 0.12).toFixed(2)}s"><span class="numeral">${ROMAN[i]}.</span><p><b>${t}</b> ${b}</p></div>`).join('')}</div>
     </section>
   </div>

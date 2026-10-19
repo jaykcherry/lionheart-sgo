@@ -27,7 +27,9 @@ var LionheartEngine = (() => {
     CREDIT_CAP: () => CREDIT_CAP,
     CREDIT_START: () => CREDIT_START,
     DEFAULT_POLICY: () => DEFAULT_POLICY,
+    DRAND_QUICKNET: () => DRAND_QUICKNET,
     FAMILY_RELATIONS: () => FAMILY_RELATIONS,
+    FORM_4506C_VALID_DAYS: () => FORM_4506C_VALID_DAYS,
     HUD_SIZE_MULTIPLIER: () => HUD_SIZE_MULTIPLIER,
     SUBSTANTIAL_SHARE: () => SUBSTANTIAL_SHARE,
     SUBSTANTIAL_THRESHOLD: () => SUBSTANTIAL_THRESHOLD,
@@ -39,11 +41,16 @@ var LionheartEngine = (() => {
     awardAmount: () => awardAmount,
     balance: () => balance,
     batchMachine: () => batchMachine,
+    batchSafety: () => batchSafety,
+    beaconRoundAt: () => beaconRoundAt,
+    beaconTimeOf: () => beaconTimeOf,
+    beaconUrl: () => beaconUrl,
     blocked: () => blocked,
     buildBatch: () => buildBatch,
     buildYearEnd: () => buildYearEnd,
     canRelease: () => canRelease,
     capFor: () => capFor,
+    consentValid: () => consentValid,
     coverageFor: () => coverageFor,
     creditForYear: () => creditForYear,
     deadlinesFor: () => deadlinesFor,
@@ -57,8 +64,11 @@ var LionheartEngine = (() => {
     giftMachine: () => giftMachine,
     hash32: () => hash32,
     lotteryNumber: () => lotteryNumber,
+    mergeTranscripts: () => mergeTranscripts,
     needBand: () => needBand,
     needIndexOf: () => needIndexOf,
+    netRefunds: () => netRefunds,
+    nextTranscriptRetry: () => nextTranscriptRetry,
     ninetyPercentTest: () => ninetyPercentTest,
     normAddr: () => normAddr,
     normName: () => normName,
@@ -71,10 +81,12 @@ var LionheartEngine = (() => {
     refundJournal: () => refundJournal,
     resolveLimit: () => resolveLimit,
     roundDollar: () => roundDollar,
+    roundPlan: () => roundPlan,
     routeGift: () => routeGift,
     scholarshipJournal: () => scholarshipJournal,
     schoolMachine: () => schoolMachine,
     screen: () => screen,
+    seedFromBeacon: () => seedFromBeacon,
     sizeMultiplier: () => sizeMultiplier,
     splitCouple: () => splitCouple,
     splitTerms: () => splitTerms,
@@ -84,6 +96,7 @@ var LionheartEngine = (() => {
     tierFor: () => tierFor,
     tierLabel: () => tierLabel,
     toDollars: () => toDollars,
+    transcriptToIncomeItems: () => transcriptToIncomeItems,
     unmetNeed: () => unmetNeed
   });
 
@@ -635,6 +648,31 @@ var LionheartEngine = (() => {
     const distinct = new Set(approvals.map((a) => a.userId).filter((u) => u !== preparedBy));
     return distinct.size >= 2 ? { ok: true } : { ok: false, reason: `Needs 2 distinct approvers other than the preparer (has ${distinct.size}).` };
   }
+  function batchSafety(i) {
+    var _a, _b;
+    const problems = [];
+    const total = sum(Object.values(i.bySchool));
+    if (total > i.segregatedCash) problems.push(`Batch total ${total} exceeds cash in the \xA725F account ${i.segregatedCash}.`);
+    for (const [s, amt] of Object.entries(i.bySchool)) {
+      const cap = ((_a = i.awardedForTermBySchool[s]) != null ? _a : 0) - ((_b = i.alreadySentForTermBySchool[s]) != null ? _b : 0);
+      if (amt <= 0) problems.push(`School ${s}: non-positive amount.`);
+      if (amt > cap) problems.push(`School ${s}: ${amt} is more than its unpaid awards for the term (${cap}).`);
+    }
+    for (const s of i.payeeChangedSince) problems.push(`School ${s}: bank account changed after approval; re-approve.`);
+    return problems;
+  }
+  function netRefunds(bySchool, owed) {
+    var _a;
+    const pay = { ...bySchool };
+    const applied = [];
+    for (const r of [...owed].sort((a, b) => a.reportedAt.localeCompare(b.reportedAt))) {
+      if (r.amount > 0 && ((_a = pay[r.schoolId]) != null ? _a : 0) >= r.amount) {
+        pay[r.schoolId] -= r.amount;
+        applied.push(r);
+      }
+    }
+    return { pay, applied };
+  }
   function refundDue(paidForTerm, daysEnrolled, termDays) {
     if (termDays <= 0) throw new Error("termDays must be positive");
     const used = Math.min(1, Math.max(0, daysEnrolled / termDays));
@@ -901,5 +939,83 @@ var LionheartEngine = (() => {
     var _a;
     return f.severity === "critical" && ((_a = f.blocks) == null ? void 0 : _a.includes(flow));
   });
+
+  // src/domain/irs.ts
+  function transcriptToIncomeItems(o) {
+    var _a;
+    const who = o.coversMemberIds[0];
+    const f = o.fields;
+    const items = [
+      ["wages", f.wages],
+      ["interest_dividends", f.taxableInterest + f.ordinaryDividends],
+      ["self_employment", Math.max(0, f.businessIncome) + Math.max(0, (_a = f.farmIncome) != null ? _a : 0)],
+      ["rental", Math.max(0, f.rentalRoyalty)],
+      ["unemployment", f.unemployment],
+      ["social_security", f.socialSecurityGross],
+      ["pension", f.pensionsTaxable],
+      ["other_cash", Math.max(0, f.otherIncome)]
+    ];
+    const out = items.filter(([, a]) => a > 0).map(([type, amount]) => ({ personId: who, type, amount, year: o.taxYear, cash: true, source: "transcript" }));
+    for (const m of o.coversMemberIds.slice(1)) out.push({ personId: m, type: "other_cash", amount: 0, year: o.taxYear, cash: true, source: "transcript" });
+    if (!out.some((i) => i.personId === who)) out.push({ personId: who, type: "other_cash", amount: 0, year: o.taxYear, cash: true, source: "transcript" });
+    return out;
+  }
+  var TAXABLE_TYPES = /* @__PURE__ */ new Set(["wages", "self_employment", "unemployment", "interest_dividends", "rental", "pension", "social_security", "other_cash"]);
+  function mergeTranscripts(stated, outcomes, zeroIncomeAttested) {
+    const returns = outcomes.filter((o) => o.kind === "return");
+    const covered = new Set(returns.flatMap((o) => o.coversMemberIds));
+    const kept = stated.filter((i) => !(covered.has(i.personId) && TAXABLE_TYPES.has(i.type)));
+    const fromIrs = returns.flatMap(transcriptToIncomeItems);
+    const notes = [];
+    for (const o of returns) {
+      const before = sum(stated.filter((i) => o.coversMemberIds.includes(i.personId) && TAXABLE_TYPES.has(i.type)).map((i) => i.amount));
+      const after = sum(transcriptToIncomeItems(o).map((i) => i.amount));
+      const fmt = (c) => (c / 100).toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+      notes.push(Math.abs(after - before) <= Math.max(1e5, before * 0.05) ? `IRS transcript for ${o.taxYear} confirms stated income (${fmt(after)}).` : `IRS transcript for ${o.taxYear} shows ${fmt(after)}; the family stated ${fmt(before)}. The IRS figure is used.`);
+    }
+    for (const o of outcomes) if (o.kind === "no_record") notes.push(`IRS has no ${o.taxYear} return on file for ${o.coversMemberIds.length} person(s).`);
+    const contradictsZeroIncome = returns.some((o) => o.coversMemberIds.some((m) => zeroIncomeAttested.includes(m)) && sum(transcriptToIncomeItems(o).map((i) => i.amount)) > 0);
+    if (contradictsZeroIncome) notes.push("A person who reported no income has income on an IRS transcript. The IRS figure is used.");
+    return { items: [...kept, ...fromIrs], verifiedMemberIds: [...covered], notes, contradictsZeroIncome };
+  }
+  function nextTranscriptRetry(taxYear, today) {
+    const last = `${taxYear + 1}-10-15`;
+    const d = /* @__PURE__ */ new Date(today + "T00:00:00Z");
+    d.setUTCDate(d.getUTCDate() + 14);
+    const next = d.toISOString().slice(0, 10);
+    return next <= last ? next : null;
+  }
+  var FORM_4506C_VALID_DAYS = 120;
+  var consentValid = (signedAt, today) => ((/* @__PURE__ */ new Date(today + "T00:00:00Z")).getTime() - (/* @__PURE__ */ new Date(signedAt.slice(0, 10) + "T00:00:00Z")).getTime()) / 864e5 <= FORM_4506C_VALID_DAYS;
+
+  // src/domain/beacon.ts
+  var DRAND_QUICKNET = {
+    chainHash: "52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971",
+    genesisTime: 1692803367,
+    // unix seconds
+    period: 3,
+    // seconds
+    relays: ["https://api.drand.sh", "https://api2.drand.sh", "https://api3.drand.sh", "https://drand.cloudflare.com"]
+  };
+  function beaconRoundAt(iso, c = DRAND_QUICKNET) {
+    const t = Math.floor(new Date(iso).getTime() / 1e3);
+    return Math.max(1, Math.ceil((t - c.genesisTime) / c.period) + 1);
+  }
+  function beaconTimeOf(round, c = DRAND_QUICKNET) {
+    return new Date((c.genesisTime + (round - 1) * c.period) * 1e3).toISOString();
+  }
+  var beaconUrl = (round, relay = DRAND_QUICKNET.relays[0], c = DRAND_QUICKNET) => `${relay}/${c.chainHash}/public/${round}`;
+  var seedFromBeacon = (round, randomness) => `drand-quicknet:${round}:${randomness.toLowerCase()}`;
+  function roundPlan(year, slots = [
+    { name: `${year}-R1`, date: `${year}-04-15` },
+    { name: `${year}-R2`, date: `${year}-07-15` },
+    { name: `${year}-R3`, date: `${year}-12-01` }
+  ]) {
+    return slots.map(({ name, date }) => {
+      const runAt = (/* @__PURE__ */ new Date(`${date}T15:00:00Z`)).toISOString();
+      const at = (h) => new Date(new Date(runAt).getTime() + h * 36e5).toISOString();
+      return { name, runAt, announceAt: at(-14 * 24), freezeAt: at(-1), beaconRound: beaconRoundAt(runAt) };
+    });
+  }
   return __toCommonJS(index_exports);
 })();

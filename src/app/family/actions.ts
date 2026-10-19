@@ -4,6 +4,10 @@ import { revalidatePath } from 'next/cache';
 import { tasks } from '@trigger.dev/sdk';
 import { getSession, supabaseUser } from '@/lib/supabase';
 import { dollars } from '@/domain';
+import { headers } from 'next/headers';
+import { supabaseService } from '@/lib/supabase';
+import { submitConsent } from '@/server/irsTranscripts';
+import { CONSENT_4506C_TEXT, CONSENT_4506C_VERSION } from './irsConsent';
 
 async function household() {
   const s = await getSession();
@@ -108,4 +112,31 @@ export async function attestResidency(f: FormData) {
   if (f.get('confirm') !== 'on') return;
   await sb.rpc('attest_residency', { p_household: householdId, p_term: str(f, 'term') });
   revalidatePath('/family');
+}
+
+/**
+ * Form 4506-C e-signature: lets the IRS send last year's tax return transcript to our IVES vendor.
+ * The full SSN is passed straight to the vendor and never stored; we keep the last four digits.
+ */
+export async function signIrsConsent(f: FormData) {
+  const { s, householdId } = await household();
+  const back = (msg: string) => redirect('/family/apply?step=5&error=' + encodeURIComponent(msg));
+  if (f.get('consent') !== 'on') back('Check the box to authorize the IRS request.');
+  const status = str(f, 'filing_status') as 'single' | 'mfj' | 'mfs' | 'hoh' | 'qss';
+  const memberIds = [str(f, 'member_primary'), str(f, 'member_spouse')].filter(Boolean);
+  if (!memberIds.length) back('Choose who filed the return.');
+  if (status === 'mfj' && memberIds.length < 2) back('For a joint return, choose both spouses.');
+  const typed = str(f, 'signature');
+  if (typed.toLowerCase() !== str(f, 'name_on_return').toLowerCase() && typed.toLowerCase() !== str(f, 'spouse_name_on_return').toLowerCase()) back('Type your name exactly as it appears on the return to sign.');
+  const h = await headers();
+  try {
+    await submitConsent(supabaseService(), {
+      householdId, taxYear: Number(str(f, 'tax_year')), memberIds, filingStatus: status,
+      nameOnReturn: str(f, 'name_on_return'), spouseNameOnReturn: str(f, 'spouse_name_on_return') || undefined,
+      ssn: str(f, 'ssn'), spouseSsn: status === 'mfj' ? str(f, 'spouse_ssn') : undefined, addressOnReturn: str(f, 'address_on_return'),
+      signerUserId: s.userId, signerTypedName: typed, ip: (h.get('x-forwarded-for') ?? '').split(',')[0]?.trim() || undefined, userAgent: h.get('user-agent') ?? undefined,
+      consentText: CONSENT_4506C_TEXT, consentVersion: CONSENT_4506C_VERSION,
+    });
+  } catch (e) { back((e as Error).message); }
+  redirect('/family/apply?step=5&irs=1');
 }
