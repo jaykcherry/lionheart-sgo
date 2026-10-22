@@ -147,7 +147,7 @@ export function trackerChart(monthly: { month: string; cents: number }[], now = 
 
 export function homeHTML(limits: number[], notified: boolean) {
   const joint = true, amt = 3400;
-  const verse = 'The righteous are bold as a lion.'.split(' ').map((w, i) => `<span class="w" style="--d:${(0.15 + i * 0.12).toFixed(2)}s">${i === 0 ? '“' : ''}${w}${i === 6 ? '”' : ''}</span>`).join(' ');
+  const verse = 'Every child deserves a school that fits.'.split(' ').map((w, i) => `<span class="w" style="--d:${(0.15 + i * 0.12).toFixed(2)}s">${w}</span>`).join(' ');
   const big = SCHOOLS.filter((s) => s.k12 >= 300); const h = Math.ceil(big.length / 2);
   const steps: [string, string, string, string, string][] = [
     ['From January 1, 2027', 'You give', 'Up to $1,700 each, by card, Apple Pay or PayPal. We cover the card fees, and your gift goes into a scholarship fund kept apart from everything else.', 'full', 'Given to Lionheart from your own account'],
@@ -159,10 +159,9 @@ export function homeHTML(limits: number[], notified: boolean) {
   <div class="band band-field" data-rosette="none">
     <section class="wrap hero">
       <div>
-        <p class="hero-verse" data-rv>For students who “are bold as a lion.” Proverbs 28:1</p>
         <h1 class="display lines" data-io><span class="ln"><span>Give $3,400.</span></span><span class="ln"><span style="--d:.12s">Get it all back.</span></span><span class="ln"><span style="--d:.24s">Help a family pay tuition.</span></span></h1>
         <div class="ornament grow" data-io>${STAR}</div>
-        <p class="lead" data-rv style="--d:.55s">Give up to $1,700 to Lionheart, or $3,400 if you’re married, and you get every dollar back as a federal tax credit. We turn it into tuition for Tennessee kids at Christian schools.</p>
+        <p class="lead" data-rv style="--d:.55s">Give up to $1,700 to Lionheart, or $3,400 if you’re married, and you get every dollar back as a federal tax credit. We turn it into tuition for Tennessee kids at the private school their family chooses.</p>
         <div class="hero-cta" data-rv style="--d:.7s"><a class="btn btn-gold magnetic" href="/donor/give" id="hero-give">Give $3,400 as a couple <span class="arr" aria-hidden="true">→</span></a><a class="btn btn-secondary" href="/families">Apply for a scholarship</a></div>
       </div>
       <div class="cert-stage" data-rv="scale" data-rosette="wreath" style="--d:.25s">
@@ -242,7 +241,7 @@ export function homeHTML(limits: number[], notified: boolean) {
   <div class="band" style="border-top:1px solid var(--line);padding-bottom:64px">
     <section class="wrap sec split" style="align-items:end;padding-bottom:40px">
       <div><span class="kicker" data-rv>For schools</span><h2 class="h2" data-rv style="margin-top:16px;--d:.08s">Your school is already on our list.</h2></div>
-      <div data-rv style="--d:.16s"><p class="lead">We’ve loaded all ${SCHOOLS.length} Christian schools on Tennessee’s approved list, from Memphis to Bristol. Donors can name yours. Confirm with your school email in two minutes.</p><div class="btn-row" style="margin-top:24px"><a class="btn btn-secondary" href="/schools">Find your school <span class="arr" aria-hidden="true">→</span></a></div></div>
+      <div data-rv style="--d:.16s"><p class="lead">We’ve loaded all ${SCHOOLS.length} private K–12 schools on Tennessee’s approved list, from Memphis to Bristol. Donors can name yours. Confirm with your school email in two minutes.</p><div class="btn-row" style="margin-top:24px"><a class="btn btn-secondary" href="/schools">Find your school <span class="arr" aria-hidden="true">→</span></a></div></div>
     </section>
     <div class="marquee" data-marquee>
       <div class="marquee-row">${big.slice(0, h).map((s) => `<span class="marquee-item">${esc(s.name)} <small>${esc(s.city)}</small></span>`).join('')}</div>
@@ -253,8 +252,8 @@ export function homeHTML(limits: number[], notified: boolean) {
   <div class="band band-crimson" data-rosette="side">
     <section class="scripture" data-io>
       <p class="verse" style="max-width:none">${verse}</p>
-      <p class="verse-ref" data-rv style="--d:1s">Proverbs 28:1</p>
-      <p class="body" data-rv style="--d:1.15s">Lionheart was founded so more Tennessee families can choose a Christian education. We take our name from Proverbs: courage in what we fund, and care in how we fund it.</p>
+      <p class="verse-ref" data-rv style="--d:1s">Why we exist</p>
+      <p class="body" data-rv style="--d:1.15s">Lionheart was founded so more Tennessee families can choose the private school that fits their child: independent or religious, Montessori or classical, big or small. Courage in what we fund, and care in how we fund it.</p>
     </section>
   </div>
 

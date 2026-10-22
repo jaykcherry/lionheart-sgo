@@ -20,7 +20,7 @@ head = f'''<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 {title}
-<meta name="description" content="Lionheart is a Tennessee scholarship granting organization. Give up to $1,700 each ($3,400 as a couple) and claim it back as a federal tax credit; it becomes tuition at a Tennessee Christian school.">
+<meta name="description" content="Lionheart is a Tennessee scholarship granting organization. Give up to $1,700 each ($3,400 as a couple) and claim it back as a federal tax credit; it becomes tuition at a Tennessee private school.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#1c2a4a">
 <link rel="icon" href="{fav}">
@@ -29,7 +29,7 @@ head = f'''<!doctype html>
 <meta property="og:site_name" content="Lionheart Scholarship Fund">
 <meta property="og:url" content="https://lionheartscholars.org/">
 <meta property="og:title" content="Give $3,400. Get it all back. Help a family pay tuition.">
-<meta property="og:description" content="Give up to $1,700 each ($3,400 as a couple) to Lionheart and get it back as a federal tax credit. It becomes tuition at a Tennessee Christian school.">
+<meta property="og:description" content="Give up to $1,700 each ($3,400 as a couple) to Lionheart and get it back as a federal tax credit. It becomes tuition at a Tennessee private school.">
 <meta property="og:image" content="https://lionheartscholars.org/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">

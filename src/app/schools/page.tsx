@@ -23,7 +23,7 @@ export default async function Schools({ searchParams }: { searchParams: Promise<
     <>
       <div className="band band-field"><section className="wrap split" style={{ paddingBlock: '84px 76px' }}>
         <div><h1 className="display-sm">Your school is already on our list.</h1>
-          <p className="lead" style={{ marginTop: 28 }}>We’ve pre-loaded every Christian school on the Tennessee Department of Education’s approved list, Categories I through IV, {SCHOOLS.length} in all. Find yours, say yes, and verify by email. It takes about two minutes and costs your school nothing.</p></div>
+          <p className="lead" style={{ marginTop: 28 }}>We’ve pre-loaded every private K–12 school on the Tennessee Department of Education’s approved list, Categories I through V, {SCHOOLS.length} in all. Find yours, say yes, and verify by email. It takes about two minutes and costs your school nothing.</p></div>
         <div className="rows" style={{ borderTop: '2px solid rgba(255,255,255,.5)' }}>
           {[['1', 'Find your school', 'Search the list below.'], ['2', 'Say yes', 'Review the partnership terms and confirm you can sign for the school.'], ['3', 'Verify', 'We email a six-digit code to your school address, or to the school’s email on file with the state. Enter it and you’re a partner.']].map(([num, t, b]) => (
             <div key={num}><span className="numeral" style={{ fontSize: 20 }}>{num}</span><div><p className="rows-title">{t}</p><p className="body">{b}</p></div></div>))}
@@ -32,7 +32,7 @@ export default async function Schools({ searchParams }: { searchParams: Promise<
 
       <div className="band"><section className="wrap sec" id="list">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', gap: 20, flexWrap: 'wrap', marginBottom: 22 }}>
-          <div><h2 className="h2">Find your school</h2><p className="small muted" style={{ marginTop: 8 }}>{SCHOOLS.length} Christian schools on the state’s 2026–27 approved list{partners.size ? ` · ${partners.size} verified partner${partners.size === 1 ? '' : 's'}` : ''}</p></div>
+          <div><h2 className="h2">Find your school</h2><p className="small muted" style={{ marginTop: 8 }}>{SCHOOLS.length} private schools on the state’s 2026–27 approved list{partners.size ? ` · ${partners.size} verified partner${partners.size === 1 ? '' : 's'}` : ''}</p></div>
           <form className="field" style={{ flex: '0 1 360px' }} action="/schools#list"><label htmlFor="school-q">Search by name, initials, city or county</label>
             {region && <input type="hidden" name="region" value={region} />}
             <input className="input" id="school-q" name="q" type="search" defaultValue={q} placeholder="e.g. Franklin or CPA" autoComplete="off" /></form>

@@ -25,7 +25,7 @@ export default function Donors() {
         <div className="stack-m">
           <span className="kicker">Name a school</span>
           <h2 className="h2">Support the school you love</h2>
-          <p className="body" style={{ maxWidth: '52ch' }}>When you give, you can name one of Tennessee’s {SCHOOLS.length} Christian schools. Your gift joins that school’s pool and helps its families first, awarded by need. You never choose a student. Parents and grandparents can name their own child’s school, and their children can still apply; giving doesn’t change anyone’s chances.</p>
+          <p className="body" style={{ maxWidth: '52ch' }}>When you give, you can name one of Tennessee’s {SCHOOLS.length} private schools. Your gift joins that school’s pool and helps its families first, awarded by need. You never choose a student. Parents and grandparents can name their own child’s school, and their children can still apply; giving doesn’t change anyone’s chances.</p>
           <p className="small"><Link href="/schools#support">See donor support by school</Link></p>
         </div>
         <form className="panel" action="/donor/give" method="get">

@@ -30,13 +30,13 @@ const MAT = {
   insert: { label: 'Bulletin insert', size: 'Half sheet, 5.5 × 8.5 in (prints 2 per page)', w: 5.5, h: 8.5 },
   poster: { label: 'Poster', size: 'Tabloid, 11 × 17 in', w: 11, h: 17 }
 };
-function matHead(c) { return `<div class="m-head"><div class="m-wave"></div><p class="m-brand">LIONHEART</p><p class="m-tag">Scholarships for Tennessee Christian schools</p></div>`; }
+function matHead(c) { return `<div class="m-head"><div class="m-wave"></div><p class="m-brand">LIONHEART</p><p class="m-tag">Scholarships for Tennessee private schools</p></div>`; }
 function matFoot(c, extra) { return `<p class="m-fine">${extra ? extra + ' ' : ''}Lionheart is a Tennessee scholarship granting organization under the federal scholarship tax credit (26 U.S.C. § 25F). ${c.s ? 'Shared by ' + esc(c.s.name) + '. ' : ''}lionheartscholars.org</p>`; }
 function matHTML(kind, c) {
   if (kind === 'family') return `<div class="mat mat-letter">${matHead(c)}
     <p class="m-eyebrow">${c.s ? esc(c.s.name) + ' families' : 'Tennessee families'}</p>
-    <h2 class="m-h">Help with Christian school tuition.</h2>
-    <p class="m-lead">Lionheart scholarships help Tennessee families pay tuition at the Christian school they choose${c.s ? ', including ' + esc(c.s.name) : ''}. Most families qualify.</p>
+    <h2 class="m-h">Help with private school tuition.</h2>
+    <p class="m-lead">Lionheart scholarships help Tennessee families pay tuition at the private school they choose${c.s ? ', including ' + esc(c.s.name) : ''}. Most families qualify.</p>
     <ul class="m-checks"><li>Your child lives in Tennessee</li><li>Kindergarten through 12th grade in 2027–28</li><li>Household income up to three times your area’s median, about ${c.lim4} for a family of four</li></ul>
     <div class="m-cta"><div class="m-qr">${qrSvg(c.apply, 150)}<span>Scan to apply</span></div><div><p class="m-big">Apply in about ten minutes.</p><p class="m-small">You’ll need last year’s tax return and a proof of address. Apply at <b>lionheartscholars.org</b>.</p></div></div>
     <div class="m-steps"><div><b>1</b><p>Check</p><span>Four quick questions tell you if you’re likely to qualify.</span></div><div><b>2</b><p>Apply</p><span>Tell us about your household and upload last year’s tax forms.</span></div><div><b>3</b><p>Hear back</p><span>Awards are paid straight to your school each term.</span></div></div>
@@ -50,14 +50,14 @@ function matHTML(kind, c) {
     <div class="m-steps"><div><b>1</b><p>Give</p><span>$1,700 each in your own names, designated for the credit.</span></div><div><b>2</b><p>By Jan 31</p><span>Your IRS acknowledgment arrives with your donor number.</span></div><div><b>3</b><p>Tax time</p><span>Claim it on Form 8525. The credit lowers your tax.</span></div></div>
     ${matFoot(c, 'The credit can’t exceed the federal tax you owe; unused credit carries forward five years. No gift can be directed to a particular student. Not tax advice.')}</div>`;
   if (kind === 'insert') return `<div class="mat mat-half">${matHead(c)}
-    <h2 class="m-h" style="font-size:30px">Your taxes can pay for a child’s Christian education.</h2>
+    <h2 class="m-h" style="font-size:30px">Your taxes can pay for a child’s tuition.</h2>
     <p class="m-lead" style="font-size:13.5px">Give up to $1,700 each ($3,400 as a couple) and get it all back as a federal tax credit. Families can apply for help with tuition${c.s ? ' at ' + esc(c.s.name) : ''}.</p>
     <div class="m-pair"><div class="m-qr">${qrSvg(c.give, 120)}<span>Give</span></div><div class="m-qr">${qrSvg(c.apply, 120)}<span>Apply</span></div></div>
     <p class="m-small" style="text-align:center">Scan with your phone’s camera, or visit <b>lionheartscholars.org</b>.</p>
     ${matFoot(c)}</div>`;
   if (kind === 'poster') return `<div class="mat mat-poster">${matHead(c)}
-    <p class="m-eyebrow">${c.s ? esc(c.s.name) : 'Tennessee Christian schools'}</p>
-    <h2 class="m-h" style="font-size:76px">Your tax bill can send a child to Christian school.</h2>
+    <p class="m-eyebrow">${c.s ? esc(c.s.name) : 'Tennessee private schools'}</p>
+    <h2 class="m-h" style="font-size:76px">Your tax bill can send a child to private school.</h2>
     <p class="m-lead" style="font-size:22px">Give up to $1,700 each, $3,400 as a couple, and get every dollar back as a federal tax credit. It becomes a scholarship for a Tennessee family.</p>
     <div class="m-pair big"><div class="m-qr">${qrSvg(c.give, 300)}<span>Scan to give</span><small>Give $1,700 each, get it all back</small></div><div class="m-qr">${qrSvg(c.apply, 300)}<span>Scan to apply</span><small>Tuition help for Tennessee families</small></div></div>
     <p class="m-big" style="text-align:center;font-size:30px">Gifts count from January 1, 2027. Most Tennessee families qualify.</p>
@@ -68,12 +68,12 @@ function matHTML(kind, c) {
 export function copyKit(c) {
   const sch = c.s ? c.s.name : '[School name]';
   return [
-    ['Email to school families', `Subject: Tuition help for ${sch} families\n\nDear families,\n\nLionheart, a new Tennessee scholarship organization, is offering scholarships for the 2027–28 school year to help families pay tuition at Christian schools like ${sch}. Most Tennessee families qualify: the income limit is three times your area’s median income, about ${c.lim4} for a family of four.\n\nThe application takes about ten minutes. You’ll need last year’s tax return and a proof of address.\n\nApply here: ${c.apply}\n\nScholarships are awarded by need under Lionheart’s published formula and are paid directly to the school.`],
+    ['Email to school families', `Subject: Tuition help for ${sch} families\n\nDear families,\n\nLionheart, a new Tennessee scholarship organization, is offering scholarships for the 2027–28 school year to help families pay tuition at private schools like ${sch}. Most Tennessee families qualify: the income limit is three times your area’s median income, about ${c.lim4} for a family of four.\n\nThe application takes about ten minutes. You’ll need last year’s tax return and a proof of address.\n\nApply here: ${c.apply}\n\nScholarships are awarded by need under Lionheart’s published formula and are paid directly to the school.`],
     ['Email to donors and grandparents', `Subject: Give $3,400, get $3,400 back, and help ${sch} families\n\nA new federal tax credit lets every taxpayer send up to $1,700 of their federal taxes to a scholarship organization instead of the Treasury. Married couples can send $3,400. The full amount comes back as a credit on your federal return.\n\nLionheart turns those gifts into tuition scholarships for Tennessee families. When you give, you can name ${sch} as your preferred school.\n\nGifts count from January 1, 2027. You can schedule yours today:\n${c.give}\n\nThe credit can’t exceed the federal tax you owe, and unused credit carries forward five years. Talk with your tax preparer about your situation.`],
-    ['Social post for donors', `Your federal taxes can pay for a child’s Christian education. Give $1,700 each ($3,400 as a couple) through Lionheart and get it all back as a federal tax credit.${c.s ? ' Name ' + sch + ' as your school.' : ''} Gifts count from Jan 1, 2027. ${c.give}`],
-    ['Social post for families', `Looking for help with Christian school tuition? Lionheart scholarships are open to Tennessee families${c.s ? ' at ' + sch + ' and' : ''} at schools across the state. Most families qualify. Apply in about 10 minutes: ${c.apply}`],
-    ['Church bulletin blurb', `TAX CREDIT SCHOLARSHIPS: Starting January 1, 2027, you can give up to $1,700 ($3,400 for married couples) to Lionheart and receive the full amount back as a federal tax credit. Gifts become scholarships for Tennessee children at Christian schools. Families can apply for tuition help too. Learn more at lionheartscholars.org.`],
-    ['Text message', `New federal tax credit: give $1,700 each ($3,400 as a couple) to Christian school scholarships and get it all back at tax time. ${c.give}`]
+    ['Social post for donors', `Your federal taxes can pay a child’s private school tuition. Give $1,700 each ($3,400 as a couple) through Lionheart and get it all back as a federal tax credit.${c.s ? ' Name ' + sch + ' as your school.' : ''} Gifts count from Jan 1, 2027. ${c.give}`],
+    ['Social post for families', `Looking for help with private school tuition? Lionheart scholarships are open to Tennessee families${c.s ? ' at ' + sch + ' and' : ''} at schools across the state. Most families qualify. Apply in about 10 minutes: ${c.apply}`],
+    ['Newsletter blurb', `TAX CREDIT SCHOLARSHIPS: Starting January 1, 2027, you can give up to $1,700 ($3,400 for married couples) to Lionheart and receive the full amount back as a federal tax credit. Gifts become scholarships for Tennessee children at private schools. Families can apply for tuition help too. Learn more at lionheartscholars.org.`],
+    ['Text message', `New federal tax credit: give $1,700 each ($3,400 as a couple) to private school scholarships and get it all back at tax time. ${c.give}`]
   ];
 }
 const KEY_DATES = [['Now', 'Families can apply for 2027–28. Donors can schedule gifts.'], ['January 1, 2027', 'Gifts begin to count for the federal credit. Scheduled gifts are charged.'], ['January 31', 'Donors receive IRS acknowledgments with their donor numbers.'], ['Spring', 'First award round. Renewing students and siblings are funded first.'], ['Summer', 'Second award round.'], ['August 20 and January 20', 'Tuition is paid to schools, once enrollment is confirmed.']];
@@ -87,7 +87,7 @@ export function resourcesHTML() {
       <div>
         <span class="kicker">Resources</span>
         <h1 class="display-sm" style="margin-top:18px">Spread the word.</h1>
-        <p class="lead" style="margin-top:24px">Ready-to-print flyers, social graphics, QR codes and words to use, free for schools, churches and supporters. Choose a school and every piece carries its name, with QR codes that go straight to giving or applying.</p>
+        <p class="lead" style="margin-top:24px">Ready-to-print flyers, social graphics, QR codes and words to use, free for schools, community groups and supporters. Choose a school and every piece carries its name, with QR codes that go straight to giving or applying.</p>
       </div>
       <div class="panel">
         <span class="card-kicker">Making materials for</span>
@@ -145,12 +145,12 @@ function drawSocial(cv) {
   let y;
   if (k === 'sq-family') {
     x.font = `italic 34px ${text}`; x.fillStyle = goldHi; x.fillText(c.s ? c.s.name + ' families' : 'Tennessee families', 110, 250);
-    y = wrap('Help with Christian school tuition.', serif, 104, W - 220, 380, 112, ivory);
+    y = wrap('Help with private school tuition.', serif, 104, W - 220, 380, 112, ivory);
     y = wrap('Most Tennessee families qualify. Apply in about ten minutes.', text, 38, 560, y + 90, 52, '#cfd3de');
   } else {
     x.font = `italic 34px ${text}`; x.fillStyle = goldHi; x.fillText(c.s ? 'Support ' + c.s.name : 'For Tennessee taxpayers', 110, 250);
     y = wrap('Give $3,400. Get $3,400 back at tax time.', serif, k === 'story' ? 118 : 104, W - 220, k === 'story' ? 420 : 380, k === 'story' ? 128 : 112, ivory);
-    y = wrap('A federal tax credit turns your gift into a Christian school scholarship. Gifts count from January 1, 2027.', text, k === 'story' ? 40 : 36, k === 'story' ? W - 220 : 560, y + 90, k === 'story' ? 56 : 50, '#cfd3de');
+    y = wrap('A federal tax credit turns your gift into a private school scholarship. Gifts count from January 1, 2027.', text, k === 'story' ? 40 : 36, k === 'story' ? W - 220 : 560, y + 90, k === 'story' ? 56 : 50, '#cfd3de');
   }
   // QR
   const url = k === 'sq-family' ? c.apply : c.give; const q = qrMatrix(url), n = q.getModuleCount();

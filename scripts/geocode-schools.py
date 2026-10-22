@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Merge street-level geocodes into data/school-geo-2026-27.json (id -> {lat, lon, src}).
 
-Inputs (row index = position in data/tn-christian-schools-2026-27.psv, 0-based):
+Inputs (row index = position in data/tn-private-schools-2026-27.psv, 0-based):
   data/geocode/census.json  [[row, "E"|"N", lon, lat], ...]  US Census batch geocoder, street address + ZIP
                             ("E" exact, "N" interpolated along the street)
   data/geocode/osm.json     {row: [lat, lon, type, category]}  OpenStreetMap Nominatim search by
@@ -19,7 +19,7 @@ import json, math, re
 import zipcodes
 
 import csv
-rows = list(csv.DictReader(open('data/tn-christian-schools-2026-27.psv'), delimiter='|'))
+rows = list(csv.DictReader(open('data/tn-private-schools-2026-27.psv'), delimiter='|'))
 census = {r[0]: (r[3], r[2], r[1]) for r in json.load(open('data/geocode/census.json'))}
 osm = {int(k): v for k, v in json.load(open('data/geocode/osm.json')).items()}
 osm_addr = {int(k): v for k, v in json.load(open('data/geocode/osm-address.json')).items()}

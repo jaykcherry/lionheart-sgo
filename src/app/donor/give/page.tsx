@@ -29,7 +29,7 @@ export default async function Give({ searchParams }: { searchParams: Promise<{ e
           </div>
           <div className="pref-box">
             <div className="field"><label htmlFor="pref">Name a preferred school <span className="muted" style={{ fontWeight: 500 }}>(optional)</span></label>
-              <input className="input" id="pref" name="preferred_school_label" list="dl-pref" defaultValue={pref ? schoolLabel(pref) : ''} placeholder={`Search ${SCHOOLS.length} Tennessee Christian schools`} autoComplete="off" />
+              <input className="input" id="pref" name="preferred_school_label" list="dl-pref" defaultValue={pref ? schoolLabel(pref) : ''} placeholder={`Search ${SCHOOLS.length} Tennessee private schools`} autoComplete="off" />
               <datalist id="dl-pref">{SCHOOLS.map((x) => <option key={x.id} value={schoolLabel(x)} />)}</datalist>
               <span className="hint">Your gift joins that school’s designated pool, which funds eligible students at the school by need, never a particular student, and only when the school has at least 10 eligible applicants. Parents and grandparents may name their own child’s school.</span></div>
             <label className="tick"><input type="checkbox" name="pref_ack" /><span>If I name a school, I understand my gift isn’t tied to a scholarship for any particular student, including my own child or grandchild, and doesn’t change anyone’s chances.</span></label>

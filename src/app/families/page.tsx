@@ -5,7 +5,7 @@ export default function Families() {
   return (
     <>
       <div className="band band-field"><section className="wrap split" style={{ paddingBlock: '72px 80px' }}>
-        <div><h1 className="display-sm" style={{ marginTop: 0 }}>A scholarship for your child’s Christian education.</h1>
+        <div><h1 className="display-sm" style={{ marginTop: 0 }}>A scholarship for your child’s private school.</h1>
           <p className="lead" style={{ marginTop: 28 }}>Most Tennessee families qualify. Apply in about ten minutes with last year’s tax return and a proof of address.</p>
           <div className="btn-row" style={{ marginTop: 30 }}><Link className="btn btn-gold" href="/signin?next=/onboarding">Start your application</Link></div></div>
         <div className="rows" style={{ borderTop: '2px solid rgba(255,255,255,.5)' }}>
