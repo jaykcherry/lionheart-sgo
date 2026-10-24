@@ -39,7 +39,7 @@ export default async function Give({ searchParams }: { searchParams: Promise<{ e
           <div className="paper" style={{ padding: '16px 18px' }}>
             <label className="tick"><input type="checkbox" name="designate" defaultChecked /><span>I irrevocably designate up to $1,700 per giver as a qualified contribution under Section 25F, to fund scholarships for eligible Tennessee students. I’m giving my own funds as an individual, not through a business or donor-advised fund, and receive nothing in return.</span></label>
           </div>
-          <label className="tick"><input type="checkbox" name="edelivery" defaultChecked /><span>Email my year-end acknowledgment instead of mailing it.</span></label>
+          <p className="small muted">Your year-end acknowledgment, with your donor number for Form 8525, is emailed by January 31.</p>
           {before2027 && <p className="note">Gifts count for the credit only from January 1, 2027. We’ll save your card now and charge it once Lionheart is on the IRS list of approved SGOs (January 1, 2027 at the earliest). You can cancel any time before then.</p>}
           <div className="form-actions"><span className="small muted">Card, Apple Pay and Google Pay on the next page. We cover card fees.</span><button className="btn btn-solid">{before2027 ? 'Save card and schedule' : 'Continue to payment'}</button></div>
         </form>

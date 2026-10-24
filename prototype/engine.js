@@ -781,7 +781,7 @@ var LionheartEngine = (() => {
         totalQualified: total,
         giftCount: gs.length,
         goodsOrServices: "none",
-        delivery: d.eDeliveryConsent ? "email" : "mail",
+        delivery: "email",
         dueBy: `${year + 1}-01-31`
       });
       rows.push({ donorNumber, name: d.legalName, address: d.address, aggregateQualified: total });

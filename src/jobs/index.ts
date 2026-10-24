@@ -152,7 +152,7 @@ export const dailyPaymentsJob = schedules.task({
 
 /**
  * Jan 5–31, every morning: release last year's acknowledgments as soon as everything ties out, then deliver
- * (email, or a mailed letter). No sign-off; a mismatch emails the treasurer once and retries daily.
+ * (by email). No sign-off; a mismatch emails the treasurer once and retries daily.
  * Feb 1–28: IRS contribution report reminders until the confirmation number is recorded.
  */
 export const yearEnd = schedules.task({
@@ -160,7 +160,7 @@ export const yearEnd = schedules.task({
   run: async () => {
     const sb = supabaseService(); const year = new Date().getFullYear() - 1;
     const g = await generateYearEnd(sb, year);
-    const d = g.released ? await deliverAcknowledgments(sb, year) : { sent: 0, mailed: 0 };
+    const d = g.released ? await deliverAcknowledgments(sb, year) : { sent: 0 };
     return { ...g, ...d };
   },
 });

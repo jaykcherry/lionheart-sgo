@@ -240,9 +240,9 @@ describe('ledger & reconciliation', () => {
 describe('year-end documents', () => {
   it('builds acknowledgments and an IRS report that tie out', () => {
     const { acks, rows } = buildYearEnd(2027, '00-0000000',
-      [{ donorId: 'd1', legalName: 'Jane Doe', address: 'x', email: 'j@x', eDeliveryConsent: true }, { donorId: 'd2', legalName: 'John Doe', address: 'x', email: 'jd@x', eDeliveryConsent: false }],
+      [{ donorId: 'd1', legalName: 'Jane Doe', address: 'x', email: 'j@x' }, { donorId: 'd2', legalName: 'John Doe', address: 'x', email: 'jd@x' }],
       [{ giftId: 'g1', donorId: 'd1', date: '2027-01-01', amount: 170_000 }, { giftId: 'g2', donorId: 'd2', date: '2027-01-01', amount: 170_000 }, { giftId: 'g3', donorId: 'd2', date: '2028-01-01', amount: 1 }]);
-    expect(acks).toHaveLength(2); expect(acks[1]!.delivery).toBe('mail');
+    expect(acks).toHaveLength(2); expect(acks.every((a) => a.delivery === 'email')).toBe(true);
     expect(tieOut(acks, rows, 340_000).ok).toBe(true);
     expect(tieOut(acks, rows, 339_999).ok).toBe(false);
   });

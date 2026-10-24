@@ -3,7 +3,7 @@ import { buildYearEnd, tieOut, fmtUSD, type Acknowledgment } from '@/domain';
 import { env } from '@/lib/env';
 import { sendEmail } from '@/lib/email';
 import { audit, openTicket } from '@/lib/audit';
-import { mailProvider, opsAlertEmails } from './mail';
+import { opsAlertEmails } from './mail';
 
 /**
  * From Jan 5, daily until it succeeds: generate acknowledgments for the prior year. They release automatically
@@ -17,11 +17,11 @@ export async function generateYearEnd(sb: SupabaseClient, year: number) {
   const { data: gifts } = await sb.from('gifts').select('id, donor_id, amount_cents, charge_on, state').eq('fund', '25F-TN').eq('designated', true)
     .gte('charge_on', `${year}-01-01`).lte('charge_on', `${year}-12-31`).in('state', ['RECONCILED', 'ACKNOWLEDGED', 'REPORTED', 'DEPOSITED', 'SETTLED', 'CHARGED']);
   const donorIds = [...new Set((gifts ?? []).map((g) => g.donor_id))];
-  const { data: donors } = await sb.from('donors').select('id, legal_name, street, city, state, zip, email, e_delivery_consent').in('id', donorIds.length ? donorIds : ['00000000-0000-0000-0000-000000000000']);
+  const { data: donors } = await sb.from('donors').select('id, legal_name, street, city, state, zip, email').in('id', donorIds.length ? donorIds : ['00000000-0000-0000-0000-000000000000']);
   const { data: existing } = await sb.from('donor_numbers').select('donor_id, value').eq('year', year);
 
   const { acks, rows } = buildYearEnd(year, env().SGO_EIN,
-    (donors ?? []).map((d) => ({ donorId: d.id, legalName: d.legal_name, address: [d.street, d.city, d.state, d.zip].filter(Boolean).join(', '), email: d.email, eDeliveryConsent: d.e_delivery_consent })),
+    (donors ?? []).map((d) => ({ donorId: d.id, legalName: d.legal_name, address: [d.street, d.city, d.state, d.zip].filter(Boolean).join(', '), email: d.email })),
     (gifts ?? []).map((g) => ({ giftId: g.id, donorId: g.donor_id, date: g.charge_on, amount: g.amount_cents })),
     Object.fromEntries((existing ?? []).map((e) => [e.donor_id, e.value])));
 
@@ -52,30 +52,21 @@ export async function generateYearEnd(sb: SupabaseClient, year: number) {
   return { released: true, donors: acks.length, total: check.total };
 }
 
-/** Runs right after a successful release: email to donors who consented, a mailed letter (Lob) for the rest. */
+/** Runs right after a successful release: every acknowledgment goes by email. A missing address opens a ticket. */
 export async function deliverAcknowledgments(sb: SupabaseClient, year: number) {
-  const { data: acks } = await sb.from('acknowledgments').select('donor_id, donor_number, total_cents, delivery, delivered_at, donors(legal_name, email, street, city, state, zip)').eq('year', year).is('delivered_at', null);
-  const post = mailProvider();
-  let sent = 0, mailed = 0;
+  const { data: acks } = await sb.from('acknowledgments').select('donor_id, donor_number, total_cents, delivered_at, donors(legal_name, email)').eq('year', year).is('delivered_at', null);
+  let sent = 0;
   for (const raw of acks ?? []) {
-    const a = raw as unknown as { donor_id: string; donor_number: string; total_cents: number; delivery: Acknowledgment['delivery']; donors: { legal_name: string; email: string; street: string | null; city: string | null; state: string | null; zip: string | null } };
-    const text = ackText(year, a.donors.legal_name, a.donor_number, a.total_cents);
-    let ref: string | null = null;
-    if (a.delivery === 'email') {
-      await sendEmail({ to: a.donors.email, subject: `Your ${year} Lionheart scholarship-credit acknowledgment`, text });
-    } else if (post && a.donors.street && a.donors.city && a.donors.zip) {
-      ref = (await post.send({ description: `${year} acknowledgment ${a.donor_number}`, idempotencyKey: `ack:${year}:${a.donor_id}`,
-        to: { name: a.donors.legal_name, street: a.donors.street, city: a.donors.city, state: a.donors.state ?? 'TN', zip: a.donors.zip },
-        html: `<html><body style="font-family:Georgia,serif;font-size:12pt;line-height:1.5;padding:1in 0.9in">${text.split('\n').map((l) => l ? `<p style="margin:0 0 8pt">${l.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</p>` : '').join('')}</body></html>` })).ref;
-      mailed++;
-    } else {
-      await openTicket(sb, { kind: 'mail_acknowledgment', entityType: 'donor', entityId: a.donor_id, severity: 'warn', recommendation: `Mail paper acknowledgment to ${a.donors.legal_name}${post ? ' (address incomplete)' : ''}.` });
+    const a = raw as unknown as { donor_id: string; donor_number: string; total_cents: number; donors: { legal_name: string; email: string | null } };
+    if (!a.donors.email) {
+      await openTicket(sb, { kind: 'acknowledgment_no_email', entityType: 'donor', entityId: a.donor_id, severity: 'warn', recommendation: `Add an email address for ${a.donors.legal_name}; the acknowledgment sends on the next daily run.` });
       continue;
     }
-    await sb.from('acknowledgments').update({ delivered_at: new Date().toISOString(), mail_provider_ref: ref }).eq('donor_id', a.donor_id).eq('year', year);
+    await sendEmail({ to: a.donors.email, subject: `Your ${year} Lionheart scholarship-credit acknowledgment`, text: ackText(year, a.donors.legal_name, a.donor_number, a.total_cents) });
+    await sb.from('acknowledgments').update({ delivered_at: new Date().toISOString() }).eq('donor_id', a.donor_id).eq('year', year);
     sent++;
   }
-  return { sent, mailed };
+  return { sent };
 }
 
 /**

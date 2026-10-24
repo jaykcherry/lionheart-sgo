@@ -30,7 +30,7 @@ export async function give(f: FormData) {
     const r = await startGift(supabaseService(), {
       givers: joint ? [{ legalName: str(f, 'name1'), email: str(f, 'email') }, { legalName: str(f, 'name2'), email: str(f, 'email') }] : [{ legalName: str(f, 'name1'), email: str(f, 'email') }],
       totalCents: dollars(amount), street: str(f, 'street'), city: str(f, 'city'), state: str(f, 'state'), zip: str(f, 'zip'),
-      designate: f.get('designate') === 'on', preferredSchoolId, eDeliveryConsent: f.get('edelivery') === 'on',
+      designate: f.get('designate') === 'on', preferredSchoolId, eDeliveryConsent: true,
       ip: h.get('x-forwarded-for')?.split(',')[0], userAgent: h.get('user-agent') ?? undefined, userId: s?.userId ?? null,
     });
     url = r.url;

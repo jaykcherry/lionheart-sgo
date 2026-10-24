@@ -13,11 +13,11 @@ export type DonorNumberFormatter = (args: { sgoEin: string; year: number; sequen
 export const provisionalDonorNumber: DonorNumberFormatter = ({ year, sequence }) => `LH${year}-${String(sequence).padStart(6, '0')}`;
 
 export interface DesignatedGift { giftId: string; donorId: string; date: string; amount: Cents; refunded?: boolean }
-export interface Donor { donorId: string; legalName: string; address: string; email: string; eDeliveryConsent: boolean }
+export interface Donor { donorId: string; legalName: string; address: string; email: string }
 
 export interface Acknowledgment {
   donorId: string; year: number; donorNumber: string; sgoEin: string; legalName: string; address: string;
-  totalQualified: Cents; giftCount: number; goodsOrServices: 'none'; delivery: 'email' | 'mail'; dueBy: string;
+  totalQualified: Cents; giftCount: number; goodsOrServices: 'none'; delivery: 'email'; dueBy: string;
 }
 export interface IrsReportRow { donorNumber: string; name: string; address: string; aggregateQualified: Cents }
 
@@ -36,7 +36,7 @@ export function buildYearEnd(year: number, sgoEin: string, donors: Donor[], gift
     const donorNumber = existingNumbers[donorId] ?? fmt({ sgoEin, year, sequence: ++seq, donorId });
     const total = sum(gs.map((g) => g.amount));
     acks.push({ donorId, year, donorNumber, sgoEin, legalName: d.legalName, address: d.address, totalQualified: total, giftCount: gs.length,
-      goodsOrServices: 'none', delivery: d.eDeliveryConsent ? 'email' : 'mail', dueBy: `${year + 1}-01-31` });
+      goodsOrServices: 'none', delivery: 'email', dueBy: `${year + 1}-01-31` });
     rows.push({ donorNumber, name: d.legalName, address: d.address, aggregateQualified: total });
   }
   return { acks, rows };
